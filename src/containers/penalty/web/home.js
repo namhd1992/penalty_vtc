@@ -817,35 +817,35 @@ class Lucky_Rotation extends React.Component {
 		const {message_sanqua_empty, listSanqua, showRollup,type_action, dataInfoDonate, rollup, message_rollup, content, warning_tudo,tab_1, tab_2, tab_3, tab_4,tab_5, tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
 			waiting, activeTuDo, activeHistory, activeVinhDanh, limit, countTuDo, countHistory, countVinhDanh, listHistory, listTuDo, listVinhDanh, user}=this.state;
 		return (<div>	
-					<div class="page-fluid">
-						<div class="wrap mx-auto">
-							<div class="s-top position-relative">
+					<div class="page-fluid_web">
+						<div class="wrap_web mx-auto">
+							<div class="s-top_web position-relative">
 								<ul class="nav justify-content-between align-items-center flex-nowrap font-3vw">
 									<li class="nav-item text-nowrap" style={{width: "16%"}}>
-									<a class="nav-link p-0 text-nowrap text-center text-white pt-1 font-UTMFacebookKT" href="#huongdan" data-bs-toggle="modal" title="Hướng dẫn">Hướng dẫn</a>
+									<a class="nav-link p-0 text-nowrap text-center text-white pt-1 font-UTMFacebookKT" href="#huongdan_web" data-bs-toggle="modal" title="Hướng dẫn">Hướng dẫn</a>
 									</li>
 									<li class="nav-item text-nowrap" style={{width: "16%"}}>
-									<a class="nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT" href="#gt" data-bs-toggle="modal" title="Giải thưởng">Giải thưởng</a>
+									<a class="nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT" href="#gt_web" data-bs-toggle="modal" title="Giải thưởng">Giải thưởng</a>
 									</li>
 									<li class="nav-item text-nowrap" style={{width: "8%"}}>
-									<a class="nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT" href="#td" data-bs-toggle="modal" title="Tủ đồ">Tủ đồ</a>
+									<a class="nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT" href="#td_web" data-bs-toggle="modal" title="Tủ đồ">Tủ đồ</a>
 									</li>
 									<li class="nav-item text-center" style={{width: "30%"}}>
 									<a class="nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT" href="#" title="Điểm danh">&nbsp;</a>
 									</li>
 									<li class="nav-item text-center" style={{width: "24%"}}>
 									{/* <!--<a class="nav-link p-0 text-center text-white font-UTMFacebookKT" href="#" title="Đăng nhập"><img src="images/btn-dang-nhap.png" width="100%" alt="Đăng nhập" /></a>--> */}
-									<span class="text-warning fw-bold">Ngọc Trinh Sexy</span> <br /><span class="text-white font-2vw">Cấp VIP: <img src={vip_kimcuong} width="16" /></span> <a class="fst-italic" href="#tb" data-bs-toggle="modal" title="Thoát">(Thoát)</a>
+									<span class="text-warning fw-bold">Ngọc Trinh Sexy</span> <br /><span class="text-white font-2vw_web">Cấp VIP: <img src={vip_kimcuong} width="16" /></span> <a class="fst-italic" href="#tb" data-bs-toggle="modal" title="Thoát">(Thoát)</a>
 									</li>
 								</ul>
-								<div class="s-btn-options d-flex justify-content-around">
-									<a class="text-center" href="#tb"data-bs-toggle="modal" title="Đua TOP"><img src={btn_duatop} alt="Đua TOP" width="80%" /></a>
+								<div class="s-btn-options_web d-flex justify-content-around">
+									<a class="text-center" href="#tb_web"data-bs-toggle="modal" title="Đua TOP"><img src={btn_duatop} alt="Đua TOP" width="80%" /></a>
 									<a class="text-center" href="#" title="Giật Hũ Vàng"><img src={btn_giathuvang} alt="Đua TOP" width="80%" /></a>
 									<a class="text-center" href="#" title="Loại Trực Tiếp"><img src={btn_loaitructiep} alt="Đua TOP" width="80%" /></a>
 								</div>
 							</div>
-							<div class="s-bvd position-relative">
-								<ul class="nav justify-content-center flex-nowrap font-3vw">
+							<div class="s-bvd_web position-relative">
+								<ul class="nav justify-content-center flex-nowrap font-3vw_web">
 									<li class="nav-item text-nowrap" style={{width: "30%"}}>
 									<a class="nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" data-bs-toggle="pill" href="#duatop" title="Đua TOP">ĐUA TOP</a>
 									</li>
@@ -858,7 +858,7 @@ class Lucky_Rotation extends React.Component {
 								</ul>
 								<div class="tab-content">
 								<div class="tab-pane container active" id="duatop">
-									<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-4 mx-auto mb-0" style={{width: "90%"}}>
+									<table class="table table-bordered text-white font-3vw_web font-UTMFacebookKT mt-4 mx-auto mb-0" style={{width: "90%"}}>
 										<thead>
 										<tr class="border-top-0 p-0">
 											<th class="border-start-0 border-top-0">TÀI KHOẢN</th>
@@ -874,7 +874,7 @@ class Lucky_Rotation extends React.Component {
 										</tr>
 										</tbody>
 									</table>
-									<ul class="pagination pagination-sm justify-content-center font-3vw font-UTMFacebookKT" style={{margin: "5px 0"}}>
+									<ul class="pagination pagination-sm justify-content-center font-3vw_web font-UTMFacebookKT" style={{margin: "5px 0"}}>
 										<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Trước</a></li>
 										<li class="page-item active"><a class="page-link bg-transparent text-white border-0" href="#">1</a></li>
 										<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">2</a></li>
@@ -883,7 +883,7 @@ class Lucky_Rotation extends React.Component {
 									</ul>
 								</div>
 								<div class="tab-pane container fade" id="giathuvang">
-									<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-4 mx-auto mb-0" style={{width: "90%"}}>
+									<table class="table table-bordered text-white font-3vw_web font-UTMFacebookKT mt-4 mx-auto mb-0" style={{width: "90%"}}>
 										<thead>
 										<tr class="border-top-0 p-0">
 											<th class="border-start-0 border-top-0">TÀI KHOẢN</th>
@@ -900,7 +900,7 @@ class Lucky_Rotation extends React.Component {
 										</tr>
 										</tbody>
 									</table>
-									<ul class="pagination pagination-sm justify-content-center font-3vw font-UTMFacebookKT" style={{margin: "5px 0"}}>
+									<ul class="pagination pagination-sm justify-content-center font-3vw_web font-UTMFacebookKT" style={{margin: "5px 0"}}>
 										<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Trước</a></li>
 										<li class="page-item active"><a class="page-link bg-transparent text-white border-0" href="#">1</a></li>
 										<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">2</a></li>
@@ -909,7 +909,7 @@ class Lucky_Rotation extends React.Component {
 									</ul>
 								</div>
 								<div class="tab-pane container fade" id="loaitructiep">
-									<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-4 mx-auto mb-0" style={{width: "90%"}}>
+									<table class="table table-bordered text-white font-3vw_web font-UTMFacebookKT mt-4 mx-auto mb-0" style={{width: "90%"}}>
 										<thead>
 										<tr class="border-top-0 p-0">
 											<th class="border-start-0 border-top-0">TÀI KHOẢN</th>
@@ -931,7 +931,7 @@ class Lucky_Rotation extends React.Component {
 										</tr>
 										</tbody>
 									</table>
-									<ul class="pagination pagination-sm justify-content-center font-3vw font-UTMFacebookKT" style={{margin: "5px 0"}}>
+									<ul class="pagination pagination-sm justify-content-center font-3vw_web font-UTMFacebookKT" style={{margin: "5px 0"}}>
 										<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Trước</a></li>
 										<li class="page-item active"><a class="page-link bg-transparent text-white border-0" href="#">1</a></li>
 										<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">2</a></li>
@@ -941,7 +941,7 @@ class Lucky_Rotation extends React.Component {
 								</div>
 								</div>    	
 							</div>
-							<div class="s-bottom position-relative">
+							<div class="s-bottom_web position-relative">
 								<div class="d-flex justify-content-around pt-5">
 									<a style={{width:"30%"}} href="#" title="" target="_blank"><img src={btn_hdmtscoin} alt="Hướng dẫn mua thẻ scoin" width="100%" /></a>
 									<a style={{width:"30%"}} href="#" title="" target="_blank"><img src={btn_ntbsk} alt="Nhận thông báo sự kiện" width="100%" /></a>
@@ -950,19 +950,19 @@ class Lucky_Rotation extends React.Component {
 									<a style={{width:"30%"}} href="#" title="" target="_blank"><img src={btn_napgame} alt="Nạp Game" width="100%" /></a>
 									<a style={{width:"30%"}} href="tel:19001104" title="" target="_blank"><img src={btn_hotline19001104} alt="19001104" width="100%" /></a>
 								</div>
-								<div class="d-flex justify-content-center align-items-center group-logo mt-5">
+								<div class="d-flex justify-content-center align-items-center group-logo_web mt-5">
 									<a class="px-4" style={{width:"20%"}} href="#" title="" target="_blank"><img src={logo_scoin} alt="Scoin" width="100%" /></a>
 									<a class="px-4" style={{width:"20%"}} href="#" title="" target="_blank"><img src={logo_splay} alt="Splay" width="100%" /></a>
 									<a class="px-4" style={{width:"20%"}} href="#" title="" target="_blank"><img src={logo_scoinvip} alt="Scoin VIP" width="100%" /></a>
 								</div>
-								<div class="footer text-white font-3vw mt-5">
+								<div class="footer text-white font-3vw_web mt-5">
 									<p class="text-center">
 										Hệ thống phát hành game VTC Mobile
 										<br />
 										Copyright &copy;2021 VTC Mobile. All rights reserved
 									</p>
 									<p class="text-center mb-0 pb-1">
-										<span class="text-blue">Công ty Cổ Phần VTC Dịch Vụ Di Động</span> <br></br>
+										<span class="text-blue_web">Công ty Cổ Phần VTC Dịch Vụ Di Động</span> <br></br>
 										Tầng 11, Tòa nhà VTC Online, số 18 Tam Trinh, Hai Bà Trưng, Hà Nội <br></br>
 										SĐT : (84-4).39877470 | Email : vtcmobile@vtc.vn <br></br>
 										Người chịu trách nhiệm quản lý nội dung: Ông Nguyễn Viết Quang Minh <br></br>

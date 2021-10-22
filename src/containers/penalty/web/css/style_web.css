@@ -22,47 +22,47 @@ font-style:italic;
 
 
 body {margin: 0; padding: 0; background-color:#092b2f !important}
-.font-1vw {font-size: 1vw;}
-.font-2vw {font-size: 2vw;}
-.font-3vw {font-size: 3vw;}
-.font-4vw {font-size: 4vw;}
+.font-1vw_web {font-size: 1vw;}
+.font-2vw_web {font-size: 2vw;}
+.font-3vw_web {font-size: 3vw;}
+.font-4vw_web {font-size: 4vw;}
 .font-UTMFacebookKT {font-family: UTMFacebookKT;}
 .font-UTMFacebookKTBold {font-family: UTMFacebookKTBold;}
 .font-UTMFacebookKTBoldItalic {font-family: UTMFacebookKTBoldItalic;}
-.text-blue {color:#208081 !important;}
-.p-2rem {padding: 2rem !important;}
-.wrap {max-width: 768px !important; width: 100%; height: auto; display: block;}
-.s-top {height: 550px; z-index:8}
-.s-top .nav {background:url(../images/bg-top-menu.png) no-repeat; background-size: 100%;}
-.s-btn-options {position: absolute; bottom: 5%;}
-.s-bvd {background:url(../images/bg-bvd.png) no-repeat; background-size: 100%; background-position: top center; height: 550px; margin-top: -7px; z-index: 10}
-.s-bvd .nav {padding-top: 11%;}
-.s-bvd .nav a.active {text-decoration: underline;}
+.text-blue_web {color:#208081 !important;}
+.p-2rem_web {padding: 2rem !important;}
+.wrap_web {max-width: 768px !important; width: 100%; height: auto; display: block;}
+.s-top_web {height: 550px; z-index:8}
+.s-top_web .nav {background:url(../images/bg-top-menu.png) no-repeat; background-size: 100%;}
+.s-btn-options_web {position: absolute; bottom: 5%;}
+.s-bvd_web {background:url(../images/bg-bvd.png) no-repeat; background-size: 100%; background-position: top center; height: 550px; margin-top: -7px; z-index: 10}
+.s-bvd_web .nav {padding-top: 11%;}
+.s-bvd_web .nav a.active {text-decoration: underline;}
 .page-item.active .page-link {text-decoration: underline}
-.s-bottom {height: 590px;}
-.group-logo {background:url(../images/bg-logo-group.png) no-repeat; background-size: 100%; background-position: top center; height: 100px;}
-.modal-huongdan, .modal-gt {font-family: Tahoma, Verdana, arial;}
-.modal-huongdan .bg-pop-hd-top {background:url(../images/bg-popup-hd-top.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
-.modal-huongdan .bg-pop-hd-body, .modal-gt .bg-pop-gt-body, .modal-td .bg-pop-td-body, .modal-tb .bg-pop-tb-body, .modal-mq .bg-pop-mq-body  {background:url(../images/bg-popup-hd-body.png) repeat-y; background-size: 100%; background-position: top center; width:100%;}
-.modal-huongdan .bg-pop-hd-bottom, .modal-gt .bg-pop-gt-bottom, .modal-td .bg-pop-td-bottom, .modal-tb .bg-pop-tb-bottom, .modal-mq .bg-pop-mq-bottom {background:url(../images/bg-popup-hd-bottom.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
+.s-bottom_web {height: 590px;}
+.group-logo_web {background:url(../images/bg-logo-group.png) no-repeat; background-size: 100%; background-position: top center; height: 100px;}
+.modal-huongdan_web, .modal-gt {font-family: Tahoma, Verdana, arial;}
+.modal-huongdan_web .bg-pop-hd-top {background:url(../images/bg-popup-hd-top.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
+.modal-huongdan_web .bg-pop-hd-body, .modal-gt_web .bg-pop-gt-body, .modal-td_web .bg-pop-td-body, .modal-tb_web .bg-pop-tb-body, .modal-mq_web .bg-pop-mq-body  {background:url(../images/bg-popup-hd-body.png) repeat-y; background-size: 100%; background-position: top center; width:100%;}
+.modal-huongdan_web .bg-pop-hd-bottom, .modal-gt_web .bg-pop-gt-bottom, .modal-td_web .bg-pop-td-bottom, .modal-tb_web .bg-pop-tb-bottom, .modal-mq_web .bg-pop-mq-bottom {background:url(../images/bg-popup-hd-bottom.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
 .bg-pop-hd-top .tab-hd, .bg-pop-td-top .tab-hd {position: absolute; bottom: 0; left: 0; height: 45px;}
-.tab-hd .nav .active {background-color:rgba(255, 0, 0, 0.3);}
-.modal-gt .bg-pop-gt-top {background:url(../images/bg-popup-gt-top.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
-.modal-td .bg-pop-td-top {background:url(../images/bg-popup-td-top.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
-.modal-tb .bg-pop-tb-top {background:url(../images/bg-popup-tb-top.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
-.modal-mq .bg-pop-mq-top {background:url(../images/bg-popup-mq-top.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
-.page-fluid {background:url(../images/bg-page.png) no-repeat top left; min-height: 100%; min-width: 768px; width: 100%; height: auto; background-size: 100%}
-#huongdan .modal-dialog, #gt .modal-dialog, #td .modal-dialog, #tb .modal-dialog, #mq .modal-dialog {max-width: 600px;}
+.tab-hd_web .nav .active {background-color:rgba(255, 0, 0, 0.3);}
+.modal-gt_web .bg-pop-gt-top {background:url(../images/bg-popup-gt-top.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
+.modal-td_web .bg-pop-td-top {background:url(../images/bg-popup-td-top.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
+.modal-tb_web .bg-pop-tb-top {background:url(../images/bg-popup-tb-top.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
+.modal-mq_web .bg-pop-mq-top {background:url(../images/bg-popup-mq-top.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
+.page-fluid_web {background:url(../images/bg-page.png) no-repeat top left; min-height: 100%; min-width: 768px; width: 100%; height: auto; background-size: 100%}
+#huongdan_web .modal-dialog, #gt_web .modal-dialog, #td_web .modal-dialog, #tb_web .modal-dialog, #mq_web .modal-dialog {max-width: 600px;}
 
-.bg-ltt {width: 1200px; height:675px; background: url(../images/bg-page-play.png) no-repeat center center; background-size: 100%; background-position: top center}
-.bg-ltt .box-banthang {position: absolute; top: 0; left: 0; background: url(../images/bg-banthang.png) no-repeat center center; background-size: 100%; width: 243px; height: 145px}
-.bg-ltt .box-bxh {position: absolute; top: 36%; left: 20px; background: url(../images/bg-bangxephang.png) no-repeat center center; background-size: 100%; width: 223px; height: 247px}
-.bg-ltt .box-suttudong {position: absolute; bottom: 2%; left: 20px; width: 224px; height: 65px}
+.bg-ltt_web {width: 1200px; height:675px; background: url(../images/bg-page-play.png) no-repeat center center; background-size: 100%; background-position: top center}
+.bg-ltt_web .box-banthang {position: absolute; top: 0; left: 0; background: url(../images/bg-banthang.png) no-repeat center center; background-size: 100%; width: 243px; height: 145px}
+.bg-ltt_web .box-bxh {position: absolute; top: 36%; left: 20px; background: url(../images/bg-bangxephang.png) no-repeat center center; background-size: 100%; width: 223px; height: 247px}
+.bg-ltt_web .box-suttudong {position: absolute; bottom: 2%; left: 20px; width: 224px; height: 65px}
 
 @media screen and (min-width:480px){
-.font-3vw {font-size: 15px;}
-.font-2vw {font-size: 13px;}
+.font-3vw_web {font-size: 15px;}
+.font-2vw_web {font-size: 13px;}
 }
 @media screen and (min-width:1440px){
-.s-top {height: 650px;}
+.s-top_web {height: 650px;}
 }
