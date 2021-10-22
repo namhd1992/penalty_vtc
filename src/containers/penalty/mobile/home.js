@@ -29,96 +29,43 @@ import {
 } from '../../../modules/profile';
 
 
-import banner_thongbao_off from './images/banner-thongbao-off.png';
-import icon_scoin from './images/icon-scoin.png';
-import btn_xac_nhan from './images/btn-xac-nhan.png';
-import icon_success from './images/icon-success.png';
-import fb_a1 from './images/fb-a1.jpg';
-import fb_a2 from './images/fb-a2.jpg';
-import fb_a3_a4 from './images/fb-a3-a4.jpg';
-import fb_a5 from './images/fb-a5.png';
-import fb_i1 from './images/fb-i1.jpg';
-import fb_i2 from './images/fb-i2.jpg';
-import fb_i3_i4 from './images/fb-i3-i4.jpg';
-import fb_i5 from './images/fb-i5.jpg';
-import tab_appfb from './images/tab-appfb.png';
-import tab_appfb_active from './images/tab-appfb-active.png';
-
-import btn_dongy from './images/btn-dongy.png';
-import banner_baotri from './images/banner-baotri.png';
-import tab_cachthucthamgia_active from './images/tab-cachthucthamgia-active.png';
-import tab_cachthucthamgia from './images/tab-cachthucthamgia.png';
-import tab_hdsanqua_active from './images/tab-hdsanqua-active.png';
-import tab_hdsanqua from './images/tab-hdsanqua.png';
-import tab_hdduatop_active from './images/tab-hdduatop-active.png';
-import tab_hdduatop from './images/tab-hdduatop.png';
-import tab_hdsdgiaithuong_active from './images/tab-hdsdgiaithuong-active.png';
-import tab_hdsdgiaithuong from './images/tab-hdsdgiaithuong.png';
-
-import scoin_10k from './images/scoin-10k.png';
-import btn_nap_scoin from './images/btn-nap-scoin.png';
-import voucher_scoin_banktranfer from './images/voucher-scoin-banktranfer.png';
-import scoin_voucher_10k from './images/scoin-voucher-10k.png';
-import che_do_duatop from './images/che-do-duatop.png';
-import che_do_sanqua from './images/che-do-sanqua.png';
-import tab_giaithuong from './images/tab-giaithuong.png';
-import btn_sanqua_duatop from './images/btn-sanqua-duatop.png';
-
+import bg_bangxephang from './images/bg-bangxephang.png';
+import bg_banthang from './images/bg-banthang.png';
+import bg_bottom from './images/bg-bottom.png';
+import bg_bvd from './images/bg-bvd.png';
+import bg_giaithuong from './images/bg-giaithuong.png';
+import bg_logo_group from './images/bg-logo-group.png';
+import bg_page from './images/bg-page.png';
+import bg_page_play from './images/bg-page-play.png';
+import bg_popup_gt_top from './images/bg-popup-gt-top.png';
+import bg_popup_hd from './images/bg-popup-hd.png';
+import bg_popup_hd_body from './images/bg-popup-hd-body.png';
+import bg_popup_hd_bottom from './images/bg-popup-hd-bottom.png';
+import bg_popup_hd_top from './images/bg-popup-hd-top.png';
+import bg_popup_mq_top from './images/bg-popup-mq-top.png';
+import bg_popup_tb_top from './images/bg-popup-tb-top.png';
+import bg_popup_td_top from './images/bg-popup-td-top.png';
+import bg_taikhoan from './images/bg-taikhoan.png';
+import bg_title_loaitructiep from './images/bg-title-loaitructiep.png';
+import bg_top from './images/bg-top.png';
+import bg_top_menu from './images/bg-top-menu.png';
 import btn_dangnhap from './images/btn-dangnhap.png';
-import btn_dangxuat from './images/btn-dangxuat.png';
-import btn_sanqua from './images/btn-sanqua.png';
+import btn_dang_nhap from './images/btn-dang-nhap.png';
 import btn_duatop from './images/btn-duatop.png';
-import btn_vinhdanhsanqua_active from './images/btn-vinhdanhsanqua-active.png';
-import btn_vinhdanhsanqua from './images/btn-vinhdanhsanqua.png';
-import btn_bxhduatop from './images/btn-bxhduatop.png';
-import btn_bxhduatop_active from './images/btn-bxhduatop-active.png';
-import btn_huongdanmuathescoin from './images/btn-huongdanmuathescoin.png';
-import btn_nhanthongbaosukien from './images/btn-nhanthongbaosukien.png';
+import btn_giathuvang from './images/btn-giathuvang.png';
+import btn_hdmtscoin from './images/btn-hdmtscoin.png';
+import btn_hotline19001104 from './images/btn-hotline19001104.png';
+import btn_loaitructiep from './images/btn-loaitructiep.png';
 import btn_napgame from './images/btn-napgame.png';
-import img_hotline from './images/img-hotline.png';
+import btn_ntbsk from './images/btn-ntbsk.png';
+import btn_suttudong from './images/btn-suttudong.png';
 import logo_scoin from './images/logo_scoin.png';
 import logo_scoinvip from './images/logo_scoinvip.png';
 import logo_splay from './images/logo_splay.png';
-import btn_tudo from './images/btn-tudo.png';
-// import xiaomi_black from './images/xiaomi-black-shark-2.png';
-import img_card10k from './images/img-card10k.png';
-import img_card20k from './images/img-card20k.png';
-import img_card50k from './images/img-card50k.png';
-import img_card100k from './images/img-card100k.png';
-import img_card200k from './images/img-card200k.png';
-import img_card300k from './images/img-card300k.png';
-import img_card500k from './images/img-card500k.png';
-import img_card1000k from './images/img-card1000k.png';
-import img_card2000k from './images/img-card2000k.png';
-import img_card5000k from './images/img-card5000k.png';
-import img_thescoinvoucher from './images/img-thescoinvoucher.png';
-
-import img_dacochu from './images/img-dacochu.png';
-
-import btn_phanthuong_active from './images/btn-phanthuong-active.png';
-import btn_phanthuong from './images/btn-phanthuong.png';
-import btn_lichsu from './images/btn-lichsu.png';
-import btn_lichsu_active from './images/btn-lichsu-active.png';
-import btn_activevip from './images/btn-activevip.png';
+import p_bg_bottom from './images/p-bg-bottom.png';
+import p_bg_top from './images/p-bg-top.png';
 import vip_kimcuong from './images/vip-kimcuong.png';
-import vip_bachkim from './images/vip-bachkim.png';
-import vip_vang from './images/vip-vang.png';
-import vip_bac from './images/vip-bac.png';
-import vip_dong from './images/vip-dong.png';
 
-import nem_phi_tieu from './images/nem-phi-tieu.png';
-import huy_nem_tieu from './images/huy-nem-tieu.png';
-import khu_vuc_1 from './images/khu-vuc-1.png';
-import khu_vuc_2 from './images/khu-vuc-2.png';
-import khu_vuc_3 from './images/khu-vuc-3.png';
-import vong_tron_ngoai from './images/vong-tron-ngoai.png';
-import vong_tron_trong from './images/vong-tron-trong.png';
-import voucher_scoin from './images/voucher-scoin.png';
-import nap_ngan_hang from './images/nap-ngan-hang.png';
-import ck_ngan_hang from './images/ck-ngan-hang.png';
-import topup_scoin from './images/topup-scoin.png';
-import the_scoin from './images/the-scoin.png';
-import nap_voucher_scoin from './images/nap-voucher-scoin.png';
 
 
 
@@ -682,54 +629,54 @@ class Lucky_Rotation extends React.Component {
 		}
 	}
 
-	getImgItem=(item)=>{
-		var obj;
-		switch (item) {
-			case "ScoinCard10K":
-				obj=img_card10k;
-				break;
-			case "ScoinCard20K":
-				obj=img_card20k;
-				break;
-			case "ScoinCard50K":
-				obj=img_card50k;
-				break;
-			case "ScoinCard100K":
-				obj=img_card100k;
-				break;
-			case "ScoinCard200K":
-				obj=img_card200k;
-				break;
-			case "ScoinCard300K":
-				obj=img_card300k;
-				break;
-			case "ScoinCard500K":
-				obj=img_card500k;
-				break;
-			case "ScoinCard1000K":
-				obj=img_card1000k
-				break;
-			case "ScoinCard2000K":
-				obj=img_card2000k
-				break;
-			case "ScoinCard5000K":
-				obj=img_card5000k;
-				break;
-			case "TopupScoin50K":
-				obj=logo_scoin;
-				break;
-			case "ScoinVoucher10K":
-				obj=img_thescoinvoucher;
-				break;
-			case "BankTransferVoucher20K":
-				obj=img_thescoinvoucher;
-				break;
-			default:
-				obj=logo_scoin;
-				break;
-		}
-		return obj;
-	}
+	// getImgItem=(item)=>{
+	// 	var obj;
+	// 	switch (item) {
+	// 		case "ScoinCard10K":
+	// 			obj=img_card10k;
+	// 			break;
+	// 		case "ScoinCard20K":
+	// 			obj=img_card20k;
+	// 			break;
+	// 		case "ScoinCard50K":
+	// 			obj=img_card50k;
+	// 			break;
+	// 		case "ScoinCard100K":
+	// 			obj=img_card100k;
+	// 			break;
+	// 		case "ScoinCard200K":
+	// 			obj=img_card200k;
+	// 			break;
+	// 		case "ScoinCard300K":
+	// 			obj=img_card300k;
+	// 			break;
+	// 		case "ScoinCard500K":
+	// 			obj=img_card500k;
+	// 			break;
+	// 		case "ScoinCard1000K":
+	// 			obj=img_card1000k
+	// 			break;
+	// 		case "ScoinCard2000K":
+	// 			obj=img_card2000k
+	// 			break;
+	// 		case "ScoinCard5000K":
+	// 			obj=img_card5000k;
+	// 			break;
+	// 		case "TopupScoin50K":
+	// 			obj=logo_scoin;
+	// 			break;
+	// 		case "ScoinVoucher10K":
+	// 			obj=img_thescoinvoucher;
+	// 			break;
+	// 		case "BankTransferVoucher20K":
+	// 			obj=img_thescoinvoucher;
+	// 			break;
+	// 		default:
+	// 			obj=logo_scoin;
+	// 			break;
+	// 	}
+	// 	return obj;
+	// }
 
 	timeModalGiaiThuowng=(time)=>{
 		var start=time.substring(time.indexOf("(") +1,time.indexOf(")"));
@@ -880,843 +827,162 @@ class Lucky_Rotation extends React.Component {
 			waiting, activeTuDo, activeHistory, activeVinhDanh, limit, countTuDo, countHistory, countVinhDanh, listHistory, listTuDo, listVinhDanh, user}=this.state;
 		const { classes } = this.props;
 		return (<div>
-					<div class="container page_m position-relative">
-
-						{(isLogin)?(<div class="d-flex flex-row-reverse">
-							<div class="align-self-center">
-								<a title="Đăng nhập" onClick={this.logoutAction} style={{cursor:'pointer'}}><img src={btn_dangxuat} alt="" width="100" /></a>
-							</div>
-							<div class="text-center align-self-center pr-1">
-								<p class="font-size-16 text-white mb-0">{user.Username}</p>
-								{(user.VipLevel===1)?(<h2 class="font-size-14 text-warning m-0">VIP Đồng <img src={vip_dong} alt="VIP Đồng" width="16" /></h2>):(<div></div>)}
-								{(user.VipLevel===2)?(<h2 class="font-size-14 text-warning m-0">VIP Bạc <img src={vip_bac} alt="VIP Bạc" width="16" /></h2>):(<div></div>)}
-								{(user.VipLevel===3)?(<h2 class="font-size-14 text-warning m-0">VIP Vàng <img src={vip_vang} alt="VIP Vàng" width="16" /></h2>):(<div></div>)}
-								{(user.VipLevel===4)?(<h2 class="font-size-14 text-warning m-0">VIP Bạch kim <img src={vip_bachkim} alt="VIP Bạch kim" width="16" /></h2>):(<div></div>)}
-							</div>
-						</div>):(<div class="d-flex flex-row-reverse">
-							<div class="align-self-center">
-								<a title="Đăng nhập" onClick={this.loginAction} style={{cursor:'pointer'}}><img src={btn_dangnhap} alt="" width="100" /></a>
-							</div>
-						</div>)}
-
-
-						<div class="bg-top_m position-relative">
-							<div class="bg-bottom_m">
-
-								{(isLogin)?(<div class="btn-s_m position-relative">
-									{(user.VipLevel>0)?(<div>
-										<a style={{cursor:'pointer'}} onClick={this.getListSanQua}><img src={btn_sanqua} width="30%" hspace="10" /></a>
-
-										<a href="/duatop" style={{cursor:'pointer'}}><img src={btn_duatop} width="30%" hspace="10" /></a>
-									</div>):(<div><a title="Săn quà" style={{cursor:'pointer'}} onClick={this.dangNhap}><img src={btn_sanqua} width="30%" hspace="10" /></a>
-               							<a title="Đua TOP" style={{cursor:'pointer'}} onClick={this.dangNhap}><img src={btn_duatop} width="30%" hspace="10" /></a></div>)}
-									
-								</div>):(
-								<div class="btn-s_m position-relative">
-									 	<a title="Săn quà" style={{cursor:'pointer'}} onClick={this.dangNhap}><img src={btn_sanqua} width="30%" hspace="10" /></a>
-               							<a title="Đua TOP" style={{cursor:'pointer'}} onClick={this.dangNhap}><img src={btn_duatop} width="30%" hspace="10" /></a>
-								</div>
-								)}
-
-
-								<div class="bxh_m position-relative">
-									<ul class="nav nav-pills_m nav-justified" role="tablist">
-										<li class="nav-item">
-											<a class="nav-link_m btn-vinhdanh_m p-0" onClick={()=>this.getVinhDanh(1,1)}><img src={type===1?btn_vinhdanhsanqua_active:btn_vinhdanhsanqua} width="95%" hspace="5" id="image-1" /></a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link_m btn-bxhduatop_m p-0" onClick={()=>this.getVinhDanh(2,1)}><img src={type==2?btn_bxhduatop_active:btn_bxhduatop} width="95%" hspace="5" id="image-2" /></a>
-										</li>
-									</ul>
-									
-									<div class="tab-content bg-bxh_m">
-										<div id="home" class="tab-pane active pt-3vw_m pb-3">
-											<table class="table table-borderless text-center font-size-3vw_m mb-0" style={{tableLayout: "fixed", borderCollapse: "collapse;", lineHeight: "150%"}}>
-												<thead>
-												<tr class="bg-border-bottom_m">
-													<th class="p-1 bg-border-right_m w-33">Tài khoản</th>
-													<th class="p-1 bg-border-right_m w-33">Giải thưởng</th>
-													<th class="p-1 w-33">Thời gian trúng</th>
-												</tr>
-												</thead>
-												<tbody>
-													{listVinhDanh.map((obj, key) => (
-														<tr key={key} class="bg-border-bottom_m">
-															<td className="p-0 bg-border-right_m w-33">{obj.Username}</td>
-															<td class="p-0 bg-border-right_m w-33" onMouseOver={this.showTooltip} ><span data-toggle="tooltip" data-placement="bottom" title={obj.AwardName}>{obj.AwardName}</span></td>
-															<td className="p-0 w-33 w-33">{this.timeConverter(obj.RewardTime)}</td>
-														</tr>
-													))}
-												</tbody>
-											</table>
-											<div className="pagination justify-content-center pag-custom_m font-size-3vw_m" >
-												<Pagination
-													activePage={activeVinhDanh}
-													itemsCountPerPage={10}
-													totalItemsCount={countVinhDanh}
-													pageRangeDisplayed={numberPage}
-													lastPageText={'Trang cuối'}
-													firstPageText={'Trang đầu'}
-													itemClass={"page-item_m"}
-													linkClass={"page-link_m"}
-													onChange={(v) => this.handlePageChangeVinhDanh(type,v)}
-												/>
-											</div> 
-										</div>             
-									</div>
-								</div>
-								<div class="btn-h_m position-relative">
-									<a href="https://daily.scoin.vn/huong-dan-mua-the/" title="Hướng dẫn mua thẻ scoin" target="_blank"><img src={btn_huongdanmuathescoin} width="40%" hspace="10" /></a>
-									<a href="https://www.facebook.com/scoinvtcmobile" title="Nhận thông báo sự kiện" target="_blank"><img src={btn_nhanthongbaosukien} width="40%" hspace="10" /></a>
-								</div>
-								<div class="btn-h_m position-relative mt-2">
-									<a href="https://scoin.vn/nap-game" title="Nạp game" target="_blank"><img src={btn_napgame} width="20%" hspace="11%" /></a>
-									<a href="Tel:19001104" title="Hot line"><img src={img_hotline} width="40%" hspace="10" /></a>
-								</div>
-								<div class="btn-h_m position-relative mt-2">
-									<a href="https://scoin.vn/" title="Scoin" target="_blank"><img src={logo_scoin} width="20%" hspace="10" /></a>
-									<a href="https://vip.scoin.vn" title="Scoin VIP" target="_blank"><img src={logo_scoinvip} width="20%" hspace="10" /></a>
-									<a title="Splay"><img src={logo_splay} width="20%" hspace="10" /></a>
-								</div>
-								<div class="btn-h_m position-relative mt-2 pb-2 font-size-3vw_m text-white-50">
-									<p class="text-center">
-										Hệ thống phát hành game VTC Mobile
-										<br></br>
-										Copyright &copy;2021 VTC Mobile. All rights reserved
-									</p>
-									<p class="text-center mb-0 pb-1">
-										Công ty Cổ Phần VTC Dịch Vụ Di Động <br></br>
-										Tầng 11, Tòa nhà VTC Online, số 18 Tam Trinh, Hai Bà Trưng, Hà Nội <br></br>
-										SĐT : (84-4).39877470 | Email : vtcmobile@vtc.vn <br></br>
-										Người chịu trách nhiệm quản lý nội dung: Ông Nguyễn Viết Quang Minh <br></br>
-										Tổng đài hỗ trợ 1900 1104
-									</p>
-								</div>
-								{(showRollup) ? (<div class="alert alert-info alert-diemdanh_m p-1 m-0">
-									<span class="text-blink"><a title="Điểm danh" data-toggle="modal" onClick={this.rollup}>Điểm danh <strong>+ 5 phi tiêu</strong>.</a></span>
-								</div>):(<div></div>)}
-								
-								<div class="menu-left_m">
-									<a href="https://vip.scoin.vn" title="Active VIP" target="_blank"><p class="mb-0 menu-link_m link-first_m"></p></a>
-									<a title="Hướng dẫn chơi" onClick={this.showModalHuongDan} style={{cursor:'pointer'}}><p class="mb-0 menu-link_m"></p></a>
-									<a title="Giải thưởng" onClick={this.showModalGiaiThuong} style={{cursor:'pointer'}}><p class="mb-0 menu-link_m"></p></a>
-									<a title="Chuyển phi tiêu" onClick={this.showModalChuyenTieu}><p class="mb-0 menu-link_m"></p></a>
-								</div>
-								<div class="menu-right_m popover-visible-trigger" data-toggle="popover" data-placement="top" data-content={content} data-html="true"><a title="Tủ đồ" data-toggle="modal" onClick={this.showModalTuDo}><img src={btn_tudo} width="100%" alt="" /></a></div>
-								
-							</div>
-						</div>
-					
-					</div>
-
-
-			{/* <!-- The Modal Thông báo đăng nhập--> */}
-			<div className="modal fade" id="Modaldangnhap">
-				<div class="modal-dialog modal-dangnhap_m">
-					<div class="modal-content bg-transparent border-0">
-					<div class="modal-header border-0 p-0 text-dark">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<div class="modal-body border-0">
-						<h2 class="font-size-3vw_m font-weight-bold text-uppercase text-center">Bạn vẫn chưa đăng nhập</h2>
-						<p class="text-center"><a title="Đăng nhập" onClick={this.loginAction}><img src={btn_dangnhap} width="30%" alt="" /></a></p>
-					</div>
-
-					</div>
-				</div>
-			</div>
-
-			{/* <!-- The Modal Thông báo active Vip--> */}
-			<div className="modal fade" id="activeVip">
-				<div class="modal-dialog modal-dangnhap_m">
-					<div class="modal-content bg-transparent border-0">
-					<div class="modal-header border-0 p-0 text-dark">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<div class="modal-body border-0">
-						<h2 class="font-size-3vw_m font-weight-bold text-uppercase text-center">Bạn cần active tài khoản VIP để chơi.</h2>
-						<p class="text-center"><a href="https://vip.scoin.vn" target="_blank"><img src={btn_activevip} width="120" alt="Active VIP" /></a></p>
-					</div>
-
-					</div>
-				</div>
-			</div>
-
-						{/* <!-- The Modal Thông báo lỗi--> */}
-			<div className="modal fade" id="myModal11" style={{zIndex:99999}}>
-				<div class="modal-dialog modal-dangnhap">
-					<div class="modal-content bg-transparent border-0">
-					<div class="modal-header border-0 p-0 text-dark">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<div class="modal-body border-0">
-						<h2 class="font-size-16 pt-4 font-weight-bold text-uppercase text-center">{message_error}</h2>
-					</div>
-
-					</div>
-				</div>
-			</div>
-
-
-			{/* <!-- The Modal Giai thuong--> */}
-			<div class="modal fade" id="Modalgiaithuong">
-				<div class="modal-dialog modal-giaithuong_m modal-dialog-scrollable">
-					<div class="modal-content bg-transparent border-0">
-
-						<div class="modal-header border-0 p-0">
-							<button type="button" class="close text-dark" data-dismiss="modal">&times;</button>
-						</div>
-						<div class="modal-body border-0 py-0 my-2 px-3 scroll-modal-body_m">
-							{listSesstions.map((obj, key) => (      	
-								<div class="row mx-0 mb-1 border-giaithuong-e_m position-relative d-flex justify-content-center " key={key}>
-									<div class="col-12 text-center text-brown pt-1">
-										<h2 class="font-size-3vw_m font-weight-bold text-uppercase mb-0">{this.getTypeGiaiThuong(obj.SessionType)}</h2>
-										{(obj.Status===0)?(<p class="font-size-3vw_m">Còn: {this.timeModalGiaiThuowng(obj.StartTime)}</p>):(<div></div>)}
-										{(obj.Status===1)?(<p class="font-size-3vw_m mb-0 text-yellow text-blink"><span class="spinner-grow text-yellow" style={{width: ".8rem", height: ".8rem"}}></span> Đang diễn ra ... </p>):(<div></div>)}
-										{(obj.Status===2)?( <p class="font-size-3vw_m text-danger">Đã kết thúc {this.timeEnd(obj.EndTime)}</p>):(<div></div>)}
-									</div>
-
-									{obj.Awards.map((v, j) => (
-										<div class="col-4 text-center" key={j}>
-											<p class="m-0"><img src={this.getImgItem(v.Name)} alt="" width="60%" /></p>
-											<p class="font-size-3vw_m text-phanthuong_m text-yellow">{v.Description}</p>
-										</div>
-									))}
-
-									{(obj.Status===2)?(<img class="img-dacochu_m" src={img_dacochu} alt="" width="40%" />):(<div></div>)}
-								</div>
-							))}
-						</div>
-					</div>
-				</div>
-			</div>
-
-
-			{/* <!-- The Modal Tu do--> */}
-			<div class="modal fade" id="Modaltudo">
-				<div class="modal-dialog modal-tudo_m  modal-dialog-scrollable">
-					<div class="modal-content bg-transparent border-0">
-						<div class="modal-header border-0 p-0 text-dark">
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-						</div>
-
-						<div class="modal-body border-0 py-0 mb-0 mt-2 px-3 scroll-modal-body_m">
-							<ul class="nav nav-pills_m nav-justified mx-auto">
-								<li class="nav-item">
-									<a class="nav-link_m py-0" onClick={()=>this.getDataTuDo(user)}><img src={tab_tudo ? btn_phanthuong_active: btn_phanthuong} width="60%" hspace="5" id="image-3" /></a>
+					<div class="wrap mx-auto">
+						<div class="s-top position-relative">
+							<ul class="nav justify-content-between align-items-center flex-nowrap font-3vw">
+								<li class="nav-item text-nowrap" style={{width: "16%"}}>
+								<a class="nav-link p-0 text-nowrap text-center text-white font-UTMFacebookKT" href="#huongdan" data-bs-toggle="modal" title="Hướng dẫn">Hướng dẫn</a>
 								</li>
-								<li class="nav-item">
-									<a class="nav-link_m py-0" onClick={()=>this.getHistory(user)}><img src={tab_tudo ? btn_lichsu : btn_lichsu_active} width="60%" hspace="5" id="image-4" /></a>
+								<li class="nav-item text-nowrap" style={{width: "16%"}}>
+								<a class="nav-link p-0 text-center text-white font-UTMFacebookKT" href="#gt" data-bs-toggle="modal" title="Giải thưởng">Giải thưởng</a>
 								</li>
-							</ul>   
-							<div class="tab-content">
-								<div class="tab-pane active">
-									{(tab_tudo)?(<div><table class="table table-borderless text-center font-size-14 mb-0" style={{tableLayout: "fixed", borderCollapse: "collapse;", lineHeight: "170%"}}>
-										<thead>
-										<tr class="bg-border-bottom_m">
-											<th class="p-1 bg-border-right w-25 valign-middle">Phần thưởng</th>
-											<th class="p-1 bg-border-right w-25 valign-middle">Nội dung</th>
-											<th class="p-1 bg-border-right w-25 valign-middle">Thời gian trúng</th>
-											<th class="p-1 w-25 valign-middle">Mở quà</th>
-										</tr>
-										</thead>
-										<tbody>
-											{listTuDo.map((obj, key) => (
-												
-													<tr key={key} class="bg-border-bottom_m">
-														<td class="p-0 bg-border-right w-25 valign-middle text-tudo_m">{obj.AwardName}</td>
-                    									<td class="p-0 bg-border-right w-25 valign-middle text-tudo_m">{obj.AwardDisplay}</td>
-														<td className="p-0 bg-border-right w-25 valign-middle text-tudo_m">{this.timeConverter(obj.RewardTime)}</td>
-														{(obj.Status===1)?(<td class="p-1 w-auto valign-middle"><a class="text-primary"  style={{cursor:'pointer'}} onClick={()=>this.getItem(user, obj)}>Mở quà</a></td>):(<td class="p-1 w-auto valign-middle position-relative"><a class="text-primary"  style={{cursor:'pointer'}} onClick={()=>this.getItem(user, obj)}>Mở quà</a><span class="badge badge-pill badge-danger position-absolute noti-tudo_m">!</span></td>)}
-														
-													</tr>
-												))}				
-										</tbody>
-									</table>
-									<div className="pagination justify-content-center mt-1 pag-custom_m font-size-3vw_m">
-									<Pagination
-										activePage={activeTuDo}
-										itemsCountPerPage={limit}
-										totalItemsCount={countTuDo}
-										pageRangeDisplayed={numberPage}
-										lastPageText={'Trang cuối'}
-										firstPageText={'Trang đầu'}
-										itemClass={"page-item_m"}
-										linkClass={"page-link_m"}
-										onChange={(v) => this.handlePageChangeTuDo(v)}
-									/>
-								</div> 
-								</div>):(<div><table class="table table-borderless text-center font-size-14 mb-0" style={{tableLayout: "fixed", borderCollapse: "collapse;", lineHeight: "170%"}}>
-										<thead>
-										<tr class="bg-border-bottom_m">
-											<th class="p-1 bg-border-right w-33 valign-middle">Phần thưởng</th>
-											<th class="p-1 bg-border-right w-33 valign-middle">Nội dung</th>
-											<th class="p-1 bg-border-right w-33 valign-middle">Thời gian trúng</th>
-										</tr>
-										</thead>
-										<tbody>
-											{listHistory.map((obj, key) => (
-												
-													<tr key={key} class="bg-border-bottom_m">
-														<td class="p-0 bg-border-right valign-middle text-tudo_m">{obj.AwardName}</td>
-                    									<td class="p-0 bg-border-right valign-middle text-tudo_m">{obj.AwardDisplay}</td>
-														<td className="p-0 valign-middle text-tudo_m">{this.timeConverter(obj.RewardTime)}</td>
-													</tr>
-												))}				
-										</tbody>
-									</table>
-									<div className="pagination justify-content-center pag-custom_m font-size-3vw_m">
-									<Pagination
-										activePage={activeHistory}
-										itemsCountPerPage={limit}
-										totalItemsCount={countHistory}
-										pageRangeDisplayed={numberPage}
-										lastPageText={'Trang cuối'}
-										firstPageText={'Trang đầu'}
-										itemClass={"page-item_m"}
-										linkClass={"page-link_m"}
-										onChange={(v) => this.handlePageChangeHistory(v)}
-									/>
-								</div>
-								</div> )}
-									
-									
-								</div>
-							</div>							
-
+								<li class="nav-item text-nowrap" style={{width: "8%"}}>
+								<a class="nav-link p-0 text-center text-white font-UTMFacebookKT" href="#td" data-bs-toggle="modal" title="Tủ đồ">Tủ đồ</a>
+								</li>
+								<li class="nav-item text-center" style={{width: "30%"}}>
+								<a class="nav-link p-0 text-center text-white font-UTMFacebookKT" href="#" title="Điểm danh">&nbsp;</a>
+								</li>
+								<li class="nav-item text-center" style={{width: "25%"}}>
+								<a class="nav-link p-0 text-center text-white font-UTMFacebookKT" href="#tb"data-bs-toggle="modal" title="Đăng nhập"><img src={btn_dang_nhap} width="100%" alt="Đăng nhập" /></a>
+								{/* <!--<span class="text-warning font-2vw">Ngọc Trinh Sexy</span> <a class="fst-italic font-2vw" href="#" title="Thoát">(Thoát)</a>--> */}
+								</li>
+							</ul>
+							<div class="s-btn-options d-flex justify-content-around">
+								<a class="text-center" href="#tb"data-bs-toggle="modal" title="Đua TOP"><img src={btn_duatop} alt="Đua TOP" width="80%" /></a>
+								<a class="text-center" href="#" title="Giật Hũ Vàng"><img src={btn_giathuvang} alt="Đua TOP" width="80%" /></a>
+								<a class="text-center" href="#" title="Loại Trực Tiếp"><img src={btn_loaitructiep} alt="Đua TOP" width="80%" /></a>
+						
+							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-
-
-			{/* <!-- The Modal Huong Dan--> */}
-			<div class="modal fade" id="Modalhuongdan">
-				<div class="modal-dialog modal-huongdan_m modal-dialog-scrollable">
-					<div class="modal-content bg-transparent border-0">
-
-					{/* <!-- Modal Header --> */}
-					<div class="modal-header border-0 p-0">
-						<button type="button" class="close text-dark" data-dismiss="modal">&times;</button>
-					</div>
-
-					{/* <!-- Modal body --> */}
-					<div class="modal-body border-0 py-0 mb-2 mt-3 px-3 scroll-modal-body_m">
-						<ul class="nav nav-pills justify-content-around">
-							<li class="nav-item">
-								<a class="nav-link p-1" onClick={this.tab1}><img id="image-5" src={tab_1 ? tab_cachthucthamgia_active : tab_cachthucthamgia} width="130"  alt="" /></a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link p-1" onClick={this.tab2}><img id="image-6" src={tab_2 ? tab_hdsanqua_active : tab_hdsanqua} width="130" alt="" /></a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link p-1" onClick={this.tab3}><img id="image-7" src={tab_3 ? tab_hdduatop_active : tab_hdduatop} width="130" alt="" /></a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link p-1" onClick={this.tab4}><img id="image-8" src={tab_4 ? tab_hdsdgiaithuong_active : tab_hdsdgiaithuong} width="130" alt="" /></a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link p-1" onClick={this.tab5}><img id="image-8" src={tab_5 ? tab_appfb_active : tab_appfb} width="130" alt="" /></a>
-							</li>
-						</ul>
-							
-							{/* <!-- Tab panes --> */}
+						<div class="s-bvd position-relative">
+							<ul class="nav justify-content-center flex-nowrap font-3vw">
+								<li class="nav-item text-nowrap" style={{width: "30%"}}>
+								<a class="nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" data-bs-toggle="pill" href="#duatop" title="Đua TOP">ĐUA TOP</a>
+								</li>
+								<li class="nav-item text-nowrap" style={{width: "30%"}}>
+								<a class="nav-link p-0 text-center text-blue pt-1 font-UTMFacebookKT" data-bs-toggle="pill" href="#giathuvang" title="Giật Hũ Vàng">GIẬT HŨ VÀNG</a>
+								</li>
+								<li class="nav-item text-nowrap" style={{width: "30%"}}>
+								<a class="nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT" data-bs-toggle="pill" href="#loaitructiep" title="Loại Trực Tiếp">LOẠI TRỰC TIẾP</a>
+								</li>
+							</ul>
 							<div class="tab-content">
-								{/* <!-- Tab hd1 --> */}
-							<div class={tab_1 ? "tab-pane container mt-3 active" : "tab-pane container mt-3 fade"} id="hd1">
-								<h4 class="font-size-3vw_m font-weight-bold">1. Cách thức tham gia</h4>
-								<dl class="font-size-3vw_m">
-									<dt>- Đối tượng tham gia:</dt>
-									<dd> &bull; Toàn bộ khách hàng đã active tài khoản khách hàng VIP.</dd>
-									<dd> &bull; Nếu chưa là khách hàng VIP, bạn vui lòng thực hiện active và trở thành VIP <a class="text-primary" href="https://vip.scoin.vn/" title="Active VIP" target="_blank">tại đây</a></dd>
-									<dt>- Cách thức tham gia:</dt>
-									<dd> &bull; Trong thời gian diễn ra sự kiện, với mỗi lần nạp ingame/nạp ví scoin bằng thẻ scoin và chuyển khoản ngân hàng thành công, tài khoản sẽ nhận được phi tiêu để tham gia game, số phi tiêu được quy định như sau: </dd>
-									<dd> 
-										<table class="table table-bordered table-hover mx-auto" style={{width: "90%"}}>
-											<thead>
-											<tr>
-												<th class="p-1">Số tiền nạp thẻ Scoin</th>
-												<th class="p-1">Số phi tiêu nhận</th>
-						
-											</tr>
-											</thead>
-											<tbody>
-											<tr>
-												<td class="p-1">10k</td>
-												<td class="p-1">1</td>
-											</tr>
-											<tr>
-												<td class="p-1">20k</td>
-												<td class="p-1">2</td>
-											</tr>
-											<tr>
-												<td class="p-1">50k</td>
-												<td class="p-1">5</td>
-											</tr>
-											<tr>
-												<td class="p-1">100k</td>
-												<td class="p-1">10</td>
-											</tr>
-											<tr>
-												<td class="p-1">200k</td>
-												<td class="p-1">20</td>
-											</tr>
-											<tr>
-												<td class="p-1">300k</td>
-												<td class="p-1">30</td>
-											</tr>
-											<tr>
-												<td class="p-1">500k</td>
-												<td class="p-1">50</td>
-											</tr>
-											<tr>
-												<td class="p-1">1000k</td>
-												<td class="p-1">100</td>
-											</tr>
-											<tr>
-												<td class="p-1">2000k</td>
-												<td class="p-1">200</td>
-											</tr>
-											<tr>
-												<td class="p-1">5000k</td>
-												<td class="p-1">500</td>
-											</tr>
-											</tbody>
-										</table>
-										<table class="table table-bordered table-hover mx-auto" style={{width: "90%"}}>
-											<thead>
-											<tr>
-												<th class="p-1">Số tiền nạp chuyển khoản ngân hàng </th>
-												<th class="p-1">Số phi tiêu nhận</th>
-						
-											</tr>
-											</thead>
-											<tbody>
-											<tr>
-												<td class="p-1">&lt; 10k</td>
-												<td class="p-1">0</td>
-											</tr>
-											<tr>
-												<td class="p-1">10k &lt; nạp &lt; 50k</td>
-												<td class="p-1">3</td>
-											</tr>
-											<tr>
-												<td class="p-1">50k &lt; nạp &lt; 100k</td>
-												<td class="p-1">8</td>
-											</tr>
-											<tr>
-												<td class="p-1">100k &lt; nạp &lt; 500k</td>
-												<td class="p-1">35</td>
-											</tr>
-											<tr>
-												<td class="p-1">500k &lt; nạp &lt; 1000k</td>
-												<td class="p-1">60</td>
-											</tr>
-											<tr>
-												<td class="p-1">1000k &lt; nạp &lt; 2000k</td>
-												<td class="p-1">120</td>
-											</tr>
-											<tr>
-												<td class="p-1">2000k &lt; nạp &lt; 5000k</td>
-												<td class="p-1">250</td>
-											</tr>                      
-											</tbody>
-										</table>
-									</dd>            
-									<dd> - Sau khi nhận được Phi tiêu, khách hàng chọn chế độ <strong>SĂN QUÀ</strong> hoặc <strong>ĐUA TOP</strong> để chơi.</dd>
-									<dd> <img src={btn_sanqua_duatop} class="img-fluid" alt="" /></dd>
-									<dd> -Khách hàng sử dụng chuột (chơi trên PC) hoặc vuốt màn hình (chơi trên điện thoại) để ném phi tiêu vào bảng</dd>
-									<dd> <img src={nem_phi_tieu} class="img-fluid" alt="" /></dd>
-									<dd> <img src={huy_nem_tieu} class="img-fluid" alt="" /></dd>
-									<dd> - Người chơi nhận được số <strong>ĐIỂM</strong> tương ứng với <strong>VỊ TRÍ</strong> phi tiêu tại bảng như sau: (khu vực tô vàng)</dd>
-									<dd> <img src={khu_vuc_1} class="img-fluid" alt="" /></dd>
-									<dd> <img src={khu_vuc_2} class="img-fluid" alt="" /></dd>
-									<dd> <img src={khu_vuc_3} class="img-fluid" alt="" /></dd>
-									<dd> <img src={vong_tron_ngoai} class="img-fluid" alt="" /></dd>
-									<dd> <img src={vong_tron_trong} class="img-fluid" alt="" /></dd>
-								</dl>          
-							</div>
-							{/* <!-- End Tab hd1 -->
-							<!-- Begin Tab hd2 --> */}
-							<div class={tab_2 ? "tab-pane container mt-3 active" : "tab-pane container mt-3 fade"} id="hd2">
-								<h4 class="font-size-3vw_m font-weight-bold">2. Săn quà</h4>
-								<dl class="font-size-3vw_m">
-									<dd>- Mỗi ngày sẽ có nhiều Phiên <strong>SĂN QUÀ</strong> được diễn ra, người chơi click Tab <strong>GIẢI THƯỞNG</strong> để xem thời gian diễn ra phiên tiếp theo và giải thưởng của phiên đó.</dd>
-									<dd> <img src={tab_giaithuong} class="img-fluid d-block mx-auto" alt="" /></dd>                 
-									<dd>- Trong thời gian diễn ra Phiên săn quà, người chơi chọn Chế độ <strong>SĂN QUÀ</strong> tại Trang chủ để tham gia:</dd>
-									<dd> <img src={che_do_sanqua} width="350" class="img-fluid d-block mx-auto" alt="" /></dd>  
-									<dd>- Tại mỗi Phiên Săn quà, số điểm mặc định ban đầu của mỗi người chơi được quy định cụ thể (Ví dụ: 501/5010/…)</dd>
-               						<dd>- Người chơi sử dụng số Phi tiêu mình có để ném vào bảng, điểm nhận được sau mỗi lần ném sẽ được TRỪ dần vào tổng điểm ban đầu.</dd>
-									<dd>- Trong thời gian quy định, người chơi nào đưa được tổng điểm <strong>VỀ 0 SỚM NHẤT</strong> sẽ là người <strong>THẮNG</strong> cuộc và nhận được giải thưởng của phiên Săn quà, đồng thời phiên chơi đó kết thúc.</dd>
-									<dd>- Trường hợp không có người chơi nào đưa được điểm về 0, giải thưởng sẽ được bảo lưu và cộng dồn vào Phiên chơi tiếp theo.</dd>
-									{/* <dd>- Trường hợp có nhiều tài khoản cùng đưa được điểm về 0 (hoặc cùng có số điểm ít nhất bằng nhau), người thắng cuộc là người đưa được điểm về 0 (hoặc điểm về số thấp nhất) trong thời gian sớm nhất.</dd> */}
-									<dd><em>- Lưu ý: Trường hợp phát sinh tranh chấp, khiếu nại liên quan đến chương trình, Công ty VTC Mobile sẽ trực tiếp giải quyết và quyết định của VTC Mobile là kết quả cuối cùng. Mọi trường hợp gian lận hoặc không trung thực sẽ bị xử lý theo pháp luật.</em></dd>
-									<dd><em>- Đối với khách hàng chơi trên điện thoại Iphone: để trải nghiệm game được tốt nhất, hãy tắt các trang đang mở trên trình duyệt safari/chrome trước khi chơi.</em></dd>           
-								</dl>	
-							</div>
-							{/* <!-- End Tab hd2 -->
-							<!-- Begin Tab hd3 --> */}
-							<div class={tab_3 ? "tab-pane container mt-3 active" : "tab-pane container mt-3 fade"} id="hd3">
-								<h4 class="font-size-3vw_m font-weight-bold">3. Đua TOP</h4>
-								<dl class="font-size-3vw_m">
-									<dd>- Trong thời gian diễn ra Phiên Đua top, người chơi chọn Chế độ <strong>Đua TOP</strong> tại Trang chủ để tham gia: </dd>
-									<dd> <img src={che_do_duatop} class="img-fluid" alt="" /></dd>  
-									<dd>- Mỗi tài khoản có số điểm mặc định ban đầu là <strong>0 điểm</strong>.</dd>
-									<dd>- Người chơi sử dụng số Phi tiêu mình có để ném vào bảng, số điểm nhận được sau mỗi lần ném sẽ được <strong>CỘNG</strong> dồn vào tổng điểm đang có.</dd>
-									<dd>- Kết thúc Phiên Đua top, tài khoản có tổng điểm <strong>CAO</strong> nhất sẽ là người <strong>THẮNG</strong> cuộc và nhận được giải thưởng.</dd>
-									<dd>- Trường hợp nhiều người chơi có tổng điểm cao nhất bằng nhau, người thắng cuộc là người đạt được số điểm cao nhất trong thời gian sớm nhất.</dd>
-									<dd><em>- Lưu ý: Trong trường hợp phát sinh tranh chấp, khiếu nại liên quan đến chương trình, Công ty VTC Mobile sẽ trực tiếp giải quyết và quyết định của VTC Mobile là kết quả cuối cùng. Mọi trường hợp gian lận hoặc không trung thực sẽ bị xử lý theo pháp luật.</em></dd>       
-									<dd><em>- Đối với khách hàng chơi trên điện thoại Iphone: để trải nghiệm game được tốt nhất, hãy tắt các trang đang mở trên trình duyệt safari/chrome trước khi chơi.</em></dd>   
-								</dl>
-							</div>
-							{/* <!-- End Tab hd3 -->
-							<!-- Begin Tab hd4 --> */}
-							<div class={tab_4 ? "tab-pane container mt-3 active" : "tab-pane container mt-3 fade"} id="hd4">
-								<h4 class="font-size-3vw_m font-weight-bold">4. Hướng dẫn sử dụng giải thưởng</h4>
-								<dl class="font-size-3vw_m">
-									<dt>- Voucher Scoin:</dt>
-									<dd> &bull; Khách hàng truy cập <strong>Tủ đồ</strong>, chọn <strong>Phần thưởng</strong>, chọn giải thưởng <strong>Thẻ Scoin voucher</strong> và click <span class="text-primary">Mở</span>.</dd>
-									<dd> <img src={voucher_scoin} class="img-fluid" alt="" /></dd>
-									<dd> &bull; Copy <strong>MÃ CODE</strong> và số <strong>SERIAL</strong>: </dd>
-									<dd> <img src={scoin_voucher_10k} class="img-fluid" alt="" /></dd>
-									<dd> &bull; Truy cập <a href="https://scoin.vn/" title="Scoin.vn" target="_blank">https://scoin.vn/</a> , chọn NẠP GAME =&gt; Điền Tên tài khoản và server =&gt; Chọn phương thức nạp Thẻ cào =&gt; Chọn loại thẻ Scoin =&gt; Điền MÃ CODE và số SERIAL đã copy ở trên.</dd>
-									<dd> <img src={nap_voucher_scoin} class="img-fluid" alt="" /></dd>
-									<dd class="font-italic mark">* Lưu ý: Giải thưởng thẻ voucher có hiệu lực trong vòng 1 tháng kể từ thời điểm kết thúc sự kiện. Hết thời gian kể trên, giải thưởng không còn giá trị.</dd>
-									<dt>- Voucher chuyển khoản ngân hàng:</dt>
-									<dd> &bull; Khách hàng truy cập <strong>Tủ đồ</strong>, chọn <strong>Phần thưởng</strong>, chọn giải thưởng <strong>Thẻ voucher chuyển khoản ngân hàng</strong> và click <span class="text-primary">Mở</span>.</dd>
-									<dd> <img src={voucher_scoin_banktranfer} class="img-fluid" alt="" /></dd>
-									<dd> &bull; Ấn <strong>“Nạp ngay”</strong></dd>
-									<dd> &bull; Truy cập <a href="https://scoin.vn/" title="Scoin.vn" target="_blank">https://scoin.vn/</a> , chọn Phương thức nạp Ngân hàng</dd>
-									<dd> <img src={nap_ngan_hang} class="img-fluid" alt="" /></dd>
-									<dd> &bull; Copy <strong>Nội dung chuyển khoản</strong> và paste vào mục <strong>Nội dung</strong> khi bạn thực hiện chuyển khoản vào tài khoản VTC Mobile, số tiền trong voucher sẽ được cộng trực tiếp vào Ví sau khi bạn chuyển khoản thành công.</dd>
-									<dd> <img src={ck_ngan_hang} class="img-fluid" alt="" /></dd>
-									<dd class="font-italic mark">* Lưu ý: Giải thưởng thẻ voucher có hiệu lực trong vòng 1 tháng kể từ thời điểm kết thúc sự kiện. Hết thời gian kể trên, giải thưởng không còn giá trị.</dd>
-									<dt>- Topup 50k:</dt>
-									<dd> &bull; Khách hàng truy cập <strong>Tủ đồ</strong>, chọn <strong>Phần thưởng</strong>, chọn giải thưởng <strong>Topup Scoin</strong> và click <span class="text-primary">Mở</span>.</dd>
-									<dd> <img src={topup_scoin} class="img-fluid" alt="" /></dd>
-									<dd> &bull; Scoin được tự động cộng vào Ví Scoin của tài khoản </dd>
-									<dt>- Thẻ Scoin:</dt>
-									<dd> &bull; Khách hàng truy cập <strong>Tủ đồ</strong>, chọn <strong>Phần thưởng</strong>, chọn <strong>giải thưởng Thẻ Scoin</strong> và click <span class="text-primary">Mở</span>.</dd>
-									<dd> <img src={the_scoin} class="img-fluid" alt="" /></dd>
-									<dd> &bull; Copy <strong>MÃ CODE</strong> và <strong>SERIAL</strong>: </dd>
-									<dd> <img src={scoin_10k} class="img-fluid" alt="" /></dd>
-									<dd> &bull; Truy cập <a href="https://scoin.vn/" title="Scoin.vn" target="_blank">https://scoin.vn/</a> , chọn Nạp game/Điền Tên tài khoản và server/ Chọn phương thức nạp Thẻ cào/ Chọn loại thẻ Scoin và điền mã Thẻ và số serial đã copy ở trên.</dd>
-									<dd> <img src={nap_voucher_scoin} class="img-fluid" alt="" /></dd>
-						
-								</dl> 
-							</div>
-							{/* <!-- Begin Tab hd5 --> */}
-							<div class={tab_5 ? "tab-pane container mt-3 active" : "tab-pane container mt-3 fade"} id="hd5">
-								<h4 class="font-size-3vw_m font-weight-bold">5. Hướng dẫn mở link game Phi tiêu từ Facebook của điện thoại</h4>
-								<dl class="font-size-3vw_m">
-									<dd>- Để trải nghiệm game được tốt nhất, Khách hàng lưu ý sử dụng trình duyệt <strong>SAFARI</strong> (đối với điện thoại Iphone) hoặc <strong>CHROME</strong> (đối với điện thoại Android) để mở link game <a href="https://phitieu.splay.vn/" title="">https://phitieu.splay.vn/</a> </dd>
-									<dd> Với những khách hàng mở link <a href="https://phitieu.splay.vn/" title="">https://phitieu.splay.vn/</a> từ Facebook của điện thoại, hãy thực hiện theo hướng dẫn dưới đây.</dd>
-									<dt>1.	Đối với điện thoại Iphone: </dt>
-									<dd><strong>Bước 1</strong>: Ấn vào đường link <a href="https://phitieu.splay.vn/" title="">https://phitieu.splay.vn/</a> từ bài viết tại fanpage Scoin (hoặc bài viết bất kỳ trên Facebook)</dd>
-									<dd> <img src={fb_i1} width="250" class="img-fluid d-block mx-auto" alt="" /></dd>
-									<dd><strong>Bước 2:</strong> Ấn vào dấu ba chấm tại góc phải</dd>
-									<dd> <img src={fb_i2} width="250" class="img-fluid d-block mx-auto" alt="" /></dd>
-									<dd><strong>Bước 3</strong>: Chọn <strong>MỞ TRONG TRÌNH DUYỆT</strong> hoặc <strong>OPEN IN SAFARI</strong> , link game sẽ được mở bằng trình duyệt SAFARI của Iphone</dd>
-									<dd> <img src={fb_i3_i4} width="250" class="img-fluid d-block mx-auto" alt="" /></dd>
-									<dd><strong>Bước 4</strong>: Mở khóa tự động xoay màn hình và trải nghiệm game</dd>
-									<dd> <img src={fb_i5} width="250" class="img-fluid d-block mx-auto" alt="" /></dd>
-									<dt>2. Đối với điện thoại Android: </dt>
-									<dd><strong>Bước 1:</strong> Ấn vào đường link  <a href="https://phitieu.splay.vn/" title="">https://phitieu.splay.vn/</a> từ bài viết tại fanpage Scoin (hoặc bài viết bất kỳ trên Facebook)</dd>
-									<dd> <img src={fb_a1}  width="250" class="img-fluid d-block mx-auto" alt="" /></dd>
-									<dd><strong>Bước 2</strong>: Ấn vào dấu ba chấm tại góc phải</dd>
-									<dd> <img src={fb_a2} width="250" class="img-fluid d-block mx-auto" alt="" /></dd>
-									<dd><strong>Bước 3</strong>: Chọn <strong>MỞ TRONG TRÌNH DUYỆT</strong> hoặc <strong>OPEN IN BROWSER</strong>, link game sẽ được mở bằng trình duyệt mặc định của điện thoại</dd>
-									<dd> <img src={fb_a3_a4} width="250" class="img-fluid d-block mx-auto" alt="" /></dd>
-									<dd><strong>Bước 4</strong>: Mở khóa tự động xoay màn hình và trải nghiệm game</dd>
-									<dd> <img src={fb_a5} width="250" class="img-fluid d-block mx-auto" alt="" /></dd>
+							<div class="tab-pane container active" id="duatop">
+								<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0" style={{width: "90%"}}>
+									<thead>
+									<tr class="border-top-0 p-0">
+										<th class="border-start-0 border-top-0 p-0">TÀI KHOẢN</th>
+										<th class="border-top-0 p-0 ps-1">GIẢI THƯỞNG</th>
+										<th class="border-end-0 border-top-0 p-0 ps-1">THỜI GIAN</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr>
+										<td class="border-start-0 p-0">dtueduc0802xxxx</td>
+										<td class="p-0 ps-1">Thẻ Scoin 500K</td>
+										<td class="border-end-0 p-0 ps-1">30/09/2021 21:58:35</td>
+									</tr>
 									
-								</dl> 
+									</tbody>
+								</table>
+								<ul class="pagination pagination-sm justify-content-center font-3vw font-UTMFacebookKT" style={{margin:"5px 0"}}>
+									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Trước</a></li>
+									<li class="page-item active"><a class="page-link bg-transparent text-white border-0" href="#">1</a></li>
+									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">2</a></li>
+									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">3</a></li>
+									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Sau</a></li>
+								</ul>
 							</div>
-							{/* <!-- End Tab hd4 --> */}
-							</div> 
+							<div class="tab-pane container fade" id="giathuvang">
+								<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0" style={{width: "90%"}}>
+									<thead>
+									<tr class="border-top-0 p-0">
+										<th class="border-start-0 border-top-0 p-0">TÀI KHOẢN</th>
+										<th class="border-top-0 p-0 ps-1">GIẢI THƯỞNG</th>
+										<th class="border-end-0 border-top-0 p-0 ps-1">THỜI GIAN</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr>
+										<td class="border-start-0 p-0">dtueduc0802xxxx</td>
+										<td class="p-0 ps-1">Thẻ Scoin 500K</td>
+										<td class="border-end-0 p-0 ps-1">30/09/2021 21:58:35</td>
+									</tr>
+									
+									</tbody>
+								</table>
+								<ul class="pagination pagination-sm justify-content-center font-3vw font-UTMFacebookKT" style={{margin:"5px 0"}}>
+									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Trước</a></li>
+									<li class="page-item active"><a class="page-link bg-transparent text-white border-0" href="#">1</a></li>
+									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">2</a></li>
+									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">3</a></li>
+									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Sau</a></li>
+								</ul>
+							</div>
+							<div class="tab-pane container fade" id="loaitructiep">
+								<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0" style={{width: "90%"}}>
+									<thead>
+									<tr class="border-top-0 p-0">
+										<th class="border-start-0 border-top-0 p-0">TÀI KHOẢN</th>
+										<th class="border-top-0 p-0 ps-1">GIẢI THƯỞNG</th>
+										<th class="border-end-0 border-top-0 p-0 ps-1">THỜI GIAN</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr>
+										<td class="border-start-0 p-0">dtueduc0802xxxx</td>
+										<td class="p-0 ps-1">Thẻ Scoin 500K</td>
+										<td class="border-end-0 p-0 ps-1">30/09/2021 21:58:35</td>
+									</tr>
+									
+									</tbody>
+								</table>
+								<ul class="pagination pagination-sm justify-content-center font-3vw font-UTMFacebookKT" style={{margin:"5px 0"}}>
+									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Trước</a></li>
+									<li class="page-item active"><a class="page-link bg-transparent text-white border-0" href="#">1</a></li>
+									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">2</a></li>
+									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">3</a></li>
+									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Sau</a></li>
+								</ul>
+							</div>
+							</div>    	
+						</div>
+						<div class="s-bottom position-relative">
+							<div class="d-flex justify-content-around pt-4">
+								<a style={{width:"40%"}} href="#" title="" target="_blank"><img src={btn_hdmtscoin} alt="Hướng dẫn mua thẻ scoin" width="100%" /></a>
+								<a style={{width:"40%"}} href="#" title="" target="_blank"><img src={btn_ntbsk} alt="Nhận thông báo sự kiện" width="100%" /></a>
+							</div>
+							<div class="d-flex justify-content-around pt-2">
+								<a style={{width:"40%"}} href="#" title="" target="_blank"><img src={btn_napgame} alt="Nạp Game" width="100%" /></a>
+								<a style={{width:"40%"}} href="tel:19001104" title="" target="_blank"><img src={btn_hotline19001104} alt="19001104" width="100%" /></a>
+							</div>
+							<div class="d-flex justify-content-around align-items-center group-logo mt-4">
+								<a style={{width:"20%"}} href="#" title="" target="_blank"><img src={logo_scoin} alt="Scoin" width="100%" /></a>
+								<a style={{width:"20%"}} href="#" title="" target="_blank"><img src={logo_splay} alt="Splay" width="100%" /></a>
+								<a style={{width:"20%"}} href="#" title="" target="_blank"><img src={logo_scoinvip} alt="Scoin VIP" width="100%" /></a>
+							</div>
+							<div class="footer text-white font-3vw">
+								<p class="text-center">
+									Hệ thống phát hành game VTC Mobile
+									<br />
+									Copyright &copy;2021 VTC Mobile. All rights reserved
+								</p>
+								<p class="text-center mb-0 pb-1">
+									<span class="text-blue">Công ty Cổ Phần VTC Dịch Vụ Di Động</span> <br></br>
+									Tầng 11, Tòa nhà VTC Online, số 18 Tam Trinh, Hai Bà Trưng, Hà Nội <br></br>
+									SĐT : (84-4).39877470 | Email : vtcmobile@vtc.vn <br></br>
+									Người chịu trách nhiệm quản lý nội dung: Ông Nguyễn Viết Quang Minh <br></br>
+									Tổng đài hỗ trợ 1900 1104
+								</p>
+							</div>
+						</div>
 						
-					</div>
-					{/* <!--End Modal body --> */}
-					</div>
-				</div>
-			</div>
 
-			{/* <!-- The Modal Mở quà--> */}
-			<div class="modal fade" id="Modalmoqua">
-				<div class="modal-dialog modal-moqua_m">
-					<div class="modal-content bg-transparent border-0">
-
-					<div class="modal-header border-0 p-0">
-						<button type="button" class="close text-dark" data-dismiss="modal">&times;</button>
 					</div>
 					
 
-					<div class="modal-body border-0">
-						<div class="mx-auto font-size-14" style={{width: "90%"}}>
-						{(dataItem.Type==='TopupScoin')?(<p style={{textAlign:'center', fontSize:20, color:'green'}}>{dataItem.Message}</p>):(<div></div>)}
-							{(dataItem.Type==='Darts')?(<p style={{textAlign:'center', fontSize:20, color:'green'}}>{dataItem.Message}</p>):(<div></div>)}
-							{(dataItem.Type==='ScoinCard')?(<div class="card-body p-0 text-center">
-								<p class="card-text mb-3 font-size-18 font-weight-bold text-shadow">Thẻ Scoin mệnh giá: <br /> {dataItem.Amount ? this.numberWithCommas(dataItem.Amount) : 0} vnđ</p>
-								<table class="table table-borderless">
-									<tbody>
-									<tr class="border-bottom">
-										<td class="p-1">Mã code:</td>
-										<td class="p-1">{dataItem.Code}</td>
-									</tr>
-									<tr class="border-bottom">
-										<td class="p-1">Serial:</td>
-										<td class="p-1">{dataItem.Serial}</td>
-									</tr>
-									</tbody>
-								</table>
-								<p class="card-text text-secondary">Hạn sử dụng: {dataItem.Expires}</p>
-								<p class="card-text"></p>
-							</div>):(<div></div>)}
 
-							{(dataItem.Type==='ScoinVoucher')?(<div class="card-body p-0 text-center">
-								<p class="card-text mb-3 font-size-18 font-weight-bold text-shadow">Thẻ ScoinVoucher mệnh giá: <br /> {dataItem.Amount ? this.numberWithCommas(dataItem.Amount) : 0} vnđ</p>
-								<table class="table table-borderless">
-									<tbody>
-									<tr class="border-bottom">
-										<td class="p-1">Mã code:</td>
-										<td class="p-1">{dataItem.Code}</td>
-									</tr>
-									<tr class="border-bottom">
-										<td class="p-1">Serial:</td>
-										<td class="p-1">{dataItem.Serial}</td>
-									</tr>
-									</tbody>
-								</table>
-								<p class="card-text text-secondary">Ngày bắt đầu: {dataItem.StartDate} <br />Ngày kết thúc: {dataItem.EndDate}</p>
-								<p class="card-text"></p>
-							</div>):(<div></div>)}
-							
-						</div>
-					</div>
-
-					</div>
-				</div>
-			</div>
-
-
-			{/* <!-- The Modal Mở quà Voucher--> */}
-			<div class="modal fade" id="Modalmoquavoucher">
-				<div class="modal-dialog modal-moqua_m">
-					<div class="modal-content bg-transparent border-0">
-
-					<div class="modal-header border-0 p-0">
-						<button type="button" class="close text-dark" data-dismiss="modal">&times;</button>
-					</div>
-					
-
-					<div class="modal-body border-0">
-						<div class="mx-auto font-size-14" style={{width: "90%"}}>
-							<div class="card-body p-0 text-center">
-								<p class="card-text mb-3 font-size-14 font-weight-bold text-shadow">Tài khoản <span class="text-dark">{dataItem.AccountName}</span> nhận được thẻ Scoin Voucher 20K khi nạp Scoin qua Chuyển khoản Ngân hàng. </p>
-								<table class="table table-borderless mb-2">
-									<tbody>
-									<tr class="border-bottom">
-										<td class="p-1 font-size-14">Bạn hãy nạp Scoin để nhận khuyến mại nhé!</td>
-									</tr>
-									<tr class="border-bottom">
-										<td class="p-1 text-secondary">Hạn sử dụng: {dataItem.ExpiredDate}</td>
-
-									</tr>
-									</tbody>
-								</table>
-								<p class="text-center"><a href="https://scoin.vn/nap-tien#9" title="Nạp Scoin" target="_blank"><img src={btn_nap_scoin} width="80" hspace="10" alt="" /></a></p>
-							</div>
-						</div>
-					</div>
-
-					</div>
-				</div>
-			</div>
-
-			{/* <!-- The Modal banner bảo trì--> */}
-			<div class="modal fade" id="Modalbanner">
-				<div class="modal-dialog">
-					<div class="modal-content bg-transparent border-0">
-					<div class="modal-header border-0 p-0 m-0" style={{zIndex:99999}}>
-						<button type="button" class="close text-dark" data-dismiss="modal">&times;</button>
-					</div>
-					<div class="modal-body border-0 p-0 mt-n4">
-						<img src={banner_thongbao_off} width="100%" alt="" />
-					</div>
-
-					</div>
-				</div>
-			</div>
-
-			{/* <!-- The Modal Thông báo thay đổi thể lệ--> */}
-			<div class="modal fade" id="Modalthele">
-				<div class="modal-dialog modal-dangnhap_m">
-					<div class="modal-content bg-transparent border-0">
-					{/* <!-- Modal Header --> */}
-					<div class="modal-header border-0 p-0 m-0" style={{zIndex: 99999}}>
-						<button type="button" class="close text-dark" data-dismiss="modal">&times;</button>
-					</div>
-					{/* <!-- Modal body --> */}
-					<div class="modal-body border-0 mt-n4">
-						<h2 class="font-size-3vw_m pt-4 font-weight-bold text-uppercase text-center">Điều chỉnh thể lệ Săn quà kể từ 8h 8/8/2021</h2>
-						<p class="font-size-3vw_m mb-0 text-center">-  Người chơi chiến thắng <strong>PHẢI</strong> là người đưa tổng điểm <strong>VỀ 0 SỚM NHẤT</strong>.</p>
-						<p class="font-size-3vw_m mb-0 text-center">-  Nếu không có người chơi nào đưa được điểm về 0, giải thưởng được bảo lưu và cộng dồn vào Phiên chơi tiếp theo.</p>
-						<p class="text-center"><a href="/sanqua" title="Đồng ý vào Săn Quà"><img class="mt-2" src={btn_dongy} width="25%" alt="Săn Quà" /></a></p>
-					</div>
-
-					</div>
-				</div>
-			</div>
-
-			{/* <!-- The Modal Huong Dan mở phi tiêu từ fb view--> */}
-			<div class="modal fade" id="Modalfbview">
-				<div class="modal-dialog modal-huongdan_m modal-dialog-scrollable">
-					<div class="modal-content bg-transparent border-0">
-
-						<div class="modal-header border-0 p-0">
-							<button type="button" class="close text-dark" data-dismiss="modal">&times;</button>
-						</div>
-						<div class="modal-body border-0 py-0 mb-2 mt-2 px-3 scroll-modal-body_m">
-							<div class="container mt-2">
-								<h4 class="font-size-3vw_m font-weight-bold">Hướng dẫn mở link game Phi tiêu từ Facebook của điện thoại</h4>
-								<dl class="font-size-3vw_m">                
-									<dd> Khách hàng lưu ý sử dụng trình duyệt <strong>SAFARI</strong> (đối với điện thoại Iphone) hoặc <strong>CHROME</strong> (đối với điện thoại Android) để mở link game <a href="https://phitieu.splay.vn/" title="">https://phitieu.splay.vn/</a></dd>
-									<dt>1.	Đối với điện thoại Iphone: </dt>                
-									<dd><strong>Bước 1:</strong> Ấn vào dấu ba chấm tại góc phải</dd>
-									<dd> <img src={fb_i2} width="250" class="img-fluid d-block mx-auto" alt="" /></dd>
-									<dd><strong>Bước 2</strong>: Chọn <strong>MỞ TRONG TRÌNH DUYỆT</strong> hoặc <strong>OPEN IN SAFARI</strong> , link game sẽ được mở bằng trình duyệt SAFARI của Iphone</dd>
-									<dd> <img src={fb_i3_i4} width="250" class="img-fluid d-block mx-auto" alt="" /></dd>
-									<dd><strong>Bước 3</strong>: Mở khóa tự động xoay màn hình và trải nghiệm game</dd>
-									<dd> <img src={fb_i5} width="250" class="img-fluid d-block mx-auto" alt="" /></dd>
-									<dt>2. Đối với điện thoại Android: </dt>                
-									<dd><strong>Bước 1</strong>: Ấn vào dấu ba chấm tại góc phải</dd>
-									<dd> <img src={fb_a2} width="250" class="img-fluid d-block mx-auto" alt="" /></dd>
-									<dd><strong>Bước 2</strong>: Chọn <strong>MỞ TRONG TRÌNH DUYỆT</strong> hoặc <strong>OPEN IN BROWSER</strong>, link game sẽ được mở bằng trình duyệt mặc định của điện thoại</dd>
-									<dd> <img src={fb_a3_a4} width="250" class="img-fluid d-block mx-auto" alt="" /></dd>
-									<dd><strong>Bước 3</strong>: Mở khóa tự động xoay màn hình và trải nghiệm game</dd>
-									<dd> <img src={fb_a5} width="250" class="img-fluid d-block mx-auto" alt="" /></dd>
-									
-								</dl> 
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			{/* <!-- The Modal Chuyển phi tiêu--> */}
-			<div class="modal fade" id="Modalchuyenphitieu">
-				<div class="modal-dialog modal-tangtieu_m">
-					<div class="modal-content bg-transparent border-0">
-
-
-					<div class="modal-header border-0 p-0 text-dark">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-
-
-					<div class="modal-body border-0 font-size-14">
-						<form class="p-2">
-							<div class="form-group mb-1">
-								<label class="mb-1 font-weight-bold">TÀI KHOẢN: {dataInfoDonate.Username}</label>
-								<button type="button" class="btn btn-block mb-1 py-1 btn-number-phitieu">{dataInfoDonate.Darts} phi tiêu</button>
-								<input id="username" type="text" class="form-control form-control-sm mb-1 font-size-14" placeholder="Tên tài khoản người nhận" height="40px"></input>
-								<input id="numberDart" type="text" class="form-control form-control-sm mb-1 font-size-14" placeholder="Số phi tiêu" height="40px"></input>
-								<p class="font-italic mb-2">(Số phi tiêu tối đa có thể chuyển: <strong>{dataInfoDonate.Darts} phi tiêu</strong>)</p>
-							</div>
-
-							<div class="form-row">
-								<div class="col">
-								<input id="code" type="text" class="form-control form-control-sm font-size-14" placeholder="Mã xác nhận" name="c" height="40px"></input>
-								</div>
-								<div class="col pt-1">
-								<span class="mark font-italic">{dataInfoDonate.ConfirmCode}</span>
-								</div>
-							</div>
-
-							<a title="Xác nhận" data-toggle="modal"><img src={btn_xac_nhan} width="100" class="d-block mx-auto mt-2" alt="" onClick={this.comfirmDonate} /></a>
-						</form> 
-					</div>
-
-					</div>
-				</div>
-			</div>
-
-			{/* <!-- The Modal Điểm danh thành công--> */}
-			<div class="modal fade" id="Modalddthanhcong">
-				<div class="modal-dialog modal-sm">
-					<div class="modal-content border-0">
-
-					<div class="modal-header border-0 p-0 text-dark">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-
-					<div class="modal-body border-0 pt-0 text-center">
-						{(rollup)?(<p class="text-info font-size-18 mb-2"><img src={icon_success} width="24" class="" alt="" /> {type_action} thành công</p>):(
-							<p class="text-info font-size-18 mb-2">Thông Báo</p>
-						)}
-						
-						<p class="text-red font-size-18">{message_rollup}</p>
-					</div>
-
-					</div>
-				</div>
-			</div>
-
-			{/* <!-- The Modal Chon Room--> */}
-			<div class="modal fade" id="Modalchonroom">
-				<div class="modal-dialog modal-chonroom_m modal-dialog-scrollable">
-					<div class="modal-content bg-transparent border-0">
-
-					<div class="modal-header border-0 p-0">
-						<button type="button" class="close text-dark" data-dismiss="modal">&times;</button>
-					</div>
-
-					<div class="modal-body border-0 py-0 mb-2 mt-2 px-3 scroll-modal-body_m">
-						{listSanqua.map((obj, key) => (
-
-							<a title="Chơi ngay" key={key} onClick={()=>this.playSanqua(obj)}>    	
-								<div class="mx-0 mb-1 session-chonroom_m d-flex position-relative">
-									<div class="scr-c_m font-size-3vw_m text-uppercase text-warning-50">
-										<img src={icon_scoin} width="24" alt="" /> <span class="pl-1">Tổng điểm: {obj.PointRule}</span>
-									</div>
-									<div class="scr-status-open_m font-size-3vw_m">
-										<p class="pt-5px pl-2 text-white">Đang diễn ra</p>
-									</div>
-									<div class="scr-info_m font-size-3vw_m text-white">
-										<p class="font-italic_m mb-0 pb-3px">Bắt đầu: {this.timeEnd(obj.StartTime)}</p>
-										<p class="text-uppercase mb-0">Giải thưởng: {this.showGiaithuong(obj.Awards)}</p>
-									</div>
-									<div class="scr-playnow_m font-size-3vw_m text-uppercase text-warning">
-										Chơi Ngay
-									</div>
-								</div>
-							</a>
-						))}			
-						
-						
-						
-						
-						
-					</div>
-					</div>
-				</div>
-			</div>
-
-			{/* <!-- The Modal Điểm danh thành công--> */}
-			<div class="modal fade" id="ModalListEmpty">
-				<div class="modal-dialog modal-sm">
-					<div class="modal-content border-0">
-					<div class="modal-header border-0 p-0 text-dark">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<div class="modal-body border-0 pt-0 text-center">
-						<p class="text-info font-size-18 mb-2">Thông Báo</p>
-						<div class="text-red font-size-18" dangerouslySetInnerHTML={{__html: 'Hiện không có phiên chơi Săn Quà nào đang chạy. </br>Bạn vui lòng vào mục Trang Chủ -> Giải Thưởng để xem lịch chạy các phiên sắp tới nhé!'}}></div>
-					</div>
-
-					</div>
-				</div>
-			</div>
+			
 
 				
 				<ReactResizeDetector handleWidth={true} handleHeight={true} onResize={this.onResize} />

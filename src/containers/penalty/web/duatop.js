@@ -23,7 +23,7 @@ import {
 	getData
 } from '../../../modules/profile';
 
-import km_dttq from './images/ads/km-dttq.jpg';
+import km_dttq from './images/ads/km-dttq.png';
 import icon_clock from './images/icon-clock.png';
 import phitieu from './images/phitieu.png';
 import dart_player from './images/dart-player.png';

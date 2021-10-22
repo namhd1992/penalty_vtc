@@ -1,19 +1,17 @@
 import React from 'react';
 import { Route } from 'react-router-dom'
 import '../../styles/main.css';
-import MenuAppBar from '../phitieu/MenuAppBar';
-import Home_Web from '../phitieu/web/home'
-import SanQua_Web from '../phitieu/web/sanqua'
-import DuaTop_Web from '../phitieu/web/duatop'
-import Home_Mobile from '../phitieu/mobile/home'
+import MenuAppBar from '../penalty/MenuAppBar';
+import Home_Web from '../penalty/web/home'
+// import SanQua_Web from '../penalty/web/sanqua'
+// import DuaTop_Web from '../penalty/web/duatop'
+import Home_Mobile from '../penalty/mobile/home'
 
-import SanQua_Mobile_Android from '../phitieu/mobile/android/sanqua'
-import DuaTop_Mobile_Android from '../phitieu/mobile/android/duatop'
+// import SanQua_Mobile_Android from '../penalty/mobile/android/sanqua'
+// import DuaTop_Mobile_Android from '../penalty/mobile/android/duatop'
 
-import SanQua_Mobile_IOS from '../phitieu/mobile/ios/sanqua'
-import DuaTop_Mobile_IOS from '../phitieu/mobile/ios/duatop'
-import SanQua_Mobile_IOS_Vertical from '../phitieu/mobile/ios/vertical/sanqua'
-import DuaTop_Mobile_IOS_Vertical from '../phitieu/mobile/ios/vertical/duatop'
+// import SanQua_Mobile_IOS from '../penalty/mobile/ios/sanqua'
+// import DuaTop_Mobile_IOS from '../penalty/mobile/ios/duatop'
 import {
 	isAndroid,
 	isIOS,
@@ -50,15 +48,15 @@ class App extends React.Component {
 						data={[{ url: "home", label: "home" }, { url: "about", label: "about" }]}></MenuAppBar>
 					<main ref={(c) => this.main = c}>
 						<Route exact path="/" component={Home_Mobile} />
-						<Route exact path="/sanqua" component={SanQua_Mobile_Android} />
-						<Route exact path="/duatop" component={DuaTop_Mobile_Android} />
+						{/* <Route exact path="/sanqua" component={SanQua_Mobile_Android} />
+						<Route exact path="/duatop" component={DuaTop_Mobile_Android} /> */}
 					</main></div>):(<div>
 						<MenuAppBar pathname={document.location.pathname} compact={this.state.compact} scrolling={this.state.scrolling}
 						data={[{ url: "home", label: "home" }, { url: "about", label: "about" }]}></MenuAppBar>
 					<main ref={(c) => this.main = c}>
 						<Route exact path="/" component={Home_Mobile} />
-						<Route exact path="/sanqua" component={SanQua_Mobile_IOS} />
-						<Route exact path="/duatop" component={DuaTop_Mobile_IOS} />
+						{/* <Route exact path="/sanqua" component={SanQua_Mobile_IOS} />
+						<Route exact path="/duatop" component={DuaTop_Mobile_IOS} /> */}
 					</main></div>)}
 					
 				</div>):(<div>
@@ -66,8 +64,8 @@ class App extends React.Component {
 						data={[{ url: "home", label: "home" }, { url: "about", label: "about" }]}></MenuAppBar>
 					<main ref={(c) => this.main = c}>
 						<Route exact path="/" component={Home_Web} />
-						<Route exact path="/sanqua" component={SanQua_Web} />
-						<Route exact path="/duatop" component={DuaTop_Web} />
+						{/* <Route exact path="/sanqua" component={SanQua_Web} />
+						<Route exact path="/duatop" component={DuaTop_Web} /> */}
 					</main>
 				</div>)}
 				
