@@ -65,6 +65,11 @@ import logo_splay from './images/logo_splay.png';
 import p_bg_bottom from './images/p-bg-bottom.png';
 import p_bg_top from './images/p-bg-top.png';
 import vip_kimcuong from './images/vip-kimcuong.png';
+import vip_bachkim from './images/vip-bachkim.png';
+import vip_vang from './images/vip-vang.png';
+import vip_bac from './images/vip-bac.png';
+import vip_dong from './images/vip-dong.png';
+import chuavip from './images/chuavip.png';
 
 
 
@@ -133,6 +138,9 @@ class Lucky_Rotation extends React.Component {
 			tab_3:false,
 			tab_4:false,
 			tab_5:false,
+			bxh_tab_1:true,
+			bxh_tab_2:false,
+			bxh_tab_3:false,
 			content:'',
 			rollup:true,
 			message_rollup:'',
@@ -220,24 +228,7 @@ class Lucky_Rotation extends React.Component {
 
 
 	showModalGiaiThuong=()=>{
-		this.props.getMoreSessions().then(()=>{
-			var data=this.props.dataSesions;
-			if(data!==undefined){
-				if(data.Status===0){
-					this.setState({listSesstions:data.Data}, ()=>{
-						$('#Modalgiaithuong').modal('show');
-					})
-				}else if(data.Status===2){
-					this.setState({message_error:data.Message}, ()=>{
-						$('#myModal11').modal('show');
-					})
-				}else if(data.Status===3){
-					this.logoutAction();
-				}else{
-					console.log("Lỗi")
-				}
-			}
-		})
+		$('#gt_web').modal('show');
 	}
 
 	showModalChuyenTieu=()=>{
@@ -424,23 +415,25 @@ class Lucky_Rotation extends React.Component {
 	}
 
 	showModalTuDo=()=>{
-		var user = JSON.parse(localStorage.getItem("user"));
-		if (user !== null) {
-			if(user.VipLevel!==0){
-				this.getDataTuDo(user);
-				$('#Modaltudo').modal('show');
-			}else{
-				$('#activeVip').modal('show');
-			}
-		}else {
-			$('#Modaldangnhap').modal('show');
-		}
+		// var user = JSON.parse(localStorage.getItem("user"));
+		// if (user !== null) {
+		// 	if(user.VipLevel!==0){
+		// 		this.getDataTuDo(user);
+		// 		$('#Modaltudo').modal('show');
+		// 	}else{
+		// 		$('#activeVip').modal('show');
+		// 	}
+		// }else {
+		// 	$('#Modaldangnhap').modal('show');
+		// }
+		
+		$('#td_web').modal('show');
 	}
 
 
 
 	showModalHuongDan=()=>{
-		$('#Modalhuongdan').modal('show');
+		$('#huongdan_web').modal('show');
 	}
 
 	getDataTuDo=(user)=>{
@@ -448,26 +441,26 @@ class Lucky_Rotation extends React.Component {
 		var offsetTuDo=(activeTuDo-1)*limit;
 		// $('#Loading').modal('show');
 		this.setState({tab_tudo: true})
-		this.props.getTuDo(user.Token, limit, offsetTuDo).then(()=>{
-			// $('#Loading').modal('hide');
-			var data=this.props.dataTuDo;
-			if(data!==undefined){
-				if(data.Status===0){
-					this.setState({listTuDo:data.Data, countTuDo:data.Totals, noti_tudo:false})
-				}else if(data.Status===3){
-					this.logoutAction();
-				}else{
+		// this.props.getTuDo(user.Token, limit, offsetTuDo).then(()=>{
+		// 	// $('#Loading').modal('hide');
+		// 	var data=this.props.dataTuDo;
+		// 	if(data!==undefined){
+		// 		if(data.Status===0){
+		// 			this.setState({listTuDo:data.Data, countTuDo:data.Totals, noti_tudo:false})
+		// 		}else if(data.Status===3){
+		// 			this.logoutAction();
+		// 		}else{
 				
-					this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'}, ()=>{
-						$('#myModal11').modal('show');
-					})
-				}
-			}else{
-				$('#myModal12').modal('show');
-				this.setState({server_err:true})
-			}
+		// 			this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'}, ()=>{
+		// 				$('#myModal11').modal('show');
+		// 			})
+		// 		}
+		// 	}else{
+		// 		$('#myModal12').modal('show');
+		// 		this.setState({server_err:true})
+		// 	}
 			
-		});
+		// });
 	}
 
 	getHistory=(user)=>{
@@ -475,23 +468,23 @@ class Lucky_Rotation extends React.Component {
 		var offsetHistory=(activeHistory-1)*limit;
 		// $('#Loading').modal('show');
 		this.setState({tab_tudo: false})
-		this.props.getHistoryTuDo(user.Token, limit, offsetHistory).then(()=>{
-			// $('#Loading').modal('hide');
-			var data=this.props.dataHistoryTuDo;
-			if(data!==undefined){
-				if(data.Status===0){
-					this.setState({listHistory:data.Data, countHistory:data.Totals})
-				}else if(data.Status===3){
-					this.logoutAction();
-				}else{
-					$('#myModal11').modal('show');
-					this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'})
-				}
-			}else{
-				$('#myModal12').modal('show');
-				this.setState({server_err:true})
-			}
-		});
+		// this.props.getHistoryTuDo(user.Token, limit, offsetHistory).then(()=>{
+		// 	// $('#Loading').modal('hide');
+		// 	var data=this.props.dataHistoryTuDo;
+		// 	if(data!==undefined){
+		// 		if(data.Status===0){
+		// 			this.setState({listHistory:data.Data, countHistory:data.Totals})
+		// 		}else if(data.Status===3){
+		// 			this.logoutAction();
+		// 		}else{
+		// 			$('#myModal11').modal('show');
+		// 			this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'})
+		// 		}
+		// 	}else{
+		// 		$('#myModal12').modal('show');
+		// 		this.setState({server_err:true})
+		// 	}
+		// });
 	}
 
 	getItem=(user, item)=>{
@@ -719,6 +712,18 @@ class Lucky_Rotation extends React.Component {
 		this.setState({tab_1:false, tab_2:false, tab_3:false, tab_4:false, tab_5:true})
 	}
 
+	bxh_tab1=()=>{
+		this.setState({bxh_tab_1:true, bxh_tab_2:false, bxh_tab_3:false})
+	}
+
+	bxh_tab2=()=>{
+		this.setState({bxh_tab_1:false, bxh_tab_2:true, bxh_tab_3:false})
+	}
+
+	bxh_tab3=()=>{
+		this.setState({bxh_tab_1:false, bxh_tab_2:false, bxh_tab_3:true})
+	}
+
 	rollup=()=>{
 		var user = JSON.parse(localStorage.getItem("user"));
 		if (user !== null) {
@@ -814,7 +819,7 @@ class Lucky_Rotation extends React.Component {
 	}
 
 	render() {
-		const {message_sanqua_empty, listSanqua, showRollup,type_action, dataInfoDonate, rollup, message_rollup, content, warning_tudo,tab_1, tab_2, tab_3, tab_4,tab_5, tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
+		const {bxh_tab_1, bxh_tab_2, bxh_tab_3, message_sanqua_empty, listSanqua, showRollup,type_action, dataInfoDonate, rollup, message_rollup, content, warning_tudo,tab_1, tab_2, tab_3, tab_4,tab_5, tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
 			waiting, activeTuDo, activeHistory, activeVinhDanh, limit, countTuDo, countHistory, countVinhDanh, listHistory, listTuDo, listVinhDanh, user}=this.state;
 		return (<div>	
 					<div class="page-fluid_web">
@@ -822,20 +827,32 @@ class Lucky_Rotation extends React.Component {
 							<div class="s-top_web position-relative">
 								<ul class="nav justify-content-between align-items-center flex-nowrap font-3vw">
 									<li class="nav-item text-nowrap" style={{width: "16%"}}>
-									<a class="nav-link p-0 text-nowrap text-center text-white pt-1 font-UTMFacebookKT" href="#huongdan_web" data-bs-toggle="modal" title="Hướng dẫn">Hướng dẫn</a>
+										<a class="nav-link p-0 text-nowrap text-center text-white pt-1 font-UTMFacebookKT" onClick={this.showModalHuongDan} title="Hướng dẫn" style={{cursor: "pointer"}}>Hướng dẫn</a>
 									</li>
 									<li class="nav-item text-nowrap" style={{width: "16%"}}>
-									<a class="nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT" href="#gt_web" data-bs-toggle="modal" title="Giải thưởng">Giải thưởng</a>
+										<a class="nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT" onClick={this.showModalGiaiThuong} title="Giải thưởng" style={{cursor: "pointer"}}>Giải thưởng</a>
 									</li>
 									<li class="nav-item text-nowrap" style={{width: "8%"}}>
-									<a class="nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT" href="#td_web" data-bs-toggle="modal" title="Tủ đồ">Tủ đồ</a>
+										<a class="nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT" onClick={this.showModalTuDo} data-bs-toggle="modal" title="Tủ đồ" style={{cursor: "pointer"}}>Tủ đồ</a>
 									</li>
 									<li class="nav-item text-center" style={{width: "30%"}}>
-									<a class="nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT" href="#" title="Điểm danh">&nbsp;</a>
+										<a class="nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT" onClick={this.rollup} title="Điểm danh" style={{cursor: "pointer"}}>&nbsp;</a>
 									</li>
 									<li class="nav-item text-center" style={{width: "24%"}}>
-									{/* <!--<a class="nav-link p-0 text-center text-white font-UTMFacebookKT" href="#" title="Đăng nhập"><img src="images/btn-dang-nhap.png" width="100%" alt="Đăng nhập" /></a>--> */}
-									<span class="text-warning fw-bold">Ngọc Trinh Sexy</span> <br /><span class="text-white font-2vw_web">Cấp VIP: <img src={vip_kimcuong} width="16" /></span> <a class="fst-italic" href="#tb" data-bs-toggle="modal" title="Thoát">(Thoát)</a>
+										{isLogin ? (<div>
+											<span class="text-warning fw-bold">{user.Username}</span> <br />
+											{(user.VipLevel===0)?(<span class="text-white font-2vw_web">VIP Đồng <img src={vip_dong} alt="VIP Đồng" width="16" /></span>):(<span></span>)}
+											{(user.VipLevel===1)?(<span class="text-white font-2vw_web">VIP Đồng <img src={vip_dong} alt="VIP Đồng" width="16" /></span>):(<span></span>)}
+											{(user.VipLevel===2)?(<span class="text-white font-2vw_web">VIP Bạc <img src={vip_bac} alt="VIP Bạc" width="16" /></span>):(<span></span>)}
+											{(user.VipLevel===3)?(<span class="text-white font-2vw_web">VIP Vàng <img src={vip_vang} alt="VIP Vàng" width="16" /></span>):(<span></span>)}
+											{(user.VipLevel===4)?(<span class="text-white font-2vw_web">VIP Bạch kim <img src={vip_bachkim} alt="VIP Bạch kim" width="16" /></span>):(<span></span>)}
+											{/* <span class="text-white font-2vw_web">Cấp VIP: <img src={vip_kimcuong} width="16" /></span>  */}
+											<a class="fst-italic" onClick={this.logoutAction} style={{cursor:'pointer'}} title="Thoát">(Thoát)</a>
+											</div>): (
+											<a class="nav-link p-0 text-center text-white font-UTMFacebookKT"  onClick={this.loginAction} style={{cursor:'pointer'}} title="Đăng nhập"><img src={btn_dang_nhap} width="100%" alt="Đăng nhập" /></a>
+										)}
+									
+									
 									</li>
 								</ul>
 								<div class="s-btn-options_web d-flex justify-content-around">
@@ -847,13 +864,13 @@ class Lucky_Rotation extends React.Component {
 							<div class="s-bvd_web position-relative">
 								<ul class="nav justify-content-center flex-nowrap font-3vw_web">
 									<li class="nav-item text-nowrap" style={{width: "30%"}}>
-									<a class="nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" data-bs-toggle="pill" href="#duatop" title="Đua TOP">ĐUA TOP</a>
+										<a class={bxh_tab_1 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} style={{cursor: "pointer"}} title="Đua TOP" onClick={this.bxh_tab1}>ĐUA TOP</a>
 									</li>
 									<li class="nav-item text-nowrap" style={{width: "30%"}}>
-									<a class="nav-link p-0 text-center text-blue pt-1 font-UTMFacebookKT" data-bs-toggle="pill" href="#giathuvang" title="Giật Hũ Vàng">GIẬT HŨ VÀNG</a>
+										<a class={bxh_tab_2 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} style={{cursor: "pointer"}} title="Giật Hũ Vàng" onClick={this.bxh_tab2}>GIẬT HŨ VÀNG</a>
 									</li>
 									<li class="nav-item text-nowrap" style={{width: "30%"}}>
-									<a class="nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT" data-bs-toggle="pill" href="#loaitructiep" title="Loại Trực Tiếp">LOẠI TRỰC TIẾP</a>
+										<a class={bxh_tab_3 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} style={{cursor: "pointer"}} title="Loại Trực Tiếp" onClick={this.bxh_tab3}>LOẠI TRỰC TIẾP</a>
 									</li>
 								</ul>
 								<div class="tab-content">
@@ -974,6 +991,286 @@ class Lucky_Rotation extends React.Component {
 
 						</div>
 					</div>
+
+					{/* <!-- The Modal Hướng dẫn --> */}
+						<div class="modal fade" id="huongdan_web">
+							<div class="modal-dialog modal-dialog-scrollable">
+								<div class="modal-content modal-huongdan bg-transparent">
+
+								{/* <!-- Modal Header --> */}
+								<div class="modal-header bg-pop-hd-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
+									<button type="button" class="btn-close float-end pe-5" data-bs-dismiss="modal" style={{marginRight: "3%"}}></button>
+									<div class="tab-hd w-100">
+										<ul class="nav justify-content-center">
+										<li class="nav-item" style={{width: "17%"}}>
+											<a class={tab_1 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Tham gia" onClick={this.tab1}>&nbsp;</a>
+										</li>
+										<li class="nav-item" style={{width: "17%"}}>
+											<a class={tab_2 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Đua TOP" onClick={this.tab2}>&nbsp;</a>
+										</li>
+										<li class="nav-item" style={{width: "18%"}}>
+											<a class={tab_3 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Loại Trực Tiếp" onClick={this.tab3}>&nbsp;</a>
+										</li>
+										<li class="nav-item" style={{width: "18%"}}>
+											<a class={tab_4 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Giật Hũ Vàng" onClick={this.tab4}>&nbsp;</a>
+										</li>
+										<li class="nav-item" style={{width: "17%"}}>
+											<a class={tab_5 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Sử Dụng Giải Thưởng" onClick={this.tab5}>&nbsp;</a>
+										</li>
+										</ul> 
+									</div>
+								</div>
+								
+
+								{/* <!-- Modal body --> */}
+								<div class="modal-body bg-pop-hd-body p-2rem py-1 font-3vw text-white">
+									{/* <!-- Tab panes --> */}
+									<div class="tab-content">
+									<div class="tab-pane container active" id="tg">
+										1. Về đối tượng tham gia bảo hiểm xã hội bắt buộc
+										
+										Tại khoản 1 Điều 1 Thông tư 06/2021 sửa đổi khoản 1 Điều 2 Thông tư 59/2015 như sau:
+										
+										Người hoạt động không chuyên trách ở xã, phường, thị trấn đồng thời là người giao kết hợp đồng lao động quy định tại điểm a và điểm b khoản 1 Điều 2 Luật Bảo hiểm xã hội thì tham gia BHXH bắt buộc theo đối tượng quy định tại điểm a và điểm b khoản 1 Điều 2 Luật Bảo hiểm xã hội.
+										
+										Cụ thể, điểm a, b khoản 1 Điều 2 Luật Bảo hiểm xã hội quy định:
+										
+										Cụ thể, điểm a, b khoản 1 Điều 2 Luật Bảo hiểm xã hội quy định:
+										
+										"Điều 2. Đối tượng áp dụng
+										
+										1. Người lao động là công dân Việt Nam thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc, bao gồm:
+										
+										a) Người làm việc theo hợp đồng lao động không xác định thời hạn, hợp đồng lao động xác định thời hạn, hợp đồng lao động theo mùa vụ hoặc theo một công việc nhất định có thời hạn từ đủ 03 tháng đến dưới 12 tháng, kể cả hợp đồng lao động được ký kết giữa người sử dụng lao động với người đại diện theo pháp luật của người dưới 15 tuổi theo quy định của pháp luật về lao động;
+										. Về đối tượng tham gia bảo hiểm xã hội bắt buộc
+										
+										Tại khoản 1 Điều 1 Thông tư 06/2021 sửa đổi khoản 1 Điều 2 Thông tư 59/2015 như sau:
+										
+										Người hoạt động không chuyên trách ở xã, phường, thị trấn đồng thời là người giao kết hợp đồng lao động quy định tại điểm a và điểm b khoản 1 Điều 2 Luật Bảo hiểm xã hội thì tham gia BHXH bắt buộc theo đối tượng quy định tại điểm a và điểm b khoản 1 Điều 2 Luật Bảo hiểm xã hội.
+										
+										Cụ thể, điểm a, b khoản 1 Điều 2 Luật Bảo hiểm xã hội quy định:
+										
+										Cụ thể, điểm a, b khoản 1 Điều 2 Luật Bảo hiểm xã hội quy định:
+										
+										"Điều 2. Đối tượng áp dụng
+										
+										1. Người lao động là công dân Việt Nam thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc, bao gồm:
+										
+										a) Người làm việc theo hợp đồng lao động không xác định thời hạn, hợp đồng lao động xác định thời hạn, hợp đồng lao động theo mùa vụ hoặc theo một công việc nhất định có thời hạn từ đủ 03 tháng đến dưới 12 tháng, kể cả hợp đồng lao động được ký kết giữa người sử dụng lao động với người đại diện theo pháp luật của người dưới 15 tuổi theo quy định của pháp luật về lao động;
+									</div>
+									<div class="tab-pane container fade" id="dt">...</div>
+									<div class="tab-pane container fade" id="ltt">...</div>
+									<div class="tab-pane container fade" id="ghv">...</div>
+									<div class="tab-pane container fade" id="sdgt">...</div>
+									</div>
+									
+								</div>
+								{/* <!-- Modal footer --> */}
+								<div class="modal-footer bg-pop-hd-bottom border-0">
+									
+								</div>
+
+								</div>
+							</div>
+						</div>
+						{/* <!-- End The Modal Hướng dẫn --> */}
+
+
+						{/* <!-- The Modal Giải thưởng --> */}
+						<div class="modal fade" id="gt_web">
+							<div class="modal-dialog modal-dialog-scrollable">
+								<div class="modal-content modal-gt bg-transparent">
+
+								{/* <!-- Modal Header --> */}
+								<div class="modal-header bg-pop-gt-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
+									<button type="button" class="btn-close float-end pe-5" data-bs-dismiss="modal" style={{marginRight: "3%"}}></button>
+								</div>
+								
+
+								{/* <!-- Modal body --> */}
+								<div class="modal-body bg-pop-gt-body p-2rem py-1 font-3vw text-white">
+									<div class="tab-content">
+									<div class="container">
+										Giải thưởng
+									</div>
+									</div>
+									
+								</div>
+								{/* <!-- Modal footer --> */}
+								<div class="modal-footer bg-pop-gt-bottom border-0">
+									
+								</div>
+
+								</div>
+							</div>
+						</div>
+						{/* <!-- End The Modal Giải thưởng --> */}
+
+						{/* <!-- The Modal Tủ đồ --> */}
+						<div class="modal fade" id="td_web">
+							<div class="modal-dialog modal-dialog-scrollable">
+								<div class="modal-content modal-td bg-transparent">
+
+								{/* <!-- Modal Header --> */}
+								<div class="modal-header bg-pop-td-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
+									<button type="button" class="btn-close float-end pe-5" data-bs-dismiss="modal" style={{marginRight: "3%"}}></button>
+									<div class="tab-hd w-100">
+										<ul class="nav justify-content-center">
+										<li class="nav-item" style={{width: "43%"}}>
+											<a class={tab_tudo ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}}  title="Phần Thưởng" onClick={()=>this.getDataTuDo(user)}>&nbsp;</a>
+										</li>
+										<li class="nav-item" style={{width: "43%"}}>
+											<a class={tab_tudo ? "nav-link text-white font-3vw px-0 py-1" : "nav-link text-white font-3vw px-0 py-1 active"} style={{height: 45}} title="Lịch Sử" onClick={()=>this.getHistory(user)}>&nbsp;</a>
+										</li>
+										</ul> 
+									</div>
+								</div>
+								
+
+								{/* <!-- Modal body --> */}
+								<div class="modal-body bg-pop-td-body p-2rem py-1 font-3vw text-white">
+									{/* <!-- Tab panes --> */}
+									<div class="tab-content">
+									<div class="tab-pane container active" id="pt">
+										<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0">
+											<thead>
+											<tr class="border-top-0 p-0">
+												<th class="border-start-0 border-top-0">PHẦN THƯỞNG</th>
+												<th class="border-top-0 ps-1">NỘI DUNG</th>
+												<th class="border-top-0 ps-1">THỜI GIAN</th>
+												<th class="border-end-0 border-top-0 ps-1">MỞ QUÀ</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr>
+												<td class="border-start-0 py-1">Thẻ Scoin Voucher 10K</td>
+												<td class="ps-1 py-1">Thắng giải Săn Quà #171</td>
+												<td class="ps-1 py-1">30/09/2021 21:58:35</td>
+												<td class="border-end-0 ps-1 py-1"><a class="text-info" href="#mq" data-bs-toggle="modal" title="Mở Quà">Mở quà</a></td>
+											</tr>
+											
+											</tbody>
+										</table>
+										<ul class="pagination pagination-sm justify-content-center font-3vw font-UTMFacebookKT" style={{margin: "5px 0"}}>
+											<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Trước</a></li>
+											<li class="page-item active"><a class="page-link bg-transparent text-white border-0" href="#">1</a></li>
+											<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">2</a></li>
+											<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">3</a></li>
+											<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Sau</a></li>
+										</ul>
+									</div>
+									<div class="tab-pane container fade" id="ls">
+										<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-4 mx-auto mb-0">
+											<thead>
+											<tr class="border-top-0 p-0">
+												<th class="border-start-0 border-top-0">PHẦN THƯỞNG</th>
+												<th class="border-top-0 ps-1">NỘI DUNG</th>
+												<th class="border-end-0 border-top-0 ps-1">THỜI GIAN</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr>
+												<td class="border-start-0 py-1">baodenvutxxxx</td>
+												<td class="ps-1 py-1">50K Topup Scoin</td>
+												<td class="border-end-0 ps-1 py-1">1/08/2021 10:25:01</td>
+											</tr>
+											</tbody>
+										</table>
+										<ul class="pagination pagination-sm justify-content-center font-3vw font-UTMFacebookKT"  style={{margin: "5px 0"}}>
+											<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Trước</a></li>
+											<li class="page-item active"><a class="page-link bg-transparent text-white border-0" href="#">1</a></li>
+											<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">2</a></li>
+											<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">3</a></li>
+											<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Sau</a></li>
+										</ul>
+									</div>
+									</div>
+									
+								</div>
+								{/* <!-- Modal footer --> */}
+								<div class="modal-footer bg-pop-td-bottom border-0">
+									
+								</div>
+
+								</div>
+							</div>
+						</div>
+						{/* <!-- End The Modal Tủ đồ --> */}
+
+						{/* <!-- The Modal Đăng nhập --> */}
+						<div class="modal fade" id="tb">
+							<div class="modal-dialog modal-dialog-scrollable">
+								<div class="modal-content modal-tb bg-transparent">
+
+								{/* <!-- Modal Header --> */}
+								<div class="modal-header bg-pop-tb-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
+									<button type="button" class="btn-close float-end pe-5" data-bs-dismiss="modal" style={{marginRight: "3%"}}></button>
+								</div>
+								
+
+								{/* <!-- Modal body --> */}
+								<div class="modal-body bg-pop-tb-body p-2rem py-1 font-3vw text-white">
+									<div class="tab-content">
+									<div class="container text-center p-5">
+										<h4 class="pt-1 pb-3 font-UTMFacebookKT">Bạn vẫn chưa đăng nhập</h4>
+										<a href="#" title="Đăng nhập"><img src={btn_dangnhap} alt="" width="160" /></a>
+									</div>
+									</div>
+									
+								</div>
+								{/* <!-- Modal footer --> */}
+								<div class="modal-footer bg-pop-tb-bottom border-0">
+									
+								</div>
+
+								</div>
+							</div>
+						</div>
+						{/* <!-- End The Modal Đăng nhập --> */}
+
+						{/* <!-- The Modal Mở quà --> */}
+						<div class="modal fade" id="mq_web">
+							<div class="modal-dialog modal-dialog-scrollable">
+								<div class="modal-content modal-mq bg-transparent">
+
+								{/* <!-- Modal Header --> */}
+								<div class="modal-header bg-pop-mq-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
+									<button type="button" class="btn-close float-end pe-5" data-bs-dismiss="modal" style={{marginRight: "3%"}}></button>
+								</div>
+								
+
+								{/* <!-- Modal body --> */}
+								<div class="modal-body bg-pop-mq-body p-2rem py-1 font-3vw text-white">
+									<div class="tab-content">
+									<div class="container text-center p-5 font-UTMFacebookKT">
+										<p class="h4">Thẻ Scoin mệnh giá: <br /> 5.000.000 vnđ</p>
+										<table class="table table-borderless text-white">
+											<tbody>
+											<tr class="border-bottom">
+												<td class="p-1">Mã code:</td>
+												<td class="p-1">xxxxxxxxxxxx</td>
+											</tr>
+											<tr class="border-bottom">
+												<td class="p-1">Serial:</td>
+												<td class="p-1">xxxxxxxxxxxx</td>
+											</tr>
+											</tbody>
+										</table>
+										<p class="card-text text-white">Hạn sử dụng: xx/xx/20xx</p>
+										<p class="card-text"></p>
+									</div>
+									</div>
+									
+								</div>
+								{/* <!-- Modal footer --> */}
+								<div class="modal-footer bg-pop-mq-bottom border-0">
+									
+								</div>
+
+								</div>
+							</div>
+						</div>
+					{/* <!-- End The Modal Mở quà --> */}
 
 
 				<ReactResizeDetector handleWidth={true} handleHeight={true} onResize={this.onResize} />
