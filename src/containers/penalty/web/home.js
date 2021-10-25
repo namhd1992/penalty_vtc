@@ -818,6 +818,19 @@ class Lucky_Rotation extends React.Component {
 		window.location.replace('/sanqua')
 	}
 
+	closeHD=()=>{
+		$('#huongdan_web').modal('hide');
+	}
+
+	closeGT=()=>{
+		$('#gt_web').modal('hide');
+	}
+
+	closeTD=()=>{
+		$('#td_web').modal('hide');
+	}
+
+
 	render() {
 		const {bxh_tab_1, bxh_tab_2, bxh_tab_3, message_sanqua_empty, listSanqua, showRollup,type_action, dataInfoDonate, rollup, message_rollup, content, warning_tudo,tab_1, tab_2, tab_3, tab_4,tab_5, tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
 			waiting, activeTuDo, activeHistory, activeVinhDanh, limit, countTuDo, countHistory, countVinhDanh, listHistory, listTuDo, listVinhDanh, user}=this.state;
@@ -846,7 +859,6 @@ class Lucky_Rotation extends React.Component {
 											{(user.VipLevel===2)?(<span class="text-white font-2vw_web">VIP Bạc <img src={vip_bac} alt="VIP Bạc" width="16" /></span>):(<span></span>)}
 											{(user.VipLevel===3)?(<span class="text-white font-2vw_web">VIP Vàng <img src={vip_vang} alt="VIP Vàng" width="16" /></span>):(<span></span>)}
 											{(user.VipLevel===4)?(<span class="text-white font-2vw_web">VIP Bạch kim <img src={vip_bachkim} alt="VIP Bạch kim" width="16" /></span>):(<span></span>)}
-											{/* <span class="text-white font-2vw_web">Cấp VIP: <img src={vip_kimcuong} width="16" /></span>  */}
 											<a class="fst-italic" onClick={this.logoutAction} style={{cursor:'pointer'}} title="Thoát">(Thoát)</a>
 											</div>): (
 											<a class="nav-link p-0 text-center text-white font-UTMFacebookKT"  onClick={this.loginAction} style={{cursor:'pointer'}} title="Đăng nhập"><img src={btn_dang_nhap} width="100%" alt="Đăng nhập" /></a>
@@ -999,7 +1011,7 @@ class Lucky_Rotation extends React.Component {
 
 								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-hd-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
-									<button type="button" class="btn-close float-end pe-5" data-bs-dismiss="modal" style={{marginRight: "3%"}}></button>
+									<button type="button" class="btn-close float-end pe-5" onClick={this.closeHD} style={{marginRight: "3%"}}></button>
 									<div class="tab-hd w-100">
 										<ul class="nav justify-content-center">
 										<li class="nav-item" style={{width: "17%"}}>
@@ -1083,7 +1095,7 @@ class Lucky_Rotation extends React.Component {
 
 								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-gt-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
-									<button type="button" class="btn-close float-end pe-5" data-bs-dismiss="modal" style={{marginRight: "3%"}}></button>
+									<button type="button" class="btn-close float-end pe-5" onClick={this.closeGT} style={{marginRight: "3%"}}></button>
 								</div>
 								
 
@@ -1113,7 +1125,7 @@ class Lucky_Rotation extends React.Component {
 
 								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-td-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
-									<button type="button" class="btn-close float-end pe-5" data-bs-dismiss="modal" style={{marginRight: "3%"}}></button>
+									<button type="button" class="btn-close float-end pe-5" onClick={this.closeTD} style={{marginRight: "3%"}}></button>
 									<div class="tab-hd w-100">
 										<ul class="nav justify-content-center">
 										<li class="nav-item" style={{width: "43%"}}>

@@ -25,10 +25,19 @@ body {margin: 0; padding: 0; background-color:#092b2f !important}
 .font-1vw {font-size: 1vw;}
 .font-2vw {font-size: 2vw;}
 .font-3vw {font-size: 3vw;}
+.font-3vwlarge {font-size: 3vw;}
 .font-UTMFacebookKT {font-family: UTMFacebookKT;}
 .font-UTMFacebookKTBold {font-family: UTMFacebookKTBold;}
 .font-UTMFacebookKTBoldItalic {font-family: UTMFacebookKTBoldItalic;}
 .text-blue {color:#208081 !important;}
+.text-shadow { text-shadow: 0 2px 0 #333,
+               0 0 5px rgba(51,51,51,.1),
+               0 1px 3px rgba(51,51,51,.3),
+               0 3px 5px rgba(51,51,51,.2),
+               0 5px 10px rgba(51,51,51,.25),
+               0 10px 10px rgba(51,51,51,.2),
+               0 10px 10px rgba(51,51,51,.15);
+}
 .p-2rem {padding: 2rem !important;}
 .wrap {max-width: 640px !important; width: 100%; height: auto; display: block;}
 .s-top {background:url(../images/bg-top.png) no-repeat; background-size: 100%; background-position: top center; min-height: 300px; height: 40vh; z-index:8}
@@ -50,14 +59,39 @@ body {margin: 0; padding: 0; background-color:#092b2f !important}
 .modal-td .bg-pop-td-top {background:url(../images/bg-popup-td-top.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
 .modal-tb .bg-pop-tb-top {background:url(../images/bg-popup-tb-top.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
 .modal-mq .bg-pop-mq-top {background:url(../images/bg-popup-mq-top.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
+.bg-ltt {width: 100%; height:100vh; background: url(../images/bg-page-play.png) no-repeat center center; background-size: 100%; background-position: top center}
+.bg-ltt .box-banthang {position: absolute; top: 0; left: 0; background: url(../images/bg-banthang.png) no-repeat center center; background-size: 100%; width: 20%; height: 21%;}
+.bg-ltt .box-bxh {position: absolute; top: 33%; left: 2%; background: url(../images/bg-bangxephang.png) no-repeat center center; background-size: 100%; width: 20%; height: 50%;}
+.bg-ltt .box-suttudong {position: absolute; bottom: 1%; left: 2%; width: 20%; height: 14%; background: url(../images/btn-suttudong.png) no-repeat center center; background-size: 100%;}
+.bg-ltt .box-title {position: absolute; top: 0; left: 0; right: 0; margin-left: auto; margin-right: auto; width: 40%; height: 11%; background: url(../images/bg-title-loaitructiep.png) no-repeat center center; background-size: 100%;}
+.bg-ltt .box-userinfo {position: absolute; top: 0; right: 0; background: url(../images/bg-taikhoan.png) no-repeat center center; background-size: 100%; width: 22%; height: 12%}
+.box-banthang .text-banthang {position: absolute; left: 47%; bottom: 1%; z-index: 100}
+.box-time {position: absolute; top: 10%; left: 0; right: 0; margin-left: auto; margin-right: auto; width: 20%; height: 10%; }
+.box-giaithuong {position: absolute; top: 17%; left: 0; right: 0; margin-left: auto; margin-right: auto; width: 35%; height: 11%; background: url(../images/bg-giaithuong.png) no-repeat center center; background-size: 100%;}
 
+
+.s-bvd .nav .nav-item .nav-link.active {
+  text-align: center;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #e60073, 0 0 20px #e60073, 0 0 25px #e60073, 0 0 30px #e60073, 0 0 35px #e60073;
+  }
+  to {
+    text-shadow: 0 0 10px #fff, 0 0 15px #ff4da6, 0 0 20px #ff4da6, 0 0 25px #ff4da6, 0 0 30px #ff4da6, 0 0 35px #ff4da6, 0 0 40px #ff4da6;
+  }
+}
 
 
 @media screen and (min-width:480px){
 .font-3vw {font-size: 14px;}
 .font-2vw {font-size: 11px;}
 .s-top {min-height: 500px; height: 40vh;}
-.s-bvd {min-height: 300px; height: 50vh;}
+.s-bvd {min-height:300px; height: 50vh;}
 .s-bvd .nav {padding-top: 11%;}
 .s-top .nav {min-height: 35px;}
 }
@@ -65,7 +99,8 @@ body {margin: 0; padding: 0; background-color:#092b2f !important}
 .s-bvd {min-height: 400px; height: 40vh;}
 .group-logo {min-height: 85px;}
 .s-top .nav {min-height: 45px;}
+.modal-header.bg-pop-hd-top .btn-close {margin-top: 0;}
 }
 @media screen and (min-width:413px){
-.s-bvd {min-height: 300px; height: 40vh;}
+.s-bvd {min-height:300px; height: 40vh;}
 }
