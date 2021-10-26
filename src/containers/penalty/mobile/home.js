@@ -1008,24 +1008,24 @@ class Lucky_Rotation extends React.Component {
 						<div class="modal-content modal-huongdan bg-transparent">
 
 						{/* <!-- Modal Header --> */}
-						<div class="modal-header bg-pop-hd-top border-0 d-block pb-0 position-relative" style="height: 18vw; max-height: 95px;">
+						<div class="modal-header bg-pop-hd-top border-0 d-block pb-0 position-relative" style={{height: "18vw", maxHeight: 95}}>
 							<button type="button" class="btn-close-white btn-close float-end m-0" onClick={this.closeHD}></button>
 							<div class="tab-hd w-100">
 								<ul class="nav justify-content-center">
-									<li class="nav-item" style="width: 18%">
-										<a class="nav-link text-white font-3vw px-0 py-1 active" style="height: 100%" data-bs-toggle="pill" href="#tg" title="Tham gia">&nbsp;</a>
+									<li class="nav-item" style={{width: "18%"}}>
+										<a class={tab_1 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: "100%"}} title="Tham gia" onClick={this.tab1}>&nbsp;</a>
 									</li>
-									<li class="nav-item" style="width: 18%">
-										<a class="nav-link text-white font-3vw px-0 py-1" style="height: 100%" data-bs-toggle="pill" href="#dt" title="Đua TOP">&nbsp;</a>
+									<li class="nav-item" style={{width: "18%"}}>
+										<a class={tab_2 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: "100%"}} title="Đua TOP" onClick={this.tab2}>&nbsp;</a>
 									</li>
-									<li class="nav-item" style="width: 18%">
-										<a class="nav-link text-white font-3vw px-0 py-1" style="height: 100%" data-bs-toggle="pill" href="#ltt" title="Loại Trực Tiếp">&nbsp;</a>
+									<li class="nav-item" style={{width: "18%"}}>
+										<a class={tab_3 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: "100%"}} title="Loại Trực Tiếp" onClick={this.tab3}>&nbsp;</a>
 									</li>
-									<li class="nav-item" style="width: 18%">
-										<a class="nav-link text-white font-3vw px-0 py-1" style="height: 100%" data-bs-toggle="pill" href="#ghv" title="Giật Hũ Vàng">&nbsp;</a>
+									<li class="nav-item" style={{width: "18%"}}>
+										<a class={tab_4 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: "100%"}}  title="Giật Hũ Vàng" onClick={this.tab4}>&nbsp;</a>
 									</li>
-									<li class="nav-item" style="width: 18%">
-										<a class="nav-link text-white font-3vw px-0 py-1" style="height: 100%" data-bs-toggle="pill" href="#sdgt" title="Sử Dụng Giải Thưởng">&nbsp;</a>
+									<li class="nav-item" style={{width: "18%"}}>
+										<a class={tab_5 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: "100%"}} title="Sử Dụng Giải Thưởng" onClick={this.tab5}>&nbsp;</a>
 									</li>
 								</ul> 
 							</div>
@@ -1076,7 +1076,7 @@ class Lucky_Rotation extends React.Component {
 						<div class="modal-content modal-gt bg-transparent">
 
 						{/* <!-- Modal Header --> */}
-						<div class="modal-header bg-pop-gt-top border-0 d-block pb-0 position-relative" style="height: 18vw; max-height: 95px;">
+						<div class="modal-header bg-pop-gt-top border-0 d-block pb-0 position-relative" style={{height: "18vw", maxHeight: 95}}>
 							<button type="button" class="btn-close-white btn-close float-end m-0" onClick={this.closeGT}></button>
 						</div>
 						
@@ -1102,15 +1102,15 @@ class Lucky_Rotation extends React.Component {
 						<div class="modal-content modal-td bg-transparent">
 
 						{/* <!-- Modal Header --> */}
-						<div class="modal-header bg-pop-td-top border-0 d-block pb-0 position-relative" style="height: 18vw; max-height: 95px;">
+						<div class="modal-header bg-pop-td-top border-0 d-block pb-0 position-relative" style={{height: "18vw", maxHeight: 95}}>
 							<button type="button" class="btn-close-white btn-close float-end m-0" onClick={this.closeTD}></button>
 							<div class="tab-hd w-100">
 								<ul class="nav justify-content-center">
-								<li class="nav-item" style="width: 43%">
-									<a class="nav-link text-white font-3vw px-0 py-1 active" style="height: 100%" data-bs-toggle="pill" href="#pt" title="Phần Thưởng">&nbsp;</a>
+								<li class="nav-item" style={{width: "43%"}}>
+									<a class={tab_tudo ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: "100%"}} title="Phần Thưởng" onClick={()=>this.getDataTuDo(user)}>&nbsp;</a>
 								</li>
-								<li class="nav-item" style="width: 43%">
-									<a class="nav-link text-white font-3vw px-0 py-1" style="height: 100%" data-bs-toggle="pill" href="#ls" title="Lịch Sử">&nbsp;</a>
+								<li class="nav-item" style={{width: "43%"}}>
+									<a class={tab_tudo ? "nav-link text-white font-3vw px-0 py-1" : "nav-link text-white font-3vw px-0 py-1 active"} style={{height: "100%"}} title="Lịch Sử" onClick={()=>this.getHistory(user)}>&nbsp;</a>
 								</li>
 								</ul> 
 							</div>
@@ -1140,7 +1140,7 @@ class Lucky_Rotation extends React.Component {
 									</tr>
 									</tbody>
 								</table>
-								<ul class="pagination pagination-sm justify-content-center font-3vw font-UTMFacebookKT" style="margin:5px 0">
+								<ul class="pagination pagination-sm justify-content-center font-3vw font-UTMFacebookKT" style={{margin: "5px 0"}}>
 									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Trước</a></li>
 									<li class="page-item active"><a class="page-link bg-transparent text-white border-0" href="#">1</a></li>
 									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">2</a></li>
@@ -1165,7 +1165,7 @@ class Lucky_Rotation extends React.Component {
 									</tr>
 									</tbody>
 								</table>
-								<ul class="pagination pagination-sm justify-content-center font-3vw font-UTMFacebookKT" style="margin:5px 0">
+								<ul class="pagination pagination-sm justify-content-center font-3vw font-UTMFacebookKT" style={{margin: "5px 0"}}>
 									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Trước</a></li>
 									<li class="page-item active"><a class="page-link bg-transparent text-white border-0" href="#">1</a></li>
 									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">2</a></li>
@@ -1192,7 +1192,7 @@ class Lucky_Rotation extends React.Component {
 						<div class="modal-content modal-tb bg-transparent">
 
 						{/* <!-- Modal Header --> */}
-						<div class="modal-header bg-pop-tb-top border-0 d-block pb-0 position-relative" style="height: 18vw; max-height: 95px;">
+						<div class="modal-header bg-pop-tb-top border-0 d-block pb-0 position-relative" style={{height: "18vw", maxHeight: 95}}>
 							<button type="button" class="btn-close-white btn-close float-end m-0" data-bs-dismiss="modal"></button>
 						</div>
 						
@@ -1223,7 +1223,7 @@ class Lucky_Rotation extends React.Component {
 						<div class="modal-content modal-mq bg-transparent">
 
 						{/* <!-- Modal Header --> */}
-						<div class="modal-header bg-pop-mq-top border-0 d-block pb-0 position-relative" style="height: 18vw; max-height: 95px;">
+						<div class="modal-header bg-pop-mq-top border-0 d-block pb-0 position-relative" style={{height: "18vw", maxHeight: 95}}>
 							<button type="button" class="btn-close-white btn-close float-end m-0" data-bs-dismiss="modal"></button>
 						</div>
 						
