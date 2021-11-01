@@ -868,7 +868,9 @@ class Lucky_Rotation extends React.Component {
 									</li>
 								</ul>
 								<div class="s-btn-options_web d-flex justify-content-around">
-									<a class="text-center" href="#tb_web"data-bs-toggle="modal" title="Đua TOP"><img src={btn_duatop} alt="Đua TOP" width="80%" /></a>
+									<Link to='/duatop'>
+										<a class="text-center" title="Đua TOP"><img src={btn_duatop} alt="Đua TOP" width="80%" /></a>
+									</Link>
 									<a class="text-center" href="#" title="Giật Hũ Vàng"><img src={btn_giathuvang} alt="Đua TOP" width="80%" /></a>
 									<a class="text-center" href="#" title="Loại Trực Tiếp"><img src={btn_loaitructiep} alt="Đua TOP" width="80%" /></a>
 								</div>

@@ -4,7 +4,7 @@ import '../../styles/main.css';
 import MenuAppBar from '../penalty/MenuAppBar';
 import Home_Web from '../penalty/web/home'
 // import SanQua_Web from '../penalty/web/sanqua'
-// import DuaTop_Web from '../penalty/web/duatop'
+import DuaTop_Web from '../penalty/web/game/duatop'
 import Home_Mobile from '../penalty/mobile/home'
 
 // import SanQua_Mobile_Android from '../penalty/mobile/android/sanqua'
@@ -64,8 +64,8 @@ class App extends React.Component {
 						data={[{ url: "home", label: "home" }, { url: "about", label: "about" }]}></MenuAppBar>
 					<main ref={(c) => this.main = c}>
 						<Route exact path="/" component={Home_Web} />
-						{/* <Route exact path="/sanqua" component={SanQua_Web} />
-						<Route exact path="/duatop" component={DuaTop_Web} /> */}
+						{/* <Route exact path="/sanqua" component={SanQua_Web} /> */}
+						<Route exact path="/duatop" component={DuaTop_Web} />
 					</main>
 				</div>)}
 				
