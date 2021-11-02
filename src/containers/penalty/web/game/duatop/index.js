@@ -28,7 +28,8 @@ export default class Duatop extends React.Component {
                         this.helloWorld.setOrigin(0.5);
                     },
                     update: function() {
-                        this.helloWorld.angle += 2;
+                        // this.helloWorld.angle += 2;
+                        this.helloWorld.rotation += 0.05;
                     }
                 }
             }

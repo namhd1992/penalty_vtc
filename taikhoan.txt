@@ -1,0 +1,19 @@
+svn:
+
+Acc: NamBv / q0O2e68@lp69
+
+https://171.244.13.158:8443/svn/GamesVQMM/
+https://171.244.13.158:8443/svn/GamesPhiTieu/
+https://171.244.13.158:8443/!/#Games-PenaltyKicks
+
+
+Sandbox:
+http://171.244.14.215:8998/darts
+http://171.244.14.215:8988/luckywheel
+
+
+Remote desktop
+
+ip: 171.244.14.215
+Port: 6886
+NamBv / Phghk567Kj2Pl@PK

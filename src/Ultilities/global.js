@@ -56,7 +56,7 @@ class Ultilities {
 		//live
 			// return "https://api.splay.vn/";
 		//dev
-			return "http://171.244.14.215:8998/";
+			return "http://171.244.14.215:8888/penaltykicks";
 
 			
 	}
