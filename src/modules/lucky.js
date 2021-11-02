@@ -12,6 +12,7 @@ export const DATA_USER_SPIN='lucky/DATA_USER_SPIN';
 export const ITEM_AWARD='lucky/ITEM_AWARD';
 export const LUCKY_SESSIONS='lucky/LUCKY_SESSIONS';
 export const LUCKY_ROLLUP='lucky/LUCKY_ROLLUP';
+export const INFO_USER_RESPONSE='lucky/INFO_USER_RESPONSE';
 export const DONATE='lucky/DONATE';
 export const INFO_DONATE='lucky/INFO_DONATE';
 export const CHECK_ROLLUP='lucky/CHECK_ROLLUP';
@@ -43,6 +44,12 @@ export default (state = initialState, action) => {
 				...state,
 				data: action.data,
 				totalRecords: action.totalRecords,
+				waiting: false
+			}
+		case INFO_USER_RESPONSE:
+			return {
+				...state,
+				dataInfoUser: action.data,
 				waiting: false
 			}
 		case LUCKY_TU_DO:
@@ -615,7 +622,32 @@ export const getItemAward = (token, award_id) => {
 	}
 }
 
-
+export const getInfoUser = (token) => {
+	
+	var header = {
+		headers: {
+			"Content-Type": "application/json",
+			"token": token,
+		}
+	}
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "user-signin";
+		return axios.get(url, header).then(function (response) {
+			console.log("response.data:",response.data)
+			dispatch({
+				type: INFO_USER_RESPONSE,
+				data: response.data
+			})
+		}).catch(function (error) {
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
+}
 
 
 

@@ -9,11 +9,9 @@ import { connect } from 'react-redux'
 import './css/style_web.css';
 import {
 	getMoreSessions,
-	pickCard,
 	getTuDo,
 	getHistoryTuDo,
 	getLuckyInfo,
-	getLuckyItems,
 	getInfoUser,
 	userLogout,
 	gds,
@@ -988,14 +986,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
 	getMoreSessions,
-	pickCard,
 	getInfoUser,
 	getItemAward,
 	getHistoryTuDo,
 	getData,
 	getTuDo,
 	getLuckyInfo,
-	getLuckyItems,
 	userLogout,
 	gds
 }, dispatch)
