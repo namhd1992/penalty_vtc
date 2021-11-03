@@ -75,12 +75,6 @@ class MenuAppBar extends React.Component {
 			var duration = moment.duration(end.diff(now));
 			var millisecond = Math.floor(duration.asMilliseconds()) + 86400000;
 			if (millisecond > 0) {
-				_this.props.getInfoUser(user.Token).then(function () {
-					console.log(_this.props.dataInfoUser)
-					// if (_this.props.dataInfoUser.Status === 1) {
-					// 	_this.logoutAction();
-					// }
-				});
 				this.setState({
 					auth: true,
 					user: JSON.parse(localStorage.getItem("user")),
@@ -109,9 +103,6 @@ class MenuAppBar extends React.Component {
 						localStorage.setItem("user", JSON.stringify(user_save));
 						_this.setState({ user: response.data.data });
 						window.location.replace(`${window.location.protocol}//${window.location.host}${currentPath}`);
-						// _this.props.getData(user_save.access_token, user_save.scoinAccessToken).then(function () {
-						// 	window.location.replace(`${window.location.protocol}//${window.location.host}`);
-						// });
 					}).catch(function (error) {
 						_this.props.setStatusServer();
 						localStorage.removeItem("user");
@@ -132,13 +123,6 @@ class MenuAppBar extends React.Component {
 						user_save.expired = new Date();
 						localStorage.setItem("user", JSON.stringify(user_save));
 						_this.setState({ user: response.data.data });
-						_this.props.getInfoUser(user_save.access_token).then(function () {
-							var newurl = "https://splay.vn:3003/userinfo";
-							axios.post(newurl, { account: _this.props.data.accountNumber, messid: fb_mess }).then(function (response1) {
-								console.log(response1);
-								// window.location.replace(`${window.location.protocol}//${window.location.host}/loginwidget1`);
-							});
-						});
 					}).catch(function (error) {
 						_this.props.setStatusServer();
 						localStorage.removeItem("user");

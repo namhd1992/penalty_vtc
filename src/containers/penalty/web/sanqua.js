@@ -11,7 +11,6 @@ import {
 	getTuDo,
 	getHistoryTuDo,
 	getLuckyInfo,
-	getInfoUser,
 	userLogout,
 	gds,
 	getLuckyInfoSanQua
@@ -1029,7 +1028,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
 	getMoreSessions,
-	getInfoUser,
 	getHistoryTuDo,
 	getData,
 	getTuDo,
