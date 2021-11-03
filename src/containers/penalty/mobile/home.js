@@ -12,7 +12,6 @@ import {
 	getMoreSessions,
 	getVinhDanh,
 	getLuckyInfo,
-	getInfoUser,
 	userLogout,
 	gds,
 	getItemAward,
@@ -1297,7 +1296,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-	getInfoUser,
 	getMoreSessions,
 	getItemAward,
 	getHistoryTuDo,
