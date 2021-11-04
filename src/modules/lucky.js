@@ -25,6 +25,14 @@ export const UPDATE_INFO_GAME="lucky/UPDATE_INFO_GAME";
 export const RESULT_USER="lucky/RESULT_USER";
 export const BETTING="lucky/BETTING";
 
+const GET_BONUS ="/users/api/v1/account/getbonus";
+const IN_PLAY ="/catalog/api/v1/rooms/inplay";
+const UPCOMMING ="/catalog/api/v1/rooms/upcoming";
+const LOBBY_CONNECT = "/lobby/api/v1/race/connect";
+const LOBBY_PLAYING ="/lobby/api/v1/race/playing";
+const LOBBY_STATE ="/lobby/api/v1/race/state";
+const LOBBY_SUMMARY="/lobby/api/v1/race/summary";
+const PAY_CONNECT="/pay/api/v1/race/connect";
 
 const initialState = {
 	data: [], 
@@ -176,24 +184,21 @@ export default (state = initialState, action) => {
 	}
 }
 
+
+
 export const checkRollup = (token, data) => {
-
-
 	var header = {
 		headers: {
 			"Content-Type": "application/json",
-			"Authorization": `Bearer ${token}`
+			"Authorization": `Bearer ${token}`,
+			"dataType":"json"
 		}
 	}
-
-	var myHeaders = new Headers();
-	myHeaders.append("Content-Type", "application/json");
-	myHeaders.append("Authorization", "Bearer "+token);
 	return dispatch => {
 		dispatch({
 			type: LUCKY_REQUEST
 		})
-		var url = Ultilities.base_url() + "/api/v1/account/getbonus"
+		var url = Ultilities.base_url() + "/users/api/v1/account/getbonus"
 		return axios.post(url, data, header).then(function (response) {
 			console.log(response)
 			dispatch({
@@ -217,10 +222,6 @@ export const sessionUpcomming = (token, data) => {
 			"Authorization": `Bearer ${token}`
 		}
 	}
-
-	var myHeaders = new Headers();
-	myHeaders.append("Content-Type", "application/json");
-	myHeaders.append("Authorization", "Bearer "+token);
 	return dispatch => {
 		dispatch({
 			type: LUCKY_REQUEST
@@ -248,10 +249,6 @@ export const sessionInPlay = (token, data) => {
 			"Authorization": `Bearer ${token}`
 		}
 	}
-
-	var myHeaders = new Headers();
-	myHeaders.append("Content-Type", "application/json");
-	myHeaders.append("Authorization", "Bearer "+token);
 	return dispatch => {
 		dispatch({
 			type: LUCKY_REQUEST
@@ -282,10 +279,6 @@ export const getSessionInfo = (token, data) => {
 			"Authorization": `Bearer ${token}`
 		}
 	}
-
-	var myHeaders = new Headers();
-	myHeaders.append("Content-Type", "application/json");
-	myHeaders.append("Authorization", "Bearer "+token);
 	return dispatch => {
 		dispatch({
 			type: LUCKY_REQUEST
@@ -312,10 +305,6 @@ export const sendResult = (token, data) => {
 			"Authorization": `Bearer ${token}`
 		}
 	}
-
-	var myHeaders = new Headers();
-	myHeaders.append("Content-Type", "application/json");
-	myHeaders.append("Authorization", "Bearer "+token);
 	return dispatch => {
 		dispatch({
 			type: LUCKY_REQUEST
@@ -342,10 +331,6 @@ export const updateInfoGame = (token, data) => {
 			"Authorization": `Bearer ${token}`
 		}
 	}
-
-	var myHeaders = new Headers();
-	myHeaders.append("Content-Type", "application/json");
-	myHeaders.append("Authorization", "Bearer "+token);
 	return dispatch => {
 		dispatch({
 			type: LUCKY_REQUEST
@@ -372,10 +357,6 @@ export const getResultUser = (token, data) => {
 			"Authorization": `Bearer ${token}`
 		}
 	}
-
-	var myHeaders = new Headers();
-	myHeaders.append("Content-Type", "application/json");
-	myHeaders.append("Authorization", "Bearer "+token);
 	return dispatch => {
 		dispatch({
 			type: LUCKY_REQUEST
@@ -402,10 +383,6 @@ export const betting = (token, data) => {
 			"Authorization": `Bearer ${token}`
 		}
 	}
-
-	var myHeaders = new Headers();
-	myHeaders.append("Content-Type", "application/json");
-	myHeaders.append("Authorization", "Bearer "+token);
 	return dispatch => {
 		dispatch({
 			type: LUCKY_REQUEST

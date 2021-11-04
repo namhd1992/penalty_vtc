@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Phaser from 'phaser'
-import { IonPhaser } from '@ion-phaser/react'
+import { IonPhaser } from '@ion-phaser/react';
 
 export default class Duatop extends React.Component {
 
@@ -9,12 +9,13 @@ export default class Duatop extends React.Component {
 		this.state = {
             initialize: true,
             game: {
-                width: "100%",
-                height: "100%",
+                width: 800,
+                height: 600,
                 type: Phaser.AUTO,
+                autoCenter: Phaser.Scale.CENTER_BOTH,
                 scene: {
                     init: function() {
-                        this.cameras.main.setBackgroundColor('#24252A')
+                        // this.cameras.main.setBackgroundColor('#24252A')
                     },
                     create: function() {
                         this.helloWorld = this.add.text(
