@@ -15,7 +15,6 @@ import {
 	userLogout,
 	gds,
 	getItemAward,
-	getRollup,
 	getDonate,
 	getInfoDonate,
 	checkRollup,
@@ -335,21 +334,30 @@ class Lucky_Rotation extends React.Component {
 	}
 
 	loginAction = () => {
-		const {server_err}=this.state;
-		if(!server_err){
-			if (typeof(Storage) !== "undefined") {
+		// const {server_err}=this.state;
+		// if(!server_err){
+		// 	if (typeof(Storage) !== "undefined") {
+		// 		var currentPath = window.location.pathname;
+		// 		localStorage.setItem("currentPath", currentPath);
+		// 	} else {
+		// 		console.log("Trình duyệt không hỗ trợ localStorage");
+		// 	}
+		// 	window.location.replace(`http://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}/login&agencyid=0`)
+			
+			
+		// 	// window.location.replace(`http://sandbox.graph.vtcmobile.vn/oauth/authorize?client_id=UH8DN779CWCMnCyeXGrm2BRqiTlJajUyZUEM0Kc&agencyid=0&redirect_uri=${window.location.protocol}//${window.location.host}/`);
+		// }else{
+		// 	$('#myModal12').modal('show');
+		// }
+
+		if (typeof(Storage) !== "undefined") {
 				var currentPath = window.location.pathname;
 				localStorage.setItem("currentPath", currentPath);
 			} else {
 				console.log("Trình duyệt không hỗ trợ localStorage");
 			}
 			window.location.replace(`http://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}/login&agencyid=0`)
-			
-			
-			// window.location.replace(`http://sandbox.graph.vtcmobile.vn/oauth/authorize?client_id=UH8DN779CWCMnCyeXGrm2BRqiTlJajUyZUEM0Kc&agencyid=0&redirect_uri=${window.location.protocol}//${window.location.host}/`);
-		}else{
-			$('#myModal12').modal('show');
-		}
+
 	}
 	logoutAction = () => {
 		this.logout();
@@ -726,7 +734,7 @@ class Lucky_Rotation extends React.Component {
 	rollup=()=>{
 		var user = JSON.parse(localStorage.getItem("user"));
 		if (user !== null) {
-			this.props.getRollup(user.Token).then(()=>{
+			this.props.checkRollup(user.Token).then(()=>{
 				var data=this.props.dataRollup;
 				if(data!==undefined){
 					if(data.Status===0){
@@ -1305,7 +1313,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 	getLuckyInfo,
 	userLogout,
 	gds,
-	getRollup,
 	getDonate,
 	getInfoDonate,
 	checkRollup,

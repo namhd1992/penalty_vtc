@@ -17,6 +17,11 @@ import {
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import {
+	osVersion,
+	osName,
+	mobileModel
+  } from "react-device-detect";
 // import '../styles/menuAppbar.css'
 
 class MenuAppBar extends React.Component {
@@ -28,17 +33,6 @@ class MenuAppBar extends React.Component {
 		bottom: false,
 		right: false,
 		user: null,
-	}
-	loginAction = () => {
-		if (typeof(Storage) !== "undefined") {
-			var currentPath = window.location.pathname;
-			localStorage.setItem("currentPath", currentPath);
-		} else {
-			console.log("Trình duyệt không hỗ trợ localStorage");
-		}
-		window.location.replace(`http://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}/login&agencyid=0`)
-
-			// window.location.replace(`http://sandbox.graph.vtcmobile.vn/oauth/authorize?client_id=UH8DN779CWCMnCyeXGrm2BRqiTlJajUyZUEM0Kc&agencyid=0&redirect_uri=${window.location.protocol}//${window.location.host}/`);
 	}
 
 	logoutAction = () => {
@@ -88,48 +82,39 @@ class MenuAppBar extends React.Component {
 			var fb_mess = Ultilities.parse_query_string("fbmessid", window.location.href);
 			var currentPath=localStorage.getItem("currentPath");
 			if (code != null) {
-				if (fb_mess === null) {
-					var url = Ultilities.base_url() + "darts/user-signin/";
-					var header = {
-						headers: {
-							"Content-Type": "application/text",
-							"auth-code": code,
-						}
-					}
-					axios.get(url, header).then(function (response) {
-						console.log(response)
-						var user_save = response.data;
-						user_save.expired = new Date();
-						localStorage.setItem("user", JSON.stringify(user_save));
-						_this.setState({ user: response.data.data });
-						window.location.replace(`${window.location.protocol}//${window.location.host}${currentPath}`);
-					}).catch(function (error) {
-						_this.props.setStatusServer();
-						localStorage.removeItem("user");
-						localStorage.removeItem("userInfo");
-						_this.setState({ auth: false });
-					})
-				} else {
-					var url = Ultilities.base_url() + "darts/user-signin/";
-					var header = {
-						headers: {
-							"Content-Type": "application/text",
-							"auth-code": code,
-						}
-					}
-
-					axios.get(url, header).then(function (response) {
-						var user_save = response.data.data;
-						user_save.expired = new Date();
-						localStorage.setItem("user", JSON.stringify(user_save));
-						_this.setState({ user: response.data.data });
-					}).catch(function (error) {
-						_this.props.setStatusServer();
-						localStorage.removeItem("user");
-						localStorage.removeItem("userInfo");
-						_this.setState({ auth: false });
-					})
+				const data={
+					"lang": "vi",
+					"osType": osName.toLocaleUpperCase(),
+					"deviceId": "00000000-0000-0000-0000-000000000000",
+					"deviceName": mobileModel,
+					"osVersion": osVersion,
+					"appVersion": "1.0",
+					"requestId": 365603310,
+					"client_id": "SANBOX",
+					"client_secret": "123456abcdef",
+					"grant_type": "vtc:scoin_code",
+					"scope": "profile games.catalog games.penalty games.bets wallet giftbox pay transaction content",
+					"code": code,
+					"code_verifier": ""
 				}
+
+				console.log(data)
+				  
+				var url = Ultilities.base_url() + "/users/api/v1/account/oauthtoken";
+
+				axios.post(url, data).then(function (response) {
+					console.log(response)
+					var user_save = response.data.data;
+					user_save.expired = new Date();
+					localStorage.setItem("user", JSON.stringify(user_save));
+					_this.setState({ user: response.data.data });
+					window.location.replace(`${window.location.protocol}//${window.location.host}${currentPath}`);
+				}).catch(function (error) {
+					_this.props.setStatusServer();
+					localStorage.removeItem("user");
+					localStorage.removeItem("userInfo");
+					_this.setState({ auth: false });
+				})
 			}
 		}
 	}

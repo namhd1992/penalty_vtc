@@ -11,14 +11,19 @@ export const LUCKY_INFO='lucky/LUCKY_INFO'
 export const DATA_USER_SPIN='lucky/DATA_USER_SPIN';
 export const ITEM_AWARD='lucky/ITEM_AWARD';
 export const LUCKY_SESSIONS='lucky/LUCKY_SESSIONS';
-export const LUCKY_ROLLUP='lucky/LUCKY_ROLLUP';
 export const INFO_USER_RESPONSE='lucky/INFO_USER_RESPONSE';
 export const DONATE='lucky/DONATE';
 export const INFO_DONATE='lucky/INFO_DONATE';
 export const CHECK_ROLLUP='lucky/CHECK_ROLLUP';
 export const LIST_SANQUA='lucky/LIST_SANQUA';
 export const SET_PHIEN_SANQUA='lucky/SET_PHIEN_SANQUA';
-export const LUCKY_INFO_SANQUA='lucky/LUCKY_INFO_SANQUA';
+export const SESSION_INFO='lucky/SESSION_INFO';
+export const SESSION_UPCOMMING='lucky/SESSION_UPCOMMING';
+export const SESSION_INPLAY='lucky/SESSION_INPLAY';
+export const PLAY='lucky/PLAY';
+export const UPDATE_INFO_GAME="lucky/UPDATE_INFO_GAME";
+export const RESULT_USER="lucky/RESULT_USER";
+export const BETTING="lucky/BETTING";
 
 
 const initialState = {
@@ -94,12 +99,6 @@ export default (state = initialState, action) => {
 				dataSesions: action.data,
 				waiting: false
 			}
-		case LUCKY_ROLLUP:
-			return {
-				...state,
-				dataRollup: action.data,
-				waiting: false
-			}
 		case INFO_DONATE:
 			return {
 				...state,
@@ -115,7 +114,7 @@ export default (state = initialState, action) => {
 		case CHECK_ROLLUP:
 			return {
 				...state,
-				dataCheckRollup: action.data,
+				dataRollup: action.data,
 				waiting: false
 			}
 		case LIST_SANQUA:
@@ -130,10 +129,46 @@ export default (state = initialState, action) => {
 				phienSanqua: action.data,
 				waiting: false
 			}
-		case LUCKY_INFO_SANQUA:
+		case SESSION_INFO:
 			return {
 				...state,
-				dataLuckySanqua: action.data,
+				dataSessionInfo: action.data,
+				waiting: false
+			}
+		case SESSION_UPCOMMING:
+			return {
+				...state,
+				dataSessionUpcomming: action.data,
+				waiting: false
+			}
+		case SESSION_INPLAY:
+			return {
+				...state,
+				dataSessionInplay: action.data,
+				waiting: false
+			}
+		case PLAY:
+			return {
+				...state,
+				dataPlay: action.data,
+				waiting: false
+			}
+		case UPDATE_INFO_GAME:
+			return {
+				...state,
+				dataUpdateGame: action.data,
+				waiting: false
+			}
+		case RESULT_USER:
+			return {
+				...state,
+				dataResultUser: action.data,
+				waiting: false
+			}
+		case BETTING:
+			return {
+				...state,
+				dataBetting: action.data,
 				waiting: false
 			}
 		default:
@@ -141,25 +176,28 @@ export default (state = initialState, action) => {
 	}
 }
 
+export const checkRollup = (token, data) => {
 
-export const login = (type, sessionId, token) => {
+
 	var header = {
 		headers: {
 			"Content-Type": "application/json",
-			"token": token,
+			"Authorization": `Bearer ${token}`
 		}
 	}
-	
 
+	var myHeaders = new Headers();
+	myHeaders.append("Content-Type", "application/json");
+	myHeaders.append("Authorization", "Bearer "+token);
 	return dispatch => {
 		dispatch({
 			type: LUCKY_REQUEST
 		})
-		var url = Ultilities.base_url() + `darts/user-join-session/?type=${type}&sessionId=${sessionId}`
-		return axios.get(url, header).then(function (response) {
+		var url = Ultilities.base_url() + "/api/v1/account/getbonus"
+		return axios.post(url, data, header).then(function (response) {
 			console.log(response)
 			dispatch({
-				type: LUCKY_INFO_SANQUA,
+				type: CHECK_ROLLUP,
 				data: response.data
 			})
 		}).catch(function (error) {
@@ -170,54 +208,28 @@ export const login = (type, sessionId, token) => {
 	}
 }
 
-export const logout = (type, sessionId, token) => {
+export const sessionUpcomming = (token, data) => {
+
+
 	var header = {
 		headers: {
 			"Content-Type": "application/json",
-			"token": token,
+			"Authorization": `Bearer ${token}`
 		}
 	}
-	
 
+	var myHeaders = new Headers();
+	myHeaders.append("Content-Type", "application/json");
+	myHeaders.append("Authorization", "Bearer "+token);
 	return dispatch => {
 		dispatch({
 			type: LUCKY_REQUEST
 		})
-		var url = Ultilities.base_url() + `darts/user-join-session/?type=${type}&sessionId=${sessionId}`
-		return axios.get(url, header).then(function (response) {
+		var url = Ultilities.base_url() + "/catalog/api/v1/rooms/inplay"
+		return axios.post(url, data, header).then(function (response) {
 			console.log(response)
 			dispatch({
-				type: LUCKY_INFO_SANQUA,
-				data: response.data
-			})
-		}).catch(function (error) {
-			dispatch({
-				type: SERVER_ERROR
-			})
-		})
-	}
-}
-
-
-
-export const getLuckyInfoSanQua = (type, sessionId, token) => {
-	var header = {
-		headers: {
-			"Content-Type": "application/json",
-			"token": token,
-		}
-	}
-	
-
-	return dispatch => {
-		dispatch({
-			type: LUCKY_REQUEST
-		})
-		var url = Ultilities.base_url() + `darts/user-join-session/?type=${type}&sessionId=${sessionId}`
-		return axios.get(url, header).then(function (response) {
-			console.log(response)
-			dispatch({
-				type: LUCKY_INFO_SANQUA,
+				type: SESSION_UPCOMMING,
 				data: response.data
 			})
 		}).catch(function (error) {
@@ -229,17 +241,194 @@ export const getLuckyInfoSanQua = (type, sessionId, token) => {
 }
 
 
-export const setPhienSanQua = (obj) => {
-	console.log(obj)
-	return dispatch => {
-		dispatch({
-			type: SET_PHIEN_SANQUA,
-			data: obj
-		})
+export const sessionInPlay = (token, data) => {
+	var header = {
+		headers: {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		}
 	}
 
-
+	var myHeaders = new Headers();
+	myHeaders.append("Content-Type", "application/json");
+	myHeaders.append("Authorization", "Bearer "+token);
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "/catalog/api/v1/rooms/upcoming"
+		return axios.post(url, data, header).then(function (response) {
+			console.log(response)
+			dispatch({
+				type: SESSION_INPLAY,
+				data: response.data
+			})
+		}).catch(function (error) {
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
 }
+
+
+
+
+
+export const getSessionInfo = (token, data) => {
+	var header = {
+		headers: {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		}
+	}
+
+	var myHeaders = new Headers();
+	myHeaders.append("Content-Type", "application/json");
+	myHeaders.append("Authorization", "Bearer "+token);
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "/lobby/api/v1/race/connect"
+		return axios.post(url, data, header).then(function (response) {
+			console.log(response)
+			dispatch({
+				type: SESSION_INFO,
+				data: response.data
+			})
+		}).catch(function (error) {
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
+}
+
+export const sendResult = (token, data) => {
+	var header = {
+		headers: {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		}
+	}
+
+	var myHeaders = new Headers();
+	myHeaders.append("Content-Type", "application/json");
+	myHeaders.append("Authorization", "Bearer "+token);
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "/lobby/api/v1/race/playing"
+		return axios.post(url, data, header).then(function (response) {
+			console.log(response)
+			dispatch({
+				type: PLAY,
+				data: response.data
+			})
+		}).catch(function (error) {
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
+}
+
+export const updateInfoGame = (token, data) => {
+	var header = {
+		headers: {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		}
+	}
+
+	var myHeaders = new Headers();
+	myHeaders.append("Content-Type", "application/json");
+	myHeaders.append("Authorization", "Bearer "+token);
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "/lobby/api/v1/race/state"
+		return axios.post(url, data, header).then(function (response) {
+			console.log(response)
+			dispatch({
+				type: UPDATE_INFO_GAME,
+				data: response.data
+			})
+		}).catch(function (error) {
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
+}
+
+export const getResultUser = (token, data) => {
+	var header = {
+		headers: {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		}
+	}
+
+	var myHeaders = new Headers();
+	myHeaders.append("Content-Type", "application/json");
+	myHeaders.append("Authorization", "Bearer "+token);
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "/lobby/api/v1/race/summary"
+		return axios.post(url, data, header).then(function (response) {
+			console.log(response)
+			dispatch({
+				type: RESULT_USER,
+				data: response.data
+			})
+		}).catch(function (error) {
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
+}
+
+export const betting = (token, data) => {
+	var header = {
+		headers: {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		}
+	}
+
+	var myHeaders = new Headers();
+	myHeaders.append("Content-Type", "application/json");
+	myHeaders.append("Authorization", "Bearer "+token);
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "/pay/api/v1/race/connect"
+		return axios.post(url, data, header).then(function (response) {
+			console.log(response)
+			dispatch({
+				type: BETTING,
+				data: response.data
+			})
+		}).catch(function (error) {
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
+}
+
+
+
+
+
 
 export const getListSanQua = (token) => {
 	var header = {
@@ -268,59 +457,6 @@ export const getListSanQua = (token) => {
 	}
 }
 
-export const checkRollup = (token) => {
-	var header = {
-		headers: {
-			"Content-Type": "application/json",
-			"token": token,
-		}
-	}
-
-	return dispatch => {
-		dispatch({
-			type: LUCKY_REQUEST
-		})
-		var url = Ultilities.base_url() + "darts/user-check-rollup"
-		return axios.get(url, header).then(function (response) {
-			console.log(response)
-			dispatch({
-				type: CHECK_ROLLUP,
-				data: response.data
-			})
-		}).catch(function (error) {
-			dispatch({
-				type: SERVER_ERROR
-			})
-		})
-	}
-}
-
-export const getRollup = (token) => {
-	var header = {
-		headers: {
-			"Content-Type": "application/json",
-			"token": token,
-		}
-	}
-
-	return dispatch => {
-		dispatch({
-			type: LUCKY_REQUEST
-		})
-		var url = Ultilities.base_url() + "darts/user-rollup"
-		return axios.get(url, header).then(function (response) {
-			console.log(response)
-			dispatch({
-				type: LUCKY_ROLLUP,
-				data: response.data
-			})
-		}).catch(function (error) {
-			dispatch({
-				type: SERVER_ERROR
-			})
-		})
-	}
-}
 
 export const getInfoDonate = (token) => {
 	var header = {

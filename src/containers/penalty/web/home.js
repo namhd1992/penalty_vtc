@@ -15,7 +15,6 @@ import {
 	userLogout,
 	gds,
 	getItemAward,
-	getRollup,
 	getDonate,
 	getInfoDonate,
 	checkRollup,
@@ -76,12 +75,27 @@ import ReactResizeDetector from 'react-resize-detector'
 // import spin from './images/spin.gif';
 import $ from 'jquery';
 import 'bootstrap';
+import {
+	osVersion,
+	osName,
+	mobileModel
+  } from "react-device-detect";
 
 const styles = {
 	paper: {
 		background: "#fff",
 	},
 };
+
+const info={
+	"lang": "vi",
+	"osType": osName.toLocaleUpperCase(),
+	"deviceId": "00000000-0000-0000-0000-000000000000",
+	"deviceName": mobileModel,
+	"osVersion": osVersion,
+	"appVersion": "1.0",
+	"requestId": 365603310,
+}
 
 
 
@@ -178,7 +192,7 @@ class Lucky_Rotation extends React.Component {
 		// localStorage.setItem("update29", true);
 		
 
-		this.getVinhDanh(1,1);
+		// this.getVinhDanh(1,1);
 		$('.popover-visible-trigger').popover('show').off('click'); 
 
 
@@ -186,20 +200,20 @@ class Lucky_Rotation extends React.Component {
 			this.setState({isLogin:true, user:user})
 		} 
 
-		if (user !== null) {
-			this.props.checkRollup(user.Token).then(()=>{
-				var data=this.props.dataCheckRollup;
-				if(data!==undefined){
-					if(data.Status===0){
-						this.setState({showRollup: true})
-					}else{
-						this.setState({showRollup: false})
-					}
-				}
-			})
-		}else {
-			this.setState({showRollup: true})
-		}
+		// if (user !== null) {
+		// 	this.props.checkRollup(user.Token).then(()=>{
+		// 		var data=this.props.dataCheckRollup;
+		// 		if(data!==undefined){
+		// 			if(data.Status===0){
+		// 				this.setState({showRollup: true})
+		// 			}else{
+		// 				this.setState({showRollup: false})
+		// 			}
+		// 		}
+		// 	})
+		// }else {
+		// 	this.setState({showRollup: true})
+		// }
 		
 		window.addEventListener('scroll', this.handleScroll);
 	}
@@ -328,28 +342,38 @@ class Lucky_Rotation extends React.Component {
 	}
 
 	loginAction = () => {
+		console.log("AAAAAAA")
 		const {server_err}=this.state;
-		if(!server_err){
-			if (typeof(Storage) !== "undefined") {
-				var currentPath = window.location.pathname;
-				localStorage.setItem("currentPath", currentPath);
-			} else {
-				console.log("Trình duyệt không hỗ trợ localStorage");
-			}
-			window.location.replace(`http://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}/login&agencyid=0`)
+		// if(!server_err){
+		// 	if (typeof(Storage) !== "undefined") {
+		// 		var currentPath = window.location.pathname;
+		// 		localStorage.setItem("currentPath", currentPath);
+		// 	} else {
+		// 		console.log("Trình duyệt không hỗ trợ localStorage");
+		// 	}
+		// 	window.location.replace(`http://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}/login&agencyid=0`)
 			
 			
-			// window.location.replace(`http://sandbox.graph.vtcmobile.vn/oauth/authorize?client_id=UH8DN779CWCMnCyeXGrm2BRqiTlJajUyZUEM0Kc&agencyid=0&redirect_uri=${window.location.protocol}//${window.location.host}/`);
-		}else{
-			$('#myModal12').modal('show');
+		// 	// window.location.replace(`http://sandbox.graph.vtcmobile.vn/oauth/authorize?client_id=UH8DN779CWCMnCyeXGrm2BRqiTlJajUyZUEM0Kc&agencyid=0&redirect_uri=${window.location.protocol}//${window.location.host}/`);
+		// }else{
+		// 	$('#myModal12').modal('show');
+		// }
+
+		if (typeof(Storage) !== "undefined") {
+			var currentPath = window.location.pathname;
+			localStorage.setItem("currentPath", currentPath);
+		} else {
+			console.log("Trình duyệt không hỗ trợ localStorage");
 		}
+		window.location.replace(`http://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}/login&agencyid=0`)
+
 	}
 	logoutAction = () => {
 		this.logout();
-		localStorage.removeItem("user");
-		window.location.replace(
-			`https://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}&action=logout&agencyid=0`,
-		);
+		// localStorage.removeItem("user");
+		// window.location.replace(
+		// 	`https://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}&action=logout&agencyid=0`,
+		// );
 
 		// window.location.replace(
 		// 	`http://sandbox.graph.vtcmobile.vn/oauth/authorize?client_id=UH8DN779CWCMnCyeXGrm2BRqiTlJajUyZUEM0Kc&redirect_uri=${window.location.protocol}//${window.location.host}&action=logout&agencyid=0`,
@@ -358,14 +382,16 @@ class Lucky_Rotation extends React.Component {
 
 	logout=()=>{
 		var user = JSON.parse(localStorage.getItem("user"));
-		var header = {
-			headers: {
-				"Content-Type": "application/json",
-				"token": user.Token,
+		var data= {...info}
+		data.userId=user.uid
+		axios.post(Ultilities.base_url() +'/users/api/v1/account/logout', data).then(function (response) {
+
+			if(response.data.code>=0){
+				localStorage.removeItem("user");
+				window.location.replace(
+					`https://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}&action=logout&agencyid=0`,
+				);
 			}
-		}
-		axios.get(Ultilities.base_url() +'darts/user-signout/', header).then(function (response) {
-			console.log(response)
 		})
 	}
 
@@ -724,7 +750,14 @@ class Lucky_Rotation extends React.Component {
 	rollup=()=>{
 		var user = JSON.parse(localStorage.getItem("user"));
 		if (user !== null) {
-			this.props.getRollup(user.Token).then(()=>{
+			var obj= {...info}
+			obj.gameId=1
+			obj.serverId=-1
+			obj.modeId=-1
+			obj.roomId=-1
+			obj.userId=user.uid
+			obj.type=1
+			this.props.checkRollup(user.access_token, obj).then(()=>{
 				var data=this.props.dataRollup;
 				if(data!==undefined){
 					if(data.Status===0){
@@ -1293,7 +1326,6 @@ class Lucky_Rotation extends React.Component {
 
 const mapStateToProps = state => ({
 	dataSanqua: state.lucky.dataSanqua,
-	dataCheckRollup: state.lucky.dataCheckRollup,
 	dataRollup: state.lucky.dataRollup,
 	dataInfoDonate: state.lucky.dataInfoDonate,
 	dataDonate: state.lucky.dataDonate,
@@ -1326,7 +1358,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 	getLuckyInfo,
 	userLogout,
 	gds,
-	getRollup,
 	getDonate,
 	getInfoDonate,
 	checkRollup,
