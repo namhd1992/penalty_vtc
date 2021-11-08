@@ -3,6 +3,7 @@ import Phaser from 'phaser'
 import { IonPhaser } from '@ion-phaser/react';
 import Game from './game';
 import Info from './info';
+import BootScene from './bootScene';
 
 export default class Duatop extends React.Component {
 
@@ -15,7 +16,7 @@ export default class Duatop extends React.Component {
                 height: 600,
                 type: Phaser.AUTO,
                 autoCenter: Phaser.Scale.CENTER_BOTH,
-                scene: [Game]
+                scene: [BootScene]
             }
           
         }
@@ -23,7 +24,7 @@ export default class Duatop extends React.Component {
     render() {
         const { initialize, game } = this.state;
         return (
-          <IonPhaser game={game} initialize={initialize} />
+          <IonPhaser game={game} initialize={initialize} style={{backgroundColor:"#fff"}}/>
         // <div>AAAA</div>
         )
     }
