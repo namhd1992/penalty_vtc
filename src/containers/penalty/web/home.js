@@ -383,8 +383,15 @@ class Lucky_Rotation extends React.Component {
 	logout=()=>{
 		var user = JSON.parse(localStorage.getItem("user"));
 		var data= {...info}
-		data.userId=user.uid
-		axios.post(Ultilities.base_url() +'/users/api/v1/account/logout', data).then(function (response) {
+		data.userId=user.uid;
+		var header = {
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": `Bearer ${user.access_token}`,
+				"dataType":"json"
+			}
+		}
+		axios.post(Ultilities.base_url() +'/users/api/v1/account/logout', data, header).then(function (response) {
 
 			if(response.data.code>=0){
 				localStorage.removeItem("user");

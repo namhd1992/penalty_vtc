@@ -25,17 +25,15 @@ export default class Info extends Phaser.Scene{
           // self.scene.start("Game", {id:6});
       });
 
-      // this.helloWorld.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
-      //   console.log("Hello")
-      // })
+      // this.helloWorld.setVisible(false)
+      
+
+      this.helloWorld.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+        console.log("Hello")
+      })
     }
 
     update(){
         // this.helloWorld.angle += 1;
-    }
-
-    clickHandler (pointer, helloWorld)
-    {
-        console.log("AAAAAAAAAAA", this.helloWorld)
     }
 }
