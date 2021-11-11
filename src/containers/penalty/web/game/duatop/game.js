@@ -1,5 +1,7 @@
 import Phaser from "phaser";
 
+import ball_rotation from '../assert/ball_rotation.png';
+
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -12,7 +14,8 @@ export default class Game extends Phaser.Scene{
 
     
     preload(){
-
+        this.load.spritesheet('ball_rotation',ball_rotation, { frameWidth: 108, frameHeight: 108, endFrame: 23 });
+        
     }
 
     create(){
@@ -31,31 +34,44 @@ export default class Game extends Phaser.Scene{
         // // body.setMass(100)
         // this.physics.add.collider(paddleLeft,ball)
         // this.cursors=this.input.keyboard.createCursorKeys()
-        const self = this;
-        this.idInfo = this.add.text(
-            50, 
-            50, 
-            "", { 
-              font: "40px Arial", 
-              fill: "#ffffff" 
-            }
-        );
-        this.helloWorld = this.add.text(
-            this.cameras.main.centerX, 
-            this.cameras.main.centerY, 
-            "Hello Nambv", { 
-              font: "40px Arial", 
-              fill: "#ffffff" 
-            }
-        );
-        this.helloWorld.setOrigin(0.5);
-        this.input.on('pointerdown', function (pointer) {
-            self.scene.start("Info");
-        });
+
+        // var a= Phaser.Math.Distance.BetweenPoints
+        // const self = this;
+        // this.idInfo = this.add.text(
+        //     50, 
+        //     50, 
+        //     "", { 
+        //       font: "40px Arial", 
+        //       fill: "#ffffff" 
+        //     }
+        // );
+        // this.helloWorld = this.add.text(
+        //     this.cameras.main.centerX, 
+        //     this.cameras.main.centerY, 
+        //     "Hello Nambv", { 
+        //       font: "40px Arial", 
+        //       fill: "#ffffff" 
+        //     }
+        // );
+        // this.helloWorld.setOrigin(0.5);
+        // this.input.on('pointerdown', function (pointer) {
+        //     self.scene.start("Info");
+        // });
+
+        var config = {
+            key: 'explodeAnimation',
+            frames: this.anims.generateFrameNumbers('ball_rotation', { start: 0, end: 23, first: 23 }),
+            frameRate: 20,
+            repeat: 1
+        };
+    
+        this.anims.create(config);
+    
+        this.add.sprite(400, 300, 'ball_rotation').play('explodeAnimation');
     }
 
     update(){
-        this.idInfo.setText(this.id)
+        // this.idInfo.setText(this.id)
         // this.cursors.up.isDown()
     }
 }
