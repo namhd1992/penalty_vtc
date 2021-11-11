@@ -14,3 +14,4 @@ export default class BootScene extends Phaser.Scene {
       this.scene.run(SCENES.SECOND);
     }
   }
+
