@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 
 import ball_rotation from '../../../assert/ball.png';
+import ball_rotation_json from '../../../assert/ball.json'
 
 import k_idle from '../../../assert/k_idle.png';
 
@@ -17,8 +18,8 @@ export default class Game extends Phaser.Scene{
 
     
     preload(){
-        this.add.
-        this.load.spritesheet('ball_rotation',ball_rotation, { frameWidth: 80, frameHeight: 80, endFrame: 23 });
+        this.load.atlas('ball_rotation', ball_rotation, ball_rotation_json);
+        // this.load.spritesheet('ball_rotation',ball_rotation, { frameWidth: 80, frameHeight: 80, endFrame: 23 });
         this.load.spritesheet('k_idle',k_idle, { frameWidth: 140, frameHeight: 281, endFrame: 35 });
         
     }
@@ -63,28 +64,50 @@ export default class Game extends Phaser.Scene{
         //     self.scene.start("Info");
         // });
 
-        var config = {
-            key: 'explodeAnimation',
-            frames: this.anims.generateFrameNumbers('ball_rotation', { start: 0, end: 23, first: 23 }),
-            frameRate: 6,
+        const animConfig = {
+            key: 'walk',
+            frames: 'ball_rotation',
+            frameRate: 60,
             repeat: -1
         };
+        this.anims.create(animConfig);
 
-        var k_i = {
-            key: 'k_id',
-            frames: this.anims.generateFrameNumbers('k_idle', { start: 0, end: 35, first: 35 }),
-            frameRate: 6,
-            repeat: -1
-        };
+        this.sprite = this.add.sprite(400, 484, 'ball_rotation', 'rotation_');
+        this.sprite.play('walk');
+
+        // var config = {
+        //     key: 'explodeAnimation',
+        //     frames: this.anims.generateFrameNumbers('ball_rotation', { start: 0, end: 23, first: 23 }),
+        //     frameRate: 6,
+        //     repeat: -1
+        // };
+
+        // var k_i = {
+        //     key: 'k_id',
+        //     frames: this.anims.generateFrameNumbers('k_idle', { start: 0, end: 35, first: 35 }),
+        //     frameRate: 6,
+        //     repeat: -1
+        // };
     
-        this.anims.create(config);
-        this.anims.create(k_i);
+        // this.anims.create(config);
+        // this.anims.create(k_i);
     
-        this.add.sprite(400, 300, 'ball_rotation').play('explodeAnimation');
-        this.add.sprite(400, 100, 'k_idle').play('k_id');
+        // this.add.sprite(400, 300, 'ball_rotation').play('explodeAnimation');
+        // this.add.sprite(400, 100, 'k_idle').play('k_id');
     }
 
-    update(){
+    update(time, delta){
+        this.sprite.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(pointer){
+            console.log("AAAAAAAAAA", delta)
+        })
+        
+        this.sprite.setScale(0.5, 0.5)
+        if(this.sprite.y<100){
+            this.sprite.stop();
+            console.log("BBBBBBBB")
+        }else{
+            this.sprite.y -=1;
+        }
         // this.idInfo.setText(this.id)
         // this.cursors.up.isDown()
     }

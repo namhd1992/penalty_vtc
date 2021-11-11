@@ -17,22 +17,27 @@ export const INFO_DONATE='lucky/INFO_DONATE';
 export const CHECK_ROLLUP='lucky/CHECK_ROLLUP';
 export const LIST_SANQUA='lucky/LIST_SANQUA';
 export const SET_PHIEN_SANQUA='lucky/SET_PHIEN_SANQUA';
-export const SESSION_INFO='lucky/SESSION_INFO';
+
 export const SESSION_UPCOMMING='lucky/SESSION_UPCOMMING';
 export const SESSION_INPLAY='lucky/SESSION_INPLAY';
-export const PLAY='lucky/PLAY';
-export const UPDATE_INFO_GAME="lucky/UPDATE_INFO_GAME";
-export const RESULT_USER="lucky/RESULT_USER";
+export const RACE_CONNECT='lucky/RACE_CONNECT';
+export const RACE_PLAYING='lucky/RACE_PLAYING';
+export const RACE_STATE="lucky/RACE_STATE";
+export const RACE_SUMMARY="lucky/RACE_SUMMARY";
+
+export const JACKPOT_CONNECT='lucky/JACKPOT_CONNECT';
+export const JACKPOT_PLAYING='lucky/JACKPOT_PLAYING';
+export const JACKPOT_STATE="lucky/JACKPOT_STATE";
+export const JACKPOT_SUMMARY="lucky/JACKPOT_SUMMARY";
+
+export const KNOCKOUT_CONNECT='lucky/KNOCKOUT_CONNECT';
+export const KNOCKOUT_PLAYING='lucky/KNOCKOUT_PLAYING';
+export const KNOCKOUT_STATE="lucky/KNOCKOUT_STATE";
+export const KNOCKOUT_SUMMARY="lucky/KNOCKOUT_SUMMARY";
+
 export const BETTING="lucky/BETTING";
 
-const GET_BONUS ="/users/api/v1/account/getbonus";
-const IN_PLAY ="/catalog/api/v1/rooms/inplay";
-const UPCOMMING ="/catalog/api/v1/rooms/upcoming";
-const LOBBY_CONNECT = "/lobby/api/v1/race/connect";
-const LOBBY_PLAYING ="/lobby/api/v1/race/playing";
-const LOBBY_STATE ="/lobby/api/v1/race/state";
-const LOBBY_SUMMARY="/lobby/api/v1/race/summary";
-const PAY_CONNECT="/pay/api/v1/race/connect";
+
 
 const initialState = {
 	data: [], 
@@ -137,12 +142,6 @@ export default (state = initialState, action) => {
 				phienSanqua: action.data,
 				waiting: false
 			}
-		case SESSION_INFO:
-			return {
-				...state,
-				dataSessionInfo: action.data,
-				waiting: false
-			}
 		case SESSION_UPCOMMING:
 			return {
 				...state,
@@ -155,22 +154,76 @@ export default (state = initialState, action) => {
 				dataSessionInplay: action.data,
 				waiting: false
 			}
-		case PLAY:
+		case RACE_CONNECT:
 			return {
 				...state,
-				dataPlay: action.data,
+				dataRaceConnect: action.data,
 				waiting: false
 			}
-		case UPDATE_INFO_GAME:
+		case RACE_PLAYING:
 			return {
 				...state,
-				dataUpdateGame: action.data,
+				dataRacePlaying: action.data,
 				waiting: false
 			}
-		case RESULT_USER:
+		case RACE_STATE:
 			return {
 				...state,
-				dataResultUser: action.data,
+				dataRaceState: action.data,
+				waiting: false
+			}
+		case RACE_SUMMARY:
+			return {
+				...state,
+				dataRaceSummary: action.data,
+				waiting: false
+			}
+		case JACKPOT_CONNECT:
+			return {
+				...state,
+				dataJackpotConnect: action.data,
+				waiting: false
+			}
+		case JACKPOT_PLAYING:
+			return {
+				...state,
+				dataJackpotPlaying: action.data,
+				waiting: false
+			}
+		case JACKPOT_STATE:
+			return {
+				...state,
+				dataJackpotState: action.data,
+				waiting: false
+			}
+		case JACKPOT_SUMMARY:
+			return {
+				...state,
+				dataJackpotSummary: action.data,
+				waiting: false
+			}
+		case KNOCKOUT_CONNECT:
+			return {
+				...state,
+				dataKnockoutConnect: action.data,
+				waiting: false
+			}
+		case KNOCKOUT_PLAYING:
+			return {
+				...state,
+				dataKnockoutPlaying: action.data,
+				waiting: false
+			}
+		case KNOCKOUT_STATE:
+			return {
+				...state,
+				dataKnockoutState: action.data,
+				waiting: false
+			}
+		case KNOCKOUT_SUMMARY:
+			return {
+				...state,
+				dataKnockoutSummary: action.data,
 				waiting: false
 			}
 		case BETTING:
@@ -183,7 +236,6 @@ export default (state = initialState, action) => {
 			return state
 	}
 }
-
 
 
 export const checkRollup = (token, data) => {
@@ -272,7 +324,7 @@ export const sessionInPlay = (token, data) => {
 
 
 
-export const getSessionInfo = (token, data) => {
+export const raceConnect = (token, data) => {
 	var header = {
 		headers: {
 			"Content-Type": "application/json",
@@ -287,7 +339,7 @@ export const getSessionInfo = (token, data) => {
 		return axios.post(url, data, header).then(function (response) {
 			console.log(response)
 			dispatch({
-				type: SESSION_INFO,
+				type: RACE_CONNECT,
 				data: response.data
 			})
 		}).catch(function (error) {
@@ -298,7 +350,7 @@ export const getSessionInfo = (token, data) => {
 	}
 }
 
-export const sendResult = (token, data) => {
+export const racePlaying = (token, data) => {
 	var header = {
 		headers: {
 			"Content-Type": "application/json",
@@ -313,7 +365,7 @@ export const sendResult = (token, data) => {
 		return axios.post(url, data, header).then(function (response) {
 			console.log(response)
 			dispatch({
-				type: PLAY,
+				type: RACE_PLAYING,
 				data: response.data
 			})
 		}).catch(function (error) {
@@ -324,7 +376,7 @@ export const sendResult = (token, data) => {
 	}
 }
 
-export const updateInfoGame = (token, data) => {
+export const raceState = (token, data) => {
 	var header = {
 		headers: {
 			"Content-Type": "application/json",
@@ -339,7 +391,7 @@ export const updateInfoGame = (token, data) => {
 		return axios.post(url, data, header).then(function (response) {
 			console.log(response)
 			dispatch({
-				type: UPDATE_INFO_GAME,
+				type: RACE_STATE,
 				data: response.data
 			})
 		}).catch(function (error) {
@@ -350,7 +402,7 @@ export const updateInfoGame = (token, data) => {
 	}
 }
 
-export const getResultUser = (token, data) => {
+export const raceSummary = (token, data) => {
 	var header = {
 		headers: {
 			"Content-Type": "application/json",
@@ -365,7 +417,7 @@ export const getResultUser = (token, data) => {
 		return axios.post(url, data, header).then(function (response) {
 			console.log(response)
 			dispatch({
-				type: RESULT_USER,
+				type: RACE_SUMMARY,
 				data: response.data
 			})
 		}).catch(function (error) {
@@ -375,6 +427,217 @@ export const getResultUser = (token, data) => {
 		})
 	}
 }
+
+
+
+export const jackpotConnect = (token, data) => {
+	var header = {
+		headers: {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		}
+	}
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "/lobby/api/v1/jackpot/connect"
+		return axios.post(url, data, header).then(function (response) {
+			dispatch({
+				type: JACKPOT_CONNECT,
+				data: response.data
+			})
+		}).catch(function (error) {
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
+}
+
+
+export const jackpotPlaying = (token, data) => {
+	var header = {
+		headers: {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		}
+	}
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "/lobby/api/v1/jackpot/playing"
+		return axios.post(url, data, header).then(function (response) {
+			dispatch({
+				type: JACKPOT_PLAYING,
+				data: response.data
+			})
+		}).catch(function (error) {
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
+}
+
+
+export const jackpotState = (token, data) => {
+	var header = {
+		headers: {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		}
+	}
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "/lobby/api/v1/jackpot/state"
+		return axios.post(url, data, header).then(function (response) {
+			dispatch({
+				type: JACKPOT_STATE,
+				data: response.data
+			})
+		}).catch(function (error) {
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
+}
+
+
+export const jackpotSummary = (token, data) => {
+	var header = {
+		headers: {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		}
+	}
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "/lobby/api/v1/jackpot/summary"
+		return axios.post(url, data, header).then(function (response) {
+			dispatch({
+				type: JACKPOT_SUMMARY,
+				data: response.data
+			})
+		}).catch(function (error) {
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
+}
+
+
+export const knockoutConnect = (token, data) => {
+	var header = {
+		headers: {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		}
+	}
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "/lobby/api/v1/knockout/connect"
+		return axios.post(url, data, header).then(function (response) {
+			dispatch({
+				type: KNOCKOUT_CONNECT,
+				data: response.data
+			})
+		}).catch(function (error) {
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
+}
+
+
+export const knockoutPlaying = (token, data) => {
+	var header = {
+		headers: {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		}
+	}
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "/lobby/api/v1/knockout/playing"
+		return axios.post(url, data, header).then(function (response) {
+			dispatch({
+				type: KNOCKOUT_PLAYING,
+				data: response.data
+			})
+		}).catch(function (error) {
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
+}
+
+
+export const knockoutState = (token, data) => {
+	var header = {
+		headers: {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		}
+	}
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "/lobby/api/v1/knockout/state"
+		return axios.post(url, data, header).then(function (response) {
+			dispatch({
+				type: KNOCKOUT_STATE,
+				data: response.data
+			})
+		}).catch(function (error) {
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
+}
+
+
+export const knockoutSummary = (token, data) => {
+	var header = {
+		headers: {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		}
+	}
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "/lobby/api/v1/race/summary"
+		return axios.post(url, data, header).then(function (response) {
+			dispatch({
+				type: KNOCKOUT_SUMMARY,
+				data: response.data
+			})
+		}).catch(function (error) {
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
+}
+
+
 
 export const betting = (token, data) => {
 	var header = {
@@ -387,7 +650,7 @@ export const betting = (token, data) => {
 		dispatch({
 			type: LUCKY_REQUEST
 		})
-		var url = Ultilities.base_url() + "/pay/api/v1/race/connect"
+		var url = Ultilities.base_url() + "/pay/api/v1/bets/place"
 		return axios.post(url, data, header).then(function (response) {
 			console.log(response)
 			dispatch({
@@ -401,6 +664,17 @@ export const betting = (token, data) => {
 		})
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
