@@ -1,7 +1,10 @@
 import Phaser from "phaser";
 
-import ball_rotation from '../../../assert/ball.png';
-import ball_rotation_json from '../../../assert/ball.json'
+import backgound from '../../../assert/background.png';
+import ball from '../../../assert/ball.png';
+import goal_center from '../../../assert/goal_center.png';
+import ball_rotation from '../../../assert/ball_sprite.png';
+import ball_rotation_json from '../../../assert/ball_sprite.json'
 
 import k_idle from '../../../assert/k_idle.png';
 
@@ -18,6 +21,9 @@ export default class Game extends Phaser.Scene{
 
     
     preload(){
+        this.load.image('background', backgound);
+        this.load.image('goal_center', goal_center);
+
         this.load.atlas('ball_rotation', ball_rotation, ball_rotation_json);
         // this.load.spritesheet('ball_rotation',ball_rotation, { frameWidth: 80, frameHeight: 80, endFrame: 23 });
         this.load.spritesheet('k_idle',k_idle, { frameWidth: 140, frameHeight: 281, endFrame: 35 });
@@ -25,6 +31,8 @@ export default class Game extends Phaser.Scene{
     }
 
     create(){
+        this.add.image(600,338,'background')
+        this.add.image(600,332,'goal_center')
         // const ball=this.add.circle(400, 250, 10, 0xffffff, 1)
         // this.physics.add.existing(ball);
         // ball.body.setBounce(1,1)
@@ -67,12 +75,12 @@ export default class Game extends Phaser.Scene{
         const animConfig = {
             key: 'walk',
             frames: 'ball_rotation',
-            frameRate: 60,
+            frameRate: 10,
             repeat: -1
         };
         this.anims.create(animConfig);
 
-        this.sprite = this.add.sprite(400, 484, 'ball_rotation', 'rotation_');
+        this.sprite = this.add.sprite(600, 550, 'ball_rotation', 'rotation_');
         this.sprite.play('walk');
 
         // var config = {
@@ -101,12 +109,12 @@ export default class Game extends Phaser.Scene{
             console.log("AAAAAAAAAA", delta)
         })
         
-        this.sprite.setScale(0.5, 0.5)
-        if(this.sprite.y<100){
+        this.sprite.setScale(0.4, 0.4)
+        if(this.sprite.y<430){
             this.sprite.stop();
-            console.log("BBBBBBBB")
+            // console.log("BBBBBBBB")
         }else{
-            this.sprite.y -=1;
+            this.sprite.y -=0.5;
         }
         // this.idInfo.setText(this.id)
         // this.cursors.up.isDown()

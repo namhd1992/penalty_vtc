@@ -12,8 +12,8 @@ export default class Duatop extends React.Component {
 		this.state = {
             initialize: true,
             game: {
-                width: 800,
-                height: 600,
+                width: 1200,
+                height: 675,
                 type: Phaser.AUTO,
                 autoCenter: Phaser.Scale.CENTER_BOTH,
                 scene: [BootScene]
