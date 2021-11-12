@@ -9,6 +9,8 @@ import ball_rotation_json from '../../../assert/ball_sprite.json'
 import k_idle from '../../../assert/k_idle.png';
 import k_idle_json from '../../../assert/k_idle.json';
 
+
+var play=false;
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -84,8 +86,8 @@ export default class Game extends Phaser.Scene{
         };
         this.anims.create(animConfig);
 
-        // this.sprite = this.add.sprite(600, 550, 'ball_rotation', 'rotation_');
-        // this.sprite.play('walk');
+        this.sprite = this.add.sprite(600, 550, 'ball_rotation', 'rotation_');
+        this.sprite.play('walk');
 
         // var config = {
         //     key: 'explodeAnimation',
@@ -112,13 +114,26 @@ export default class Game extends Phaser.Scene{
         this.input.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, function (pointer) {
             console.log(pointer)
             alert(pointer.downX)
-            self.ball_1.setInteractive().visible=false;
+            self.ball_1.visible=false;
+            play=true;
 
         });
+        this.sprite.setScale(0.5,0.5);
+        this.sprite.visible=false
 
     }
 
     update(time, delta){
+        if(play){
+            this.sprite.visible=true;
+            // this.sprite.play('walk');
+            if(this.sprite.y<430){
+                this.sprite.stop();
+            }else{
+                
+                this.sprite.y -=0.5;
+            }
+        }
         // this.sprite.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(pointer){
         //     console.log("AAAAAAAAAA", delta)
         // })
