@@ -20,8 +20,8 @@ font-style:italic;
 }
 
 
-
-body {margin: 0; padding: 0; background-color:#092b2f !important}
+/* background-color:#092b2f !important */
+body {margin: 0; padding: 0;}
 .font-1vw {font-size: 1vw;}
 .font-2vw {font-size: 2vw;}
 .font-3vw {font-size: 3vw;}
