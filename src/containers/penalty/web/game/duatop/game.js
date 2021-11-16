@@ -59,6 +59,8 @@ import btn_suttudong from '../../../assert/btn-suttudong.png';
 import bg_title_loaitructiep from '../../../assert/bg-title-loaitructiep.png';
 import bg_taikhoan from '../../../assert/bg-taikhoan.png';
 
+const list_keep=[]
+const list_goal=[]
 const info={
 	"lang": "vi",
 	"osType": osName.toLocaleUpperCase(),
@@ -71,6 +73,7 @@ const info={
 
 var play=false;
 var x=1;
+var increase_x=0;
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -82,26 +85,28 @@ export default class Game extends Phaser.Scene{
         this.id=data.id;
 
         var user = JSON.parse(localStorage.getItem("user"));
-		var data= {...info}
-		data.userId= bigInt(user.uid);
-        data.gameId=1;
-        data.serverId=1;
-        data.modeId=1;
-        data.roomId=1;
-        data.rakingLimit=10
-		var header = {
-			headers: {
-				"Content-Type": "application/json",
-				"Authorization": `Bearer ${user.access_token}`,
-				"dataType":"json"
-			}
-		}
-		axios.post(Ultilities.base_url() +'/lobby/api/v1/race/connect', data, header).then(function (response) {
-
-			if(response.data.code>=0){
-				
-			}
-		})
+        if(user!==null){
+            var data= {...info}
+            data.userId= bigInt(user.uid);
+            data.gameId=1;
+            data.serverId=1;
+            data.modeId=1;
+            data.roomId=1;
+            data.rakingLimit=10
+            var header = {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${user.access_token}`,
+                    "dataType":"json"
+                }
+            }
+            axios.post(Ultilities.base_url() +'/lobby/api/v1/race/connect', data, header).then(function (response) {
+    
+                if(response.data.code>=0){
+                    
+                }
+            })
+        }
     }
     
     preload(){
@@ -134,7 +139,7 @@ export default class Game extends Phaser.Scene{
     create(){
         this.timer=0;
         this.add.image(600,338,'background')
-        this.add.image(600,325,'goal_center')
+        this.goal=this.add.image(600,320,'goal_center')
         this.ball_1=this.add.image(605,530,'ball');
 
         // const soccerAnimation = this.anims.create({
@@ -147,164 +152,150 @@ export default class Game extends Phaser.Scene{
 
         // soccer_sprite.play({ key: 'soccer', repeat: -2 });
 
+        const goal_center_anims_Config = {
+            key: 'goal_center',
+            frames: 'goal_center_anims',
+            frameRate: 12,
+            repeat: 2
+        };
+        this.anims.create(goal_center_anims_Config);
+        this.goal_center_anims_sprite=this.add.sprite(600, 320, 'goal_center_anims', 'center_');
+        this.goal_center_anims_sprite.visible=false;
+        this.goal_center_anims_sprite.play('goal_center');
+
+
+        const goal_left_Config = {
+            key: 'g_left',
+            frames: 'goal_left',
+            frameRate: 12,
+            repeat: 2
+        };
+        this.anims.create(goal_left_Config);
+        this.goal_left_sprite=this.add.sprite(600, 320, 'goal_left', 'left_');
+        this.goal_left_sprite.visible=false;
+        this.goal_left_sprite.play('g_left');
+
+        const goal_right_Config = {
+            key: 'g_right',
+            frames: 'goal_right',
+            frameRate: 12,
+            repeat: 2
+        };
+        this.anims.create(goal_right_Config);
+        this.goal_right_sprite=this.add.sprite(600, 320, 'goal_right', 'center_');
+        this.goal_right_sprite.visible=false;
+        this.goal_right_sprite.play('g_right');
+
         const keep_goal_left_1_Config = {
             key: 'k_left_1',
             frames: 'keep_goal_left_1',
-            frameRate: 30,
+            frameRate: 15,
             repeat: -2
         };
         this.anims.create(keep_goal_left_1_Config);
         this.keep_goal_left_1_sprite=this.add.sprite(675, 365, 'keep_goal_left_1', 'k_left_');
         this.keep_goal_left_1_sprite.setScale(1.5,1.5);
         this.keep_goal_left_1_sprite.visible=false;
+        this.keep_goal_left_1_sprite.play('k_left_1');
 
         const keep_goal_left_2_Config = {
             key: 'k_left_2',
             frames: 'keep_goal_left_2',
-            frameRate: 30,
+            frameRate: 15,
             repeat: -2
         };
         this.anims.create(keep_goal_left_2_Config);
         this.keep_goal_left_2_sprite=this.add.sprite(750, 350, 'keep_goal_left_2', 'k_left2_');
         this.keep_goal_left_2_sprite.setScale(1.5,1.5);
         this.keep_goal_left_2_sprite.visible=false;
+        this.keep_goal_left_2_sprite.play('k_left_2');
+
 
         const keep_goal_left_3_Config = {
             key: 'k_left_3',
             frames: 'keep_goal_left_3',
-            frameRate: 30,
+            frameRate: 15,
             repeat: -2
         };
         this.anims.create(keep_goal_left_3_Config);
         this.keep_goal_left_3_sprite=this.add.sprite(645, 365, 'keep_goal_left_3', 'k_left3_');
         this.keep_goal_left_3_sprite.setScale(1.5,1.5);
         this.keep_goal_left_3_sprite.visible=false;
+        this.keep_goal_left_3_sprite.play('k_left_3');
 
         const keep_goal_left_4_Config = {
             key: 'k_left_4',
             frames: 'keep_goal_left_4',
-            frameRate: 30,
+            frameRate: 15,
             repeat: -2
         };
         this.anims.create(keep_goal_left_4_Config);
         this.keep_goal_left_4_sprite=this.add.sprite(740, 365, 'keep_goal_left_4', 'k_left4_');
         this.keep_goal_left_4_sprite.setScale(1.5,1.5);
         this.keep_goal_left_4_sprite.visible=false;
+        this.keep_goal_left_4_sprite.play('k_left_4');
         
         const keep_goal_punch_Config = {
             key: 'k_punch',
             frames: 'keep_goal_punch',
-            frameRate: 30,
+            frameRate: 15,
             repeat: -2
         };
         this.anims.create(keep_goal_punch_Config);
         this.keep_goal_punch_sprite=this.add.sprite(595, 365, 'keep_goal_punch', 'k_punch_');
         this.keep_goal_punch_sprite.setScale(1.5,1.5);
         this.keep_goal_punch_sprite.visible=false;
+        this.keep_goal_punch_sprite.play('k_punch');
 
         const keep_goal_right_1_Config = {
             key: 'k_right_1',
             frames: 'keep_goal_right_1',
-            frameRate: 30,
+            frameRate: 15,
             repeat: -2
         };
         this.anims.create(keep_goal_right_1_Config);
         this.keep_goal_right_1_sprite=this.add.sprite(525, 365, 'keep_goal_right_1', 'k_right1_');
         this.keep_goal_right_1_sprite.setScale(1.5,1.5);
         this.keep_goal_right_1_sprite.visible=false;
+        this.keep_goal_right_1_sprite.play('k_right_1');
 
         const keep_goal_right_2_Config = {
             key: 'k_right_2',
             frames: 'keep_goal_right_2',
-            frameRate: 30,
+            frameRate: 15,
             repeat: -2
         };
         this.anims.create(keep_goal_right_2_Config);
         this.keep_goal_right_2_sprite=this.add.sprite(450, 355, 'keep_goal_right_2', 'k_right2_');
         this.keep_goal_right_2_sprite.setScale(1.5,1.5);
         this.keep_goal_right_2_sprite.visible=false;
+        this.keep_goal_right_2_sprite.play('k_right_2');
+
 
         const keep_goal_right_3_Config = {
             key: 'k_right_3',
             frames: 'keep_goal_right_3',
-            frameRate: 30,
+            frameRate: 15,
             repeat: -2
         };
         this.anims.create(keep_goal_right_3_Config);
         this.keep_goal_right_3_sprite=this.add.sprite(560, 370, 'keep_goal_right_3', 'k_right3_');
         this.keep_goal_right_3_sprite.setScale(1.5,1.5);
         this.keep_goal_right_3_sprite.visible=false;
+        this.keep_goal_right_3_sprite.play('k_right_3');
+
 
         const keep_goal_right_4_Config = {
             key: 'k_right_4',
             frames: 'keep_goal_right_4',
-            frameRate: 30,
+            frameRate: 15,
             repeat: -2
         };
         this.anims.create(keep_goal_right_4_Config);
         this.keep_goal_right_4_sprite=this.add.sprite(475, 355, 'keep_goal_right_4', 'k_right4_');
         this.keep_goal_right_4_sprite.setScale(1.5,1.5);
         this.keep_goal_right_4_sprite.visible=false;
-
-        const soccer_kick_left_Config = {
-            key: 'kick_left',
-            frames: 'soccer_kick_left',
-            frameRate: 20,
-            repeat: 1
-        };
-        this.anims.create(soccer_kick_left_Config);
-        this.soccer_kick_left_sprite=this.add.sprite(885, 250, 'soccer_kick_left', 'kick_left_');
-        this.soccer_kick_left_sprite.setScale(3.4,3.4);
-        // this.soccer_kick_left_sprite.visible=false;
-
-        const soccer_kick_right_Config = {
-            key: 'kick_right',
-            frames: 'soccer_kick_right',
-            frameRate: 30,
-            repeat: 1
-        };
-        this.anims.create(soccer_kick_right_Config);
-        this.soccer_kick_right_sprite=this.add.sprite(665, 365, 'soccer_kick_right', 'kick_right_');
-        this.soccer_kick_right_sprite.setScale(1.5,1.5);
-        this.soccer_kick_right_sprite.visible=false;
-
-        const goal_center_anims_Config = {
-            key: 'goal_center',
-            frames: 'goal_center_anims',
-            frameRate: 30,
-            repeat: 1
-        };
-        this.anims.create(goal_center_anims_Config);
-        this.goal_center_anims_sprite=this.add.sprite(665, 365, 'goal_center_anims', 'center_');
-        this.goal_center_anims_sprite.setScale(1.5,1.5);
-        this.goal_center_anims_sprite.visible=false;
-
-        const goal_left_Config = {
-            key: 'g_left',
-            frames: 'goal_left',
-            frameRate: 30,
-            repeat: 1
-        };
-        this.anims.create(goal_left_Config);
-        this.goal_left_sprite=this.add.sprite(665, 365, 'goal_left', 'left_');
-        this.goal_left_sprite.setScale(1.5,1.5);
-        this.goal_left_sprite.visible=false;
-
-        const goal_right_Config = {
-            key: 'g_right',
-            frames: 'goal_right',
-            frameRate: 30,
-            repeat: 1
-        };
-        this.anims.create(goal_right_Config);
-        this.goal_right_sprite=this.add.sprite(665, 365, 'goal_right', 'center_');
-        this.goal_right_sprite.setScale(1.5,1.5);
-        this.goal_right_sprite.visible=false;
-
-
-        // var a= Phaser.Math.Distance.BetweenPoints
-        const self = this;
-
+        this.keep_goal_right_4_sprite.play('k_right_4');
 
         const animConfig = {
             key: 'walk',
@@ -316,6 +307,39 @@ export default class Game extends Phaser.Scene{
 
         this.ball_rotation_sprite = this.add.sprite(605, 530, 'ball_rotation', 'rotation_');
         this.ball_rotation_sprite.play('walk');
+        this.ball_rotation_sprite.visible=false;
+
+
+        const soccer_kick_left_Config = {
+            key: 'kick_left',
+            frames: 'soccer_kick_left',
+            frameRate: 20,
+            repeat: -2
+        };
+        this.anims.create(soccer_kick_left_Config);
+        this.soccer_kick_left_sprite=this.add.sprite(885, 250, 'soccer_kick_left', 'kick_left_');
+        // this.soccer_kick_left_sprite.setScale(3.4,3.4);
+        // this.soccer_kick_left_sprite.visible=false;
+
+        const soccer_kick_right_Config = {
+            key: 'kick_right',
+            frames: 'soccer_kick_right',
+            frameRate: 30,
+            repeat: -2
+        };
+        this.anims.create(soccer_kick_right_Config);
+        this.soccer_kick_right_sprite=this.add.sprite(665, 365, 'soccer_kick_right', 'kick_right_');
+        // this.soccer_kick_right_sprite.setScale(1.5,1.5);
+        this.soccer_kick_right_sprite.visible=false;
+
+
+
+
+        // var a= Phaser.Math.Distance.BetweenPoints
+        const self = this;
+
+
+       
 
         // var config = {
         //     key: 'explodeAnimation',
@@ -339,29 +363,49 @@ export default class Game extends Phaser.Scene{
         this.k_idle_sprite=this.add.sprite(600, 365, 'k_idle', 'k_idle_').play('k_id');
         this.k_idle_sprite.setScale(0.75,0.75);
   
-        this.ball_1.setScale(0.14,0.14)
+        // this.ball_1.setScale(0.14,0.14)
+
         this.input.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, function (pointer) {
             self.setBallLine(pointer)
+
+           
             
             setTimeout(()=>{ 
                 play=true;
+                self.setKeepGoal();
+                self.setGoal();
+                self.k_idle_sprite.visible=false;
+                self.goal.visible=false
             }, 500);
             // var inter=setInterval(()=>{	
             //     console.log('AAAAAAAAA')
             //     self.ball_rotation_sprite.setScale(0.4,0.4)
             // }, 200);
-            self.k_idle_sprite.visible=false;
+           
+            
             // self.keep_goal_left_1_sprite.visible=true;
             // self.keep_goal_left_1_sprite.play("k_left_1")
             self.soccer_kick_left_sprite.play("kick_left")
+            
+            setTimeout(()=>{ 
+                play=false;
+                x=1;
+                self.registry.destroy();
+                self.events.off();
+                self.scene.restart();
+                console.log(self.goal_left_sprite)
+            }, 5000);
+
+            console.log(self.ball_rotation_sprite.y)
 
 
         });
         this.ball_rotation_sprite.setScale(0.65,0.65);
-        // this.ball_rotation_sprite.visible=false;
+       
         // this.ball_1.visible=false;
         // this.k_idle_sprite.visible=false
-
+        list_keep.push(this.keep_goal_left_1_sprite, this.keep_goal_left_2_sprite, this.keep_goal_left_3_sprite, this.keep_goal_left_4_sprite, this.keep_goal_punch_sprite, this. keep_goal_right_1_sprite, this. keep_goal_right_2_sprite,this. keep_goal_right_3_sprite,this. keep_goal_right_1_sprite,this. keep_goal_right_4_sprite)
+        list_goal.push(this.goal_center_anims_sprite, this.goal_left_sprite, this.goal_right_sprite);
     }
 
     update(time, delta){
@@ -374,10 +418,10 @@ export default class Game extends Phaser.Scene{
                 this.ball_rotation_sprite.stop();
             }else{
                 this.ball_rotation_sprite.y -=1.5;
-                this.ball_rotation_sprite.x -=0.5;
+                this.ball_rotation_sprite.x +=1*increase_x;
                 this.timer += delta;
                 while (this.timer > 10) {
-                    x -=0.012
+                    x -=0.011
                     this.ball_rotation_sprite.setScale(x,x);
                     this.timer=0;
                 }         
@@ -397,6 +441,9 @@ export default class Game extends Phaser.Scene{
         const endY=pointer.upY;
         var a=startX-endX;
         var b=startY-endY;
+        var k=Math.atan2(b,a)
+        increase_x=k>1?k:(-1/k)
+        console.log(increase_x)
         
         if(a>0){
 
@@ -417,7 +464,24 @@ export default class Game extends Phaser.Scene{
     }
 
     setKeepGoal(){
+        var n = this.getRandomInt(0,8)
+        list_keep[n].setVisible(true)
         
+    }
+
+    setGoal(){
+        var n = this.getRandomInt(0,2)
+        list_goal[1].setVisible(true)
+        console.log(list_goal[1])
+        
+    }
+
+    
+
+    getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 }
 
