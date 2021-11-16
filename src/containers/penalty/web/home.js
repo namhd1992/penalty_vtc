@@ -4,7 +4,8 @@ import Pagination from "react-js-pagination";
 import Ultilities from '../../../Ultilities/global'
 import { Link } from "react-router-dom";
 import axios from 'axios';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import bigInt from "big-integer";
 import './css/style_web.css';
 import {
 	getTuDo,
@@ -383,7 +384,8 @@ class Lucky_Rotation extends React.Component {
 	logout=()=>{
 		var user = JSON.parse(localStorage.getItem("user"));
 		var data= {...info}
-		data.userId=user.uid;
+		data.userId= bigInt(user.uid);
+		console.log(data)
 		var header = {
 			headers: {
 				"Content-Type": "application/json",

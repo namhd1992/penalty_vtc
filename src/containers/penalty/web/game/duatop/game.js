@@ -1,4 +1,12 @@
 import Phaser from "phaser";
+import {
+	osVersion,
+	osName,
+	mobileModel
+  } from "react-device-detect";
+  import bigInt from "big-integer";
+import axios from 'axios';
+import Ultilities from '../../../../../Ultilities/global'
 
 import backgound from '../../../assert/background.png';
 import ball from '../../../assert/ball.png';
@@ -51,7 +59,15 @@ import btn_suttudong from '../../../assert/btn-suttudong.png';
 import bg_title_loaitructiep from '../../../assert/bg-title-loaitructiep.png';
 import bg_taikhoan from '../../../assert/bg-taikhoan.png';
 
-
+const info={
+	"lang": "vi",
+	"osType": osName.toLocaleUpperCase(),
+	"deviceId": "00000000-0000-0000-0000-000000000000",
+	"deviceName": mobileModel,
+	"osVersion": osVersion,
+	"appVersion": "1.0",
+	"requestId": 365603310,
+}
 
 var play=false;
 var x=1;
@@ -64,8 +80,29 @@ export default class Game extends Phaser.Scene{
     init(data){
         console.log('init', data);
         this.id=data.id;
-    }
 
+        var user = JSON.parse(localStorage.getItem("user"));
+		var data= {...info}
+		data.userId= bigInt(user.uid);
+        data.gameId=1;
+        data.serverId=1;
+        data.modeId=1;
+        data.roomId=1;
+        data.rakingLimit=10
+		var header = {
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": `Bearer ${user.access_token}`,
+				"dataType":"json"
+			}
+		}
+		axios.post(Ultilities.base_url() +'/lobby/api/v1/race/connect', data, header).then(function (response) {
+
+			if(response.data.code>=0){
+				
+			}
+		})
+    }
     
     preload(){
         this.load.image('background', backgound);
@@ -109,9 +146,6 @@ export default class Game extends Phaser.Scene{
         // const soccer_sprite = this.add.sprite(900, 500, 'soccer');
 
         // soccer_sprite.play({ key: 'soccer', repeat: -2 });
-
-
-
 
         const keep_goal_left_1_Config = {
             key: 'k_left_1',
