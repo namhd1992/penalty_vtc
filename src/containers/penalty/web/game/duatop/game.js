@@ -362,48 +362,35 @@ export default class Game extends Phaser.Scene{
         // this.add.sprite(400, 300, 'ball_rotation').play('explodeAnimation');
         this.k_idle_sprite=this.add.sprite(600, 365, 'k_idle', 'k_idle_').play('k_id');
         this.k_idle_sprite.setScale(0.75,0.75);
-  
-        // this.ball_1.setScale(0.14,0.14)
 
         this.input.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, function (pointer) {
             self.setBallLine(pointer)
 
            
-            
-            setTimeout(()=>{ 
-                play=true;
-                self.setKeepGoal();
-                self.setGoal();
-                self.k_idle_sprite.visible=false;
-                self.goal.visible=false
-            }, 500);
-            // var inter=setInterval(()=>{	
-            //     console.log('AAAAAAAAA')
-            //     self.ball_rotation_sprite.setScale(0.4,0.4)
-            // }, 200);
-           
-            
-            // self.keep_goal_left_1_sprite.visible=true;
-            // self.keep_goal_left_1_sprite.play("k_left_1")
-            self.soccer_kick_left_sprite.play("kick_left")
-            
-            setTimeout(()=>{ 
-                play=false;
-                x=1;
-                self.registry.destroy();
-                self.events.off();
-                self.scene.restart();
-                console.log(self.goal_left_sprite)
-            }, 5000);
-
-            console.log(self.ball_rotation_sprite.y)
-
-
+            if(pointer.downY-pointer.upY > 0){
+                setTimeout(()=>{ 
+                    play=true;
+                    self.setKeepGoal();
+                    self.setGoal();
+                    self.k_idle_sprite.visible=false;
+                    self.goal.visible=false
+                }, 500);
+                self.soccer_kick_left_sprite.play("kick_left")
+                
+                setTimeout(()=>{ 
+                    play=false;
+                    x=1;
+                    // self.registry.destroy();
+                    // self.events.off();
+                    self.scene.restart();
+                    console.log(self.goal_left_sprite)
+                }, 5000);
+    
+            }
         });
-        this.ball_rotation_sprite.setScale(0.65,0.65);
-       
-        // this.ball_1.visible=false;
-        // this.k_idle_sprite.visible=false
+
+        this.physics.add.collider(this.ball_rotation_sprite,this.goal)
+
         list_keep.push(this.keep_goal_left_1_sprite, this.keep_goal_left_2_sprite, this.keep_goal_left_3_sprite, this.keep_goal_left_4_sprite, this.keep_goal_punch_sprite, this. keep_goal_right_1_sprite, this. keep_goal_right_2_sprite,this. keep_goal_right_3_sprite,this. keep_goal_right_1_sprite,this. keep_goal_right_4_sprite)
         list_goal.push(this.goal_center_anims_sprite, this.goal_left_sprite, this.goal_right_sprite);
     }
@@ -443,7 +430,7 @@ export default class Game extends Phaser.Scene{
         var b=startY-endY;
         var k=Math.atan2(b,a)
         increase_x=k>1?k:(-1/k)
-        console.log(increase_x)
+
         
         if(a>0){
 

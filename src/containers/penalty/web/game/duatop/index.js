@@ -16,7 +16,14 @@ export default class Duatop extends React.Component {
                 height: 675,
                 type: Phaser.AUTO,
                 autoCenter: Phaser.Scale.CENTER_BOTH,
-                scene: [BootScene]
+                scene: [BootScene],
+                physics:{
+                    default:'arcade',
+                    arcade:{
+                        gravity:{y:0},
+                        debug:true
+                    }
+                }
             }
           
         }
