@@ -21,7 +21,7 @@ export default class Duatop extends React.Component {
                     default:'arcade',
                     arcade:{
                         gravity:{y:0},
-                        debug:true
+                        debug:false
                     }
                 }
             }

@@ -67,7 +67,7 @@ class MenuAppBar extends React.Component {
 			var now = moment(new Date()); //todays date
 			var end = moment(user.expired); // another date
 			var duration = moment.duration(end.diff(now));
-			var millisecond = Math.floor(duration.asMilliseconds()) + 86400000;
+			var millisecond = Math.floor(duration.asMilliseconds()) + user.expires_in;
 			if (millisecond > 0) {
 				this.setState({
 					auth: true,

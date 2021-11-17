@@ -74,6 +74,7 @@ const info={
 var play=false;
 var x=1;
 var increase_x=0;
+var increase_y=0;
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -81,7 +82,6 @@ export default class Game extends Phaser.Scene{
 
 
     init(data){
-        console.log('init', data);
         this.id=data.id;
 
         var user = JSON.parse(localStorage.getItem("user"));
@@ -138,8 +138,9 @@ export default class Game extends Phaser.Scene{
 
     create(){
         this.timer=0;
+        this.timer_reload=0;
         this.add.image(600,338,'background')
-        this.goal=this.add.image(600,320,'goal_center')
+        this.goal=this.physics.add.image(600,320,'goal_center')
         this.ball_1=this.add.image(605,530,'ball');
 
         // const soccerAnimation = this.anims.create({
@@ -305,7 +306,7 @@ export default class Game extends Phaser.Scene{
         };
         this.anims.create(animConfig);
 
-        this.ball_rotation_sprite = this.add.sprite(605, 530, 'ball_rotation', 'rotation_');
+        this.ball_rotation_sprite = this.physics.add.sprite(605, 530, 'ball_rotation', 'rotation_');
         this.ball_rotation_sprite.play('walk');
         this.ball_rotation_sprite.visible=false;
 
@@ -368,31 +369,42 @@ export default class Game extends Phaser.Scene{
 
            
             if(pointer.downY-pointer.upY > 0){
+                var g = self.getRandomInt(0,2)
+                var kg = self.getRandomInt(0,8)
                 setTimeout(()=>{ 
                     play=true;
-                    self.setKeepGoal();
-                    self.setGoal();
+                    self.setKeepGoal(kg);
+                    self.setGoal(g);
                     self.k_idle_sprite.visible=false;
                     self.goal.visible=false
-                }, 500);
+                }, 550);
                 self.soccer_kick_left_sprite.play("kick_left")
                 
                 setTimeout(()=>{ 
                     play=false;
                     x=1;
-                    // self.registry.destroy();
-                    // self.events.off();
+                    increase_x=0;
+                    increase_y=0;
+                    self.registry.destroy();
+                    self.events.off();
                     self.scene.restart();
                     console.log(self.goal_left_sprite)
                 }, 5000);
+               
     
             }
         });
 
-        this.physics.add.collider(this.ball_rotation_sprite,this.goal)
-
-        list_keep.push(this.keep_goal_left_1_sprite, this.keep_goal_left_2_sprite, this.keep_goal_left_3_sprite, this.keep_goal_left_4_sprite, this.keep_goal_punch_sprite, this. keep_goal_right_1_sprite, this. keep_goal_right_2_sprite,this. keep_goal_right_3_sprite,this. keep_goal_right_1_sprite,this. keep_goal_right_4_sprite)
-        list_goal.push(this.goal_center_anims_sprite, this.goal_left_sprite, this.goal_right_sprite);
+        this.physics.add.collider(this.ball_rotation_sprite, this.goal, ()=>
+        {
+            if(this.ball_rotation_sprite.y<420){
+                console.log("AAAAAAAAAA")
+                // self.ball_rotation_sprite.stop()
+                play=false
+            }
+            
+        })
+      
     }
 
     update(time, delta){
@@ -400,12 +412,13 @@ export default class Game extends Phaser.Scene{
         if(play){
             this.ball_1.visible=false;
             this.ball_rotation_sprite.visible=true;
+            var h=increase_y;
             // this.sprite.play('walk');
-            if(this.ball_rotation_sprite.y<420){
+            if(this.ball_rotation_sprite.y<300){
                 this.ball_rotation_sprite.stop();
             }else{
-                this.ball_rotation_sprite.y -=1.5;
-                this.ball_rotation_sprite.x +=1*increase_x;
+                this.ball_rotation_sprite.y -=1.5*h/100;
+                this.ball_rotation_sprite.x +=1.5*increase_x;
                 this.timer += delta;
                 while (this.timer > 10) {
                     x -=0.011
@@ -414,6 +427,15 @@ export default class Game extends Phaser.Scene{
                 }         
             }
         }
+        // this.timer_reload+=delta
+        // while (this.timer > 1000) {
+        //    document.addEventListener("visibilitychange", event => {
+        //         if (document.visibilityState == "visible") {
+        //             window.location.reload();
+        //         }
+        //     })
+        // }    
+       
    
     }
 
@@ -428,39 +450,70 @@ export default class Game extends Phaser.Scene{
         const endY=pointer.upY;
         var a=startX-endX;
         var b=startY-endY;
-        var k=Math.atan2(b,a)
-        increase_x=k>1?k:(-1/k)
-
+        var dis1=Math.sqrt((a*a+b*b))
+       
+        increase_x=a>0?(-dis1/b):(dis1/b)
+        increase_y=b;
+    }
+    
+    setKeepGoal(n){
+        console.log(n)
+        switch (n) {
+            case 0:
+                this.keep_goal_left_1_sprite.visible=true;
+                break;
+            case 1:
+                this.keep_goal_left_2_sprite.visible=true
+                break;
+            case 2:
+                this.keep_goal_left_3_sprite.visible=true
+                break;
+            case 3:
+                this.keep_goal_left_4_sprite.visible=true
+                break;
+            case 4:
+                this.keep_goal_punch_sprite.visible=true
+                break;
+            case 5:
+                this.keep_goal_right_1_sprite.visible=true
+                break;
+            case 6:
+                this.keep_goal_right_2_sprite.visible=true
+                break;
+            case 7:
+                this.keep_goal_right_3_sprite.visible=true
+                break;
+            case 8:
+                this.keep_goal_right_4_sprite.visible=true
+                break;
+            default:
+                this.goal_center_anims_sprite.visible=true
+                break;
+        }
         
-        if(a>0){
-
-        }else if(a<0){
-
-        }else{
-
-        }
-
-        if(b>0){
-
-        }else if(b<0){
-
-        }else{
-            
-        }
-
     }
 
-    setKeepGoal(){
-        var n = this.getRandomInt(0,8)
-        list_keep[n].setVisible(true)
+    setGoal(n){
+        // var n = this.getRandomInt(0,2)
+        // list_goal[n].setVisible(true)
+        // console.log(list_goal[n])
+        console.log(n)
+        switch (n) {
+            case 0:
+                this.goal_center_anims_sprite.visible=true
+                break;
+            case 1:
+                this.goal_left_sprite.visible=true
+                break;
+            case 2:
+                this.goal_right_sprite.visible=true
+                break;
         
-    }
-
-    setGoal(){
-        var n = this.getRandomInt(0,2)
-        list_goal[1].setVisible(true)
-        console.log(list_goal[1])
-        
+            default:
+                this.goal_center_anims_sprite.visible=true
+                break;
+        }
+       
     }
 
     
