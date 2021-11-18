@@ -160,7 +160,7 @@ class Lucky_Rotation extends React.Component {
 			type_action:'',
 			showRollup:false,
 			listSanqua:[],
-			message_sanqua_empty:''
+			message_sanqua_empty:'',
 		};
 	}
 	componentWillMount(){
@@ -190,10 +190,11 @@ class Lucky_Rotation extends React.Component {
 		// }
 		$('#Modalbanner').modal('show');
 
-		// localStorage.setItem("update29", true);
-		
 
-		// this.getVinhDanh(1,1);
+		// localStorage.setItem("update29", true);
+	
+
+		this.getVinhDanh(1,0);
 		$('.popover-visible-trigger').popover('show').off('click'); 
 
 
@@ -202,7 +203,7 @@ class Lucky_Rotation extends React.Component {
 		} 
 
 		// if (user !== null) {
-		// 	this.props.checkRollup(user.Token).then(()=>{
+		// 	this.props.checkRollup(user.access_token).then(()=>{
 		// 		var data=this.props.dataCheckRollup;
 		// 		if(data!==undefined){
 		// 			if(data.Status===0){
@@ -249,7 +250,7 @@ class Lucky_Rotation extends React.Component {
 		document.getElementById("username").value="";
 		document.getElementById("numberDart").value="";
 		if (user !== null) {
-			this.props.getInfoDonate(user.Token).then(()=>{
+			this.props.getInfoDonate(user.access_token).then(()=>{
 				var data=this.props.dataInfoDonate;
 				if(data!==undefined){
 					if(data.Status===0){
@@ -260,7 +261,7 @@ class Lucky_Rotation extends React.Component {
 				}
 			})
 		}else {
-			$('#Modaldangnhap').modal('show');
+			$('#tb').modal('show');
 		}
 	}
 
@@ -313,12 +314,22 @@ class Lucky_Rotation extends React.Component {
 
 	getVinhDanh=(type, pageNumber)=>{
 		const {limit}=this.state;
-		var offsetVinhDanh=(pageNumber-1)*limit;
+		var data= {...info}
+		data.gameId=1;
+		data.serverId=1;
+		data.modeId=type;
+		data.type=5;
+		data.fromDate=-1;
+		data.toDate=-1;
+		data.pageIndex=pageNumber;
+		data.pageSize=10;
 		this.setState({type:type, listVinhDanh:[], countVinhDanh:0}, ()=>{
-			this.props.getVinhDanh(limit, offsetVinhDanh, type).then(()=>{
+			this.props.getVinhDanh(data).then(()=>{
+				
 				var data=this.props.dataVinhDanh;
+				console.log(data)
 				if(data!==undefined){
-					if(data.Status===0){
+					if(data.code > 0){
 						var listVinhDanh=data.Data;
 						this.setState({listVinhDanh:data.Data, countVinhDanh:data.Totals})
 					}else{
@@ -447,19 +458,14 @@ class Lucky_Rotation extends React.Component {
 	}
 
 	showModalTuDo=()=>{
-		// var user = JSON.parse(localStorage.getItem("user"));
-		// if (user !== null) {
-		// 	if(user.VipLevel!==0){
-		// 		this.getDataTuDo(user);
-		// 		$('#Modaltudo').modal('show');
-		// 	}else{
-		// 		$('#activeVip').modal('show');
-		// 	}
-		// }else {
-		// 	$('#Modaldangnhap').modal('show');
-		// }
+		var user = JSON.parse(localStorage.getItem("user"));
+		if (user !== null) {
+			this.getDataTuDo(user);
+		}else {
+			$('#tb').modal('show');
+		}
 		
-		$('#td_web').modal('show');
+		
 	}
 
 
@@ -468,31 +474,43 @@ class Lucky_Rotation extends React.Component {
 		$('#huongdan_web').modal('show');
 	}
 
+  
 	getDataTuDo=(user)=>{
 		const {limit, activeTuDo}=this.state;
-		var offsetTuDo=(activeTuDo-1)*limit;
+		var data= {...info}
+		data.gameId=1;
+		data.serverId=1;
+		data.modeId=1;
+		data.userId= user.uid;
+		data.type=5;
+		data.fromDate=-1;
+		data.toDate=-1;
+		data.pageIndex=activeTuDo;
+		data.pageSize=limit;
 		// $('#Loading').modal('show');
 		this.setState({tab_tudo: true})
-		// this.props.getTuDo(user.Token, limit, offsetTuDo).then(()=>{
-		// 	// $('#Loading').modal('hide');
-		// 	var data=this.props.dataTuDo;
-		// 	if(data!==undefined){
-		// 		if(data.Status===0){
-		// 			this.setState({listTuDo:data.Data, countTuDo:data.Totals, noti_tudo:false})
-		// 		}else if(data.Status===3){
-		// 			this.logoutAction();
-		// 		}else{
+		this.props.getTuDo(user.access_token, data).then(()=>{
+			// $('#Loading').modal('hide');
+			var d=this.props.dataTuDo;
+			if(d!==undefined){
+				if(d.Status===0){
+					this.setState({listTuDo:d.Data, countTuDo:d.Totals, noti_tudo:false}, ()=>{
+						$('#td_web').modal('show');
+					})
+				}else if(d.Status===3){
+					this.logoutAction();
+				}else{
 				
-		// 			this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'}, ()=>{
-		// 				$('#myModal11').modal('show');
-		// 			})
-		// 		}
-		// 	}else{
-		// 		$('#myModal12').modal('show');
-		// 		this.setState({server_err:true})
-		// 	}
+					this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'}, ()=>{
+						$('#myModal11').modal('show');
+					})
+				}
+			}else{
+				$('#myModal12').modal('show');
+				this.setState({server_err:true})
+			}
 			
-		// });
+		});
 	}
 
 	getHistory=(user)=>{
@@ -500,7 +518,7 @@ class Lucky_Rotation extends React.Component {
 		var offsetHistory=(activeHistory-1)*limit;
 		// $('#Loading').modal('show');
 		this.setState({tab_tudo: false})
-		// this.props.getHistoryTuDo(user.Token, limit, offsetHistory).then(()=>{
+		// this.props.getHistoryTuDo(user.access_token, limit, offsetHistory).then(()=>{
 		// 	// $('#Loading').modal('hide');
 		// 	var data=this.props.dataHistoryTuDo;
 		// 	if(data!==undefined){
@@ -520,7 +538,7 @@ class Lucky_Rotation extends React.Component {
 	}
 
 	getItem=(user, item)=>{
-		this.props.getItemAward(user.Token, item.AwardId).then(()=>{
+		this.props.getItemAward(user.access_token, item.AwardId).then(()=>{
 			// $('#Loading').modal('hide');
 			var data=this.props.dataItemAward;
 			if(data!==undefined){
@@ -625,7 +643,7 @@ class Lucky_Rotation extends React.Component {
 		if (user !== null) {
 			$('#activeVip').modal('show');
 		}else {
-			$('#Modaldangnhap').modal('show');
+			$('#tb').modal('show');
 		}
 	}
 
@@ -781,7 +799,7 @@ class Lucky_Rotation extends React.Component {
 				}
 			})
 		}else {
-			$('#Modaldangnhap').modal('show');
+			$('#tb').modal('show');
 		}
 
 	}
@@ -793,7 +811,7 @@ class Lucky_Rotation extends React.Component {
 
 		var user = JSON.parse(localStorage.getItem("user"));
 		if (user !== null) {
-			this.props.getDonate(user.Token, username, numberDart, code).then(()=>{
+			this.props.getDonate(user.access_token, username, numberDart, code).then(()=>{
 				var data=this.props.dataDonate;
 				console.log(data)
 				if(data!==undefined){
@@ -811,7 +829,7 @@ class Lucky_Rotation extends React.Component {
 				}
 			})
 		}else {
-			$('#Modaldangnhap').modal('show');
+			$('#tb').modal('show');
 		}
 	}
 
@@ -819,7 +837,7 @@ class Lucky_Rotation extends React.Component {
 	getListSanQua=()=>{
 		var user = JSON.parse(localStorage.getItem("user"));
 		if (user !== null) {
-			this.props.getListSanQua(user.Token).then(()=>{
+			this.props.getListSanQua(user.access_token).then(()=>{
 				var data=this.props.dataSanqua;
 				if(data!==undefined){
 					if(data.Status===0){
@@ -834,7 +852,7 @@ class Lucky_Rotation extends React.Component {
 				}
 			})
 		}else {
-			$('#Modaldangnhap').modal('show');
+			$('#tb').modal('show');
 		}
 	}
 
@@ -1266,7 +1284,7 @@ class Lucky_Rotation extends React.Component {
 									<div class="tab-content">
 									<div class="container text-center p-5">
 										<h4 class="pt-1 pb-3 font-UTMFacebookKT">Bạn vẫn chưa đăng nhập</h4>
-										<a href="#" title="Đăng nhập"><img src={btn_dangnhap} alt="" width="160" /></a>
+										<a title="Đăng nhập" onClick={this.loginAction}><img src={btn_dangnhap} alt="" width="160" /></a>
 									</div>
 									</div>
 									

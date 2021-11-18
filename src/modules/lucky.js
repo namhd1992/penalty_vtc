@@ -10,6 +10,7 @@ export const LUCKY_VINH_DANH='lucky/LUCKY_VINH_DANH';
 export const LUCKY_INFO='lucky/LUCKY_INFO'
 export const DATA_USER_SPIN='lucky/DATA_USER_SPIN';
 export const ITEM_AWARD='lucky/ITEM_AWARD';
+export const VIEW_ITEM_AWARD='lucky/VIEW_ITEM_AWARD';
 export const LUCKY_SESSIONS='lucky/LUCKY_SESSIONS';
 export const INFO_USER_RESPONSE='lucky/INFO_USER_RESPONSE';
 export const DONATE='lucky/DONATE';
@@ -104,6 +105,12 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				dataItemAward: action.data,
+				waiting: false
+			}
+		case VIEW_ITEM_AWARD:
+			return {
+				...state,
+				dataViewItemAward: action.data,
 				waiting: false
 			}
 		case LUCKY_SESSIONS:
@@ -250,7 +257,7 @@ export const checkRollup = (token, data) => {
 		dispatch({
 			type: LUCKY_REQUEST
 		})
-		var url = Ultilities.base_url() + "/users/api/v1/account/getbonus"
+		var url = Ultilities.base_url() + "/pay/api/v1/bonus/rollup"
 		return axios.post(url, data, header).then(function (response) {
 			console.log(response)
 			dispatch({
@@ -319,6 +326,111 @@ export const sessionInPlay = (token, data) => {
 		})
 	}
 }
+
+
+export const getVinhDanh = (data) => {
+
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "/catalog/api/v1/rewards/winners"
+		return axios.post(url, data).then(function (response) {
+			console.log(response)
+			dispatch({
+				type: LUCKY_VINH_DANH,
+				data: response.data
+			})
+		}).catch(function (error) {
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
+}
+
+export const getTuDo = (token, data) => {
+	var header = {
+		headers: {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		}
+	}
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "/users/api/v1/giftbox/history"
+		return axios.post(url, data, header).then(function (response) {
+			console.log(response)
+			dispatch({
+				type: LUCKY_TU_DO,
+				data: response.data
+			})
+		}).catch(function (error) {
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
+}
+
+
+export const getItemAward = (token, data) => {
+	var header = {
+		headers: {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		}
+	}
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "/users/api/v1/giftbox/open"
+		return axios.post(url, data, header).then(function (response) {
+			console.log(response)
+			dispatch({
+				type: ITEM_AWARD,
+				data: response.data
+			})
+		}).catch(function (error) {
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
+}
+
+export const viewItemAward = (token, data) => {
+	var header = {
+		headers: {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		}
+	}
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "/users/api/v1/giftbox/view"
+		return axios.post(url, data, header).then(function (response) {
+			console.log(response)
+			dispatch({
+				type: VIEW_ITEM_AWARD,
+				data: response.data
+			})
+		}).catch(function (error) {
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
+}
+
+
+
+
 
 
 
@@ -885,57 +997,6 @@ export const gdssssss = (type, points,sessionId,  token, code_key) => {
 }
 
 
-export const getVinhDanh = (limit, offset, type) => {
-	var header = {
-		headers: {
-			"Content-Type": "application/json",
-			// "token": token,
-		}
-	}
-	return dispatch => {
-		dispatch({
-			type: LUCKY_REQUEST
-		})
-		var url = Ultilities.base_url() + "darts/award-table/?type="+type+"&limit=" + limit + "&offset=" + offset;
-		return axios.get(url, header).then(function (response) {
-			dispatch({
-				type: LUCKY_VINH_DANH,
-				data: response.data
-			})
-		}).catch(function (error) {
-			dispatch({
-				type: SERVER_ERROR
-			})
-		})
-	}
-}
-
-export const getTuDo = (token, limit, offset) => {
-	var header = {
-		headers: {
-			"Content-Type": "application/json",
-			"token": token,
-		}
-	}
-	return dispatch => {
-		dispatch({
-			type: LUCKY_REQUEST
-		})
-		var url = Ultilities.base_url() + "darts/user-awards?offset=" + offset + "&limit=" + limit;
-		return axios.get(url, header).then(function (response) {
-			dispatch({
-				type: LUCKY_TU_DO,
-				data: response.data
-			})
-		}).catch(function (error) {
-			dispatch({
-				type: SERVER_ERROR
-			})
-		})
-	}
-}
-
-
 export const getHistoryTuDo = (token, limit, offset) => {
 	var header = {
 		headers: {
@@ -981,33 +1042,6 @@ export const userLogout = (token) => {
 	})
 }
 
-
-
-
-export const getItemAward = (token, award_id) => {
-	var header = {
-		headers: {
-			"Content-Type": "application/json",
-			"token": token,
-		}
-	}
-	return dispatch => {
-		dispatch({
-			type: LUCKY_REQUEST
-		})
-		var url = Ultilities.base_url() + "darts/user-get-award?award-id=" + award_id;
-		return axios.get(url, header).then(function (response) {
-			dispatch({
-				type: ITEM_AWARD,
-				data: response.data
-			})
-		}).catch(function (error) {
-			dispatch({
-				type: SERVER_ERROR
-			})
-		})
-	}
-}
 
 export const getInfoUser = (token) => {
 	
