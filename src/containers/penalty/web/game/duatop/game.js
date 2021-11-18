@@ -397,7 +397,7 @@ export default class Game extends Phaser.Scene{
 
         this.physics.add.collider(this.ball_rotation_sprite, this.goal, ()=>
         {
-            if(this.ball_rotation_sprite.y<420){
+            if(this.ball_rotation_sprite.y<402){
                 console.log("AAAAAAAAAA")
                 // self.ball_rotation_sprite.stop()
                 play=false
@@ -410,7 +410,7 @@ export default class Game extends Phaser.Scene{
 
         this.physics.add.collider(this.ball_rotation_sprite, this.keep_goal_left_1_sprite, ()=>
         {
-            if(this.ball_rotation_sprite.y<420){
+            if(this.ball_rotation_sprite.y<400){
                 console.log("AAAAAAAAAA")
                 // self.ball_rotation_sprite.stop()
                 play=false
@@ -429,11 +429,12 @@ export default class Game extends Phaser.Scene{
             this.ball_1.visible=false;
             this.ball_rotation_sprite.visible=true;
             var h=increase_y;
+            var k=h > 100 ? h/100 : 1
             // this.sprite.play('walk');
             if(this.ball_rotation_sprite.y<300){
                 this.ball_rotation_sprite.stop();
             }else{
-                this.ball_rotation_sprite.y -=1.5*h/100;
+                this.ball_rotation_sprite.y -=1.5*k;
                 this.ball_rotation_sprite.x +=1.5*increase_x;
                 this.timer += delta;
                 while (this.timer > 10) {
@@ -542,6 +543,7 @@ export default class Game extends Phaser.Scene{
 }
 
 
+// y1:267 y2:432 x1:336 x2:864
 
         // this.idInfo = this.add.text(
         //     50, 
