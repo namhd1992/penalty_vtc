@@ -373,7 +373,7 @@ export default class Game extends Phaser.Scene{
                 var kg = self.getRandomInt(0,8)
                 setTimeout(()=>{ 
                     play=true;
-                    self.setKeepGoal(kg);
+                    self.setKeepGoal(0);
                     self.setGoal(g);
                     self.k_idle_sprite.visible=false;
                     self.goal.visible=false
@@ -402,6 +402,22 @@ export default class Game extends Phaser.Scene{
                 // self.ball_rotation_sprite.stop()
                 play=false
             }
+            // console.log("AAAAAAAAAA")
+            // // self.ball_rotation_sprite.stop()
+            // play=false
+            
+        })
+
+        this.physics.add.collider(this.ball_rotation_sprite, this.keep_goal_left_1_sprite, ()=>
+        {
+            if(this.ball_rotation_sprite.y<420){
+                console.log("AAAAAAAAAA")
+                // self.ball_rotation_sprite.stop()
+                play=false
+            }
+            // console.log("AAAAAAAAAA")
+            // // self.ball_rotation_sprite.stop()
+            // play=false
             
         })
       

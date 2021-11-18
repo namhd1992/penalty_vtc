@@ -285,7 +285,7 @@ export const sessionUpcomming = (token, data) => {
 		dispatch({
 			type: LUCKY_REQUEST
 		})
-		var url = Ultilities.base_url() + "/catalog/api/v1/rooms/inplay"
+		var url = Ultilities.base_url() + "/catalog/api/v1/rooms/upcoming"
 		return axios.post(url, data, header).then(function (response) {
 			console.log(response)
 			dispatch({
@@ -312,7 +312,7 @@ export const sessionInPlay = (token, data) => {
 		dispatch({
 			type: LUCKY_REQUEST
 		})
-		var url = Ultilities.base_url() + "/catalog/api/v1/rooms/upcoming"
+		var url = Ultilities.base_url() + "/catalog/api/v1/rooms/inplay"
 		return axios.post(url, data, header).then(function (response) {
 			console.log(response)
 			dispatch({

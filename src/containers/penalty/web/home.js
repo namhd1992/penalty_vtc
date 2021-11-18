@@ -19,7 +19,9 @@ import {
 	getDonate,
 	getInfoDonate,
 	checkRollup,
-	getListSanQua
+	getListSanQua,
+	sessionInPlay,
+	sessionUpcomming
 } from '../../../modules/lucky'
 import {
 	getData
@@ -323,25 +325,80 @@ class Lucky_Rotation extends React.Component {
 		data.toDate=-1;
 		data.pageIndex=pageNumber;
 		data.pageSize=10;
+		switch (type) {
+			case 1:
+				this.setState({bxh_tab_1:true, bxh_tab_2:false, bxh_tab_3:false})
+				break;
+			case 2:
+				this.setState({bxh_tab_1:false, bxh_tab_2:true, bxh_tab_3:false})
+				break;
+			case 3:
+				this.setState({bxh_tab_1:false, bxh_tab_2:false, bxh_tab_3:true})
+				break;
+		
+			default:
+				break;
+		}
 		this.setState({type:type, listVinhDanh:[], countVinhDanh:0}, ()=>{
 			this.props.getVinhDanh(data).then(()=>{
 				
 				var data=this.props.dataVinhDanh;
 				console.log(data)
+				// if(data!==undefined){
+				// 	if(data.code > 0){
+				// 		var listVinhDanh=data.Data;
+				// 		this.setState({listVinhDanh:data.Data, countVinhDanh:data.Totals})
+				// 	}else{
+				// 		$('#myModal11').modal('show');
+				// 		this.setState({message_error:'Không lấy được dữ liệu bảng vinh danh.'})
+				// 	}
+				// }else{
+				// 	$('#myModal12').modal('show');
+				// 	this.setState({server_err:true})
+				// }
+			});
+		})
+	}
+
+
+	getSessionUpcomming=()=>{
+
+	}
+  
+	getSessionInPlay=(type)=>{
+		var user = JSON.parse(localStorage.getItem("user"));
+		var data= {...info}
+		data.gameId=1;
+		data.serverId=1;
+		data.modeId=type;
+		if (user !== null) {
+			this.props.sessionInPlay(user.access_token, data).then(()=>{
+				var data=this.props.dataSessionInplay;
 				if(data!==undefined){
 					if(data.code > 0){
-						var listVinhDanh=data.Data;
-						this.setState({listVinhDanh:data.Data, countVinhDanh:data.Totals})
+						if(data.data!==null){
+							var info_seesion=data.data.room;
+							localStorage.setItem("info_seesion", JSON.stringify(info_seesion));
+							window.location.replace('/duatop')
+							this.setState({})
+						}else{
+							this.setState({message_error:"Hiện chưa có phiên nào."}, ()=>{
+								$('#tb_err').modal('show');
+							})
+						}
+					
 					}else{
-						$('#myModal11').modal('show');
-						this.setState({message_error:'Không lấy được dữ liệu bảng vinh danh.'})
+						this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
+							$('#tb_err').modal('show');
+						})
 					}
 				}else{
-					$('#myModal12').modal('show');
 					this.setState({server_err:true})
 				}
 			});
-		})
+		}else {
+			$('#tb').modal('show');
+		}
 	}
 
 
@@ -434,8 +491,8 @@ class Lucky_Rotation extends React.Component {
 
 
 	timeConverter=(time)=>{
-		var start=time.substring(time.indexOf("(") +1,time.indexOf(")"));
-		var a = new Date(+start);
+		// var start=time.substring(time.indexOf("(") +1,time.indexOf(")"));
+		var a = new Date(time);
 		// var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 		var year = a.getFullYear();
 		var m=a.getMonth()+1
@@ -464,8 +521,6 @@ class Lucky_Rotation extends React.Component {
 		}else {
 			$('#tb').modal('show');
 		}
-		
-		
 	}
 
 
@@ -492,9 +547,10 @@ class Lucky_Rotation extends React.Component {
 		this.props.getTuDo(user.access_token, data).then(()=>{
 			// $('#Loading').modal('hide');
 			var d=this.props.dataTuDo;
+			console.log(d)
 			if(d!==undefined){
-				if(d.Status===0){
-					this.setState({listTuDo:d.Data, countTuDo:d.Totals, noti_tudo:false}, ()=>{
+				if(d.code>0){
+					this.setState({listTuDo:d.data.items, countTuDo:d.data.totalItems, noti_tudo:false}, ()=>{
 						$('#td_web').modal('show');
 					})
 				}else if(d.Status===3){
@@ -762,17 +818,7 @@ class Lucky_Rotation extends React.Component {
 		this.setState({tab_1:false, tab_2:false, tab_3:false, tab_4:false, tab_5:true})
 	}
 
-	bxh_tab1=()=>{
-		this.setState({bxh_tab_1:true, bxh_tab_2:false, bxh_tab_3:false})
-	}
 
-	bxh_tab2=()=>{
-		this.setState({bxh_tab_1:false, bxh_tab_2:true, bxh_tab_3:false})
-	}
-
-	bxh_tab3=()=>{
-		this.setState({bxh_tab_1:false, bxh_tab_2:false, bxh_tab_3:true})
-	}
 
 	rollup=()=>{
 		var user = JSON.parse(localStorage.getItem("user"));
@@ -925,9 +971,7 @@ class Lucky_Rotation extends React.Component {
 									</li>
 								</ul>
 								<div class="s-btn-options_web d-flex justify-content-around">
-									<Link to='/duatop'>
-										<a class="text-center" title="Đua TOP"><img src={btn_duatop} alt="Đua TOP" width="80%" /></a>
-									</Link>
+									<a class="text-center" title="Đua TOP" href="/duatop"><img src={btn_duatop} alt="Đua TOP" width="80%" /></a>
 									<a class="text-center" href="#" title="Giật Hũ Vàng"><img src={btn_giathuvang} alt="Đua TOP" width="80%" /></a>
 									<a class="text-center" href="#" title="Loại Trực Tiếp"><img src={btn_loaitructiep} alt="Đua TOP" width="80%" /></a>
 								</div>
@@ -935,98 +979,49 @@ class Lucky_Rotation extends React.Component {
 							<div class="s-bvd_web position-relative">
 								<ul class="nav justify-content-center flex-nowrap font-3vw_web">
 									<li class="nav-item text-nowrap" style={{width: "30%"}}>
-										<a class={bxh_tab_1 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} style={{cursor: "pointer"}} title="Đua TOP" onClick={this.bxh_tab1}>ĐUA TOP</a>
+										<a class={bxh_tab_1 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} style={{cursor: "pointer"}} title="Đua TOP" onClick={()=>this.getVinhDanh(1,1)}>ĐUA TOP</a>
 									</li>
 									<li class="nav-item text-nowrap" style={{width: "30%"}}>
-										<a class={bxh_tab_2 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} style={{cursor: "pointer"}} title="Giật Hũ Vàng" onClick={this.bxh_tab2}>GIẬT HŨ VÀNG</a>
+										<a class={bxh_tab_2 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} style={{cursor: "pointer"}} title="Giật Hũ Vàng" onClick={()=>this.getVinhDanh(2,1)}>GIẬT HŨ VÀNG</a>
 									</li>
 									<li class="nav-item text-nowrap" style={{width: "30%"}}>
-										<a class={bxh_tab_3 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} style={{cursor: "pointer"}} title="Loại Trực Tiếp" onClick={this.bxh_tab3}>LOẠI TRỰC TIẾP</a>
+										<a class={bxh_tab_3 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} style={{cursor: "pointer"}} title="Loại Trực Tiếp" onClick={()=>this.getVinhDanh(3,1)}>LOẠI TRỰC TIẾP</a>
 									</li>
 								</ul>
 								<div class="tab-content">
-								<div class="tab-pane container active" id="duatop">
-									<table class="table table-bordered text-white font-3vw_web font-UTMFacebookKT mt-4 mx-auto mb-0" style={{width: "90%"}}>
-										<thead>
-										<tr class="border-top-0 p-0">
-											<th class="border-start-0 border-top-0">TÀI KHOẢN</th>
-											<th class="border-top-0 ps-1">GIẢI THƯỞNG</th>
-											<th class="border-end-0 border-top-0 ps-1">THỜI GIAN</th>
-										</tr>
-										</thead>
-										<tbody>
-										<tr>
-											<td class="border-start-0 py-1">baodenvutxxxx</td>
-											<td class="ps-1 py-1">50K Topup Scoin</td>
-											<td class="border-end-0 ps-1 py-1">1/08/2021 10:25:01</td>
-										</tr>
-										</tbody>
-									</table>
-									<ul class="pagination pagination-sm justify-content-center font-3vw_web font-UTMFacebookKT" style={{margin: "5px 0"}}>
-										<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Trước</a></li>
-										<li class="page-item active"><a class="page-link bg-transparent text-white border-0" href="#">1</a></li>
-										<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">2</a></li>
-										<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">3</a></li>
-										<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Sau</a></li>
-									</ul>
-								</div>
-								<div class="tab-pane container fade" id="giathuvang">
-									<table class="table table-bordered text-white font-3vw_web font-UTMFacebookKT mt-4 mx-auto mb-0" style={{width: "90%"}}>
-										<thead>
-										<tr class="border-top-0 p-0">
-											<th class="border-start-0 border-top-0">TÀI KHOẢN</th>
-											<th class="border-top-0 ps-1">GIẢI THƯỞNG</th>
-											<th class="border-end-0 border-top-0 ps-1">THỜI GIAN</th>
-										</tr>
-										</thead>
-										<tbody>
-									
-										<tr>
-											<td class="border-start-0 py-1">baodenvutxxxx</td>
-											<td class="ps-1 py-1">50K Topup Scoin</td>
-											<td class="border-end-0 ps-1 py-1">1/08/2021 10:25:01</td>
-										</tr>
-										</tbody>
-									</table>
-									<ul class="pagination pagination-sm justify-content-center font-3vw_web font-UTMFacebookKT" style={{margin: "5px 0"}}>
-										<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Trước</a></li>
-										<li class="page-item active"><a class="page-link bg-transparent text-white border-0" href="#">1</a></li>
-										<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">2</a></li>
-										<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">3</a></li>
-										<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Sau</a></li>
-									</ul>
-								</div>
-								<div class="tab-pane container fade" id="loaitructiep">
-									<table class="table table-bordered text-white font-3vw_web font-UTMFacebookKT mt-4 mx-auto mb-0" style={{width: "90%"}}>
-										<thead>
-										<tr class="border-top-0 p-0">
-											<th class="border-start-0 border-top-0">TÀI KHOẢN</th>
-											<th class="border-top-0 ps-1">GIẢI THƯỞNG</th>
-											<th class="border-end-0 border-top-0 ps-1">THỜI GIAN</th>
-										</tr>
-										</thead>
-										<tbody>
-										<tr>
-											<td class="border-start-0 py-1">dtueduc0802xxxx</td>
-											<td class="ps-1 py-1">Thẻ Scoin 500K</td>
-											<td class="border-end-0 ps-1 py-1">30/09/2021 21:58:35</td>
-										</tr>
-										
-										<tr>
-											<td class="border-start-0 py-1">baodenvutxxxx</td>
-											<td class="ps-1 py-1">50K Topup Scoin</td>
-											<td class="border-end-0 ps-1 py-1">1/08/2021 10:25:01</td>
-										</tr>
-										</tbody>
-									</table>
-									<ul class="pagination pagination-sm justify-content-center font-3vw_web font-UTMFacebookKT" style={{margin: "5px 0"}}>
-										<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Trước</a></li>
-										<li class="page-item active"><a class="page-link bg-transparent text-white border-0" href="#">1</a></li>
-										<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">2</a></li>
-										<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">3</a></li>
-										<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Sau</a></li>
-									</ul>
-								</div>
+									<div class="tab-pane container active" id="duatop">
+										<table class="table table-bordered text-white font-3vw_web font-UTMFacebookKT mt-4 mx-auto mb-0" style={{width: "90%"}}>
+											<thead>
+											<tr class="border-top-0 p-0">
+												<th class="border-start-0 border-top-0">TÀI KHOẢN</th>
+												<th class="border-top-0 ps-1">GIẢI THƯỞNG</th>
+												<th class="border-end-0 border-top-0 ps-1">THỜI GIAN</th>
+											</tr>
+											</thead>
+											<tbody>
+												{listVinhDanh.map((obj, key) => (
+													<tr key={key}>
+														<td className="border-start-0 py-1">{obj.Username}</td>
+														<td class="ps-1 py-1">{obj.AwardName}</td>
+														<td className="border-end-0 ps-1 py-1">{this.timeConverter(obj.RewardTime)}</td>
+													</tr>
+												))}
+											</tbody>
+										</table>
+										<div className="pagination justify-content-center pag-custom">
+											<Pagination
+												activePage={activeVinhDanh}
+												itemsCountPerPage={10}
+												totalItemsCount={countVinhDanh}
+												pageRangeDisplayed={numberPage}
+												lastPageText={'Trang cuối'}
+												firstPageText={'Trang đầu'}
+												itemClass={"page-item"}
+												linkClass={"page-link"}
+												onChange={(v) => this.handlePageChangeVinhDanh(type,v)}
+											/>
+										</div> 
+									</div>
 								</div>    	
 							</div>
 							<div class="s-bottom_web position-relative">
@@ -1185,7 +1180,7 @@ class Lucky_Rotation extends React.Component {
 								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-td-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
 									<button type="button" class="btn-close float-end pe-5" onClick={this.closeTD} style={{marginRight: "3%"}}></button>
-									<div class="tab-hd w-100">
+									{/* <div class="tab-hd w-100">
 										<ul class="nav justify-content-center">
 										<li class="nav-item" style={{width: "43%"}}>
 											<a class={tab_tudo ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}}  title="Phần Thưởng" onClick={()=>this.getDataTuDo(user)}>&nbsp;</a>
@@ -1194,7 +1189,7 @@ class Lucky_Rotation extends React.Component {
 											<a class={tab_tudo ? "nav-link text-white font-3vw px-0 py-1" : "nav-link text-white font-3vw px-0 py-1 active"} style={{height: 45}} title="Lịch Sử" onClick={()=>this.getHistory(user)}>&nbsp;</a>
 										</li>
 										</ul> 
-									</div>
+									</div> */}
 								</div>
 								
 
@@ -1202,59 +1197,43 @@ class Lucky_Rotation extends React.Component {
 								<div class="modal-body bg-pop-td-body p-2rem py-1 font-3vw text-white">
 									{/* <!-- Tab panes --> */}
 									<div class="tab-content">
-									<div class="tab-pane container active" id="pt">
-										<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0">
-											<thead>
-											<tr class="border-top-0 p-0">
-												<th class="border-start-0 border-top-0">PHẦN THƯỞNG</th>
-												<th class="border-top-0 ps-1">NỘI DUNG</th>
-												<th class="border-top-0 ps-1">THỜI GIAN</th>
-												<th class="border-end-0 border-top-0 ps-1">MỞ QUÀ</th>
-											</tr>
-											</thead>
-											<tbody>
-											<tr>
-												<td class="border-start-0 py-1">Thẻ Scoin Voucher 10K</td>
-												<td class="ps-1 py-1">Thắng giải Săn Quà #171</td>
-												<td class="ps-1 py-1">30/09/2021 21:58:35</td>
-												<td class="border-end-0 ps-1 py-1"><a class="text-info" href="#mq" data-bs-toggle="modal" title="Mở Quà">Mở quà</a></td>
-											</tr>
-											
-											</tbody>
-										</table>
-										<ul class="pagination pagination-sm justify-content-center font-3vw font-UTMFacebookKT" style={{margin: "5px 0"}}>
-											<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Trước</a></li>
-											<li class="page-item active"><a class="page-link bg-transparent text-white border-0" href="#">1</a></li>
-											<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">2</a></li>
-											<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">3</a></li>
-											<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Sau</a></li>
-										</ul>
-									</div>
-									<div class="tab-pane container fade" id="ls">
-										<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-4 mx-auto mb-0">
-											<thead>
-											<tr class="border-top-0 p-0">
-												<th class="border-start-0 border-top-0">PHẦN THƯỞNG</th>
-												<th class="border-top-0 ps-1">NỘI DUNG</th>
-												<th class="border-end-0 border-top-0 ps-1">THỜI GIAN</th>
-											</tr>
-											</thead>
-											<tbody>
-											<tr>
-												<td class="border-start-0 py-1">baodenvutxxxx</td>
-												<td class="ps-1 py-1">50K Topup Scoin</td>
-												<td class="border-end-0 ps-1 py-1">1/08/2021 10:25:01</td>
-											</tr>
-											</tbody>
-										</table>
-										<ul class="pagination pagination-sm justify-content-center font-3vw font-UTMFacebookKT"  style={{margin: "5px 0"}}>
-											<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Trước</a></li>
-											<li class="page-item active"><a class="page-link bg-transparent text-white border-0" href="#">1</a></li>
-											<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">2</a></li>
-											<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">3</a></li>
-											<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Sau</a></li>
-										</ul>
-									</div>
+										<div class="tab-pane container active" id="pt">
+											<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0">
+												<thead>
+												<tr class="border-top-0 p-0">
+													<th class="border-start-0 border-top-0">PHẦN THƯỞNG</th>
+													<th class="border-top-0 ps-1">NỘI DUNG</th>
+													<th class="border-top-0 ps-1">THỜI GIAN</th>
+													<th class="border-end-0 border-top-0 ps-1">MỞ QUÀ</th>
+												</tr>
+												</thead>
+												<tbody>
+													{listTuDo.map((obj, key) => (
+														<tr key={key} class="bg-border-bottom">
+															<td class="border-start-0 py-1">{obj.AwardName}</td>
+															<td class="ps-1 py-1">{obj.AwardDisplay}</td>
+															<td className="ps-1 py-1">{this.timeConverter(obj.RewardTime)}</td>
+															{(obj.Status===1)?(<td class="border-end-0 ps-1 py-1"><a class="text-primary"  style={{cursor:'pointer'}} onClick={()=>this.getItem(user, obj)}>Mở quà</a></td>):(<td class="p-1 w-auto valign-middle position-relative"><a class="text-primary"  style={{cursor:'pointer'}} onClick={()=>this.getItem(user, obj)}>Mở quà</a><span class="badge badge-pill badge-danger position-absolute noti-tudo">!</span></td>)}
+															
+														</tr>
+													))}		
+												
+												</tbody>
+											</table>
+											<div className="pagination justify-content-center pag-custom mt-1">
+												<Pagination
+													activePage={activeTuDo}
+													itemsCountPerPage={limit}
+													totalItemsCount={countTuDo}
+													pageRangeDisplayed={numberPage}
+													lastPageText={'Trang cuối'}
+													firstPageText={'Trang đầu'}
+													itemClass={"page-item"}
+													linkClass={"page-link"}
+													onChange={(v) => this.handlePageChangeTuDo(v)}
+												/>
+											</div> 
+										</div>
 									</div>
 									
 								</div>
@@ -1273,26 +1252,22 @@ class Lucky_Rotation extends React.Component {
 							<div class="modal-dialog modal-dialog-scrollable">
 								<div class="modal-content modal-tb bg-transparent">
 
-								{/* <!-- Modal Header --> */}
-								<div class="modal-header bg-pop-tb-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
-									<button type="button" class="btn-close float-end pe-5" data-bs-dismiss="modal" style={{marginRight: "3%"}}></button>
-								</div>
-								
+									{/* <!-- Modal Header --> */}
+									<div class="modal-header bg-pop-tb-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
+										<button type="button" class="btn-close float-end pe-5" data-bs-dismiss="modal" style={{marginRight: "3%"}}></button>
+									</div>
+									
 
-								{/* <!-- Modal body --> */}
-								<div class="modal-body bg-pop-tb-body p-2rem py-1 font-3vw text-white">
-									<div class="tab-content">
-									<div class="container text-center p-5">
-										<h4 class="pt-1 pb-3 font-UTMFacebookKT">Bạn vẫn chưa đăng nhập</h4>
-										<a title="Đăng nhập" onClick={this.loginAction}><img src={btn_dangnhap} alt="" width="160" /></a>
+									{/* <!-- Modal body --> */}
+									<div class="modal-body bg-pop-tb-body p-2rem py-1 font-3vw text-white">
+										<div class="tab-content">
+										<div class="container text-center p-5">
+											<h4 class="pt-1 pb-3 font-UTMFacebookKT">Bạn vẫn chưa đăng nhập</h4>
+											<a title="Đăng nhập" onClick={this.loginAction}><img src={btn_dangnhap} alt="" width="160" /></a>
+										</div>
+										</div>
+										
 									</div>
-									</div>
-									
-								</div>
-								{/* <!-- Modal footer --> */}
-								<div class="modal-footer bg-pop-tb-bottom border-0">
-									
-								</div>
 
 								</div>
 							</div>
@@ -1343,6 +1318,32 @@ class Lucky_Rotation extends React.Component {
 						</div>
 					{/* <!-- End The Modal Mở quà --> */}
 
+					{/* <!-- The Modal Thông báo --> */}
+					<div class="modal fade" id="tb_err">
+						<div class="modal-dialog modal-dialog-scrollable">
+							<div class="modal-content modal-tb bg-transparent">
+
+								{/* <!-- Modal Header --> */}
+								<div class="modal-header bg-pop-tb-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
+									<button type="button" class="btn-close float-end pe-5" data-bs-dismiss="modal" style={{marginRight: "3%"}}></button>
+								</div>
+								
+
+								{/* <!-- Modal body --> */}
+								<div class="modal-body bg-pop-tb-body p-2rem py-1 font-3vw text-white">
+									<div class="tab-content">
+									<div class="container text-center p-5">
+										<h4 class="pt-1 pb-3 font-UTMFacebookKT">{message_error}</h4>
+									</div>
+									</div>
+									
+								</div>
+
+							</div>
+						</div>
+					</div>
+					{/* <!-- End The Modal --> */}
+
 
 				<ReactResizeDetector handleWidth={true} handleHeight={true} onResize={this.onResize} />
 
@@ -1352,6 +1353,8 @@ class Lucky_Rotation extends React.Component {
 }
 
 const mapStateToProps = state => ({
+	dataSessionInplay:state.lucky.dataSessionInplay,
+	dataSessionUpcomming:state.lucky.dataSessionUpcomming,
 	dataSanqua: state.lucky.dataSanqua,
 	dataRollup: state.lucky.dataRollup,
 	dataInfoDonate: state.lucky.dataInfoDonate,
@@ -1388,7 +1391,9 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 	getDonate,
 	getInfoDonate,
 	checkRollup,
-	getListSanQua
+	getListSanQua,
+	sessionInPlay,
+	sessionUpcomming
 }, dispatch)
 
 
