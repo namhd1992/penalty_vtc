@@ -956,12 +956,7 @@ class Lucky_Rotation extends React.Component {
 									</li>
 									<li class="nav-item text-center" style={{width: "24%"}}>
 										{isLogin ? (<div>
-											<span class="text-warning fw-bold">{user.Username}</span> <br />
-											{(user.VipLevel===0)?(<span class="text-white font-2vw_web">VIP Đồng <img src={vip_dong} alt="VIP Đồng" width="16" /></span>):(<span></span>)}
-											{(user.VipLevel===1)?(<span class="text-white font-2vw_web">VIP Đồng <img src={vip_dong} alt="VIP Đồng" width="16" /></span>):(<span></span>)}
-											{(user.VipLevel===2)?(<span class="text-white font-2vw_web">VIP Bạc <img src={vip_bac} alt="VIP Bạc" width="16" /></span>):(<span></span>)}
-											{(user.VipLevel===3)?(<span class="text-white font-2vw_web">VIP Vàng <img src={vip_vang} alt="VIP Vàng" width="16" /></span>):(<span></span>)}
-											{(user.VipLevel===4)?(<span class="text-white font-2vw_web">VIP Bạch kim <img src={vip_bachkim} alt="VIP Bạch kim" width="16" /></span>):(<span></span>)}
+											<span class="text-warning fw-bold">{user.nick_name}</span> <br />
 											<a class="fst-italic" onClick={this.logoutAction} style={{cursor:'pointer'}} title="Thoát">(Thoát)</a>
 											</div>): (
 											<a class="nav-link p-0 text-center text-white font-UTMFacebookKT"  onClick={this.loginAction} style={{cursor:'pointer'}} title="Đăng nhập"><img src={btn_dang_nhap} width="100%" alt="Đăng nhập" /></a>

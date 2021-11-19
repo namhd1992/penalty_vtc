@@ -85,13 +85,14 @@ export default class Game extends Phaser.Scene{
         this.id=data.id;
 
         var user = JSON.parse(localStorage.getItem("user"));
+        var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
         if(user!==null){
             var data= {...info}
             data.userId= bigInt(user.uid);
             data.gameId=1;
             data.serverId=1;
             data.modeId=1;
-            data.roomId=1;
+            data.roomId=info_seesion.id;
             data.rakingLimit=10
             var header = {
                 headers: {
@@ -113,6 +114,7 @@ export default class Game extends Phaser.Scene{
         this.load.image('background', backgound);
         this.load.image('goal_center', goal_center);
         this.load.image('ball', ball);
+        this.load.image('bg_bangxephang', opt_suttudong);
 
         this.load.atlas('ball_rotation', ball_rotation, ball_rotation_json);
         this.load.atlas('keep_goal_left_1', keep_goal_left_1, keep_goal_left_1_json);
@@ -129,11 +131,15 @@ export default class Game extends Phaser.Scene{
         this.load.atlas('goal_center_anims', goal_center_anims, goal_center_anims_json);
         this.load.atlas('goal_left', goal_left, goal_left_json);
         this.load.atlas('goal_right', goal_right, goal_right_json);
-        // this.load.spritesheet('ball_rotation',ball_rotation, { frameWidth: 80, frameHeight: 80, endFrame: 23 });
         this.load.atlas('k_idle',k_idle,k_idle_json);
 
-        // this.load.spritesheet('soccers', soccer, { frameWidth: 984, frameHeight: 1080 });
         
+        // this.load.image('bg_banthang', bg_banthang);
+        // this.load.image('bg_giaithuong', bg_giaithuong);
+        // this.load.image('opt_suttudong', opt_suttudong);
+        // this.load.image('btn_suttudong', btn_suttudong);
+        // this.load.image('bg_taikhoan', bg_taikhoan);
+        // this.load.image('bg_title_loaitructiep', bg_title_loaitructiep);
     }
 
     create(){
@@ -190,7 +196,7 @@ export default class Game extends Phaser.Scene{
         const keep_goal_left_1_Config = {
             key: 'k_left_1',
             frames: 'keep_goal_left_1',
-            frameRate: 15,
+            frameRate: 5,
             repeat: -2
         };
         this.anims.create(keep_goal_left_1_Config);
@@ -364,6 +370,14 @@ export default class Game extends Phaser.Scene{
         this.k_idle_sprite=this.add.sprite(600, 365, 'k_idle', 'k_idle_').play('k_id');
         this.k_idle_sprite.setScale(0.75,0.75);
 
+        // this.add.image(600,338,'bg_bangxephang')
+        // this.add.image(600,338,'bg_banthang')
+        // this.add.image(600,338,'bg_giaithuong')
+        // this.add.image(600,338,'btn_suttudong')
+        // this.add.image(600,338,'opt_suttudong')
+        // this.add.image(600,338,'bg_taikhoan')
+        // this.add.image(600,338,'bg_title_loaitructiep')
+
         this.input.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, function (pointer) {
             self.setBallLine(pointer)
 
@@ -373,11 +387,15 @@ export default class Game extends Phaser.Scene{
                 var kg = self.getRandomInt(0,8)
                 setTimeout(()=>{ 
                     play=true;
-                    self.setKeepGoal(0);
                     self.setGoal(g);
-                    self.k_idle_sprite.visible=false;
                     self.goal.visible=false
                 }, 550);
+
+                setTimeout(()=>{ 
+                    self.setKeepGoal(0);
+                    self.k_idle_sprite.visible=false;
+                }, 1500);
+
                 self.soccer_kick_left_sprite.play("kick_left")
                 
                 setTimeout(()=>{ 
@@ -424,7 +442,6 @@ export default class Game extends Phaser.Scene{
     }
 
     update(time, delta){
-       
         if(play){
             this.ball_1.visible=false;
             this.ball_rotation_sprite.visible=true;
@@ -435,7 +452,7 @@ export default class Game extends Phaser.Scene{
                 this.ball_rotation_sprite.stop();
             }else{
                 this.ball_rotation_sprite.y -=1.5*k;
-                this.ball_rotation_sprite.x +=1.5*increase_x;
+                this.ball_rotation_sprite.x +=1*increase_x;
                 this.timer += delta;
                 while (this.timer > 10) {
                     x -=0.011
