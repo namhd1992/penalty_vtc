@@ -114,7 +114,7 @@ export default class Game extends Phaser.Scene{
         this.load.image('background', backgound);
         this.load.image('goal_center', goal_center);
         this.load.image('ball', ball);
-        this.load.image('bg_bangxephang', opt_suttudong);
+        // this.load.image('bg_bangxephang', opt_suttudong);
 
         this.load.atlas('ball_rotation', ball_rotation, ball_rotation_json);
         this.load.atlas('keep_goal_left_1', keep_goal_left_1, keep_goal_left_1_json);
@@ -130,7 +130,7 @@ export default class Game extends Phaser.Scene{
         this.load.atlas('soccer_kick_right', soccer_kick_right, soccer_kick_right_json);
         this.load.atlas('goal_center_anims', goal_center_anims, goal_center_anims_json);
         this.load.atlas('goal_left', goal_left, goal_left_json);
-        this.load.atlas('goal_right', goal_right, goal_right_json);
+        this.load.atlas('goal_right', goal_right, goal_right_json);  
         this.load.atlas('k_idle',k_idle,k_idle_json);
 
         
@@ -392,8 +392,8 @@ export default class Game extends Phaser.Scene{
                 }, 550);
 
                 setTimeout(()=>{ 
-                    self.setKeepGoal(0);
-                    self.k_idle_sprite.visible=false;
+                    // self.setKeepGoal(0);
+                    // self.k_idle_sprite.visible=false;
                 }, 1500);
 
                 self.soccer_kick_left_sprite.play("kick_left")
@@ -413,32 +413,6 @@ export default class Game extends Phaser.Scene{
             }
         });
 
-        this.physics.add.collider(this.ball_rotation_sprite, this.goal, ()=>
-        {
-            if(this.ball_rotation_sprite.y<402){
-                console.log("AAAAAAAAAA")
-                // self.ball_rotation_sprite.stop()
-                play=false
-            }
-            // console.log("AAAAAAAAAA")
-            // // self.ball_rotation_sprite.stop()
-            // play=false
-            
-        })
-
-        this.physics.add.collider(this.ball_rotation_sprite, this.keep_goal_left_1_sprite, ()=>
-        {
-            if(this.ball_rotation_sprite.y<400){
-                console.log("AAAAAAAAAA")
-                // self.ball_rotation_sprite.stop()
-                play=false
-            }
-            // console.log("AAAAAAAAAA")
-            // // self.ball_rotation_sprite.stop()
-            // play=false
-            
-        })
-      
     }
 
     update(time, delta){
@@ -446,14 +420,19 @@ export default class Game extends Phaser.Scene{
             this.ball_1.visible=false;
             this.ball_rotation_sprite.visible=true;
             var h=increase_y;
-            var k=h > 100 ? h/100 : 1
+            console.log(h)
+           
+            var k=h > 100 ? h/100 : 1;
+
             // this.sprite.play('walk');
-            if(this.ball_rotation_sprite.y<300){
-                this.ball_rotation_sprite.stop();
+            if(this.ball_rotation_sprite.y<170){
+                // this.ball_rotation_sprite.stop();
+                x +=0.011
             }else{
                 this.ball_rotation_sprite.y -=1.5*k;
                 this.ball_rotation_sprite.x +=1*increase_x;
                 this.timer += delta;
+                this.ball_rotation_sprite.setAlpha(0.5)
                 while (this.timer > 10) {
                     x -=0.011
                     this.ball_rotation_sprite.setScale(x,x);
@@ -470,6 +449,33 @@ export default class Game extends Phaser.Scene{
         //     })
         // }    
        
+        if(h>250){
+            console.log("KKKKKKKKKK")
+        }else{
+            // this.physics.add.collider(this.ball_rotation_sprite, this.goal, ()=>
+            // {
+            //     if(this.ball_rotation_sprite.y<402){
+            //         console.log("AAAAAAAAAA")
+            //         // self.ball_rotation_sprite.stop()
+            //         play=false
+            //     }
+            //     // console.log("AAAAAAAAAA")
+            //     // // self.ball_rotation_sprite.stop()
+            //     // play=false
+                
+            // })
+    
+            // this.physics.add.collider(this.ball_rotation_sprite, this.keep_goal_left_1_sprite, ()=>
+            // {
+            //     if(this.ball_rotation_sprite.y<400){
+            //         console.log("AAAAAAAAAA")
+            //         // self.ball_rotation_sprite.stop()
+            //         play=false
+            //     } 
+            // })
+        }
+      
+      
    
     }
 

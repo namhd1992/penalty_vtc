@@ -242,10 +242,6 @@ class Lucky_Rotation extends React.Component {
 	}
 
 
-	showModalGiaiThuong=()=>{
-		$('#gt_web').modal('show');
-	}
-
 	showModalChuyenTieu=()=>{
 		var user = JSON.parse(localStorage.getItem("user"));
 		document.getElementById("code").value="";
@@ -344,25 +340,51 @@ class Lucky_Rotation extends React.Component {
 				
 				var data=this.props.dataVinhDanh;
 				console.log(data)
-				// if(data!==undefined){
-				// 	if(data.code > 0){
-				// 		var listVinhDanh=data.Data;
-				// 		this.setState({listVinhDanh:data.Data, countVinhDanh:data.Totals})
-				// 	}else{
-				// 		$('#myModal11').modal('show');
-				// 		this.setState({message_error:'Không lấy được dữ liệu bảng vinh danh.'})
-				// 	}
-				// }else{
-				// 	$('#myModal12').modal('show');
-				// 	this.setState({server_err:true})
-				// }
+				if(data!==undefined){
+					if(data.code > 0){
+						this.setState({listVinhDanh:data.data.items, countVinhDanh:data.data.totalItems})
+					}else{
+						
+						this.setState({message_error:'Không lấy được dữ liệu bảng vinh danh.'}, ()=>{
+							$('#tb_err').modal('show');
+						})
+					}
+				}else{
+					$('#myModal12').modal('show');
+					this.setState({server_err:true})
+				}
 			});
 		})
 	}
 
 
 	getSessionUpcomming=()=>{
-
+		var user = JSON.parse(localStorage.getItem("user"));
+		var data= {...info}
+		data.gameId=1;
+		data.serverId=1;
+		// data.modeId=type;
+		if (user !== null) {
+			this.props.sessionUpcomming(user.access_token, data).then(()=>{
+				var data=this.props.dataSessionUpcomming;
+				console.log(data)
+				if(data!==undefined){
+					if(data.code > 0){
+						this.setState({},()=>{
+							$('#gt_web').modal('show');
+						})
+					}else{
+						this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
+							$('#tb_err').modal('show');
+						})
+					}
+				}else{
+					this.setState({server_err:true})
+				}
+			});
+		}else {
+			$('#tb').modal('show');
+		}
 	}
   
 	getSessionInPlay=(type)=>{
@@ -380,7 +402,6 @@ class Lucky_Rotation extends React.Component {
 							var info_seesion=data.data.room;
 							localStorage.setItem("info_seesion", JSON.stringify(info_seesion));
 							window.location.replace('/duatop')
-							this.setState({})
 						}else{
 							this.setState({message_error:"Hiện chưa có phiên nào."}, ()=>{
 								$('#tb_err').modal('show');
@@ -411,7 +432,6 @@ class Lucky_Rotation extends React.Component {
 	}
 
 	loginAction = () => {
-		console.log("AAAAAAA")
 		const {server_err}=this.state;
 		// if(!server_err){
 		// 	if (typeof(Storage) !== "undefined") {
@@ -946,7 +966,7 @@ class Lucky_Rotation extends React.Component {
 										<a class="nav-link p-0 text-nowrap text-center text-white pt-1 font-UTMFacebookKT" onClick={this.showModalHuongDan} title="Hướng dẫn" style={{cursor: "pointer"}}>Hướng dẫn</a>
 									</li>
 									<li class="nav-item text-nowrap" style={{width: "16%"}}>
-										<a class="nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT" onClick={this.showModalGiaiThuong} title="Giải thưởng" style={{cursor: "pointer"}}>Giải thưởng</a>
+										<a class="nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT" onClick={this.getSessionUpcomming} title="Giải thưởng" style={{cursor: "pointer"}}>Giải thưởng</a>
 									</li>
 									<li class="nav-item text-nowrap" style={{width: "8%"}}>
 										<a class="nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT" onClick={this.showModalTuDo} data-bs-toggle="modal" title="Tủ đồ" style={{cursor: "pointer"}}>Tủ đồ</a>
@@ -996,9 +1016,9 @@ class Lucky_Rotation extends React.Component {
 											<tbody>
 												{listVinhDanh.map((obj, key) => (
 													<tr key={key}>
-														<td className="border-start-0 py-1">{obj.Username}</td>
-														<td class="ps-1 py-1">{obj.AwardName}</td>
-														<td className="border-end-0 ps-1 py-1">{this.timeConverter(obj.RewardTime)}</td>
+														<td className="border-start-0 py-1">{obj.userName}</td>
+														<td class="ps-1 py-1">{obj.rewardName}</td>
+														<td className="border-end-0 ps-1 py-1">{this.timeConverter(obj.winTime)}</td>
 													</tr>
 												))}
 											</tbody>
@@ -1021,17 +1041,17 @@ class Lucky_Rotation extends React.Component {
 							</div>
 							<div class="s-bottom_web position-relative">
 								<div class="d-flex justify-content-around pt-5">
-									<a style={{width:"30%"}} href="#" title="" target="_blank"><img src={btn_hdmtscoin} alt="Hướng dẫn mua thẻ scoin" width="100%" /></a>
-									<a style={{width:"30%"}} href="#" title="" target="_blank"><img src={btn_ntbsk} alt="Nhận thông báo sự kiện" width="100%" /></a>
+									<a style={{width:"30%"}} href="https://daily.scoin.vn/huong-dan-mua-the/" title="" target="_blank"><img src={btn_hdmtscoin} alt="Hướng dẫn mua thẻ scoin" width="100%" /></a>
+									<a style={{width:"30%"}} href="https://www.facebook.com/scoinvtcmobile" title="" target="_blank"><img src={btn_ntbsk} alt="Nhận thông báo sự kiện" width="100%" /></a>
 								</div>
 								<div class="d-flex justify-content-around pt-2">
-									<a style={{width:"30%"}} href="#" title="" target="_blank"><img src={btn_napgame} alt="Nạp Game" width="100%" /></a>
+									<a style={{width:"30%"}} href="https://scoin.vn/nap-game" title="" target="_blank"><img src={btn_napgame} alt="Nạp Game" width="100%" /></a>
 									<a style={{width:"30%"}} href="tel:19001104" title="" target="_blank"><img src={btn_hotline19001104} alt="19001104" width="100%" /></a>
 								</div>
 								<div class="d-flex justify-content-center align-items-center group-logo_web mt-5">
-									<a class="px-4" style={{width:"20%"}} href="#" title="" target="_blank"><img src={logo_scoin} alt="Scoin" width="100%" /></a>
+									<a class="px-4" style={{width:"20%"}} href="https://scoin.vn/" title="" target="_blank"><img src={logo_scoin} alt="Scoin" width="100%" /></a>
 									<a class="px-4" style={{width:"20%"}} href="#" title="" target="_blank"><img src={logo_splay} alt="Splay" width="100%" /></a>
-									<a class="px-4" style={{width:"20%"}} href="#" title="" target="_blank"><img src={logo_scoinvip} alt="Scoin VIP" width="100%" /></a>
+									<a class="px-4" style={{width:"20%"}} href="https://vip.scoin.vn/" title="" target="_blank"><img src={logo_scoinvip} alt="Scoin VIP" width="100%" /></a>
 								</div>
 								<div class="footer text-white font-3vw_web mt-5">
 									<p class="text-center">
