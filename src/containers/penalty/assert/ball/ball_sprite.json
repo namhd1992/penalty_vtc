@@ -4,8 +4,8 @@
 			"image": "ball_sprite.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 700,
-				"h": 100
+				"w": 714,
+				"h": 102
 			},
 			"scale": 1,
 			"frames": [
@@ -24,8 +24,8 @@
 						"h": 100
 					},
 					"frame": {
-						"x": 0,
-						"y": 0,
+						"x": 1,
+						"y": 1,
 						"w": 100,
 						"h": 100
 					}
@@ -45,8 +45,8 @@
 						"h": 100
 					},
 					"frame": {
-						"x": 100,
-						"y": 0,
+						"x": 103,
+						"y": 1,
 						"w": 100,
 						"h": 100
 					}
@@ -66,8 +66,8 @@
 						"h": 100
 					},
 					"frame": {
-						"x": 200,
-						"y": 0,
+						"x": 205,
+						"y": 1,
 						"w": 100,
 						"h": 100
 					}
@@ -87,8 +87,8 @@
 						"h": 100
 					},
 					"frame": {
-						"x": 300,
-						"y": 0,
+						"x": 307,
+						"y": 1,
 						"w": 100,
 						"h": 100
 					}
@@ -108,8 +108,8 @@
 						"h": 100
 					},
 					"frame": {
-						"x": 400,
-						"y": 0,
+						"x": 409,
+						"y": 1,
 						"w": 100,
 						"h": 100
 					}
@@ -129,8 +129,8 @@
 						"h": 100
 					},
 					"frame": {
-						"x": 500,
-						"y": 0,
+						"x": 511,
+						"y": 1,
 						"w": 100,
 						"h": 100
 					}
@@ -150,8 +150,8 @@
 						"h": 100
 					},
 					"frame": {
-						"x": 600,
-						"y": 0,
+						"x": 613,
+						"y": 1,
 						"w": 100,
 						"h": 100
 					}
@@ -162,6 +162,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:65c74a6c5867eba37d00e00093549744:dad7df074fdb40df65f10747af83d643:324e3737b66cb31d24cadf9851b69852$"
+		"smartupdate": "$TexturePacker:SmartUpdate:9753b6f8fad6efbb0e228f5d54deffb6:dad7df074fdb40df65f10747af83d643:324e3737b66cb31d24cadf9851b69852$"
 	}
 }

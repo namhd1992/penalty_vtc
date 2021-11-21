@@ -12,10 +12,13 @@ import backgound from '../../../assert/background.png';
 import ball from '../../../assert/ball.png';
 import goal_center from '../../../assert/goal_center.png';
 import ball_rotation from '../../../assert/ball/ball_sprite.png';
-import ball_rotation_json from '../../../assert/ball/ball_sprite.json'
+import ball_rotation_json from '../../../assert/ball/ball_sprite.json';
 
-import k_idle from '../../../assert/k_idle.png';
-import k_idle_json from '../../../assert/k_idle.json';
+import ball_lasted_collision from '../../../assert/ball/ball_sprite.png';
+import ball_lasted_collision_json from '../../../assert/ball/ball_sprite.json';
+
+import k_idle from '../../../assert/keep_goal/keep_goal_idle.png';
+import k_idle_json from '../../../assert/keep_goal/keep_goal_idle.json';
 
 import keep_goal_left_1 from '../../../assert/keep_goal/keep_goal_left_1.png';
 import keep_goal_left_1_json from '../../../assert/keep_goal/keep_goal_left_1.json';
@@ -42,7 +45,6 @@ import soccer_kick_left from '../../../assert/keep_goal/soccer_kick_left.png';
 import soccer_kick_left_json from '../../../assert/keep_goal/soccer_kick_left.json';
 import soccer_kick_right from '../../../assert/keep_goal/soccer_kick_right.png';
 import soccer_kick_right_json from '../../../assert/keep_goal/soccer_kick_right.json';
-import soccer from '../../../assert/keep_goal/soccer.png';
 
 import goal_center_anims from '../../../assert/goal_anims/goal_center_anims.png';
 import goal_center_anims_json from '../../../assert/goal_anims/goal_center_anims.json';
@@ -75,6 +77,8 @@ var play=false;
 var x=1;
 var increase_x=0;
 var increase_y=0;
+var ball_collision_goal=false;
+var ball_collision_keper=false;
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -117,6 +121,7 @@ export default class Game extends Phaser.Scene{
         // this.load.image('bg_bangxephang', opt_suttudong);
 
         this.load.atlas('ball_rotation', ball_rotation, ball_rotation_json);
+        this.load.atlas('ball_lasted_collision', ball_lasted_collision, ball_lasted_collision_json);
         this.load.atlas('keep_goal_left_1', keep_goal_left_1, keep_goal_left_1_json);
         this.load.atlas('keep_goal_left_2', keep_goal_left_2, keep_goal_left_2_json);
         this.load.atlas('keep_goal_left_3', keep_goal_left_3, keep_goal_left_3_json);
@@ -201,19 +206,17 @@ export default class Game extends Phaser.Scene{
         };
         this.anims.create(keep_goal_left_1_Config);
         this.keep_goal_left_1_sprite=this.add.sprite(675, 365, 'keep_goal_left_1', 'k_left_');
-        this.keep_goal_left_1_sprite.setScale(1.5,1.5);
         this.keep_goal_left_1_sprite.visible=false;
         this.keep_goal_left_1_sprite.play('k_left_1');
 
         const keep_goal_left_2_Config = {
             key: 'k_left_2',
             frames: 'keep_goal_left_2',
-            frameRate: 15,
+            frameRate: 6,
             repeat: -2
         };
         this.anims.create(keep_goal_left_2_Config);
-        this.keep_goal_left_2_sprite=this.add.sprite(750, 350, 'keep_goal_left_2', 'k_left2_');
-        this.keep_goal_left_2_sprite.setScale(1.5,1.5);
+        this.keep_goal_left_2_sprite=this.add.sprite(730, 361, 'keep_goal_left_2', 'k_left2_');
         this.keep_goal_left_2_sprite.visible=false;
         this.keep_goal_left_2_sprite.play('k_left_2');
 
@@ -221,60 +224,55 @@ export default class Game extends Phaser.Scene{
         const keep_goal_left_3_Config = {
             key: 'k_left_3',
             frames: 'keep_goal_left_3',
-            frameRate: 15,
+            frameRate: 6,
             repeat: -2
         };
         this.anims.create(keep_goal_left_3_Config);
         this.keep_goal_left_3_sprite=this.add.sprite(645, 365, 'keep_goal_left_3', 'k_left3_');
-        this.keep_goal_left_3_sprite.setScale(1.5,1.5);
         this.keep_goal_left_3_sprite.visible=false;
         this.keep_goal_left_3_sprite.play('k_left_3');
 
         const keep_goal_left_4_Config = {
             key: 'k_left_4',
             frames: 'keep_goal_left_4',
-            frameRate: 15,
+            frameRate: 8,
             repeat: -2
         };
         this.anims.create(keep_goal_left_4_Config);
-        this.keep_goal_left_4_sprite=this.add.sprite(740, 365, 'keep_goal_left_4', 'k_left4_');
-        this.keep_goal_left_4_sprite.setScale(1.5,1.5);
+        this.keep_goal_left_4_sprite=this.add.sprite(733, 365, 'keep_goal_left_4', 'k_left4_');
         this.keep_goal_left_4_sprite.visible=false;
         this.keep_goal_left_4_sprite.play('k_left_4');
         
         const keep_goal_punch_Config = {
             key: 'k_punch',
             frames: 'keep_goal_punch',
-            frameRate: 15,
+            frameRate: 8,
             repeat: -2
         };
         this.anims.create(keep_goal_punch_Config);
         this.keep_goal_punch_sprite=this.add.sprite(595, 365, 'keep_goal_punch', 'k_punch_');
-        this.keep_goal_punch_sprite.setScale(1.5,1.5);
         this.keep_goal_punch_sprite.visible=false;
         this.keep_goal_punch_sprite.play('k_punch');
 
         const keep_goal_right_1_Config = {
             key: 'k_right_1',
             frames: 'keep_goal_right_1',
-            frameRate: 15,
+            frameRate: 8,
             repeat: -2
         };
         this.anims.create(keep_goal_right_1_Config);
         this.keep_goal_right_1_sprite=this.add.sprite(525, 365, 'keep_goal_right_1', 'k_right1_');
-        this.keep_goal_right_1_sprite.setScale(1.5,1.5);
         this.keep_goal_right_1_sprite.visible=false;
         this.keep_goal_right_1_sprite.play('k_right_1');
 
         const keep_goal_right_2_Config = {
             key: 'k_right_2',
             frames: 'keep_goal_right_2',
-            frameRate: 15,
+            frameRate: 8,
             repeat: -2
         };
         this.anims.create(keep_goal_right_2_Config);
-        this.keep_goal_right_2_sprite=this.add.sprite(450, 355, 'keep_goal_right_2', 'k_right2_');
-        this.keep_goal_right_2_sprite.setScale(1.5,1.5);
+        this.keep_goal_right_2_sprite=this.add.sprite(465, 360, 'keep_goal_right_2', 'k_right2_');
         this.keep_goal_right_2_sprite.visible=false;
         this.keep_goal_right_2_sprite.play('k_right_2');
 
@@ -282,12 +280,11 @@ export default class Game extends Phaser.Scene{
         const keep_goal_right_3_Config = {
             key: 'k_right_3',
             frames: 'keep_goal_right_3',
-            frameRate: 15,
+            frameRate: 8,
             repeat: -2
         };
         this.anims.create(keep_goal_right_3_Config);
         this.keep_goal_right_3_sprite=this.add.sprite(560, 370, 'keep_goal_right_3', 'k_right3_');
-        this.keep_goal_right_3_sprite.setScale(1.5,1.5);
         this.keep_goal_right_3_sprite.visible=false;
         this.keep_goal_right_3_sprite.play('k_right_3');
 
@@ -295,12 +292,11 @@ export default class Game extends Phaser.Scene{
         const keep_goal_right_4_Config = {
             key: 'k_right_4',
             frames: 'keep_goal_right_4',
-            frameRate: 15,
+            frameRate: 8,
             repeat: -2
         };
         this.anims.create(keep_goal_right_4_Config);
-        this.keep_goal_right_4_sprite=this.add.sprite(475, 355, 'keep_goal_right_4', 'k_right4_');
-        this.keep_goal_right_4_sprite.setScale(1.5,1.5);
+        this.keep_goal_right_4_sprite=this.add.sprite(485, 365, 'keep_goal_right_4', 'k_right4_');
         this.keep_goal_right_4_sprite.visible=false;
         this.keep_goal_right_4_sprite.play('k_right_4');
 
@@ -315,6 +311,18 @@ export default class Game extends Phaser.Scene{
         this.ball_rotation_sprite = this.physics.add.sprite(605, 530, 'ball_rotation', 'rotation_');
         this.ball_rotation_sprite.play('walk');
         this.ball_rotation_sprite.visible=false;
+
+        const ball_lasted_collision_config = {
+            key: 'ball_lasted',
+            frames: 'ball_lasted_collision',
+            frameRate: 10,
+            repeat: -1
+        };
+        this.anims.create(ball_lasted_collision_config);
+
+        this.ball_lasted_collision_sprite = this.physics.add.sprite(605, 530, 'ball_lasted_collision', 'rotation_');
+        // this.ball_lasted_collision_sprite.play('ball_lasted');
+        this.ball_lasted_collision_sprite.visible=false;
 
 
         const soccer_kick_left_Config = {
@@ -336,7 +344,7 @@ export default class Game extends Phaser.Scene{
         };
         this.anims.create(soccer_kick_right_Config);
         this.soccer_kick_right_sprite=this.add.sprite(665, 365, 'soccer_kick_right', 'kick_right_');
-        // this.soccer_kick_right_sprite.setScale(1.5,1.5);
+    
         this.soccer_kick_right_sprite.visible=false;
 
 
@@ -358,7 +366,7 @@ export default class Game extends Phaser.Scene{
         const k_idleConfig = {
             key: 'k_id',
             frames: 'k_idle',
-            frameRate: 30,
+            frameRate: 50,
             repeat: -1
         };
         this.anims.create(k_idleConfig);
@@ -368,7 +376,7 @@ export default class Game extends Phaser.Scene{
     
         // this.add.sprite(400, 300, 'ball_rotation').play('explodeAnimation');
         this.k_idle_sprite=this.add.sprite(600, 365, 'k_idle', 'k_idle_').play('k_id');
-        this.k_idle_sprite.setScale(0.75,0.75);
+        // this.k_idle_sprite.visible=false;
 
         // this.add.image(600,338,'bg_bangxephang')
         // this.add.image(600,338,'bg_banthang')
@@ -381,7 +389,6 @@ export default class Game extends Phaser.Scene{
         this.input.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, function (pointer) {
             self.setBallLine(pointer)
 
-           
             if(pointer.downY-pointer.upY > 0){
                 var g = self.getRandomInt(0,2)
                 var kg = self.getRandomInt(0,8)
@@ -392,8 +399,8 @@ export default class Game extends Phaser.Scene{
                 }, 550);
 
                 setTimeout(()=>{ 
-                    // self.setKeepGoal(0);
-                    // self.k_idle_sprite.visible=false;
+                    self.setKeepGoal(kg);
+                    self.k_idle_sprite.visible=false;
                 }, 1500);
 
                 self.soccer_kick_left_sprite.play("kick_left")
@@ -407,9 +414,9 @@ export default class Game extends Phaser.Scene{
                     self.events.off();
                     self.scene.restart();
                     console.log(self.goal_left_sprite)
-                }, 5000);
+                }, 6000);
                
-    
+                console.log("AAAAAAAAA",self.ball_rotation_sprite)
             }
         });
 
@@ -419,26 +426,61 @@ export default class Game extends Phaser.Scene{
         if(play){
             this.ball_1.visible=false;
             this.ball_rotation_sprite.visible=true;
+            var power=0;
+            var ball_with_time=0;
             var h=increase_y;
-            console.log(h)
+            var m=0;
+            if(increase_x>-1.1 && increase_x<1.1){
+                m=1
+            }else{
+                m=1.5
+            }
+            console.log(m)
            
             var k=h > 100 ? h/100 : 1;
+            if(h>0 && h<110){
+                ball_with_time=0.0125;
+                power=415;
+            }else if(h>110 & h<250){
+                power=515-h;
+                ball_with_time=0.0135
+            }
+            console.log(increase_x)
 
             // this.sprite.play('walk');
-            if(this.ball_rotation_sprite.y<170){
+            if(this.ball_rotation_sprite.y<power){
+                this.ball_lasted_collision_sprite.setX(this.ball_rotation_sprite.x);
+                this.ball_lasted_collision_sprite.setY(this.ball_rotation_sprite.y);
+                this.ball_lasted_collision_sprite.setScale(this.ball_rotation_sprite._scaleX, this.ball_rotation_sprite._scaleY)
+                console.log("BBBB",this.ball_rotation_sprite)
+                this.ball_lasted_collision_sprite.visible=true;
+                this.ball_rotation_sprite.visible=false;
+
                 // this.ball_rotation_sprite.stop();
-                x +=0.011
+                this.ball_lasted_collision_sprite.y +=2;
+                this.ball_lasted_collision_sprite.x +=0.5;
+                // this.timer += delta;
+                // x +=0.01
+                // this.ball_rotation_sprite.setAlpha(0.5)
+                // while (this.timer > 5) {
+                //     x +=0.005
+                //     console.log("AAAAAAAA",x)
+                //     this.ball_rotation_sprite.setScale(x,x);
+                //     this.timer=0;
+                // }         
             }else{
-                this.ball_rotation_sprite.y -=1.5*k;
-                this.ball_rotation_sprite.x +=1*increase_x;
+               
+                this.ball_rotation_sprite.y -=2*k;
+                this.ball_rotation_sprite.x +=m*increase_x;
                 this.timer += delta;
-                this.ball_rotation_sprite.setAlpha(0.5)
-                while (this.timer > 10) {
-                    x -=0.011
+                // this.ball_rotation_sprite.setAlpha(0.5)
+                while (this.timer > 5) {
+                    x -=ball_with_time;
                     this.ball_rotation_sprite.setScale(x,x);
                     this.timer=0;
                 }         
             }
+            
         }
         // this.timer_reload+=delta
         // while (this.timer > 1000) {
@@ -475,8 +517,11 @@ export default class Game extends Phaser.Scene{
             // })
         }
       
-      
    
+    }
+
+    footballOut(){
+
     }
 
     setSizeBall(positionY){
@@ -497,7 +542,7 @@ export default class Game extends Phaser.Scene{
     }
     
     setKeepGoal(n){
-        console.log(n)
+        // console.log(n)
         switch (n) {
             case 0:
                 this.keep_goal_left_1_sprite.visible=true;
@@ -537,7 +582,7 @@ export default class Game extends Phaser.Scene{
         // var n = this.getRandomInt(0,2)
         // list_goal[n].setVisible(true)
         // console.log(list_goal[n])
-        console.log(n)
+        // console.log(n)
         switch (n) {
             case 0:
                 this.goal_center_anims_sprite.visible=true
