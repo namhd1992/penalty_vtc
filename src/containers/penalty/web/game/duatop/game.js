@@ -445,7 +445,6 @@ export default class Game extends Phaser.Scene{
                                     self.registry.destroy();
                                     self.events.off();
                                     self.scene.restart();
-                                    console.log(self.goal_left_sprite)
                                 }, 5000);
                             }else{
                                 console.log("Server đang lỗi.")
