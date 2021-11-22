@@ -435,7 +435,7 @@ export default class Game extends Phaser.Scene{
             }else{
                 m=1.5
             }
-            console.log(m)
+            console.log(h)
            
             var k=h > 100 ? h/100 : 1;
             if(h>0 && h<110){
@@ -443,7 +443,11 @@ export default class Game extends Phaser.Scene{
                 power=415;
             }else if(h>110 & h<250){
                 power=515-h;
-                ball_with_time=0.0135
+                ball_with_time=0.0145
+            }else{
+                power=515-h;
+                ball_with_time=0.02;
+                k=5
             }
             console.log(increase_x)
 
@@ -452,13 +456,12 @@ export default class Game extends Phaser.Scene{
                 this.ball_lasted_collision_sprite.setX(this.ball_rotation_sprite.x);
                 this.ball_lasted_collision_sprite.setY(this.ball_rotation_sprite.y);
                 this.ball_lasted_collision_sprite.setScale(this.ball_rotation_sprite._scaleX, this.ball_rotation_sprite._scaleY)
-                console.log("BBBB",this.ball_rotation_sprite)
                 this.ball_lasted_collision_sprite.visible=true;
                 this.ball_rotation_sprite.visible=false;
 
                 // this.ball_rotation_sprite.stop();
-                this.ball_lasted_collision_sprite.y +=2;
-                this.ball_lasted_collision_sprite.x +=0.5;
+                this.ball_lasted_collision_sprite.y +=25;
+                this.ball_lasted_collision_sprite.x +=50;
                 // this.timer += delta;
                 // x +=0.01
                 // this.ball_rotation_sprite.setAlpha(0.5)
