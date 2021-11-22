@@ -79,6 +79,9 @@ var increase_x=0;
 var increase_y=0;
 var ball_collision_goal=false;
 var ball_collision_keper=false;
+var is_ball_lasted=false;
+var result=0;
+var delta_alpha=1;
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -321,7 +324,7 @@ export default class Game extends Phaser.Scene{
         this.anims.create(ball_lasted_collision_config);
 
         this.ball_lasted_collision_sprite = this.physics.add.sprite(605, 530, 'ball_lasted_collision', 'rotation_');
-        // this.ball_lasted_collision_sprite.play('ball_lasted');
+        this.ball_lasted_collision_sprite.play('ball_lasted');
         this.ball_lasted_collision_sprite.visible=false;
 
 
@@ -386,54 +389,91 @@ export default class Game extends Phaser.Scene{
         // this.add.image(600,338,'bg_taikhoan')
         // this.add.image(600,338,'bg_title_loaitructiep')
 
+
         this.input.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, function (pointer) {
-            self.setBallLine(pointer)
-
+            var user = JSON.parse(localStorage.getItem("user"));
+            var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
             if(pointer.downY-pointer.upY > 0){
-                var g = self.getRandomInt(0,2)
-                var kg = self.getRandomInt(0,8)
-                setTimeout(()=>{ 
-                    play=true;
-                    self.setGoal(g);
-                    self.goal.visible=false
-                }, 550);
+                if(user!==null){
+                    var data= {...info}
+                    data.userId= bigInt(user.uid);
+                    data.gameId=1;
+                    data.serverId=1;
+                    data.modeId=1;
+                    data.roomId=info_seesion.id;
+                    data.x=1;
+                    data.y=1;
+                    data.z=1;
+                    data.zone=11;
+                    data.autoPlay=false
+                    var header = {
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${user.access_token}`,
+                            "dataType":"json"
+                        }
+                    }
+                    axios.post(Ultilities.base_url() +'/lobby/api/v1/race/playing', data, header).then(function (response) {
+                        if(response.data.code>=0){
+                            result=response.data.data.result;
+                            console.log("KKKKK", response.data.data.result)
+                        }else{
+                            console.log("Server đang lỗi.")
+                        }
+                    })
 
-                setTimeout(()=>{ 
-                    self.setKeepGoal(kg);
-                    self.k_idle_sprite.visible=false;
-                }, 1500);
+                    self.setBallLine(pointer)
+                    var g = self.getRandomInt(0,2)
+                    var kg = self.getRandomInt(0,8)
+                    setTimeout(()=>{ 
+                        play=true;
+                        // self.setGoal(g);
+                        // self.goal.visible=false
+                    }, 550);
 
-                self.soccer_kick_left_sprite.play("kick_left")
-                
-                setTimeout(()=>{ 
-                    play=false;
-                    x=1;
-                    increase_x=0;
-                    increase_y=0;
-                    self.registry.destroy();
-                    self.events.off();
-                    self.scene.restart();
-                    console.log(self.goal_left_sprite)
-                }, 6000);
-               
-                console.log("AAAAAAAAA",self.ball_rotation_sprite)
+                    setTimeout(()=>{ 
+                        self.setKeepGoal(kg);
+                        self.k_idle_sprite.visible=false;
+                    }, 1500);
+
+                    self.soccer_kick_left_sprite.play("kick_left")
+                    
+                    setTimeout(()=>{ 
+                        play=false;
+                        x=1;
+                        increase_x=0;
+                        increase_y=0;
+                        delta_alpha=1;
+                        is_ball_lasted=false;
+                        self.registry.destroy();
+                        self.events.off();
+                        self.scene.restart();
+                        console.log(self.goal_left_sprite)
+                    }, 5000);
+                }
             }
+
+          
         });
 
     }
 
     update(time, delta){
         if(play){
+            console.log(result)
+        
             this.ball_1.visible=false;
-            this.ball_rotation_sprite.visible=true;
+            if(!is_ball_lasted){
+                this.ball_rotation_sprite.visible=true;
+            }
             var power=0;
             var ball_with_time=0;
             var h=increase_y;
             var m=0;
-            if(increase_x>-1.1 && increase_x<1.1){
+            if(increase_x>-1.05 && increase_x<1.05){
                 m=1
             }else{
-                m=1.5
+                m=2
             }
             console.log(h)
            
@@ -452,38 +492,75 @@ export default class Game extends Phaser.Scene{
             console.log(increase_x)
 
             // this.sprite.play('walk');
-            if(this.ball_rotation_sprite.y<power){
-                this.ball_lasted_collision_sprite.setX(this.ball_rotation_sprite.x);
-                this.ball_lasted_collision_sprite.setY(this.ball_rotation_sprite.y);
-                this.ball_lasted_collision_sprite.setScale(this.ball_rotation_sprite._scaleX, this.ball_rotation_sprite._scaleY)
-                this.ball_lasted_collision_sprite.visible=true;
-                this.ball_rotation_sprite.visible=false;
-
-                // this.ball_rotation_sprite.stop();
-                this.ball_lasted_collision_sprite.y +=25;
-                this.ball_lasted_collision_sprite.x +=50;
-                // this.timer += delta;
-                // x +=0.01
-                // this.ball_rotation_sprite.setAlpha(0.5)
-                // while (this.timer > 5) {
-                //     x +=0.005
-                //     console.log("AAAAAAAA",x)
-                //     this.ball_rotation_sprite.setScale(x,x);
-                //     this.timer=0;
-                // }         
+            if(h<250){
+                if(this.ball_rotation_sprite.y<power){
+                    if(!is_ball_lasted){
+                        this.ball_rotation_sprite.visible=false;
+                        this.ball_lasted_collision_sprite.setX(this.ball_rotation_sprite.x);
+                        this.ball_lasted_collision_sprite.setY(this.ball_rotation_sprite.y);
+                        this.ball_lasted_collision_sprite.setScale(this.ball_rotation_sprite._scaleX, this.ball_rotation_sprite._scaleY)
+                        this.ball_lasted_collision_sprite.visible=true;
+                        is_ball_lasted=true;
+                    }
+                    if(result===2){
+                        this.goal.visible=false;
+                        if(increase_x > 1.05){
+                            this.goal_left_sprite.visible=true
+                        }else if(increase_x < -1.05){
+                            this.goal_right_sprite.visible=true
+                        }else{
+                            this.goal_center_anims_sprite.visible=true
+                        }
+                    }      
+                }else{
+                   
+                    this.ball_rotation_sprite.y -=2*k;
+                    this.ball_rotation_sprite.x +=m*increase_x;
+                    this.timer += delta;
+                    while (this.timer > 5) {
+                        x -=ball_with_time;
+                        this.ball_rotation_sprite.setScale(x,x);
+                        this.timer=0;
+                    }         
+                }
             }else{
-               
                 this.ball_rotation_sprite.y -=2*k;
                 this.ball_rotation_sprite.x +=m*increase_x;
                 this.timer += delta;
-                // this.ball_rotation_sprite.setAlpha(0.5)
                 while (this.timer > 5) {
                     x -=ball_with_time;
+                    delta_alpha -=0.01
                     this.ball_rotation_sprite.setScale(x,x);
+                    this.ball_rotation_sprite.setAlpha(delta_alpha);
                     this.timer=0;
                 }         
             }
             
+            
+            if(is_ball_lasted){
+                if(h<250){
+                    if(this.ball_lasted_collision_sprite.y < 423){
+                        this.ball_lasted_collision_sprite.y +=1.5*k;
+                        this.ball_lasted_collision_sprite.x +=1*increase_x;
+                        if(this.ball_lasted_collision_sprite.x > 844){
+                            this.ball_lasted_collision_sprite.x -=1*increase_x;
+                            this.ball_lasted_collision_sprite.y +=1.7*k;
+                        }
+
+                        if(this.ball_lasted_collision_sprite.x < 380){
+                            this.ball_lasted_collision_sprite.x -=1*increase_x;
+                            this.ball_lasted_collision_sprite.y +=1.7*k;
+                        }
+                    }else{
+                        setTimeout(()=>{ 
+                            this.ball_lasted_collision_sprite.stop()
+                        }, 500);
+                        
+                    }
+                }
+               
+                
+            }
         }
         // this.timer_reload+=delta
         // while (this.timer > 1000) {
@@ -585,22 +662,25 @@ export default class Game extends Phaser.Scene{
         // var n = this.getRandomInt(0,2)
         // list_goal[n].setVisible(true)
         // console.log(list_goal[n])
+        this.goal.visible=false
+        this.goal_left_sprite.visible=true
         // console.log(n)
-        switch (n) {
-            case 0:
-                this.goal_center_anims_sprite.visible=true
-                break;
-            case 1:
-                this.goal_left_sprite.visible=true
-                break;
-            case 2:
-                this.goal_right_sprite.visible=true
-                break;
+        // this.goal.visible=false
+        // switch (n) {
+        //     case 0:
+        //         this.goal_center_anims_sprite.visible=true
+        //         break;
+        //     case 1:
+        //         this.goal_left_sprite.visible=true
+        //         break;
+        //     case 2:
+        //         this.goal_right_sprite.visible=true
+        //         break;
         
-            default:
-                this.goal_center_anims_sprite.visible=true
-                break;
-        }
+        //     default:
+        //         this.goal_center_anims_sprite.visible=true
+        //         break;
+        // }
        
     }
 
