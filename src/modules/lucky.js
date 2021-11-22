@@ -285,7 +285,7 @@ export const sessionUpcomming = (token, data) => {
 		dispatch({
 			type: LUCKY_REQUEST
 		})
-		var url = Ultilities.base_url() + "/catalog/api/v1/rooms/upcoming"
+		var url = Ultilities.base_url() + "/catalog/api/v1/rooms/upcoming-eachroom"
 		return axios.post(url, data, header).then(function (response) {
 			console.log(response)
 			dispatch({
