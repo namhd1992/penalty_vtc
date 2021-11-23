@@ -91,7 +91,7 @@ export default class Game extends Phaser.Scene{
 
     init(data){
         this.id=data.id;
-
+        var reg = {};
         var user = JSON.parse(localStorage.getItem("user"));
         var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
         if(user!==null){
@@ -398,7 +398,9 @@ export default class Game extends Phaser.Scene{
             if(points>0){
                 if(pointer.downY-pointer.upY > 0){
                     var positionBall=self.getPositionBall(pointer);
+                    var keeper_id=self.setPositionKeeper(positionBall[0],positionBall[1])
                     console.log(positionBall)
+                    console.log('keeper_id',keeper_id)
                     if(user!==null){
                         var data= {...info}
                         data.userId= bigInt(user.uid);
@@ -429,7 +431,7 @@ export default class Game extends Phaser.Scene{
                                 }, 550);
             
                                 setTimeout(()=>{ 
-                                    self.setKeepGoal(kg);
+                                    self.setKeepGoal(keeper_id);
                                     self.k_idle_sprite.visible=false;
                                 }, 1500);
             
@@ -462,6 +464,13 @@ export default class Game extends Phaser.Scene{
           
         });
 
+        // starsIcon.on('pointerup', function () {
+        //     this.cre
+
+        //     this.createWindow(Stars);
+
+        // }, this);
+
     }
 
     update(time, delta){
@@ -486,7 +495,7 @@ export default class Game extends Phaser.Scene{
             var k=h > 100 ? h/100 : 1;
             if(h>0 && h<110){
                 ball_with_time=0.0125;
-                power=415;
+                power=412;
             }else if(h>110 & h<250){
                 power=515-h;
                 ball_with_time=0.0145
@@ -594,32 +603,32 @@ export default class Game extends Phaser.Scene{
     setKeepGoal(n){
         // console.log(n)
         switch (n) {
-            case 0:
-                this.keep_goal_left_1_sprite.visible=true;
-                break;
             case 1:
-                this.keep_goal_left_2_sprite.visible=true
+                this.keep_goal_right_2_sprite.visible=true;
                 break;
             case 2:
-                this.keep_goal_left_3_sprite.visible=true
+                this.keep_goal_right_1_sprite.visible=true;
                 break;
             case 3:
-                this.keep_goal_left_4_sprite.visible=true
+                this.keep_goal_left_1_sprite.visible=true;
                 break;
             case 4:
-                this.keep_goal_punch_sprite.visible=true
+                this.keep_goal_left_2_sprite.visible=true;
                 break;
             case 5:
-                this.keep_goal_right_1_sprite.visible=true
+                this.keep_goal_right_4_sprite.visible=true;
                 break;
             case 6:
-                this.keep_goal_right_2_sprite.visible=true
+                this.keep_goal_right_3_sprite.visible=true;
                 break;
             case 7:
-                this.keep_goal_right_3_sprite.visible=true
+                this.keep_goal_left_3_sprite.visible=true;
                 break;
             case 8:
-                this.keep_goal_right_4_sprite.visible=true
+                this.keep_goal_left_4_sprite.visible=true;
+                break;
+            case 9:
+                this.keep_goal_punch_sprite.visible=true;
                 break;
             default:
                 this.goal_center_anims_sprite.visible=true
@@ -661,6 +670,28 @@ export default class Game extends Phaser.Scene{
     }
 
 
+    setPositionKeeper(x,y){
+        if(x >= 338 && x < 475 && y >= 228 && y < 336)
+            return 1;
+        if(x >= 475 && x < 555 && y >= 228 && y < 336)
+            return 2;
+        if(x >= 655 && x < 745 && y >= 228 && y < 336)
+            return 3;
+        if(x >= 745 && x < 870 && y >= 228 && y < 336)
+            return 4;
+        if(x >= 338 && x < 475 && y >= 336 && y < 430)
+            return 5;
+        if(x >= 475 && x < 555 && y >= 336 && y < 430)
+            return 6;
+        if(x >= 655 && x < 745 && y >= 336 && y < 430)
+            return 7;
+        if(x >= 745 && x < 870 && y >= 336 && y < 430)
+            return 8;
+        if(x >= 555 && x < 655 && y >= 228 && y < 430)
+            return 9;
+    }
+
+
 
     
 
@@ -671,6 +702,27 @@ export default class Game extends Phaser.Scene{
     }
 }
 
+// điểm 1: x:338 , y:228
+// điểm 2: x:475 , y:228
+// điểm 3: x:555 , y:228
+// điểm 4: x:605 , y:228
+// điểm 5: x:655 , y:228
+// điểm 6: x:745 , y:228
+// điểm 7: x:870 , y:228
+// điểm 8: x:338 , y:336
+// điểm 9: x:475 , y:336
+// điểm 10: x:555 , y:336
+// điểm 11: x:605 , y:336
+// điểm 12: x:655 , y:336
+// điểm 13: x:745 , y:336
+// điểm 14: x:870 , y:336
+// điểm 15: x:338 , y:430
+// điểm 16: x:475 , y:430
+// điểm 17: x:555 , y:430
+// điểm 18: x:605 , y:430
+// điểm 19: x:655 , y:430
+// điểm 20: x:745 , y:430
+// điểm 21: x:870 , y:430
 
 // y1:267 y2:432 x1:336 x2:864
 
