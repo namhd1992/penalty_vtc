@@ -27,7 +27,7 @@ import {
 	getData
 } from '../../../modules/profile'
 
-
+import avatar from './images/avatar.png';
 import bg_bangxephang from './images/bg-bangxephang.png';
 import bg_banthang from './images/bg-banthang.png';
 import bg_bottom from './images/bg-bottom.png';
@@ -394,6 +394,7 @@ class Lucky_Rotation extends React.Component {
 		data.gameId=1;
 		data.serverId=1;
 		data.modeId=type;
+		localStorage.removeItem("info_seesion");
 		if (user !== null) {
 			this.props.sessionInPlay(user.access_token, data).then(()=>{
 				var data=this.props.dataSessionInplay;
@@ -402,7 +403,18 @@ class Lucky_Rotation extends React.Component {
 						if(data.data!==null){
 							var info_seesion=data.data.room;
 							localStorage.setItem("info_seesion", JSON.stringify(info_seesion));
-							window.location.replace('/duatop')
+							switch (type) {
+								case 1:
+									window.location.replace('/duatop')
+									break;
+								case 3:
+									window.location.replace('/loaitructiep')
+									break;
+							
+								default:
+									window.location.replace('/duatop')
+									break;
+							}
 						}else{
 							this.setState({message_error:"Hiện chưa có phiên nào."}, ()=>{
 								$('#tb_err').modal('show');
@@ -423,6 +435,9 @@ class Lucky_Rotation extends React.Component {
 		}
 	}
 
+	giathuvang=()=>{
+		$('#datcuoc').modal('show');
+	}
 
 	handleScroll = (event) => {
 		if (document.body.getBoundingClientRect().top < -300){
@@ -579,7 +594,7 @@ class Lucky_Rotation extends React.Component {
 				}else{
 				
 					this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'}, ()=>{
-						$('#myModal11').modal('show');
+						$('#tb_err').modal('show');
 					})
 				}
 			}else{
@@ -987,9 +1002,9 @@ class Lucky_Rotation extends React.Component {
 									</li>
 								</ul>
 								<div class="s-btn-options_web d-flex justify-content-around">
-									<a class="text-center" title="Đua TOP" href="/duatop"><img src={btn_duatop} alt="Đua TOP" width="80%" /></a>
-									<a class="text-center" href="#" title="Giật Hũ Vàng"><img src={btn_giathuvang} alt="Đua TOP" width="80%" /></a>
-									<a class="text-center" href="#" title="Loại Trực Tiếp"><img src={btn_loaitructiep} alt="Đua TOP" width="80%" /></a>
+									<a class="text-center" title="Đua TOP" onClick={()=>this.getSessionInPlay(1)}><img src={btn_duatop} alt="Đua TOP" width="80%" /></a>
+									<a class="text-center" title="Giật Hũ Vàng" onClick={this.giathuvang}><img src={btn_giathuvang} alt="Đua TOP" width="80%" /></a>
+									<a class="text-center" title="Loại Trực Tiếp" onClick={()=>this.getSessionInPlay(3)}><img src={btn_loaitructiep} alt="Đua TOP" width="80%" /></a>
 								</div>
 							</div>
 							<div class="s-bvd_web position-relative">
@@ -1359,6 +1374,51 @@ class Lucky_Rotation extends React.Component {
 						</div>
 					</div>
 					{/* <!-- End The Modal --> */}
+
+					{/* <!-- The Modal Đặt cược --> */}
+					<div class="modal fade" id="datcuoc">
+						<div class="modal-dialog modal-dialog-scrollable">
+							<div class="modal-content border-0 modal-datcuoc_web bg-transparent">
+
+							{/* <!-- Modal Header --> */}
+							<div class="modal-header bg-pop-datcuoc-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
+								<button type="button" class="btn-close-white btn-close float-end m-0" data-bs-dismiss="modal"></button>
+							</div>
+							
+
+							{/* <!-- Modal body --> */}
+							<div class="modal-body bg-pop-datcuoc-body p-2rem py-1 font-3vw text-white">
+								<div class="tab-content">
+								<div class="container p-4 font-UTMFacebookKT">
+									<div class="d-flex justify-content-center pt-0 pb-3">
+										<img src={avatar} alt="Ngọc Trinh" class="flex-shrink-0 me-3 rounded-circle" style={{height: 60}} />
+										<div>
+											<h5>Tài khoản: Ngọc Trinh</h5>
+											<p>Số điểm: 6789</p>
+										</div>
+									</div>
+									<div class="text-center pb-4">
+										<p class="mb-2">Để tham gia GIẬT HŨ VÀNG bạn cần đặt cược số điểm: <span class="text-warning h4">XX Điểm</span></p>
+										<p>Khi đã đặt cược số điểm sẽ không được hoàn lại.</p>
+									</div>
+									<div class="text-center">
+										<button type="button" class="btn btn-danger w-25" style={{marginRight:10}}>Đồng ý</button>
+										<button type="button" class="btn btn-light w-25" style={{marginLeft:10}}>Thoát</button>
+									</div>
+								</div>
+								</div>
+								
+							</div>
+							{/* <!-- Modal footer --> */}
+							<div class="modal-footer bg-pop-datcuoc-bottom border-0">
+								
+							</div>
+
+							</div>
+						</div>
+					</div>
+					{/* <!-- End The Modal Đặt cược --> */}
+
 
 
 				<ReactResizeDetector handleWidth={true} handleHeight={true} onResize={this.onResize} />

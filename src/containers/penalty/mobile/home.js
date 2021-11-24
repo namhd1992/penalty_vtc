@@ -18,7 +18,9 @@ import {
 	getDonate,
 	getInfoDonate,
 	checkRollup,
-	getListSanQua
+	getListSanQua,
+	sessionInPlay,
+	sessionUpcomming
 } from '../../../modules/lucky'
 import {
 	getData
@@ -70,6 +72,11 @@ import ReactResizeDetector from 'react-resize-detector'
 // import spin from './images/spin.gif';
 import $ from 'jquery';
 import 'bootstrap';
+import {
+	osVersion,
+	osName,
+	mobileModel
+  } from "react-device-detect";
 
 const styles = {
 	paper: {
@@ -79,6 +86,16 @@ const styles = {
 
 var award_open=true;
 var n=0;
+
+const info={
+	"lang": "vi",
+	"osType": osName.toLocaleUpperCase(),
+	"deviceId": "00000000-0000-0000-0000-000000000000",
+	"deviceName": mobileModel,
+	"osVersion": osVersion,
+	"appVersion": "1.0",
+	"requestId": 365603310,
+}
 
 class Lucky_Rotation extends React.Component {
 
@@ -171,7 +188,7 @@ class Lucky_Rotation extends React.Component {
 		// localStorage.setItem("update29", true);
 		$('#Modalbanner').modal('show');
 		
-		this.getVinhDanh(1,1);
+		this.getVinhDanh(1,0);
 
 
 		if (user !== null) {
@@ -304,17 +321,42 @@ class Lucky_Rotation extends React.Component {
 
 	getVinhDanh=(type, pageNumber)=>{
 		const {limit}=this.state;
-		var offsetVinhDanh=(pageNumber-1)*limit;
+		var data= {...info}
+		data.gameId=1;
+		data.serverId=1;
+		data.modeId=type;
+		data.type=5;
+		data.fromDate=-1;
+		data.toDate=-1;
+		data.pageIndex=pageNumber;
+		data.pageSize=10;
+		switch (type) {
+			case 1:
+				this.setState({bxh_tab_1:true, bxh_tab_2:false, bxh_tab_3:false})
+				break;
+			case 2:
+				this.setState({bxh_tab_1:false, bxh_tab_2:true, bxh_tab_3:false})
+				break;
+			case 3:
+				this.setState({bxh_tab_1:false, bxh_tab_2:false, bxh_tab_3:true})
+				break;
+		
+			default:
+				break;
+		}
 		this.setState({type:type, listVinhDanh:[], countVinhDanh:0}, ()=>{
-			this.props.getVinhDanh(limit, offsetVinhDanh, type).then(()=>{
+			this.props.getVinhDanh(data).then(()=>{
+				
 				var data=this.props.dataVinhDanh;
+				console.log(data)
 				if(data!==undefined){
-					if(data.Status===0){
-						var listVinhDanh=data.Data;
-						this.setState({listVinhDanh:data.Data, countVinhDanh:data.Totals})
+					if(data.code > 0){
+						this.setState({listVinhDanh:data.data.items, countVinhDanh:data.data.totalItems})
 					}else{
-						$('#myModal11').modal('show');
-						this.setState({message_error:'Không lấy được dữ liệu bảng vinh danh.'})
+						
+						this.setState({message_error:'Không lấy được dữ liệu bảng vinh danh.'}, ()=>{
+							$('#tb_err').modal('show');
+						})
 					}
 				}else{
 					$('#myModal12').modal('show');
@@ -322,6 +364,88 @@ class Lucky_Rotation extends React.Component {
 				}
 			});
 		})
+	}
+
+
+	getSessionUpcomming=()=>{
+		var user = JSON.parse(localStorage.getItem("user"));
+		var data= {...info}
+		data.gameId=1;
+		data.serverId=1;
+		data.limit=10
+		// data.modeId=type;
+		if (user !== null) {
+			this.props.sessionUpcomming(user.access_token, data).then(()=>{
+				var data=this.props.dataSessionUpcomming;
+				console.log(data)
+				if(data!==undefined){
+					if(data.code > 0){
+						this.setState({},()=>{
+							$('#gt').modal('show');
+						})
+					}else{
+						this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
+							$('#tb_err').modal('show');
+						})
+					}
+				}else{
+					this.setState({server_err:true})
+				}
+			});
+		}else {
+			$('#tb').modal('show');
+		}
+	}
+  
+	getSessionInPlay=(type)=>{
+		var user = JSON.parse(localStorage.getItem("user"));
+		var data= {...info}
+		data.gameId=1;
+		data.serverId=1;
+		data.modeId=type;
+		localStorage.removeItem("info_seesion");
+		if (user !== null) {
+			this.props.sessionInPlay(user.access_token, data).then(()=>{
+				var data=this.props.dataSessionInplay;
+				if(data!==undefined){
+					if(data.code > 0){
+						if(data.data!==null){
+							var info_seesion=data.data.room;
+							localStorage.setItem("info_seesion", JSON.stringify(info_seesion));
+							switch (type) {
+								case 1:
+									window.location.replace('/duatop')
+									break;
+								case 2:
+									window.location.replace('/giathuvang')
+									break;
+								case 3:
+									window.location.replace('/loaitructiep')
+									break;
+							
+								default:
+									window.location.replace('/duatop')
+									break;
+							}
+							
+						}else{
+							this.setState({message_error:"Hiện chưa có phiên nào."}, ()=>{
+								$('#tb_err').modal('show');
+							})
+						}
+					
+					}else{
+						this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
+							$('#tb_err').modal('show');
+						})
+					}
+				}else{
+					this.setState({server_err:true})
+				}
+			});
+		}else {
+			$('#tb').modal('show');
+		}
 	}
 
 
@@ -334,53 +458,40 @@ class Lucky_Rotation extends React.Component {
 	}
 
 	loginAction = () => {
-		// const {server_err}=this.state;
-		// if(!server_err){
-		// 	if (typeof(Storage) !== "undefined") {
-		// 		var currentPath = window.location.pathname;
-		// 		localStorage.setItem("currentPath", currentPath);
-		// 	} else {
-		// 		console.log("Trình duyệt không hỗ trợ localStorage");
-		// 	}
-		// 	window.location.replace(`http://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}/login&agencyid=0`)
-			
-			
-		// 	// window.location.replace(`http://sandbox.graph.vtcmobile.vn/oauth/authorize?client_id=UH8DN779CWCMnCyeXGrm2BRqiTlJajUyZUEM0Kc&agencyid=0&redirect_uri=${window.location.protocol}//${window.location.host}/`);
-		// }else{
-		// 	$('#myModal12').modal('show');
-		// }
-
+		const {server_err}=this.state;
 		if (typeof(Storage) !== "undefined") {
-				var currentPath = window.location.pathname;
-				localStorage.setItem("currentPath", currentPath);
-			} else {
-				console.log("Trình duyệt không hỗ trợ localStorage");
-			}
-			window.location.replace(`http://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}/login&agencyid=0`)
+			var currentPath = window.location.pathname;
+			localStorage.setItem("currentPath", currentPath);
+		} else {
+			console.log("Trình duyệt không hỗ trợ localStorage");
+		}
+		window.location.replace(`http://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}/login&agencyid=0`)
 
 	}
 	logoutAction = () => {
 		this.logout();
-		localStorage.removeItem("user");
-		window.location.replace(
-			`https://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}&action=logout&agencyid=0`,
-		);
-
-		// window.location.replace(
-		// 	`http://sandbox.graph.vtcmobile.vn/oauth/authorize?client_id=UH8DN779CWCMnCyeXGrm2BRqiTlJajUyZUEM0Kc&redirect_uri=${window.location.protocol}//${window.location.host}&action=logout&agencyid=0`,
-		// );
 	}
 
 	logout=()=>{
 		var user = JSON.parse(localStorage.getItem("user"));
+		var data= {...info}
+		data.userId= user.uid;
+		console.log(data)
 		var header = {
 			headers: {
 				"Content-Type": "application/json",
-				"token": user.Token,
+				"Authorization": `Bearer ${user.access_token}`,
+				"dataType":"json"
 			}
 		}
-		axios.get(Ultilities.base_url() +'darts/user-signout/', header).then(function (response) {
-			console.log(response)
+		axios.post(Ultilities.base_url() +'/users/api/v1/account/logout', data, header).then(function (response) {
+
+			if(response.data.code>=0){
+				localStorage.removeItem("user");
+				window.location.replace(
+					`https://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}&action=logout&agencyid=0`,
+				);
+			}
 		})
 	}
 
@@ -403,8 +514,8 @@ class Lucky_Rotation extends React.Component {
 
 
 	timeConverter=(time)=>{
-		var start=time.substring(time.indexOf("(") +1,time.indexOf(")"));
-		var a = new Date(+start);
+		// var start=time.substring(time.indexOf("(") +1,time.indexOf(")"));
+		var a = new Date(time);
 		// var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 		var year = a.getFullYear();
 		var m=a.getMonth()+1
@@ -427,18 +538,12 @@ class Lucky_Rotation extends React.Component {
 	}
 
 	showModalTuDo=()=>{
-		// var user = JSON.parse(localStorage.getItem("user"));
-		// if (user !== null) {
-		// 	if(user.VipLevel!==0){
-		// 		this.getDataTuDo(user);
-		// 		$('#Modaltudo').modal('show');
-		// 	}else{
-		// 		$('#activeVip').modal('show');
-		// 	}
-		// }else {
-		// 	$('#Modaldangnhap').modal('show');
-		// }
-		$('#td').modal('show');
+		var user = JSON.parse(localStorage.getItem("user"));
+		if (user !== null) {
+			this.getDataTuDo(user);
+		}else {
+			$('#tb').modal('show');
+		}
 	}
 
 	// showModalGiaiThuong=()=>{
@@ -452,20 +557,33 @@ class Lucky_Rotation extends React.Component {
 
 	getDataTuDo=(user)=>{
 		const {limit, activeTuDo}=this.state;
-		var offsetTuDo=(activeTuDo-1)*limit;
+		var data= {...info}
+		data.gameId=1;
+		data.serverId=1;
+		data.modeId=1;
+		data.userId= user.uid;
+		data.type=5;
+		data.fromDate=-1;
+		data.toDate=-1;
+		data.pageIndex=activeTuDo;
+		data.pageSize=limit;
 		// $('#Loading').modal('show');
 		this.setState({tab_tudo: true})
-		this.props.getTuDo(user.Token, limit, offsetTuDo).then(()=>{
+		this.props.getTuDo(user.access_token, data).then(()=>{
 			// $('#Loading').modal('hide');
-			var data=this.props.dataTuDo;
-			if(data!==undefined){
-				if(data.Status===0){
-					this.setState({listTuDo:data.Data, countTuDo:data.Totals, noti_tudo:false})
-				}else if(data.Status===3){
+			var d=this.props.dataTuDo;
+			console.log(d)
+			if(d!==undefined){
+				if(d.code>0){
+					this.setState({listTuDo:d.data.items, countTuDo:d.data.totalItems, noti_tudo:false}, ()=>{
+						$('#td').modal('show');
+					})
+				}else if(d.Status===3){
 					this.logoutAction();
 				}else{
+				
 					this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'}, ()=>{
-						$('#myModal11').modal('show');
+						$('#tb_err').modal('show');
 					})
 				}
 			}else{
@@ -475,6 +593,7 @@ class Lucky_Rotation extends React.Component {
 			
 		});
 	}
+
 
 	getHistory=(user)=>{
 		const {limit, activeHistory}=this.state;
@@ -734,7 +853,14 @@ class Lucky_Rotation extends React.Component {
 	rollup=()=>{
 		var user = JSON.parse(localStorage.getItem("user"));
 		if (user !== null) {
-			this.props.checkRollup(user.Token).then(()=>{
+			var obj= {...info}
+			obj.gameId=1
+			obj.serverId=-1
+			obj.modeId=-1
+			obj.roomId=-1
+			obj.userId=user.uid
+			obj.type=1
+			this.props.checkRollup(user.access_token, obj).then(()=>{
 				var data=this.props.dataRollup;
 				if(data!==undefined){
 					if(data.Status===0){
@@ -749,11 +875,11 @@ class Lucky_Rotation extends React.Component {
 				}
 			})
 		}else {
-			$('#Modaldangnhap').modal('show');
+			$('#tb').modal('show');
 		}
-		
 
 	}
+
 
 	comfirmDonate=()=>{
 		var code=document.getElementById('code').value;
@@ -850,7 +976,7 @@ class Lucky_Rotation extends React.Component {
 								<a class="nav-link p-0 text-nowrap text-center text-white font-UTMFacebookKT" onClick={this.showModalHuongDan} title="Hướng dẫn">Hướng dẫn</a>
 								</li>
 								<li class="nav-item text-nowrap" style={{width: "16%"}}>
-								<a class="nav-link p-0 text-center text-white font-UTMFacebookKT" onClick={this.showModalGiaiThuong} title="Giải thưởng">Giải thưởng</a>
+								<a class="nav-link p-0 text-center text-white font-UTMFacebookKT" onClick={this.getSessionUpcomming} title="Giải thưởng">Giải thưởng</a>
 								</li>
 								<li class="nav-item text-nowrap" style={{width: "8%"}}>
 								<a class="nav-link p-0 text-center text-white font-UTMFacebookKT" onClick={this.showModalTuDo} title="Tủ đồ">Tủ đồ</a>
@@ -860,12 +986,7 @@ class Lucky_Rotation extends React.Component {
 								</li>
 								<li class="nav-item text-center" style={{width: "25%"}}>
 									{isLogin ? (<div>
-											<span class="text-warning fw-bold">{user.Username}</span> <br />
-											{/* {(user.VipLevel===0)?(<span class="text-white font-2vw_web">VIP Đồng <img src={vip_dong} alt="VIP Đồng" width="16" /></span>):(<span></span>)}
-											{(user.VipLevel===1)?(<span class="text-white font-2vw_web">VIP Đồng <img src={vip_dong} alt="VIP Đồng" width="16" /></span>):(<span></span>)}
-											{(user.VipLevel===2)?(<span class="text-white font-2vw_web">VIP Bạc <img src={vip_bac} alt="VIP Bạc" width="16" /></span>):(<span></span>)}
-											{(user.VipLevel===3)?(<span class="text-white font-2vw_web">VIP Vàng <img src={vip_vang} alt="VIP Vàng" width="16" /></span>):(<span></span>)}
-											{(user.VipLevel===4)?(<span class="text-white font-2vw_web">VIP Bạch kim <img src={vip_bachkim} alt="VIP Bạch kim" width="16" /></span>):(<span></span>)} */}
+											<span class="text-warning fw-bold">{user.nick_name}</span> <br />
 											<a class="fst-italic font-2vw" onClick={this.logoutAction} title="Thoát">(Thoát)</a>
 											</div>): (
 											<a class="nav-link p-0 text-center text-white font-UTMFacebookKT"  onClick={this.loginAction} title="Đăng nhập"><img src={btn_dang_nhap} width="100%" alt="Đăng nhập" /></a>
@@ -875,118 +996,74 @@ class Lucky_Rotation extends React.Component {
 								</li>
 							</ul>
 							<div class="s-btn-options d-flex justify-content-around">
-								<a class="text-center" href="#tb"data-bs-toggle="modal" title="Đua TOP"><img src={btn_duatop} alt="Đua TOP" width="80%" /></a>
-								<a class="text-center" href="#" title="Giật Hũ Vàng"><img src={btn_giathuvang} alt="Đua TOP" width="80%" /></a>
-								<a class="text-center" href="#" title="Loại Trực Tiếp"><img src={btn_loaitructiep} alt="Đua TOP" width="80%" /></a>
+								<a class="text-center" title="Đua TOP" onClick={()=>this.getSessionInPlay(1)}><img src={btn_duatop} alt="Đua TOP" width="80%" /></a>
+								<a class="text-center" title="Giật Hũ Vàng" onClick={()=>this.getSessionInPlay(2)}><img src={btn_giathuvang} alt="Đua TOP" width="80%" /></a>
+								<a class="text-center" title="Loại Trực Tiếp" onClick={()=>this.getSessionInPlay(3)}><img src={btn_loaitructiep} alt="Đua TOP" width="80%" /></a>
 						
 							</div>
 						</div>
 						<div class="s-bvd position-relative">
 							<ul class="nav justify-content-center flex-nowrap font-3vw">
 								<li class="nav-item text-nowrap" style={{width: "30%"}}>
-									<a class={bxh_tab_1 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} title="Đua TOP" onClick={this.bxh_tab1}>ĐUA TOP</a>
+									<a class={bxh_tab_1 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} title="Đua TOP" onClick={()=>this.getVinhDanh(1,1)}>ĐUA TOP</a>
 								</li>
 								<li class="nav-item text-nowrap" style={{width: "30%"}}>
-									<a class={bxh_tab_2 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} title="Giật Hũ Vàng" onClick={this.bxh_tab2}>GIẬT HŨ VÀNG</a>
+									<a class={bxh_tab_2 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} title="Giật Hũ Vàng" onClick={()=>this.getVinhDanh(2,1)}>GIẬT HŨ VÀNG</a>
 								</li>
 								<li class="nav-item text-nowrap" style={{width: "30%"}}>
-									<a class={bxh_tab_3 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} title="Loại Trực Tiếp" onClick={this.bxh_tab3}>LOẠI TRỰC TIẾP</a>
+									<a class={bxh_tab_3 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} title="Loại Trực Tiếp" onClick={()=>this.getVinhDanh(3,1)}>LOẠI TRỰC TIẾP</a>
 								</li>
 							</ul>
 							<div class="tab-content">
-							<div class="tab-pane container active" id="duatop">
-								<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0" style={{width: "90%"}}>
-									<thead>
-									<tr class="border-top-0 p-0">
-										<th class="border-start-0 border-top-0 p-0">TÀI KHOẢN</th>
-										<th class="border-top-0 p-0 ps-1">GIẢI THƯỞNG</th>
-										<th class="border-end-0 border-top-0 p-0 ps-1">THỜI GIAN</th>
-									</tr>
-									</thead>
-									<tbody>
-									<tr>
-										<td class="border-start-0 p-0">dtueduc0802xxxx</td>
-										<td class="p-0 ps-1">Thẻ Scoin 500K</td>
-										<td class="border-end-0 p-0 ps-1">30/09/2021 21:58:35</td>
-									</tr>
-									
-									</tbody>
-								</table>
-								<ul class="pagination pagination-sm justify-content-center font-3vw font-UTMFacebookKT" style={{margin:"5px 0"}}>
-									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Trước</a></li>
-									<li class="page-item active"><a class="page-link bg-transparent text-white border-0" href="#">1</a></li>
-									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">2</a></li>
-									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">3</a></li>
-									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Sau</a></li>
-								</ul>
-							</div>
-							<div class="tab-pane container fade" id="giathuvang">
-								<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0" style={{width: "90%"}}>
-									<thead>
-									<tr class="border-top-0 p-0">
-										<th class="border-start-0 border-top-0 p-0">TÀI KHOẢN</th>
-										<th class="border-top-0 p-0 ps-1">GIẢI THƯỞNG</th>
-										<th class="border-end-0 border-top-0 p-0 ps-1">THỜI GIAN</th>
-									</tr>
-									</thead>
-									<tbody>
-									<tr>
-										<td class="border-start-0 p-0">dtueduc0802xxxx</td>
-										<td class="p-0 ps-1">Thẻ Scoin 500K</td>
-										<td class="border-end-0 p-0 ps-1">30/09/2021 21:58:35</td>
-									</tr>
-									
-									</tbody>
-								</table>
-								<ul class="pagination pagination-sm justify-content-center font-3vw font-UTMFacebookKT" style={{margin:"5px 0"}}>
-									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Trước</a></li>
-									<li class="page-item active"><a class="page-link bg-transparent text-white border-0" href="#">1</a></li>
-									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">2</a></li>
-									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">3</a></li>
-									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Sau</a></li>
-								</ul>
-							</div>
-							<div class="tab-pane container fade" id="loaitructiep">
-								<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0" style={{width: "90%"}}>
-									<thead>
-									<tr class="border-top-0 p-0">
-										<th class="border-start-0 border-top-0 p-0">TÀI KHOẢN</th>
-										<th class="border-top-0 p-0 ps-1">GIẢI THƯỞNG</th>
-										<th class="border-end-0 border-top-0 p-0 ps-1">THỜI GIAN</th>
-									</tr>
-									</thead>
-									<tbody>
-									<tr>
-										<td class="border-start-0 p-0">dtueduc0802xxxx</td>
-										<td class="p-0 ps-1">Thẻ Scoin 500K</td>
-										<td class="border-end-0 p-0 ps-1">30/09/2021 21:58:35</td>
-									</tr>
-									
-									</tbody>
-								</table>
-								<ul class="pagination pagination-sm justify-content-center font-3vw font-UTMFacebookKT" style={{margin:"5px 0"}}>
-									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Trước</a></li>
-									<li class="page-item active"><a class="page-link bg-transparent text-white border-0" href="#">1</a></li>
-									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">2</a></li>
-									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">3</a></li>
-									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Sau</a></li>
-								</ul>
-							</div>
+								<div class="tab-pane container active" id="duatop">
+									<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0" style={{width: "90%"}}>
+										<thead>
+										<tr class="border-top-0 p-0">
+											<th class="border-start-0 border-top-0 p-0">TÀI KHOẢN</th>
+											<th class="border-top-0 p-0 ps-1">GIẢI THƯỞNG</th>
+											<th class="border-end-0 border-top-0 p-0 ps-1">THỜI GIAN</th>
+										</tr>
+										</thead>
+										<tbody>
+											{listVinhDanh.map((obj, key) => (
+												<tr key={key}>
+													<td className="border-start-0 p-0">{obj.userName}</td>
+													<td class="p-0 ps-1">{obj.rewardName}</td>
+													<td className="border-end-0 p-0 ps-1">{this.timeConverter(obj.winTime)}</td>
+												</tr>
+											))}
+										
+										</tbody>
+									</table>
+									<div className="pagination justify-content-center pag-custom">
+										<Pagination
+											activePage={activeVinhDanh}
+											itemsCountPerPage={10}
+											totalItemsCount={countVinhDanh}
+											pageRangeDisplayed={numberPage}
+											lastPageText={'Trang cuối'}
+											firstPageText={'Trang đầu'}
+											itemClass={"page-item"}
+											linkClass={"page-link"}
+											onChange={(v) => this.handlePageChangeVinhDanh(type,v)}
+										/>
+									</div> 
+								</div>
 							</div>    	
 						</div>
 						<div class="s-bottom position-relative">
 							<div class="d-flex justify-content-around pt-4">
-								<a style={{width:"40%"}} href="#" title="" target="_blank"><img src={btn_hdmtscoin} alt="Hướng dẫn mua thẻ scoin" width="100%" /></a>
-								<a style={{width:"40%"}} href="#" title="" target="_blank"><img src={btn_ntbsk} alt="Nhận thông báo sự kiện" width="100%" /></a>
+								<a style={{width:"40%"}} href="https://daily.scoin.vn/huong-dan-mua-the/" title="" target="_blank"><img src={btn_hdmtscoin} alt="Hướng dẫn mua thẻ scoin" width="100%" /></a>
+								<a style={{width:"40%"}} href="https://www.facebook.com/scoinvtcmobile" title="" target="_blank"><img src={btn_ntbsk} alt="Nhận thông báo sự kiện" width="100%" /></a>
 							</div>
 							<div class="d-flex justify-content-around pt-2">
-								<a style={{width:"40%"}} href="#" title="" target="_blank"><img src={btn_napgame} alt="Nạp Game" width="100%" /></a>
+								<a style={{width:"40%"}} href="https://scoin.vn/nap-game" title="" target="_blank"><img src={btn_napgame} alt="Nạp Game" width="100%" /></a>
 								<a style={{width:"40%"}} href="tel:19001104" title="" target="_blank"><img src={btn_hotline19001104} alt="19001104" width="100%" /></a>
 							</div>
 							<div class="d-flex justify-content-around align-items-center group-logo mt-4">
-								<a style={{width:"20%"}} href="#" title="" target="_blank"><img src={logo_scoin} alt="Scoin" width="100%" /></a>
+								<a style={{width:"20%"}} href="https://scoin.vn/" title="" target="_blank"><img src={logo_scoin} alt="Scoin" width="100%" /></a>
 								<a style={{width:"20%"}} href="#" title="" target="_blank"><img src={logo_splay} alt="Splay" width="100%" /></a>
-								<a style={{width:"20%"}} href="#" title="" target="_blank"><img src={logo_scoinvip} alt="Scoin VIP" width="100%" /></a>
+								<a style={{width:"20%"}} href="https://vip.scoin.vn/" title="" target="_blank"><img src={logo_scoinvip} alt="Scoin VIP" width="100%" /></a>
 							</div>
 							<div class="footer text-white font-3vw">
 								<p class="text-center">
@@ -1109,7 +1186,7 @@ class Lucky_Rotation extends React.Component {
 						{/* <!-- Modal Header --> */}
 						<div class="modal-header bg-pop-td-top border-0 d-block pb-0 position-relative" style={{height: "18vw", maxHeight: 95}}>
 							<button type="button" class="btn-close-white btn-close float-end m-0" onClick={this.closeTD}></button>
-							<div class="tab-hd w-100">
+							{/* <div class="tab-hd w-100">
 								<ul class="nav justify-content-center">
 								<li class="nav-item" style={{width: "43%"}}>
 									<a class={tab_tudo ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: "100%"}} title="Phần Thưởng" onClick={()=>this.getDataTuDo(user)}>&nbsp;</a>
@@ -1118,7 +1195,7 @@ class Lucky_Rotation extends React.Component {
 									<a class={tab_tudo ? "nav-link text-white font-3vw px-0 py-1" : "nav-link text-white font-3vw px-0 py-1 active"} style={{height: "100%"}} title="Lịch Sử" onClick={()=>this.getHistory(user)}>&nbsp;</a>
 								</li>
 								</ul> 
-							</div>
+							</div> */}
 						</div>
 						
 
@@ -1126,58 +1203,44 @@ class Lucky_Rotation extends React.Component {
 						<div class="modal-body bg-pop-td-body p-2rem py-1 font-3vw text-white">
 							{/* <!-- Tab panes --> */}
 							<div class="tab-content">
-							<div class="tab-pane active" id="pt">
-								<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0">
-									<thead>
-									<tr class="border-top-0 p-0">
-										<th class="border-start-0 border-top-0">PHẦN THƯỞNG</th>
-										<th class="border-top-0 ps-1">NỘI DUNG</th>
-										<th class="border-top-0 ps-1">THỜI GIAN</th>
-										<th class="border-end-0 border-top-0 ps-1">MỞ QUÀ</th>
-									</tr>
-									</thead>
-									<tbody>
-									<tr>
-										<td class="border-start-0 py-1">Thẻ Scoin Voucher 10K</td>
-										<td class="ps-1 py-1">Thắng giải Săn Quà #171</td>
-										<td class="ps-1 py-1">30/09/2021 21:58:35</td>
-										<td class="border-end-0 ps-1 py-1"><a class="text-info" href="#mq" data-bs-toggle="modal" title="Mở Quà">Mở quà</a></td>
-									</tr>
-									</tbody>
-								</table>
-								<ul class="pagination pagination-sm justify-content-center font-3vw font-UTMFacebookKT" style={{margin: "5px 0"}}>
-									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Trước</a></li>
-									<li class="page-item active"><a class="page-link bg-transparent text-white border-0" href="#">1</a></li>
-									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">2</a></li>
-									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">3</a></li>
-									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Sau</a></li>
-								</ul>
-							</div>
-							<div class="tab-pane fade" id="ls">
-								<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-4 mx-auto mb-0">
-									<thead>
-									<tr class="border-top-0 p-0">
-										<th class="border-start-0 border-top-0">PHẦN THƯỞNG</th>
-										<th class="border-top-0 ps-1">NỘI DUNG</th>
-										<th class="border-end-0 border-top-0 ps-1">THỜI GIAN</th>
-									</tr>
-									</thead>
-									<tbody>
-									<tr>
-										<td class="border-start-0 py-1">+ 5 Phi Tiêu</td>
-										<td class="ps-1 py-1">Điểm Danh ngày 01/10/2021</td>
-										<td class="border-end-0 ps-1 py-1">30/09/2021 21:58:35</td>
-									</tr>
-									</tbody>
-								</table>
-								<ul class="pagination pagination-sm justify-content-center font-3vw font-UTMFacebookKT" style={{margin: "5px 0"}}>
-									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Trước</a></li>
-									<li class="page-item active"><a class="page-link bg-transparent text-white border-0" href="#">1</a></li>
-									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">2</a></li>
-									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">3</a></li>
-									<li class="page-item"><a class="page-link bg-transparent text-white border-0" href="#">Sau</a></li>
-								</ul>
-							</div>
+								<div class="tab-pane active" id="pt">
+									<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0">
+										<thead>
+										<tr class="border-top-0 p-0">
+											<th class="border-start-0 border-top-0">PHẦN THƯỞNG</th>
+											<th class="border-top-0 ps-1">NỘI DUNG</th>
+											<th class="border-top-0 ps-1">THỜI GIAN</th>
+											<th class="border-end-0 border-top-0 ps-1">MỞ QUÀ</th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr>
+											{listTuDo.map((obj, key) => (
+												<tr key={key} class="bg-border-bottom">
+													<td class="border-start-0 py-1">{obj.AwardName}</td>
+													<td class="ps-1 py-1">{obj.AwardDisplay}</td>
+													<td className="ps-1 py-1">{this.timeConverter(obj.RewardTime)}</td>
+													{(obj.Status===1)?(<td class="border-end-0 ps-1 py-1"><a class="text-primary"  style={{cursor:'pointer'}} onClick={()=>this.getItem(user, obj)}>Mở quà</a></td>):(<td class="p-1 w-auto valign-middle position-relative"><a class="text-primary"  style={{cursor:'pointer'}} onClick={()=>this.getItem(user, obj)}>Mở quà</a><span class="badge badge-pill badge-danger position-absolute noti-tudo">!</span></td>)}
+													
+												</tr>
+											))}		
+										</tr>
+										</tbody>
+									</table>
+									<div className="pagination justify-content-center pag-custom mt-1">
+										<Pagination
+											activePage={activeTuDo}
+											itemsCountPerPage={limit}
+											totalItemsCount={countTuDo}
+											pageRangeDisplayed={numberPage}
+											lastPageText={'Trang cuối'}
+											firstPageText={'Trang đầu'}
+											itemClass={"page-item"}
+											linkClass={"page-link"}
+											onChange={(v) => this.handlePageChangeTuDo(v)}
+										/>
+									</div> 
+								</div>
 							</div>
 							
 						</div>
@@ -1265,6 +1328,32 @@ class Lucky_Rotation extends React.Component {
 					</div>
 				</div>
 				{/* <!-- End The Modal Mở quà --> */}
+
+				{/* <!-- The Modal Thông báo --> */}
+				<div class="modal fade" id="tb_err">
+						<div class="modal-dialog modal-dialog-scrollable">
+							<div class="modal-content modal-tb bg-transparent">
+
+								{/* <!-- Modal Header --> */}
+								<div class="modal-header bg-pop-mq-top border-0 d-block pb-0 position-relative" style={{height: "18vw", maxHeight: 95}}>
+									<button type="button" class="btn-close-white btn-close float-end m-0" data-bs-dismiss="modal"></button>
+								</div>
+								
+
+								{/* <!-- Modal body --> */}
+								<div class="modal-body bg-pop-mq-body p-2rem py-1 font-3vw text-white">
+									<div class="tab-content">
+									<div class="container text-center p-5">
+										<h4 class="pt-1 pb-3 font-UTMFacebookKT">{message_error}</h4>
+									</div>
+									</div>
+									
+								</div>
+
+							</div>
+						</div>
+					</div>
+					{/* <!-- End The Modal --> */}
 					
 
 
@@ -1279,6 +1368,8 @@ class Lucky_Rotation extends React.Component {
 }
 
 const mapStateToProps = state => ({
+	dataSessionInplay:state.lucky.dataSessionInplay,
+	dataSessionUpcomming:state.lucky.dataSessionUpcomming,
 	dataSanqua: state.lucky.dataSanqua,
 	dataCheckRollup: state.lucky.dataCheckRollup,
 	dataRollup: state.lucky.dataRollup,
@@ -1316,7 +1407,9 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 	getDonate,
 	getInfoDonate,
 	checkRollup,
-	getListSanQua
+	getListSanQua,
+	sessionInPlay,
+	sessionUpcomming
 }, dispatch)
 
 

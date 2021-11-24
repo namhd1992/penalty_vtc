@@ -43,16 +43,17 @@ body {margin: 0; padding: 0;}
 .group-logo_web {background:url(../images/bg-logo-group.png) no-repeat; background-size: 100%; background-position: top center; height: 100px;}
 .modal-huongdan_web, .modal-gt {font-family: Tahoma, Verdana, arial;}
 .modal-huongdan_web .bg-pop-hd-top {background:url(../images/bg-popup-hd-top.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
-.modal-huongdan_web .bg-pop-hd-body, .modal-gt_web .bg-pop-gt-body, .modal-td_web .bg-pop-td-body, .modal-tb_web .bg-pop-tb-body, .modal-mq_web .bg-pop-mq-body  {background:url(../images/bg-popup-hd-body.png) repeat-y; background-size: 100%; background-position: top center; width:100%;}
-.modal-huongdan_web .bg-pop-hd-bottom, .modal-gt_web .bg-pop-gt-bottom, .modal-td_web .bg-pop-td-bottom, .modal-tb_web .bg-pop-tb-bottom, .modal-mq_web .bg-pop-mq-bottom {background:url(../images/bg-popup-hd-bottom.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
+.modal-huongdan_web .bg-pop-hd-body, .modal-gt_web .bg-pop-gt-body, .modal-td_web .bg-pop-td-body, .modal-tb_web .bg-pop-tb-body, .modal-mq_web .bg-pop-mq-body, .modal-datcuoc_web .bg-pop-datcuoc-body  {background:url(../images/bg-popup-hd-body.png) repeat-y; background-size: 100%; background-position: top center; width:100%;}
+.modal-huongdan_web .bg-pop-hd-bottom, .modal-gt_web .bg-pop-gt-bottom, .modal-td_web .bg-pop-td-bottom, .modal-tb_web .bg-pop-tb-bottom, .modal-mq_web .bg-pop-mq-bottom, .modal-datcuoc_web .bg-pop-datcuoc-bottom {background:url(../images/bg-popup-hd-bottom.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
 .bg-pop-hd-top .tab-hd, .bg-pop-td-top .tab-hd {position: absolute; bottom: 0; left: 0; height: 45px;}
 .tab-hd_web .nav .active {background-color:rgba(255, 0, 0, 0.3);}
 .modal-gt_web .bg-pop-gt-top {background:url(../images/bg-popup-gt-top.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
 .modal-td_web .bg-pop-td-top {background:url(../images/bg-popup-td-top.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
 .modal-tb_web .bg-pop-tb-top {background:url(../images/bg-popup-tb-top.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
 .modal-mq_web .bg-pop-mq-top {background:url(../images/bg-popup-mq-top.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
+.modal-datcuoc_web .bg-pop-datcuoc-top {background:url(../images/bg-popup-dc-top.png) no-repeat; background-size: 100%; background-position: top center; width:100%;}
 .page-fluid_web {background:url(../images/bg-page.png) no-repeat top left; min-height: 100%; min-width: 768px; width: 100%; height: auto; background-size: 100%}
-#huongdan_web .modal-dialog, #gt_web .modal-dialog, #td_web .modal-dialog, #tb_web .modal-dialog, #mq_web .modal-dialog {max-width: 600px;}
+#huongdan_web .modal-dialog, #gt_web .modal-dialog, #td_web .modal-dialog, #tb_web .modal-dialog, #mq_web .modal-dialog, #datcuoc .modal-dialog {max-width: 600px;}
 
 .bg-ltt_web {width: 1200px; height:675px; background: url(../images/bg-page-play.png) no-repeat center center; background-size: 100%; background-position: top center}
 .bg-ltt_web .box-banthang {position: absolute; top: 0; left: 0; background: url(../images/bg-banthang.png) no-repeat center center; background-size: 100%; width: 243px; height: 145px}

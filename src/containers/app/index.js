@@ -5,7 +5,12 @@ import MenuAppBar from '../penalty/MenuAppBar';
 import Home_Web from '../penalty/web/home'
 // import SanQua_Web from '../penalty/web/sanqua'
 import DuaTop_Web from '../penalty/web/game/duatop'
+import GiatHuVang_Web from '../penalty/web/game/giathuvang'
+import LoaiTrucTiep_Web from '../penalty/web/game/loaitructiep'
 import Home_Mobile from '../penalty/mobile/home'
+import DuaTop_Mobile from '../penalty/mobile/game/duatop'
+import GiatHuVang_Mobile from '../penalty/mobile/game/giathuvang'
+import LoaiTrucTiep_Mobile from '../penalty/mobile/game/loaitructiep'
 
 // import SanQua_Mobile_Android from '../penalty/mobile/android/sanqua'
 // import DuaTop_Mobile_Android from '../penalty/mobile/android/duatop'
@@ -55,6 +60,9 @@ class App extends React.Component {
 						data={[{ url: "home", label: "home" }, { url: "about", label: "about" }]}></MenuAppBar>
 					<main ref={(c) => this.main = c}>
 						<Route exact path="/" component={Home_Mobile} />
+						<Route exact path="/duatop" component={DuaTop_Mobile} />
+						<Route exact path="/giathuvang" component={GiatHuVang_Mobile} />
+						<Route exact path="/loaitructiep" component={LoaiTrucTiep_Mobile} />
 						{/* <Route exact path="/sanqua" component={SanQua_Mobile_IOS} />
 						<Route exact path="/duatop" component={DuaTop_Mobile_IOS} /> */}
 					</main></div>)}
@@ -66,6 +74,8 @@ class App extends React.Component {
 						<Route exact path="/" component={Home_Web} />
 						{/* <Route exact path="/sanqua" component={SanQua_Web} /> */}
 						<Route exact path="/duatop" component={DuaTop_Web} />
+						<Route exact path="/giathuvang" component={GiatHuVang_Web} />
+						<Route exact path="/loaitructiep" component={LoaiTrucTiep_Web} />
 					</main>
 				</div>)}
 				

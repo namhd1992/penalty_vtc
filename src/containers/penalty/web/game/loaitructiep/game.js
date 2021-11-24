@@ -109,7 +109,7 @@ export default class Game extends Phaser.Scene{
                     "dataType":"json"
                 }
             }
-            axios.post(Ultilities.base_url() +'/lobby/api/v1/race/connect', data, header).then(function (response) {
+            axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/connect', data, header).then(function (response) {
     
                 if(response.data.code>=0){
                     data_game=response.data.data
@@ -420,7 +420,7 @@ export default class Game extends Phaser.Scene{
                                 "dataType":"json"
                             }
                         }
-                        axios.post(Ultilities.base_url() +'/lobby/api/v1/race/playing', data, header).then(function (response) {
+                        axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/playing', data, header).then(function (response) {
                             if(response.data.code>=0){
                                 result=response.data.data.result; 
                                 self.setBallLine(pointer)
