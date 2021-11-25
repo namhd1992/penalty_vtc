@@ -770,6 +770,7 @@ export const betting = (token, data) => {
 				data: response.data
 			})
 		}).catch(function (error) {
+			console.log(error)
 			dispatch({
 				type: SERVER_ERROR
 			})

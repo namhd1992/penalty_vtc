@@ -1010,13 +1010,13 @@ class Lucky_Rotation extends React.Component {
 						<div class="s-bvd position-relative">
 							<ul class="nav justify-content-center flex-nowrap font-3vw">
 								<li class="nav-item text-nowrap" style={{width: "30%"}}>
-									<a class={bxh_tab_1 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} title="Đua TOP" onClick={()=>this.getVinhDanh(1,1)}>ĐUA TOP</a>
+									<a class={bxh_tab_1 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} title="Đua TOP" onClick={()=>this.getVinhDanh(1,0)}>ĐUA TOP</a>
 								</li>
 								<li class="nav-item text-nowrap" style={{width: "30%"}}>
-									<a class={bxh_tab_2 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} title="Giật Hũ Vàng" onClick={()=>this.getVinhDanh(2,1)}>GIẬT HŨ VÀNG</a>
+									<a class={bxh_tab_2 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} title="Giật Hũ Vàng" onClick={()=>this.getVinhDanh(2,0)}>GIẬT HŨ VÀNG</a>
 								</li>
 								<li class="nav-item text-nowrap" style={{width: "30%"}}>
-									<a class={bxh_tab_3 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} title="Loại Trực Tiếp" onClick={()=>this.getVinhDanh(3,1)}>LOẠI TRỰC TIẾP</a>
+									<a class={bxh_tab_3 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} title="Loại Trực Tiếp" onClick={()=>this.getVinhDanh(3,0)}>LOẠI TRỰC TIẾP</a>
 								</li>
 							</ul>
 							<div class="tab-content">

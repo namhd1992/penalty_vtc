@@ -99,7 +99,7 @@ export default class Game extends Phaser.Scene{
             data.userId= bigInt(user.uid);
             data.gameId=1;
             data.serverId=1;
-            data.modeId=1;
+            data.modeId=3;
             data.roomId=info_seesion.id;
             data.rakingLimit=10
             var header = {
@@ -406,7 +406,7 @@ export default class Game extends Phaser.Scene{
                         data.userId= bigInt(user.uid);
                         data.gameId=1;
                         data.serverId=1;
-                        data.modeId=1;
+                        data.modeId=3;
                         data.roomId=info_seesion.id;
                         data.x=1;
                         data.y=1;

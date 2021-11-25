@@ -21,7 +21,8 @@ import {
 	checkRollup,
 	getListSanQua,
 	sessionInPlay,
-	sessionUpcomming
+	sessionUpcomming,
+	betting
 } from '../../../modules/lucky'
 import {
 	getData
@@ -163,7 +164,8 @@ class Lucky_Rotation extends React.Component {
 			showRollup:false,
 			listSanqua:[],
 			message_sanqua_empty:'',
-			message_diemdanh:''
+			message_diemdanh:'',
+			info_seesion:{}
 		};
 	}
 	componentWillMount(){
@@ -402,11 +404,16 @@ class Lucky_Rotation extends React.Component {
 				if(data!==undefined){
 					if(data.code > 0){
 						if(data.data!==null){
+							
 							var info_seesion=data.data.room;
+							this.setState({info_seesion:info_seesion})
 							localStorage.setItem("info_seesion", JSON.stringify(info_seesion));
 							switch (type) {
 								case 1:
 									window.location.replace('/duatop')
+									break;
+								case 2:
+									this.giathuvang();
 									break;
 								case 3:
 									window.location.replace('/loaitructiep')
@@ -438,6 +445,40 @@ class Lucky_Rotation extends React.Component {
 
 	giathuvang=()=>{
 		$('#datcuoc').modal('show');
+	}
+
+	onBest=()=>{
+		const {info_seesion}=this.state;
+		var user = JSON.parse(localStorage.getItem("user"));
+		var data= {...info}
+		data.gameId=1;
+		data.serverId=1;
+		data.limit=10;
+		data.modeId=2;
+		data.roomId=info_seesion.id;
+		data.userId=user.uid;
+		data.price=info_seesion.minBet;
+		data.source=21;
+
+		if (user !== null) {
+			this.props.betting(user.access_token, data).then(()=>{
+				var data=this.props.dataBetting;
+				console.log(data)
+				if(data!==undefined){
+					if(data.code > 0){
+						window.location.replace('/giathuvang')
+					}else{
+						this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
+							$('#tb_err').modal('show');
+						})
+					}
+				}else{
+					this.setState({server_err:true})
+				}
+			});
+		}else {
+			$('#tb').modal('show');
+		}
 	}
 
 	handleScroll = (event) => {
@@ -971,9 +1012,13 @@ class Lucky_Rotation extends React.Component {
 		$('#td_web').modal('hide');
 	}
 
+	closeDatCuoc=()=>{
+		$('#datcuoc').modal('hide');
+	}
+
 
 	render() {
-		const {bxh_tab_1, bxh_tab_2, bxh_tab_3, message_sanqua_empty, listSanqua, showRollup,type_action, dataInfoDonate, rollup, message_rollup, content, warning_tudo,tab_1, tab_2, tab_3, tab_4,tab_5, tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
+		const {info_seesion, bxh_tab_1, bxh_tab_2, bxh_tab_3, message_sanqua_empty, listSanqua, showRollup,type_action, dataInfoDonate, rollup, message_rollup, content, warning_tudo,tab_1, tab_2, tab_3, tab_4,tab_5, tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
 			waiting, activeTuDo, activeHistory, activeVinhDanh, limit, countTuDo, countHistory, countVinhDanh, listHistory, listTuDo, listVinhDanh, user}=this.state;
 		return (<div>	
 					<div class="page-fluid_web">
@@ -1005,20 +1050,20 @@ class Lucky_Rotation extends React.Component {
 								</ul>
 								<div class="s-btn-options_web d-flex justify-content-around">
 									<a class="text-center" title="Đua TOP" onClick={()=>this.getSessionInPlay(1)}><img src={btn_duatop} alt="Đua TOP" width="80%" /></a>
-									<a class="text-center" title="Giật Hũ Vàng" onClick={this.giathuvang}><img src={btn_giathuvang} alt="Đua TOP" width="80%" /></a>
+									<a class="text-center" title="Giật Hũ Vàng" onClick={()=>this.getSessionInPlay(2)}><img src={btn_giathuvang} alt="Đua TOP" width="80%" /></a>
 									<a class="text-center" title="Loại Trực Tiếp" onClick={()=>this.getSessionInPlay(3)}><img src={btn_loaitructiep} alt="Đua TOP" width="80%" /></a>
 								</div>
 							</div>
 							<div class="s-bvd_web position-relative">
 								<ul class="nav justify-content-center flex-nowrap font-3vw_web">
 									<li class="nav-item text-nowrap" style={{width: "30%"}}>
-										<a class={bxh_tab_1 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} style={{cursor: "pointer"}} title="Đua TOP" onClick={()=>this.getVinhDanh(1,1)}>ĐUA TOP</a>
+										<a class={bxh_tab_1 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} style={{cursor: "pointer"}} title="Đua TOP" onClick={()=>this.getVinhDanh(1,0)}>ĐUA TOP</a>
 									</li>
 									<li class="nav-item text-nowrap" style={{width: "30%"}}>
-										<a class={bxh_tab_2 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} style={{cursor: "pointer"}} title="Giật Hũ Vàng" onClick={()=>this.getVinhDanh(2,1)}>GIẬT HŨ VÀNG</a>
+										<a class={bxh_tab_2 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} style={{cursor: "pointer"}} title="Giật Hũ Vàng" onClick={()=>this.getVinhDanh(2,0)}>GIẬT HŨ VÀNG</a>
 									</li>
 									<li class="nav-item text-nowrap" style={{width: "30%"}}>
-										<a class={bxh_tab_3 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} style={{cursor: "pointer"}} title="Loại Trực Tiếp" onClick={()=>this.getVinhDanh(3,1)}>LOẠI TRỰC TIẾP</a>
+										<a class={bxh_tab_3 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} style={{cursor: "pointer"}} title="Loại Trực Tiếp" onClick={()=>this.getVinhDanh(3,0)}>LOẠI TRỰC TIẾP</a>
 									</li>
 								</ul>
 								<div class="tab-content">
@@ -1427,12 +1472,12 @@ class Lucky_Rotation extends React.Component {
 										</div>
 									</div>
 									<div class="text-center pb-4">
-										<p class="mb-2">Để tham gia GIẬT HŨ VÀNG bạn cần đặt cược số điểm: <span class="text-warning h4">XX Điểm</span></p>
+										<p class="mb-2">Để tham gia GIẬT HŨ VÀNG bạn cần đặt cược số điểm: <span class="text-warning h4">{info_seesion.minBet} Điểm</span></p>
 										<p>Khi đã đặt cược số điểm sẽ không được hoàn lại.</p>
 									</div>
 									<div class="text-center">
-										<button type="button" class="btn btn-danger w-25" style={{marginRight:10}}>Đồng ý</button>
-										<button type="button" class="btn btn-light w-25" style={{marginLeft:10}}>Thoát</button>
+										<button type="button" class="btn btn-danger w-25" style={{marginRight:10}} onClick={this.onBest}>Đồng ý</button>
+										<button type="button" class="btn btn-light w-25" style={{marginLeft:10}} onClick={this.closeDatCuoc}>Thoát</button>
 									</div>
 								</div>
 								</div>
@@ -1458,6 +1503,7 @@ class Lucky_Rotation extends React.Component {
 }
 
 const mapStateToProps = state => ({
+	dataBetting:state.lucky.dataBetting,
 	dataSessionInplay:state.lucky.dataSessionInplay,
 	dataSessionUpcomming:state.lucky.dataSessionUpcomming,
 	dataSanqua: state.lucky.dataSanqua,
@@ -1484,6 +1530,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+	betting,
 	getMoreSessions,
 	getItemAward,
 	getHistoryTuDo,
