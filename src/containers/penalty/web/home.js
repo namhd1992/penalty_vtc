@@ -163,6 +163,7 @@ class Lucky_Rotation extends React.Component {
 			showRollup:false,
 			listSanqua:[],
 			message_sanqua_empty:'',
+			message_diemdanh:''
 		};
 	}
 	componentWillMount(){
@@ -868,14 +869,15 @@ class Lucky_Rotation extends React.Component {
 			obj.type=1
 			this.props.checkRollup(user.access_token, obj).then(()=>{
 				var data=this.props.dataRollup;
+				console.log(data.message)
 				if(data!==undefined){
-					if(data.Status===0){
-						this.setState({rollup:true, message_rollup: data.Message, type_action:'Điểm danh', showRollup:false}, ()=>{
-							$('#Modalddthanhcong').modal('show');
+					if(data.code >0){
+						this.setState({rollup:true, message_rollup: data.message, type_action:'Điểm danh', showRollup:false}, ()=>{
+							$('#diemdanh').modal('show');
 						})
-					}else if(data.Status===1){
-						this.setState({rollup:false, message_rollup: data.Message}, ()=>{
-							$('#Modalddthanhcong').modal('show');
+					}else{
+						this.setState({rollup:false, message_rollup: data.message}, ()=>{
+							$('#diemdanh').modal('show');
 						})
 					}
 				}
@@ -1375,6 +1377,33 @@ class Lucky_Rotation extends React.Component {
 					</div>
 					{/* <!-- End The Modal --> */}
 
+					
+					{/* <!-- The Modal Điểm danh --> */}
+					<div class="modal fade" id="diemdanh">
+						<div class="modal-dialog modal-dialog-scrollable">
+							<div class="modal-content modal-tb bg-transparent">
+
+								{/* <!-- Modal Header --> */}
+								<div class="modal-header bg-pop-tb-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
+									<button type="button" class="btn-close float-end pe-5" data-bs-dismiss="modal" style={{marginRight: "3%"}}></button>
+								</div>
+								
+
+								{/* <!-- Modal body --> */}
+								<div class="modal-body bg-pop-tb-body p-2rem py-1 font-3vw text-white">
+									<div class="tab-content">
+									<div class="container text-center p-5">
+										<h4 class="pt-1 pb-3 font-UTMFacebookKT">{message_rollup}</h4>
+									</div>
+									</div>
+									
+								</div>
+
+							</div>
+						</div>
+					</div>
+					{/* <!-- End The Modal --> */}
+
 					{/* <!-- The Modal Đặt cược --> */}
 					<div class="modal fade" id="datcuoc">
 						<div class="modal-dialog modal-dialog-scrollable">
@@ -1391,9 +1420,9 @@ class Lucky_Rotation extends React.Component {
 								<div class="tab-content">
 								<div class="container p-4 font-UTMFacebookKT">
 									<div class="d-flex justify-content-center pt-0 pb-3">
-										<img src={avatar} alt="Ngọc Trinh" class="flex-shrink-0 me-3 rounded-circle" style={{height: 60}} />
+										<img src={avatar} alt={user.nick_name} class="flex-shrink-0 me-3 rounded-circle" style={{height: 60}} />
 										<div>
-											<h5>Tài khoản: Ngọc Trinh</h5>
+											<h5>Tài khoản: {user.nick_name}</h5>
 											<p>Số điểm: 6789</p>
 										</div>
 									</div>

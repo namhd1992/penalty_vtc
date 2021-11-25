@@ -26,7 +26,7 @@ import {
 	getData
 } from '../../../modules/profile';
 
-
+import avatar from './images/avatar.png';
 import bg_bangxephang from './images/bg-bangxephang.png';
 import bg_banthang from './images/bg-banthang.png';
 import bg_bottom from './images/bg-bottom.png';
@@ -449,6 +449,11 @@ class Lucky_Rotation extends React.Component {
 	}
 
 
+	giathuvang=()=>{
+		$('#datcuoc').modal('show');
+	}
+
+
 	handleScroll = (event) => {
 		if (document.body.getBoundingClientRect().top < -300){
 			$("#button").show();
@@ -863,12 +868,12 @@ class Lucky_Rotation extends React.Component {
 			this.props.checkRollup(user.access_token, obj).then(()=>{
 				var data=this.props.dataRollup;
 				if(data!==undefined){
-					if(data.Status===0){
-						this.setState({rollup:true, message_rollup: data.Message, type_action:'Điểm danh', showRollup:false}, ()=>{
+					if(data.code>0){
+						this.setState({rollup:true, message_rollup: data.message, type_action:'Điểm danh', showRollup:false}, ()=>{
 							$('#Modalddthanhcong').modal('show');
 						})
-					}else if(data.Status===1){
-						this.setState({rollup:false, message_rollup: data.Message}, ()=>{
+					}else{
+						this.setState({rollup:false, message_rollup: data.message}, ()=>{
 							$('#Modalddthanhcong').modal('show');
 						})
 					}
@@ -997,7 +1002,7 @@ class Lucky_Rotation extends React.Component {
 							</ul>
 							<div class="s-btn-options d-flex justify-content-around">
 								<a class="text-center" title="Đua TOP" onClick={()=>this.getSessionInPlay(1)}><img src={btn_duatop} alt="Đua TOP" width="80%" /></a>
-								<a class="text-center" title="Giật Hũ Vàng" onClick={()=>this.getSessionInPlay(2)}><img src={btn_giathuvang} alt="Đua TOP" width="80%" /></a>
+								<a class="text-center" title="Giật Hũ Vàng" onClick={this.giathuvang}><img src={btn_giathuvang} alt="Đua TOP" width="80%" /></a>
 								<a class="text-center" title="Loại Trực Tiếp" onClick={()=>this.getSessionInPlay(3)}><img src={btn_loaitructiep} alt="Đua TOP" width="80%" /></a>
 						
 							</div>
@@ -1270,7 +1275,7 @@ class Lucky_Rotation extends React.Component {
 							<div class="tab-content">
 							<div class="container text-center p-3">
 								<h4 class="pt-1 pb-3 font-UTMFacebookKT">Bạn vẫn chưa đăng nhập</h4>
-								<a href="#" title="Đăng nhập"><img src="images/btn-dangnhap.png" alt="" width="160" /></a>
+								<a href="#" title="Đăng nhập"><img src={btn_dangnhap} alt="" width="160" /></a>
 							</div>
 							</div>
 							
@@ -1354,6 +1359,77 @@ class Lucky_Rotation extends React.Component {
 						</div>
 					</div>
 					{/* <!-- End The Modal --> */}
+
+					{/* <!-- The Modal Thông báo --> */}
+					<div class="modal fade" id="diemdanh">
+						<div class="modal-dialog modal-dialog-scrollable">
+							<div class="modal-content modal-tb bg-transparent">
+
+								{/* <!-- Modal Header --> */}
+								<div class="modal-header bg-pop-mq-top border-0 d-block pb-0 position-relative" style={{height: "18vw", maxHeight: 95}}>
+									<button type="button" class="btn-close-white btn-close float-end m-0" data-bs-dismiss="modal"></button>
+								</div>
+								
+
+								{/* <!-- Modal body --> */}
+								<div class="modal-body bg-pop-mq-body p-2rem py-1 font-3vw text-white">
+									<div class="tab-content">
+									<div class="container text-center p-5">
+										<h4 class="pt-1 pb-3 font-UTMFacebookKT">{message_rollup}</h4>
+									</div>
+									</div>
+									
+								</div>
+
+							</div>
+						</div>
+					</div>
+					{/* <!-- End The Modal --> */}
+
+					{/* <!-- The Modal Đặt cược --> */}
+					<div class="modal fade" id="datcuoc">
+						<div class="modal-dialog modal-dialog-scrollable">
+							<div class="modal-content border-0 modal-datcuoc bg-transparent">
+
+							{/* <!-- Modal Header --> */}
+							<div class="modal-header bg-pop-datcuoc-top border-0 d-block pb-0 position-relative" style={{height: "18vw", maxHeight: 95}}>
+								<button type="button" class="btn-close-white btn-close float-end m-0" data-bs-dismiss="modal"></button>
+							</div>
+							
+
+							{/* <!-- Modal body --> */}
+							<div class="modal-body bg-pop-datcuoc-body p-2rem py-1 font-3vw text-white">
+								<div class="tab-content">
+								<div class="container p-2 font-UTMFacebookKT">
+									<div class="d-flex justify-content-center p-0">
+										<img src={avatar} alt={user.nick_name} class="flex-shrink-0 me-3 rounded-circle" style={{width:32}} />
+										<div>
+											<h6>Tài khoản: {user.nick_name}</h6>
+											<p>Số điểm: 6789</p>
+										</div>
+									</div>
+									<div class="text-center pb-2">
+										<p class="mb-2">Để tham gia GIẬT HŨ VÀNG bạn cần đặt cược số điểm: <br /> <span class="text-warning h6">XX Điểm</span></p>
+										<p>Khi đã đặt cược số điểm sẽ không được hoàn lại.</p>
+									</div>
+									<div class="text-center">
+										<button type="button" class="btn btn-danger" style={{marginRight:5}}>Đồng ý</button>
+										<button type="button" class="btn btn-light" style={{marginLeft:5}}>Thoát</button>
+									</div>
+								</div>
+								</div>
+								
+							</div>
+							{/* <!-- Modal footer --> */}
+							<div class="modal-footer bg-pop-datcuoc-bottom border-0">
+								
+							</div>
+
+							</div>
+						</div>
+					</div>
+					{/* <!-- End The Modal Đặt cược --> */}
+					
 					
 
 
