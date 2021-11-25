@@ -444,10 +444,28 @@ class Lucky_Rotation extends React.Component {
 	}
 
 	giathuvang=()=>{
+		const {info_seesion}=this.state;
+		var time=Date.now();
+
+		if(time < info_seesion.betsStartTime){
+			this.setState({message_error:'Chưa tới thời gian đặt cược .'},()=>{
+				$('#tb_err').modal('show');
+			})
+			return;
+		}
+		
+		if(time > info_seesion.betsEndTime){
+			this.setState({message_error:'Thời gian đặt cược đã hết.'},()=>{
+				$('#tb_err').modal('show');
+			})
+			return;
+		}
+			
 		$('#datcuoc').modal('show');
 	}
 
 	onBest=()=>{
+
 		const {info_seesion}=this.state;
 		var user = JSON.parse(localStorage.getItem("user"));
 		var data= {...info}
@@ -466,7 +484,7 @@ class Lucky_Rotation extends React.Component {
 				console.log(data)
 				if(data!==undefined){
 					if(data.code > 0){
-						window.location.replace('/giathuvang')
+						// window.location.replace('/giathuvang')
 					}else{
 						this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
 							$('#tb_err').modal('show');
@@ -491,21 +509,6 @@ class Lucky_Rotation extends React.Component {
 
 	loginAction = () => {
 		const {server_err}=this.state;
-		// if(!server_err){
-		// 	if (typeof(Storage) !== "undefined") {
-		// 		var currentPath = window.location.pathname;
-		// 		localStorage.setItem("currentPath", currentPath);
-		// 	} else {
-		// 		console.log("Trình duyệt không hỗ trợ localStorage");
-		// 	}
-		// 	window.location.replace(`http://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}/login&agencyid=0`)
-			
-			
-		// 	// window.location.replace(`http://sandbox.graph.vtcmobile.vn/oauth/authorize?client_id=UH8DN779CWCMnCyeXGrm2BRqiTlJajUyZUEM0Kc&agencyid=0&redirect_uri=${window.location.protocol}//${window.location.host}/`);
-		// }else{
-		// 	$('#myModal12').modal('show');
-		// }
-
 		if (typeof(Storage) !== "undefined") {
 			var currentPath = window.location.pathname;
 			localStorage.setItem("currentPath", currentPath);
@@ -517,14 +520,6 @@ class Lucky_Rotation extends React.Component {
 	}
 	logoutAction = () => {
 		this.logout();
-		// localStorage.removeItem("user");
-		// window.location.replace(
-		// 	`https://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}&action=logout&agencyid=0`,
-		// );
-
-		// window.location.replace(
-		// 	`http://sandbox.graph.vtcmobile.vn/oauth/authorize?client_id=UH8DN779CWCMnCyeXGrm2BRqiTlJajUyZUEM0Kc&redirect_uri=${window.location.protocol}//${window.location.host}&action=logout&agencyid=0`,
-		// );
 	}
 
 	logout=()=>{
@@ -569,9 +564,7 @@ class Lucky_Rotation extends React.Component {
 
 
 	timeConverter=(time)=>{
-		// var start=time.substring(time.indexOf("(") +1,time.indexOf(")"));
 		var a = new Date(time);
-		// var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 		var year = a.getFullYear();
 		var m=a.getMonth()+1
 		var month =m > 9 ? m : `0${m}`;
@@ -620,10 +613,8 @@ class Lucky_Rotation extends React.Component {
 		data.toDate=-1;
 		data.pageIndex=activeTuDo;
 		data.pageSize=limit;
-		// $('#Loading').modal('show');
 		this.setState({tab_tudo: true})
 		this.props.getTuDo(user.access_token, data).then(()=>{
-			// $('#Loading').modal('hide');
 			var d=this.props.dataTuDo;
 			console.log(d)
 			if(d!==undefined){
@@ -1049,9 +1040,9 @@ class Lucky_Rotation extends React.Component {
 									</li>
 								</ul>
 								<div class="s-btn-options_web d-flex justify-content-around">
-									<a class="text-center" title="Đua TOP" onClick={()=>this.getSessionInPlay(1)}><img src={btn_duatop} alt="Đua TOP" width="80%" /></a>
-									<a class="text-center" title="Giật Hũ Vàng" onClick={()=>this.getSessionInPlay(2)}><img src={btn_giathuvang} alt="Đua TOP" width="80%" /></a>
-									<a class="text-center" title="Loại Trực Tiếp" onClick={()=>this.getSessionInPlay(3)}><img src={btn_loaitructiep} alt="Đua TOP" width="80%" /></a>
+									<a class="text-center" title="Đua TOP" onClick={()=>this.getSessionInPlay(1)} style={{cursor:'pointer'}}><img src={btn_duatop} alt="Đua TOP" width="80%" /></a>
+									<a class="text-center" title="Giật Hũ Vàng" onClick={()=>this.getSessionInPlay(2)} style={{cursor:'pointer'}}><img src={btn_giathuvang} alt="Đua TOP" width="80%" /></a>
+									<a class="text-center" title="Loại Trực Tiếp" onClick={()=>this.getSessionInPlay(3)} style={{cursor:'pointer'}}><img src={btn_loaitructiep} alt="Đua TOP" width="80%" /></a>
 								</div>
 							</div>
 							<div class="s-bvd_web position-relative">

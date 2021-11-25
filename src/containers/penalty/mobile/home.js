@@ -156,7 +156,8 @@ class Lucky_Rotation extends React.Component {
 			type_action:'',
 			showRollup:false,
 			listSanqua:[],
-			message_sanqua_empty:''
+			message_sanqua_empty:'',
+			info_seesion:{},
 		};
 	}
 	componentWillMount(){
@@ -411,13 +412,15 @@ class Lucky_Rotation extends React.Component {
 					if(data.code > 0){
 						if(data.data!==null){
 							var info_seesion=data.data.room;
+							this.setState({info_seesion:info_seesion})
 							localStorage.setItem("info_seesion", JSON.stringify(info_seesion));
 							switch (type) {
 								case 1:
 									window.location.replace('/duatop')
 									break;
 								case 2:
-									window.location.replace('/giathuvang')
+									this.giathuvang();
+									
 									break;
 								case 3:
 									window.location.replace('/loaitructiep')
@@ -450,7 +453,59 @@ class Lucky_Rotation extends React.Component {
 
 
 	giathuvang=()=>{
+		const {info_seesion}=this.state;
+		var time=Date.now();
+
+		if(time < info_seesion.betsStartTime){
+			this.setState({message_error:'Chưa tới thời gian đặt cược .'},()=>{
+				$('#tb_err').modal('show');
+			})
+			return;
+		}
+		
+		if(time > info_seesion.betsEndTime){
+			this.setState({message_error:'Thời gian đặt cược đã hết.'},()=>{
+				$('#tb_err').modal('show');
+			})
+			return;
+		}
+			
 		$('#datcuoc').modal('show');
+	}
+
+	onBest=()=>{
+
+		const {info_seesion}=this.state;
+		var user = JSON.parse(localStorage.getItem("user"));
+		var data= {...info}
+		data.gameId=1;
+		data.serverId=1;
+		data.limit=10;
+		data.modeId=2;
+		data.roomId=info_seesion.id;
+		data.userId=user.uid;
+		data.price=info_seesion.minBet;
+		data.source=21;
+
+		if (user !== null) {
+			this.props.betting(user.access_token, data).then(()=>{
+				var data=this.props.dataBetting;
+				console.log(data)
+				if(data!==undefined){
+					if(data.code > 0){
+						// window.location.replace('/giathuvang')
+					}else{
+						this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
+							$('#tb_err').modal('show');
+						})
+					}
+				}else{
+					this.setState({server_err:true})
+				}
+			});
+		}else {
+			$('#tb').modal('show');
+		}
 	}
 
 
@@ -968,9 +1023,13 @@ class Lucky_Rotation extends React.Component {
 		$('#td').modal('hide');
 	}
 
+	closeDatCuoc=()=>{
+		$('#datcuoc').modal('hide');
+	}
+
 
 	render() {
-		const {bxh_tab_1, bxh_tab_2, bxh_tab_3,message_sanqua_empty, listSanqua,showRollup, type_action, dataInfoDonate, rollup, message_rollup, content,tab_1, tab_2, tab_3, tab_4,tab_5,tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
+		const {info_seesion, bxh_tab_1, bxh_tab_2, bxh_tab_3,message_sanqua_empty, listSanqua,showRollup, type_action, dataInfoDonate, rollup, message_rollup, content,tab_1, tab_2, tab_3, tab_4,tab_5,tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
 			waiting, activeTuDo, activeHistory, activeVinhDanh, limit, countTuDo, countHistory, countVinhDanh, listHistory, listTuDo, listVinhDanh, user}=this.state;
 		const { classes } = this.props;
 		return (<div>
@@ -1002,7 +1061,7 @@ class Lucky_Rotation extends React.Component {
 							</ul>
 							<div class="s-btn-options d-flex justify-content-around">
 								<a class="text-center" title="Đua TOP" onClick={()=>this.getSessionInPlay(1)}><img src={btn_duatop} alt="Đua TOP" width="80%" /></a>
-								<a class="text-center" title="Giật Hũ Vàng" onClick={this.giathuvang}><img src={btn_giathuvang} alt="Đua TOP" width="80%" /></a>
+								<a class="text-center" title="Giật Hũ Vàng" onClick={()=>this.getSessionInPlay(2)}><img src={btn_giathuvang} alt="Đua TOP" width="80%" /></a>
 								<a class="text-center" title="Loại Trực Tiếp" onClick={()=>this.getSessionInPlay(3)}><img src={btn_loaitructiep} alt="Đua TOP" width="80%" /></a>
 						
 							</div>
@@ -1409,12 +1468,12 @@ class Lucky_Rotation extends React.Component {
 										</div>
 									</div>
 									<div class="text-center pb-2">
-										<p class="mb-2">Để tham gia GIẬT HŨ VÀNG bạn cần đặt cược số điểm: <br /> <span class="text-warning h6">XX Điểm</span></p>
+										<p class="mb-2">Để tham gia GIẬT HŨ VÀNG bạn cần đặt cược số điểm: <br /> <span class="text-warning h6">{info_seesion.minBet} Điểm</span></p>
 										<p>Khi đã đặt cược số điểm sẽ không được hoàn lại.</p>
 									</div>
 									<div class="text-center">
-										<button type="button" class="btn btn-danger" style={{marginRight:5}}>Đồng ý</button>
-										<button type="button" class="btn btn-light" style={{marginLeft:5}}>Thoát</button>
+										<button type="button" class="btn btn-danger" style={{marginRight:5}} onClick={this.onBest}>Đồng ý</button>
+										<button type="button" class="btn btn-light" style={{marginLeft:5}} onClick={this.closeDatCuoc}>Thoát</button>
 									</div>
 								</div>
 								</div>
