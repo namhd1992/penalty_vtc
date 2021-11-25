@@ -22,7 +22,8 @@ import {
 	getListSanQua,
 	sessionInPlay,
 	sessionUpcomming,
-	betting
+	betting,
+	getBalances
 } from '../../../modules/lucky'
 import {
 	getData
@@ -1494,6 +1495,7 @@ class Lucky_Rotation extends React.Component {
 }
 
 const mapStateToProps = state => ({
+	dataBalances:state.lucky.dataBalances,
 	dataBetting:state.lucky.dataBetting,
 	dataSessionInplay:state.lucky.dataSessionInplay,
 	dataSessionUpcomming:state.lucky.dataSessionUpcomming,
@@ -1536,7 +1538,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 	checkRollup,
 	getListSanQua,
 	sessionInPlay,
-	sessionUpcomming
+	sessionUpcomming,
+	getBalances
 }, dispatch)
 
 
