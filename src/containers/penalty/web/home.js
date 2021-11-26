@@ -72,6 +72,20 @@ import vip_bac from './images/vip-bac.png';
 import vip_dong from './images/vip-dong.png';
 import chuavip from './images/chuavip.png';
 
+import img_card10k from './images/img-card10k.png';
+import img_card20k from './images/img-card20k.png';
+import img_card50k from './images/img-card50k.png';
+import img_card100k from './images/img-card100k.png';
+import img_card200k from './images/img-card200k.png';
+import img_card300k from './images/img-card300k.png';
+import img_card500k from './images/img-card500k.png';
+import img_card1000k from './images/img-card1000k.png';
+import img_card2000k from './images/img-card2000k.png';
+import img_card5000k from './images/img-card5000k.png';
+import img_thescoinvoucher from './images/img-thescoinvoucher.png';
+
+import img_dacochu from './images/img-dacochu.png';
+
 
 
 
@@ -373,10 +387,18 @@ class Lucky_Rotation extends React.Component {
 		if (user !== null) {
 			this.props.sessionUpcomming(user.access_token, data).then(()=>{
 				var data=this.props.dataSessionUpcomming;
-				console.log(data)
+				var room=data.data.room;
+				var new_room=[];
+				var awards=data.data.rewards;
+				for (let i = 0; i < room.length; i++) {
+					var award=awards.filter(v=>v.id===room[i].id)
+					room[i].award=award;
+					new_room.push(room[i])
+				}
+				console.log(new_room)
 				if(data!==undefined){
 					if(data.code > 0){
-						this.setState({},()=>{
+						this.setState({listSesstions: new_room},()=>{
 							$('#gt_web').modal('show');
 						})
 					}else{
@@ -821,54 +843,54 @@ class Lucky_Rotation extends React.Component {
 		}
 	}
 
-	// getImgItem=(item)=>{
-	// 	var obj;
-	// 	switch (item) {
-	// 		case "ScoinCard10K":
-	// 			obj=img_card10k;
-	// 			break;
-	// 		case "ScoinCard20K":
-	// 			obj=img_card20k;
-	// 			break;
-	// 		case "ScoinCard50K":
-	// 			obj=img_card50k;
-	// 			break;
-	// 		case "ScoinCard100K":
-	// 			obj=img_card100k;
-	// 			break;
-	// 		case "ScoinCard200K":
-	// 			obj=img_card200k;
-	// 			break;
-	// 		case "ScoinCard300K":
-	// 			obj=img_card300k;
-	// 			break;
-	// 		case "ScoinCard500K":
-	// 			obj=img_card500k;
-	// 			break;
-	// 		case "ScoinCard1000K":
-	// 			obj=img_card1000k
-	// 			break;
-	// 		case "ScoinCard2000K":
-	// 			obj=img_card2000k
-	// 			break;
-	// 		case "ScoinCard5000K":
-	// 			obj=img_card5000k;
-	// 			break;
-	// 		case "TopupScoin50K":
-	// 			obj=logo_scoin;
-	// 			break;
-	// 		case "ScoinVoucher10K":
-	// 			obj=img_thescoinvoucher;
-	// 			break;
-	// 		case "BankTransferVoucher20K":
-	// 			obj=img_thescoinvoucher;
-	// 			break;
-	// 		default:
-	// 			obj=logo_scoin;
-	// 			break;
-	// 	}
-	// 	return obj;
-	// }
+	getImgItem=(item)=>{
+		var obj;
+		switch (item) {
+			case "ScoinCard10K":
+				obj=img_card10k;
+				break;
+			case "ScoinCard20K":
+				obj=img_card20k;
+				break;
+			case "ScoinCard50K":
+				obj=img_card50k;
+				break;
+			case "ScoinCard100K":
+				obj=img_card100k;
+				break;
+			case "ScoinCard200K":
+				obj=img_card200k;
+				break;
+			case "ScoinCard300K":
+				obj=img_card300k;
+				break;
+			case "ScoinCard500K":
+				obj=img_card500k;
+				break;
+			case "ScoinCard1000K":
+				obj=img_card1000k
+				break;
+			case "ScoinCard2000K":
+				obj=img_card2000k
+				break;
+			case "ScoinCard5000K":
+				obj=img_card5000k;
+				break;
+			case "TopupScoin50K":
+				obj=logo_scoin;
+				break;
+			case "ScoinVoucher10K":
+				obj=img_thescoinvoucher;
+				break;
+			case "BankTransferVoucher20K":
+				obj=img_thescoinvoucher;
+				break;
+			default:
+				obj=logo_scoin;
+				break;
+		}
+		return obj;
+	}
 
 	timeModalGiaiThuowng=(time)=>{
 		var start=time.substring(time.indexOf("(") +1,time.indexOf(")"));
@@ -1262,9 +1284,29 @@ class Lucky_Rotation extends React.Component {
 								{/* <!-- Modal body --> */}
 								<div class="modal-body bg-pop-gt-body p-2rem py-1 font-3vw text-white">
 									<div class="tab-content">
-									<div class="container">
-										Giải thưởng
-									</div>
+										<div class="container">
+											{listSesstions.map((obj, key) => (
+												<div class="row mx-0 mb-1 border-giaithuong-e position-relative d-flex justify-content-center" key={key}>
+													{/* <div class="col-12 text-center text-brown pt-1">
+														<h2 class="font-size-16 font-weight-bold text-uppercase mb-0">{this.getTypeGiaiThuong(obj.SessionType)}</h2>
+														{(obj.Status===0)?(<p class="font-size-16 mb-0">Còn: {this.timeModalGiaiThuowng(obj.StartTime)}</p>):(<div></div>)}
+														{(obj.Status===1)?(<p class="font-size-16 mb-0 text-yellow text-blink"><span class="spinner-grow text-yellow" style={{width: ".8rem", height: ".8rem"}}></span> Đang diễn ra ... </p>):(<div></div>)}
+														{(obj.Status===2)?( <p class="font-size-16 mb-0 text-danger">Đã kết thúc {this.timeEnd(obj.EndTime)}</p>):(<div></div>)}
+														
+													</div>
+
+													{obj.Awards.map((v, j) => (
+														<div class="col-4 text-center" key={j}>
+															<p class="m-0"><img src={this.getImgItem(v.Name)} alt="" width="60%" /></p>
+															<p class="font-size-16 text-yellow">{v.Description}</p>
+														</div>
+													))}
+
+													{(obj.Status===2)?(<img class="img-dacochu" src={img_dacochu} alt="" width="30%" />):(<div></div>)} */}
+													
+												</div>
+											))}
+										</div>
 									</div>
 									
 								</div>
