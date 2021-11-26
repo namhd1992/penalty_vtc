@@ -329,6 +329,7 @@ export const sessionInPlay = (token, data) => {
 				data: response.data
 			})
 		}).catch(function (error) {
+			console.log(error.info)
 			dispatch({
 				type: SERVER_ERROR
 			})
@@ -798,7 +799,7 @@ export const getBalances = (token, data) => {
 		dispatch({
 			type: LUCKY_REQUEST
 		})
-		var url = Ultilities.base_url() + "pay/api/v1/wallet/getbalances"
+		var url = Ultilities.base_url() + "/pay/api/v1/wallet/getbalances"
 		return axios.post(url, data, header).then(function (response) {
 			console.log(response)
 			dispatch({

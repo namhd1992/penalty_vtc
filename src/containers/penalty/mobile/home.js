@@ -159,6 +159,7 @@ class Lucky_Rotation extends React.Component {
 			listSanqua:[],
 			message_sanqua_empty:'',
 			info_seesion:{},
+			points:0
 		};
 	}
 	componentWillMount(){
@@ -361,8 +362,9 @@ class Lucky_Rotation extends React.Component {
 						})
 					}
 				}else{
-					$('#myModal12').modal('show');
-					this.setState({server_err:true})
+					this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
+						$('#tb_err').modal('show');
+					})
 				}
 			});
 		})
@@ -391,7 +393,9 @@ class Lucky_Rotation extends React.Component {
 						})
 					}
 				}else{
-					this.setState({server_err:true})
+					this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
+						$('#tb_err').modal('show');
+					})
 				}
 			});
 		}else {
@@ -444,7 +448,9 @@ class Lucky_Rotation extends React.Component {
 						})
 					}
 				}else{
-					this.setState({server_err:true})
+					this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
+						$('#tb_err').modal('show');
+					})
 				}
 			});
 		}else {
@@ -456,7 +462,10 @@ class Lucky_Rotation extends React.Component {
 	giathuvang=()=>{
 		const {info_seesion}=this.state;
 		var time=Date.now();
-
+		var user = JSON.parse(localStorage.getItem("user"));
+		var data= {...info}
+		data.userId= user.uid;
+		data.type=21
 		if(time < info_seesion.betsStartTime){
 			this.setState({message_error:'Chưa tới thời gian đặt cược .'},()=>{
 				$('#tb_err').modal('show');
@@ -470,8 +479,32 @@ class Lucky_Rotation extends React.Component {
 			})
 			return;
 		}
+
+		if (user !== null) {
+			this.props.getBalances(user.access_token, data).then(()=>{
+				var data=this.props.dataBalances;
+				console.log(data)
+				if(data!==undefined){
+					if(data.code > 0){
+						this.setState({points: data.data.balance},()=>{
+							$('#datcuoc').modal('show');
+						})
+					}else{
+						this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
+							$('#tb_err').modal('show');
+						})
+					}
+				}else{
+					this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
+						$('#tb_err').modal('show');
+					})
+				}
+			});
+		}else {
+			$('#tb').modal('show');
+		}
 			
-		$('#datcuoc').modal('show');
+	
 	}
 
 	onBest=()=>{
@@ -501,7 +534,9 @@ class Lucky_Rotation extends React.Component {
 						})
 					}
 				}else{
-					this.setState({server_err:true})
+					this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
+						$('#tb_err').modal('show');
+					})
 				}
 			});
 		}else {
@@ -648,8 +683,9 @@ class Lucky_Rotation extends React.Component {
 					})
 				}
 			}else{
-				$('#myModal12').modal('show');
-				this.setState({server_err:true})
+				this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
+					$('#tb_err').modal('show');
+				})
 			}
 			
 		});
@@ -674,8 +710,9 @@ class Lucky_Rotation extends React.Component {
 					this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'})
 				}
 			}else{
-				$('#myModal12').modal('show');
-				this.setState({server_err:true})
+				this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
+					$('#tb_err').modal('show');
+				})
 			}
 		});
 	}
@@ -708,8 +745,9 @@ class Lucky_Rotation extends React.Component {
 					})
 				}
 			}else{
-				$('#myModal12').modal('show');
-				this.setState({server_err:true})
+				this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
+					$('#tb_err').modal('show');
+				})
 			}
 		});
 	}
@@ -1030,7 +1068,7 @@ class Lucky_Rotation extends React.Component {
 
 
 	render() {
-		const {info_seesion, bxh_tab_1, bxh_tab_2, bxh_tab_3,message_sanqua_empty, listSanqua,showRollup, type_action, dataInfoDonate, rollup, message_rollup, content,tab_1, tab_2, tab_3, tab_4,tab_5,tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
+		const {points, info_seesion, bxh_tab_1, bxh_tab_2, bxh_tab_3,message_sanqua_empty, listSanqua,showRollup, type_action, dataInfoDonate, rollup, message_rollup, content,tab_1, tab_2, tab_3, tab_4,tab_5,tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
 			waiting, activeTuDo, activeHistory, activeVinhDanh, limit, countTuDo, countHistory, countVinhDanh, listHistory, listTuDo, listVinhDanh, user}=this.state;
 		const { classes } = this.props;
 		return (<div>
@@ -1465,7 +1503,7 @@ class Lucky_Rotation extends React.Component {
 										<img src={avatar} alt={user.nick_name} class="flex-shrink-0 me-3 rounded-circle" style={{width:32}} />
 										<div>
 											<h6>Tài khoản: {user.nick_name}</h6>
-											<p>Số điểm: 6789</p>
+											<p>Số điểm: {points}</p>
 										</div>
 									</div>
 									<div class="text-center pb-2">
