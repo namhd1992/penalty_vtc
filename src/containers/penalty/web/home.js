@@ -1285,9 +1285,9 @@ class Lucky_Rotation extends React.Component {
 								<div class="modal-body bg-pop-gt-body p-2rem py-1 font-3vw text-white">
 									<div class="tab-content">
 										<div class="container">
-											{listSesstions.map((obj, key) => (
+											{/* {listSesstions.map((obj, key) => (
 												<div class="row mx-0 mb-1 border-giaithuong-e position-relative d-flex justify-content-center" key={key}>
-													{/* <div class="col-12 text-center text-brown pt-1">
+													<div class="col-12 text-center text-brown pt-1">
 														<h2 class="font-size-16 font-weight-bold text-uppercase mb-0">{this.getTypeGiaiThuong(obj.SessionType)}</h2>
 														{(obj.Status===0)?(<p class="font-size-16 mb-0">Còn: {this.timeModalGiaiThuowng(obj.StartTime)}</p>):(<div></div>)}
 														{(obj.Status===1)?(<p class="font-size-16 mb-0 text-yellow text-blink"><span class="spinner-grow text-yellow" style={{width: ".8rem", height: ".8rem"}}></span> Đang diễn ra ... </p>):(<div></div>)}
@@ -1295,17 +1295,17 @@ class Lucky_Rotation extends React.Component {
 														
 													</div>
 
-													{obj.Awards.map((v, j) => (
+													{obj.award.map((v, j) => (
 														<div class="col-4 text-center" key={j}>
 															<p class="m-0"><img src={this.getImgItem(v.Name)} alt="" width="60%" /></p>
 															<p class="font-size-16 text-yellow">{v.Description}</p>
 														</div>
 													))}
 
-													{(obj.Status===2)?(<img class="img-dacochu" src={img_dacochu} alt="" width="30%" />):(<div></div>)} */}
+													{(obj.Status===2)?(<img class="img-dacochu" src={img_dacochu} alt="" width="30%" />):(<div></div>)}
 													
 												</div>
-											))}
+											))} */}
 										</div>
 									</div>
 									
