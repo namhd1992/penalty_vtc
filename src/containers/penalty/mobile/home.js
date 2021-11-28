@@ -28,8 +28,6 @@ import {
 } from '../../../modules/profile';
 
 import avatar from './images/avatar.png';
-import bg_bangxephang from './images/bg-bangxephang.png';
-import bg_banthang from './images/bg-banthang.png';
 import bg_bottom from './images/bg-bottom.png';
 import bg_bvd from './images/bg-bvd.png';
 import bg_giaithuong from './images/bg-giaithuong.png';
@@ -65,6 +63,18 @@ import p_bg_bottom from './images/p-bg-bottom.png';
 import p_bg_top from './images/p-bg-top.png';
 import vip_kimcuong from './images/vip-kimcuong.png';
 
+import img_card10k from './images/img-card10k.png';
+import img_card20k from './images/img-card20k.png';
+import img_card50k from './images/img-card50k.png';
+import img_card100k from './images/img-card100k.png';
+import img_card200k from './images/img-card200k.png';
+import img_card300k from './images/img-card300k.png';
+import img_card500k from './images/img-card500k.png';
+import img_card1000k from './images/img-card1000k.png';
+import img_card2000k from './images/img-card2000k.png';
+import img_card5000k from './images/img-card5000k.png';
+import img_thescoinvoucher from './images/img-thescoinvoucher.png';
+import img_dacochu from './images/img-dacochu.png';
 
 
 
@@ -381,10 +391,18 @@ class Lucky_Rotation extends React.Component {
 		if (user !== null) {
 			this.props.sessionUpcomming(user.access_token, data).then(()=>{
 				var data=this.props.dataSessionUpcomming;
+				var room=data.data.room;
+				var new_room=[];
+				var awards=data.data.rewards;
+				for (let i = 0; i < room.length; i++) {
+					var award=awards.filter(v=>v.id===room[i].id)
+					room[i].award=award;
+					new_room.push(room[i])
+				}
 				console.log(data)
 				if(data!==undefined){
 					if(data.code > 0){
-						this.setState({},()=>{
+						this.setState({listSesstions: new_room},()=>{
 							$('#gt').modal('show');
 						})
 					}else{
@@ -832,61 +850,72 @@ class Lucky_Rotation extends React.Component {
 	}
 
 	getTypeGiaiThuong=(type)=>{
-		if(type===1){
-			return "Giải thưởng săn quà"
-		}else if(type===2){
-			return "Giải thưởng đua top"
+		var name=''
+		switch (type) {
+			case 1:
+				name= "Phiên Đua Top"
+				break;
+			case 2:
+				name= "Phiên Giật Hũ Vàng"
+				break;
+			case 3:
+				name= "Phiên Loại Trực Tiếp"
+				break;
+			default:
+				name= "Phiên Đua Top"
+				break;
 		}
+		return name;
 	}
 
-	// getImgItem=(item)=>{
-	// 	var obj;
-	// 	switch (item) {
-	// 		case "ScoinCard10K":
-	// 			obj=img_card10k;
-	// 			break;
-	// 		case "ScoinCard20K":
-	// 			obj=img_card20k;
-	// 			break;
-	// 		case "ScoinCard50K":
-	// 			obj=img_card50k;
-	// 			break;
-	// 		case "ScoinCard100K":
-	// 			obj=img_card100k;
-	// 			break;
-	// 		case "ScoinCard200K":
-	// 			obj=img_card200k;
-	// 			break;
-	// 		case "ScoinCard300K":
-	// 			obj=img_card300k;
-	// 			break;
-	// 		case "ScoinCard500K":
-	// 			obj=img_card500k;
-	// 			break;
-	// 		case "ScoinCard1000K":
-	// 			obj=img_card1000k
-	// 			break;
-	// 		case "ScoinCard2000K":
-	// 			obj=img_card2000k
-	// 			break;
-	// 		case "ScoinCard5000K":
-	// 			obj=img_card5000k;
-	// 			break;
-	// 		case "TopupScoin50K":
-	// 			obj=logo_scoin;
-	// 			break;
-	// 		case "ScoinVoucher10K":
-	// 			obj=img_thescoinvoucher;
-	// 			break;
-	// 		case "BankTransferVoucher20K":
-	// 			obj=img_thescoinvoucher;
-	// 			break;
-	// 		default:
-	// 			obj=logo_scoin;
-	// 			break;
-	// 	}
-	// 	return obj;
-	// }
+	getImgItem=(item)=>{
+		var obj;
+		switch (item) {
+			case "ScoinCard10K":
+				obj=img_card10k;
+				break;
+			case "ScoinCard20K":
+				obj=img_card20k;
+				break;
+			case "ScoinCard50K":
+				obj=img_card50k;
+				break;
+			case "ScoinCard100K":
+				obj=img_card100k;
+				break;
+			case "ScoinCard200K":
+				obj=img_card200k;
+				break;
+			case "ScoinCard300K":
+				obj=img_card300k;
+				break;
+			case "ScoinCard500K":
+				obj=img_card500k;
+				break;
+			case "ScoinCard1000K":
+				obj=img_card1000k
+				break;
+			case "ScoinCard2000K":
+				obj=img_card2000k
+				break;
+			case "ScoinCard5000K":
+				obj=img_card5000k;
+				break;
+			case "TopupScoin50K":
+				obj=logo_scoin;
+				break;
+			case "ScoinVoucher10K":
+				obj=img_thescoinvoucher;
+				break;
+			case "BankTransferVoucher20K":
+				obj=img_thescoinvoucher;
+				break;
+			default:
+				obj=logo_scoin;
+				break;
+		}
+		return obj;
+	}
 
 	timeModalGiaiThuowng=(time)=>{
 		var start=time.substring(time.indexOf("(") +1,time.indexOf(")"));
@@ -915,6 +944,33 @@ class Lucky_Rotation extends React.Component {
 		var sec = a.getSeconds() > 9 ? a.getSeconds() : `0${a.getSeconds()}`;
 		var s = hour + ':' + min + ':' + sec + " ngày " + date + '/' + month + '/' + year ;
 		return s;
+	}
+	
+	TimeModalGiaiThuong=(props)=>{
+		var obj=props.obj;
+		var t=Date.now();
+		var startTime=obj.startTime;
+		var endTime=obj.endTime;
+		if(startTime > t){
+			return <p class="font-size-16 mb-0">Còn: {this.timeModalGiaiThuowng(obj.startTime)}</p>;
+		}
+		if(t > endTime){
+			return <p class="font-size-16 mb-0 text-danger">Đã kết thúc {this.timeEnd(obj.endTime)}</p>;
+		}
+		if(t > startTime && t < endTime){
+			return <p class="font-size-16 mb-0 text-yellow text-blink"><span class="spinner-grow text-yellow" style={{width: ".8rem", height: ".8rem"}}></span> Đang diễn ra ... </p>;
+		}
+		return <div></div>;
+	}
+
+	HetGio=(props)=>{
+		var obj=props.obj;
+		var t=Date.now();
+		var endTime=obj.endTime;
+		if(t > endTime){
+			return <img class="img-dacochu" src={img_dacochu} alt="" width="30%" />;
+		}
+		return <div></div>;
 	}
 
 	tab1=()=>{
@@ -962,13 +1018,13 @@ class Lucky_Rotation extends React.Component {
 			this.props.checkRollup(user.access_token, obj).then(()=>{
 				var data=this.props.dataRollup;
 				if(data!==undefined){
-					if(data.code>0){
+					if(data.code >0){
 						this.setState({rollup:true, message_rollup: data.message, type_action:'Điểm danh', showRollup:false}, ()=>{
-							$('#Modalddthanhcong').modal('show');
+							$('#diemdanh').modal('show');
 						})
 					}else{
 						this.setState({rollup:false, message_rollup: data.message}, ()=>{
-							$('#Modalddthanhcong').modal('show');
+							$('#diemdanh').modal('show');
 						})
 					}
 				}
@@ -1268,7 +1324,29 @@ class Lucky_Rotation extends React.Component {
 
 						{/* <!-- Modal body --> */}
 						<div class="modal-body bg-pop-gt-body p-2rem py-1 font-3vw text-white">
-							Giải thưởng
+							<div class="tab-content">
+								<div class="container">
+									{listSesstions.map((obj, key) => (
+										<div class="row mx-0 mb-1 border-giaithuong-e position-relative d-flex justify-content-center" key={key}>
+											<div class="col-12 text-center text-brown pt-1">
+												<h2 class="font-size-16 font-weight-bold text-uppercase mb-0">{this.getTypeGiaiThuong(obj.gameModeId)}</h2>
+												<this.TimeModalGiaiThuong obj={obj} />
+											</div>
+
+											{obj.award.map((v, j) => (
+												<div class="col-4 text-center" key={j}>
+													<p class="m-0"><img src={this.getImgItem(v.code)} alt="" width="60%" /></p>
+													<p class="font-size-16 text-yellow">{v.name}</p>
+												</div>
+											))}
+											<this.HetGio obj={obj} />
+
+											{/* {(obj.Status===2)?(<img class="img-dacochu" src={img_dacochu} alt="" width="30%" />):(<div></div>)} */}
+											
+										</div>
+									))}
+								</div>
+							</div>
 							
 						</div>
 						{/* <!-- Modal footer --> */}

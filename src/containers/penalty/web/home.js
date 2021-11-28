@@ -836,11 +836,22 @@ class Lucky_Rotation extends React.Component {
 	}
 
 	getTypeGiaiThuong=(type)=>{
-		if(type===1){
-			return "Giải thưởng săn quà"
-		}else if(type===2){
-			return "Giải thưởng đua top"
+		var name=''
+		switch (type) {
+			case 1:
+				name= "Phiên Đua Top"
+				break;
+			case 2:
+				name= "Phiên Giật Hũ Vàng"
+				break;
+			case 3:
+				name= "Phiên Loại Trực Tiếp"
+				break;
+			default:
+				name= "Phiên Đua Top"
+				break;
 		}
+		return name;
 	}
 
 	getImgItem=(item)=>{
@@ -919,6 +930,33 @@ class Lucky_Rotation extends React.Component {
 		var sec = a.getSeconds() > 9 ? a.getSeconds() : `0${a.getSeconds()}`;
 		var s = hour + ':' + min + ':' + sec + " ngày " + date + '/' + month + '/' + year ;
 		return s;
+	}
+
+	TimeModalGiaiThuong=(props)=>{
+		var obj=props.obj;
+		var t=Date.now();
+		var startTime=obj.startTime;
+		var endTime=obj.endTime;
+		if(startTime > t){
+			return <p class="font-size-16 mb-0">Còn: {this.timeModalGiaiThuowng(obj.startTime)}</p>;
+		}
+		if(t > endTime){
+			return <p class="font-size-16 mb-0 text-danger">Đã kết thúc {this.timeEnd(obj.endTime)}</p>;
+		}
+		if(t > startTime && t < endTime){
+			return <p class="font-size-16 mb-0 text-yellow text-blink"><span class="spinner-grow text-yellow" style={{width: ".8rem", height: ".8rem"}}></span> Đang diễn ra ... </p>;
+		}
+		return <div></div>;
+	}
+
+	HetGio=(props)=>{
+		var obj=props.obj;
+		var t=Date.now();
+		var endTime=obj.endTime;
+		if(t > endTime){
+			return <img class="img-dacochu" src={img_dacochu} alt="" width="30%" />;
+		}
+		return <div></div>;
 	}
 
 
@@ -1285,27 +1323,25 @@ class Lucky_Rotation extends React.Component {
 								<div class="modal-body bg-pop-gt-body p-2rem py-1 font-3vw text-white">
 									<div class="tab-content">
 										<div class="container">
-											{/* {listSesstions.map((obj, key) => (
+											{listSesstions.map((obj, key) => (
 												<div class="row mx-0 mb-1 border-giaithuong-e position-relative d-flex justify-content-center" key={key}>
 													<div class="col-12 text-center text-brown pt-1">
-														<h2 class="font-size-16 font-weight-bold text-uppercase mb-0">{this.getTypeGiaiThuong(obj.SessionType)}</h2>
-														{(obj.Status===0)?(<p class="font-size-16 mb-0">Còn: {this.timeModalGiaiThuowng(obj.StartTime)}</p>):(<div></div>)}
-														{(obj.Status===1)?(<p class="font-size-16 mb-0 text-yellow text-blink"><span class="spinner-grow text-yellow" style={{width: ".8rem", height: ".8rem"}}></span> Đang diễn ra ... </p>):(<div></div>)}
-														{(obj.Status===2)?( <p class="font-size-16 mb-0 text-danger">Đã kết thúc {this.timeEnd(obj.EndTime)}</p>):(<div></div>)}
-														
+														<h2 class="font-size-16 font-weight-bold text-uppercase mb-0">{this.getTypeGiaiThuong(obj.gameModeId)}</h2>
+														<this.TimeModalGiaiThuong obj={obj} />
 													</div>
 
 													{obj.award.map((v, j) => (
 														<div class="col-4 text-center" key={j}>
-															<p class="m-0"><img src={this.getImgItem(v.Name)} alt="" width="60%" /></p>
-															<p class="font-size-16 text-yellow">{v.Description}</p>
+															<p class="m-0"><img src={this.getImgItem(v.code)} alt="" width="60%" /></p>
+															<p class="font-size-16 text-yellow">{v.name}</p>
 														</div>
 													))}
+													<this.HetGio obj={obj} />
 
-													{(obj.Status===2)?(<img class="img-dacochu" src={img_dacochu} alt="" width="30%" />):(<div></div>)}
+													{/* {(obj.Status===2)?(<img class="img-dacochu" src={img_dacochu} alt="" width="30%" />):(<div></div>)} */}
 													
 												</div>
-											))} */}
+											))}
 										</div>
 									</div>
 									

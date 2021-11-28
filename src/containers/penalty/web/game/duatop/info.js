@@ -1,15 +1,16 @@
 import Phaser from "phaser";
-
+import btn_suttudong from '../../../assert/background.png';
 export default class Info extends Phaser.Scene{
   constructor() {
     super({ key: "Info" });
   }
 
     preload(){
-
+      this.load.image('suttudong', btn_suttudong);
     }
 
     create(){
+      this.add.image(600,338,'suttudong')
       const self = this;
       this.helloWorld = this.add.text(
           this.cameras.main.centerX, 

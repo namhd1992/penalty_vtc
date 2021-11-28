@@ -53,16 +53,15 @@ import goal_left_json from '../../../assert/goal_anims/goal_left.json';
 import goal_right from '../../../assert/goal_anims/goal_right.png';
 import goal_right_json from '../../../assert/goal_anims/goal_right.json';
 
-import bg_bangxephang from '../../../assert/bg-bangxephang.png';
-import bg_banthang from '../../../assert/bg-banthang.png';
-import bg_giaithuong from '../../../assert/bg-giaithuong.png';
-import opt_suttudong from '../../../assert/opt-suttudong.png';
-import btn_suttudong from '../../../assert/btn-suttudong.png';
-import bg_title_loaitructiep from '../../../assert/bg-title-loaitructiep.png';
-import bg_taikhoan from '../../../assert/bg-taikhoan.png';
+import opt_suttudong from '../../../assert/duatop/opt-suttudong.png';
+import bg_banthang from '../../../assert/duatop/bg-banthang.png';
+import btn_suttudong from '../../../assert/duatop/btn-suttudong.png';
+import bg_bangxephang from '../../../assert/duatop/bg-bangxephang.png';
+import bg_giaithuong_duatop from '../../../assert/duatop/bg-giaithuong-duatop.png';
+import bg_taikhoan from '../../../assert/duatop/bg-taikhoan.png';
+import bg_title_duatop from '../../../assert/duatop/bg-title-duatop.png';
 
-const list_keep=[]
-const list_goal=[]
+
 const info={
 	"lang": "vi",
 	"osType": osName.toLocaleUpperCase(),
@@ -82,7 +81,8 @@ var ball_collision_keper=false;
 var is_ball_lasted=false;
 var result=0;
 var delta_alpha=1;
-var data_game={}
+var data_game={};
+
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -91,6 +91,7 @@ export default class Game extends Phaser.Scene{
 
     init(data){
         this.id=data.id;
+        var _this=this;
         var reg = {};
         var user = JSON.parse(localStorage.getItem("user"));
         var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
@@ -113,12 +114,14 @@ export default class Game extends Phaser.Scene{
     
                 if(response.data.code>=0){
                     data_game=response.data.data
+                    _this.timeRemain(data_game.room.endTime)
                 }
             })
         }
     }
     
     preload(){
+        
         this.load.image('background', backgound);
         this.load.image('goal_center', goal_center);
         this.load.image('ball', ball);
@@ -143,16 +146,19 @@ export default class Game extends Phaser.Scene{
         this.load.atlas('k_idle',k_idle,k_idle_json);
 
         
-        // this.load.image('bg_banthang', bg_banthang);
-        // this.load.image('bg_giaithuong', bg_giaithuong);
-        // this.load.image('opt_suttudong', opt_suttudong);
-        // this.load.image('btn_suttudong', btn_suttudong);
-        // this.load.image('bg_taikhoan', bg_taikhoan);
-        // this.load.image('bg_title_loaitructiep', bg_title_loaitructiep);
+        this.load.image('opt_suttudong', opt_suttudong);
+        this.load.image('bg_banthang', bg_banthang);
+        this.load.image('btn_suttudong', btn_suttudong);
+        this.load.image('bg_bangxephang', bg_bangxephang);
+        this.load.image('bg_giaithuong_duatop', bg_giaithuong_duatop);
+        this.load.image('bg_taikhoan', bg_taikhoan);
+        this.load.image('bg_title_duatop', bg_title_duatop);
     }
 
     create(){
+        var user = JSON.parse(localStorage.getItem("user"));
         this.timer=0;
+        this.time_update=0;
         this.timer_reload=0;
         this.add.image(600,338,'background')
         this.goal=this.physics.add.image(600,320,'goal_center')
@@ -351,6 +357,33 @@ export default class Game extends Phaser.Scene{
     
         this.soccer_kick_right_sprite.visible=false;
 
+        
+        this.bg_banthang = this.add.image(121,75,'bg_banthang')
+        this.btn_suttudong = this.add.image(135,620,'btn_suttudong')
+        this.btn_suttudong.setScale(0.33,0.33)
+        this.bg_bangxephang = this.add.image(132,360,'bg_bangxephang')
+        this.bg_giaithuong_duatop = this.add.image(600,125,'bg_giaithuong_duatop')
+        this.bg_giaithuong_duatop.setScale(0.33,0.33)
+        this.bg_taikhoan = this.add.image(1078,42,'bg_taikhoan')
+        this.bg_taikhoan.setScale(0.33,0.33)
+        this.bg_title_duatop = this.add.image(600,34,'bg_title_duatop')
+        this.opt_suttudong = this.add.image(60,620,'opt_suttudong');
+        this.opt_suttudong.setScale(0.3,0.3)
+
+        this.txt_banthang = this.add.text(120,  90, data_game.summary.winCount, { font: "40px Arial", fill: "#ffffff" });
+        this.txt_suttudong = this.add.text(85,  605, "Sút tự động", { font: "27px Arial", fill: "#ffffff" });
+        this.txt_title = this.add.text(520,  10, "ĐUA TOP", { font: "40px Arial", fill: "#ffffff", align:'center' });
+        this.txt_time = this.add.text(530,  75, "Còn: 00h00p00", { font: "16px Arial", fill: "#ffffff", align:'center' });
+        this.txt_giaithuong = this.add.text(440,  115, `Giải thưởng: ${data_game.rewards[0].name}`, { font: "17px Arial", fill: "#ffffff", align:"center", fixedWidth: 333 });
+        this.txt_acc = this.add.text(980,  15, `Chào: ${user.nick_name}`, { font: "18px Arial", fill: "#ffffff", align:'center' });
+        this.txt_points = this.add.text(980,  45, `Điểm: ${data_game.user.points} | Lượt: ${data_game.user.balance} `, { font: "18px Arial", fill: "#ffffff", align:'center' });
+        this.txt_titleRanking = this.add.text(30,  290, 'TÀI KHOẢN                BÀN THẮNG', { font: "13px Arial bold", fill: "#ffffff" });
+        var tk=
+        `user 1 \nuser 2 \nuser 3 \nuser 4\nuser 5\nuser 6 \nuser 7 \nuser 8 \nuser 9 \nuser 10`
+        this.txt_ranking = this.add.text(30,  305, tk, { font: "13px Arial", fill: "#ffffff" });
+        var p=
+        `01 \n02 \n03 \n04\n05\n06 \n07 \n08 \n09 \n10`
+        this.txt_ranking = this.add.text(180,  305, p, { font: "13px Arial", fill: "#ffffff" });
 
 
 
@@ -381,14 +414,6 @@ export default class Game extends Phaser.Scene{
         // this.add.sprite(400, 300, 'ball_rotation').play('explodeAnimation');
         this.k_idle_sprite=this.add.sprite(600, 365, 'k_idle', 'k_idle_').play('k_id');
         // this.k_idle_sprite.visible=false;
-
-        // this.add.image(600,338,'bg_bangxephang')
-        // this.add.image(600,338,'bg_banthang')
-        // this.add.image(600,338,'bg_giaithuong')
-        // this.add.image(600,338,'btn_suttudong')
-        // this.add.image(600,338,'opt_suttudong')
-        // this.add.image(600,338,'bg_taikhoan')
-        // this.add.image(600,338,'bg_title_loaitructiep')
 
 
         this.input.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, function (pointer) {
@@ -577,6 +602,12 @@ export default class Game extends Phaser.Scene{
                 
             }
         }
+
+        this.time_update += delta;
+        while (this.time_update > 1000) {
+            this.timeRemain(data_game.room.endTime)
+            this.time_update -= 1000;
+        }
     }
 
     footballOut(){
@@ -700,6 +731,20 @@ export default class Game extends Phaser.Scene{
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+
+    timeRemain=(times)=>{
+        
+        var time=(times-Date.now())/1000;
+        if(time>0){
+            var day=Math.floor(time/86400) > 9 ? Math.floor(time/86400) : `0${Math.floor(time/86400)}`;
+            var hour=Math.floor((time%86400)/3600) > 9 ? Math.floor((time%86400)/3600) : `0${Math.floor((time%86400)/3600)}`;
+            var minute=Math.floor(((time%86400)%3600)/60) > 9 ? Math.floor(((time%86400)%3600)/60) : `0${Math.floor(((time%86400)%3600)/60)}`;
+            var second=Math.ceil(((time%86400)%3600)%60) > 9 ? Math.ceil(((time%86400)%3600)%60) : `0${Math.ceil(((time%86400)%3600)%60)}`;
+            if(this.txt_time!==undefined)
+            this.txt_time.setText(`Còn: ${hour}h${minute}p${second}`);
+           
+        }
+	}
 
 
 }
