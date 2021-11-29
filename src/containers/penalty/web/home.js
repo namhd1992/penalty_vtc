@@ -1203,7 +1203,7 @@ class Lucky_Rotation extends React.Component {
 												))}
 											</tbody>
 										</table>
-										<div className="pagination justify-content-center pag-custom">
+										{(countVinhDanh > 10)?(<div className="pagination justify-content-center pag-custom">
 											<Pagination
 												activePage={activeVinhDanh}
 												itemsCountPerPage={10}
@@ -1215,7 +1215,8 @@ class Lucky_Rotation extends React.Component {
 												linkClass={"page-link"}
 												onChange={(v) => this.handlePageChangeVinhDanh(type,v)}
 											/>
-										</div> 
+										</div> ):(<div></div>)}
+										
 									</div>
 								</div>    	
 							</div>
@@ -1256,7 +1257,7 @@ class Lucky_Rotation extends React.Component {
 					{/* <!-- The Modal Hướng dẫn --> */}
 						<div class="modal fade" id="huongdan_web">
 							<div class="modal-dialog modal-dialog-scrollable">
-								<div class="modal-content modal-huongdan bg-transparent">
+								<div class="modal-content modal-huongdan_web bg-transparent border-0">
 
 								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-hd-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
@@ -1340,7 +1341,7 @@ class Lucky_Rotation extends React.Component {
 						{/* <!-- The Modal Giải thưởng --> */}
 						<div class="modal fade" id="gt_web">
 							<div class="modal-dialog modal-dialog-scrollable">
-								<div class="modal-content modal-gt bg-transparent">
+								<div class="modal-content modal-gt bg-transparent border-0">
 
 								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-gt-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
@@ -1386,7 +1387,7 @@ class Lucky_Rotation extends React.Component {
 						{/* <!-- The Modal Tủ đồ --> */}
 						<div class="modal fade" id="td_web">
 							<div class="modal-dialog modal-dialog-scrollable">
-								<div class="modal-content modal-td bg-transparent">
+								<div class="modal-content modal-td bg-transparent border-0">
 
 								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-td-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
@@ -1461,7 +1462,7 @@ class Lucky_Rotation extends React.Component {
 						{/* <!-- The Modal Đăng nhập --> */}
 						<div class="modal fade" id="tb">
 							<div class="modal-dialog modal-dialog-scrollable">
-								<div class="modal-content modal-tb bg-transparent">
+								<div class="modal-content modal-tb bg-transparent border-0">
 
 									{/* <!-- Modal Header --> */}
 									<div class="modal-header bg-pop-tb-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
@@ -1480,6 +1481,11 @@ class Lucky_Rotation extends React.Component {
 										
 									</div>
 
+									{/* <!-- Modal footer --> */}
+									<div class="modal-footer bg-pop-hd-bottom border-0">
+									
+									</div>
+
 								</div>
 							</div>
 						</div>
@@ -1488,7 +1494,7 @@ class Lucky_Rotation extends React.Component {
 						{/* <!-- The Modal Mở quà --> */}
 						<div class="modal fade" id="mq_web">
 							<div class="modal-dialog modal-dialog-scrollable">
-								<div class="modal-content modal-mq bg-transparent">
+								<div class="modal-content modal-mq_web bg-transparent border-0">
 
 								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-mq-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
@@ -1532,7 +1538,7 @@ class Lucky_Rotation extends React.Component {
 					{/* <!-- The Modal Thông báo --> */}
 					<div class="modal fade" id="tb_err">
 						<div class="modal-dialog modal-dialog-scrollable">
-							<div class="modal-content modal-tb bg-transparent">
+							<div class="modal-content modal-tb bg-transparent border-0">
 
 								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-tb-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
@@ -1550,6 +1556,11 @@ class Lucky_Rotation extends React.Component {
 									
 								</div>
 
+								{/* <!-- Modal footer --> */}
+								<div class="modal-footer bg-pop-hd-bottom border-0">
+									
+								</div>
+
 							</div>
 						</div>
 					</div>
@@ -1559,7 +1570,7 @@ class Lucky_Rotation extends React.Component {
 					{/* <!-- The Modal Điểm danh --> */}
 					<div class="modal fade" id="diemdanh">
 						<div class="modal-dialog modal-dialog-scrollable">
-							<div class="modal-content modal-tb bg-transparent">
+							<div class="modal-content modal-tb bg-transparent border-0">
 
 								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-tb-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
@@ -1577,6 +1588,11 @@ class Lucky_Rotation extends React.Component {
 									
 								</div>
 
+								{/* <!-- Modal footer --> */}
+								<div class="modal-footer bg-pop-hd-bottom border-0">
+									
+								</div>
+
 							</div>
 						</div>
 					</div>
@@ -1585,7 +1601,7 @@ class Lucky_Rotation extends React.Component {
 					{/* <!-- The Modal Đặt cược --> */}
 					<div class="modal fade" id="datcuoc">
 						<div class="modal-dialog modal-dialog-scrollable">
-							<div class="modal-content border-0 modal-datcuoc_web bg-transparent">
+							<div class="modal-content border-0 modal-datcuoc_web bg-transparent border-0">
 
 							{/* <!-- Modal Header --> */}
 							<div class="modal-header bg-pop-datcuoc-top border-0 d-block pb-0 position-relative" style={{height: 117}}>

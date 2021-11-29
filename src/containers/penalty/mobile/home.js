@@ -1207,7 +1207,7 @@ class Lucky_Rotation extends React.Component {
 										
 										</tbody>
 									</table>
-									<div className="pagination justify-content-center pag-custom">
+									{(countVinhDanh > 10) ? (<div className="pagination justify-content-center pag-custom">
 										<Pagination
 											activePage={activeVinhDanh}
 											itemsCountPerPage={10}
@@ -1219,7 +1219,8 @@ class Lucky_Rotation extends React.Component {
 											linkClass={"page-link"}
 											onChange={(v) => this.handlePageChangeVinhDanh(type,v)}
 										/>
-									</div> 
+									</div> ):(<div></div>)}
+									
 								</div>
 							</div>    	
 						</div>
@@ -1421,7 +1422,7 @@ class Lucky_Rotation extends React.Component {
 										</tr>
 										</tbody>
 									</table>
-									<div className="pagination justify-content-center pag-custom mt-1">
+									{(countTuDo)?(<div className="pagination justify-content-center pag-custom mt-1">
 										<Pagination
 											activePage={activeTuDo}
 											itemsCountPerPage={limit}
@@ -1433,7 +1434,8 @@ class Lucky_Rotation extends React.Component {
 											linkClass={"page-link"}
 											onChange={(v) => this.handlePageChangeTuDo(v)}
 										/>
-									</div> 
+									</div> ):(<div></div>)}
+									
 								</div>
 							</div>
 							

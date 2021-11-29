@@ -52,6 +52,7 @@ import goal_left_json from '../../../assert/goal_anims/goal_left.json';
 import goal_right from '../../../assert/goal_anims/goal_right.png';
 import goal_right_json from '../../../assert/goal_anims/goal_right.json';
 
+import opt_suttudong_checked from '../../../assert/duatop/opt-suttudong-checked.png';
 import opt_suttudong from '../../../assert/duatop/opt-suttudong.png';
 import bg_banthang from '../../../assert/duatop/bg-banthang.png';
 import btn_suttudong from '../../../assert/duatop/btn-suttudong.png';
@@ -153,6 +154,7 @@ export default class Game extends Phaser.Scene{
 
         
         this.load.image('opt_suttudong', opt_suttudong);
+        this.load.image('opt_suttudong_checked', opt_suttudong_checked);
         this.load.image('bg_banthang', bg_banthang);
         this.load.image('btn_suttudong', btn_suttudong);
         this.load.image('bg_bangxephang', bg_bangxephang);
@@ -375,6 +377,10 @@ export default class Game extends Phaser.Scene{
         this.bg_title_duatop = this.add.image(600,34,'bg_title_duatop')
         this.opt_suttudong = this.add.image(60,620,'opt_suttudong');
         this.opt_suttudong.setScale(0.3,0.3)
+        this.opt_suttudong_checked = this.add.image(60,620,'opt_suttudong_checked');
+        this.opt_suttudong_checked.setScale(0.3,0.3)
+        this.opt_suttudong_checked.visible=false;
+
 
         this.txt_banthang = this.add.text(120,  90, '00', { font: "40px Arial", fill: "#ffffff" });
         this.txt_suttudong = this.add.text(85,  605, "Sút tự động", { font: "27px Arial", fill: "#ffffff" });
@@ -418,6 +424,16 @@ export default class Game extends Phaser.Scene{
         // this.add.sprite(400, 300, 'ball_rotation').play('explodeAnimation');
         this.k_idle_sprite=this.add.sprite(600, 365, 'k_idle', 'k_idle_').play('k_id');
         // this.k_idle_sprite.visible=false;
+
+        this.opt_suttudong.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
+            self.opt_suttudong.visible=false;
+            self.opt_suttudong_checked.visible=true
+        })
+
+        this.opt_suttudong_checked.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
+            self.opt_suttudong.visible=true;
+            self.opt_suttudong_checked.visible=false;
+        })
 
 
         this.input.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, function (pointer) {
@@ -710,6 +726,7 @@ export default class Game extends Phaser.Scene{
         var n=(530-power)/(2*k)
         var y=power;
         var x=605+n*increase_x*m;
+        console.log(x,y)
         return [x,y];
     }
 
@@ -733,6 +750,8 @@ export default class Game extends Phaser.Scene{
             return 8;
         if(x >= 555 && x < 655 && y >= 228 && y < 430)
             return 9;
+        if(y===0)
+            return this.getRandomInt(0,8)
     }
 
 
