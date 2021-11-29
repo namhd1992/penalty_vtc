@@ -19,6 +19,7 @@ import ball_lasted_collision_json from '../../../assert/ball/ball_sprite.json';
 import k_idle from '../../../assert/keep_goal/keep_goal_idle.png';
 import k_idle_json from '../../../assert/keep_goal/keep_goal_idle.json';
 
+
 import keep_goal_left_1 from '../../../assert/keep_goal/keep_goal_left_1.png';
 import keep_goal_left_1_json from '../../../assert/keep_goal/keep_goal_left_1.json';
 import keep_goal_left_2 from '../../../assert/keep_goal/keep_goal_left_2.png';
@@ -62,6 +63,8 @@ import bg_taikhoan from '../../../assert/duatop/bg-taikhoan.png';
 import bg_title_duatop from '../../../assert/duatop/bg-title-duatop.png';
 
 
+
+
 const info={
 	"lang": "vi",
 	"osType": osName.toLocaleUpperCase(),
@@ -82,7 +85,7 @@ var is_ball_lasted=false;
 var result=0;
 var delta_alpha=1;
 var data_game={};
-
+var isPlay=true;
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -437,76 +440,77 @@ export default class Game extends Phaser.Scene{
 
 
         this.input.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, function (pointer) {
-            var user = JSON.parse(localStorage.getItem("user"));
-            var points=data_game.user.points;
-            var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
-            if(points>0){
-                if(pointer.downY-pointer.upY > 0){
-                    var positionBall=self.getPositionBall(pointer);
-                    var keeper_id=self.setPositionKeeper(positionBall[0],positionBall[1])
-                    console.log(positionBall)
-                    console.log('keeper_id',keeper_id)
-                    if(user!==null){
-                        var data= {...info}
-                        data.userId= user.uid;
-                        data.gameId=1;
-                        data.serverId=1;
-                        data.modeId=1;
-                        data.roomId=info_seesion.id;
-                        data.x=1;
-                        data.y=1;
-                        data.z=1;
-                        data.zone=11;
-                        data.autoPlay=false
-                        var header = {
-                            headers: {
-                                "Content-Type": "application/json",
-                                "Authorization": `Bearer ${user.access_token}`,
-                                "dataType":"json"
+            if(isPlay){
+                var user = JSON.parse(localStorage.getItem("user"));
+                var points=data_game.user.points;
+                var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
+                if(points>0){
+                    if(pointer.downY-pointer.upY > 0){
+                        var positionBall=self.getPositionBall(pointer);
+                        var keeper_id=self.setPositionKeeper(positionBall[0],positionBall[1])
+                        console.log(positionBall)
+                        console.log('keeper_id',keeper_id)
+                        if(user!==null){
+                            var data= {...info}
+                            data.userId= user.uid;
+                            data.gameId=1;
+                            data.serverId=1;
+                            data.modeId=1;
+                            data.roomId=info_seesion.id;
+                            data.x=positionBall[0];
+                            data.y=positionBall[1];
+                            data.z=1;
+                            data.zone=11;
+                            data.autoPlay=false
+                            var header = {
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "Authorization": `Bearer ${user.access_token}`,
+                                    "dataType":"json"
+                                }
                             }
+                            axios.post(Ultilities.base_url() +'/lobby/api/v1/race/playing', data, header).then(function (response) {
+                                if(response.data.code>=0){
+                                    isPlay=false;
+                                    result=response.data.data.result; 
+                                    self.setBallLine(pointer)
+                                    var g = self.getRandomInt(0,2)
+                                    var kg = self.getRandomInt(0,8)
+                                    setTimeout(()=>{ 
+                                        play=true;
+                                    }, 550);
+                
+                                    setTimeout(()=>{ 
+                                        self.setKeepGoal(keeper_id);
+                                        self.k_idle_sprite.visible=false;
+                                    }, 1500);
+                
+                                    self.soccer_kick_left_sprite.play("kick_left")
+                                    
+                                    setTimeout(()=>{ 
+                                        play=false;
+                                        isPlay=true;
+                                        x=1;
+                                        increase_x=0;
+                                        increase_y=0;
+                                        delta_alpha=1;
+                                        is_ball_lasted=false;
+                                        self.registry.destroy();
+                                        self.events.off();
+                                        self.scene.restart();
+                                    }, 5000);
+                                }else{
+                                    console.log("Server đang lỗi.")
+                                }
+                            })
+        
+                           
                         }
-                        axios.post(Ultilities.base_url() +'/lobby/api/v1/race/playing', data, header).then(function (response) {
-                            if(response.data.code>=0){
-                                result=response.data.data.result; 
-                                self.setBallLine(pointer)
-                                var g = self.getRandomInt(0,2)
-                                var kg = self.getRandomInt(0,8)
-                                setTimeout(()=>{ 
-                                    play=true;
-                                }, 550);
-            
-                                setTimeout(()=>{ 
-                                    self.setKeepGoal(keeper_id);
-                                    self.k_idle_sprite.visible=false;
-                                }, 1500);
-            
-                                self.soccer_kick_left_sprite.play("kick_left")
-                                
-                                setTimeout(()=>{ 
-                                    play=false;
-                                    x=1;
-                                    increase_x=0;
-                                    increase_y=0;
-                                    delta_alpha=1;
-                                    is_ball_lasted=false;
-                                    self.registry.destroy();
-                                    self.events.off();
-                                    self.scene.restart();
-                                }, 5000);
-                            }else{
-                                console.log("Server đang lỗi.")
-                            }
-                        })
-    
-                       
+                    }else{
+                        console.log("Bạn đã hết Điểm")
                     }
-                }else{
-                    console.log("Bạn đã hết Điểm")
                 }
-            }
-            
-
-          
+            }  
         });
 
         // starsIcon.on('pointerup', function () {
@@ -751,7 +755,9 @@ export default class Game extends Phaser.Scene{
         if(x >= 555 && x < 655 && y >= 228 && y < 430)
             return 9;
         if(y===0)
-            return this.getRandomInt(0,8)
+            return this.getRandomInt(1,9)
+        if(x > 870 || x < 338)
+            return this.getRandomInt(1,9)
     }
 
 

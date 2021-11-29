@@ -82,7 +82,8 @@ var ball_collision_keper=false;
 var is_ball_lasted=false;
 var result=0;
 var delta_alpha=1;
-var data_game={}
+var data_game={};
+var isPlay=true;
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -432,79 +433,84 @@ export default class Game extends Phaser.Scene{
         // this.add.image(600,338,'bg_taikhoan')
         // this.add.image(600,338,'bg_title_loaitructiep')
 
+        
 
         this.input.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, function (pointer) {
-            var user = JSON.parse(localStorage.getItem("user"));
-            var points=data_game.user.points;
-            var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
-            if(points>0){
-                if(pointer.downY-pointer.upY > 0){
-                    var positionBall=self.getPositionBall(pointer);
-                    var keeper_id=self.setPositionKeeper(positionBall[0],positionBall[1])
-                    console.log(positionBall)
-                    console.log('keeper_id',keeper_id)
-                    if(user!==null){
-                        var data= {...info}
-                        data.userId= bigInt(user.uid);
-                        data.gameId=1;
-                        data.serverId=1;
-                        data.modeId=3;
-                        data.roomId=info_seesion.id;
-                        data.x=1;
-                        data.y=1;
-                        data.z=1;
-                        data.zone=11;
-                        data.autoPlay=false
-                        var header = {
-                            headers: {
-                                "Content-Type": "application/json",
-                                "Authorization": `Bearer ${user.access_token}`,
-                                "dataType":"json"
+            if(isPlay){
+                console.log("AAAAAA", isPlay)
+                var user = JSON.parse(localStorage.getItem("user"));
+                var points=data_game.user.points;
+                var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
+                if(points>0){
+                    if(pointer.downY-pointer.upY > 0){
+                        var positionBall=self.getPositionBall(pointer);
+                        var keeper_id=self.setPositionKeeper(positionBall[0],positionBall[1])
+                        console.log(positionBall)
+                        console.log('keeper_id',keeper_id)
+                        if(user!==null){
+                            var data= {...info}
+                            data.userId= bigInt(user.uid);
+                            data.gameId=1;
+                            data.serverId=1;
+                            data.modeId=3;
+                            data.roomId=info_seesion.id;
+                            data.x=1;
+                            data.y=1;
+                            data.z=1;
+                            data.zone=11;
+                            data.autoPlay=false
+                            var header = {
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "Authorization": `Bearer ${user.access_token}`,
+                                    "dataType":"json"
+                                }
                             }
+                            axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/playing', data, header).then(function (response) {
+                                if(response.data.code>=0){
+                                    isPlay=false
+                                    result=response.data.data.result; 
+                                    self.setBallLine(pointer)
+                                    var g = self.getRandomInt(0,2)
+                                    var kg = self.getRandomInt(0,8)
+                                    setTimeout(()=>{ 
+                                        play=true;
+                                    }, 550);
+                
+                                    setTimeout(()=>{ 
+                                        self.setKeepGoal(keeper_id);
+                                        self.k_idle_sprite.visible=false;
+                                    }, 1500);
+                
+                                    self.soccer_kick_left_sprite.play("kick_left")
+                                    
+                                    setTimeout(()=>{ 
+                                        play=false;
+                                        x=1;
+                                        increase_x=0;
+                                        increase_y=0;
+                                        delta_alpha=1;
+                                        isPlay=true
+                                        is_ball_lasted=false;
+                                        self.registry.destroy();
+                                        self.events.off();
+                                        self.scene.restart();
+                                    }, 5000);
+                                }else{
+                                    console.log("Server đang lỗi.")
+                                }
+                            })
+        
+                           
                         }
-                        axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/playing', data, header).then(function (response) {
-                            if(response.data.code>=0){
-                                result=response.data.data.result; 
-                                self.setBallLine(pointer)
-                                var g = self.getRandomInt(0,2)
-                                var kg = self.getRandomInt(0,8)
-                                setTimeout(()=>{ 
-                                    play=true;
-                                }, 550);
-            
-                                setTimeout(()=>{ 
-                                    self.setKeepGoal(keeper_id);
-                                    self.k_idle_sprite.visible=false;
-                                }, 1500);
-            
-                                self.soccer_kick_left_sprite.play("kick_left")
-                                
-                                setTimeout(()=>{ 
-                                    play=false;
-                                    x=1;
-                                    increase_x=0;
-                                    increase_y=0;
-                                    delta_alpha=1;
-                                    is_ball_lasted=false;
-                                    self.registry.destroy();
-                                    self.events.off();
-                                    self.scene.restart();
-                                }, 5000);
-                            }else{
-                                console.log("Server đang lỗi.")
-                            }
-                        })
-    
-                       
+                    }else{
+                        console.log("Bạn đã hết Điểm")
                     }
-                }else{
-                    console.log("Bạn đã hết Điểm")
                 }
             }
             
-
-          
         });
+        
 
         // starsIcon.on('pointerup', function () {
         //     this.cre
