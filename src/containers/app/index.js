@@ -12,6 +12,8 @@ import DuaTop_Mobile from '../penalty/mobile/game/duatop'
 import GiatHuVang_Mobile from '../penalty/mobile/game/giathuvang'
 import LoaiTrucTiep_Mobile from '../penalty/mobile/game/loaitructiep'
 
+import Login from '../login/login'
+
 // import SanQua_Mobile_Android from '../penalty/mobile/android/sanqua'
 // import DuaTop_Mobile_Android from '../penalty/mobile/android/duatop'
 
@@ -48,6 +50,7 @@ class App extends React.Component {
 		return (
 			<div style={{ backgroundColor: this.state.backgroundColor }}>
 				{/* <div style={{maxWidth:"1200px", margin:"auto", background: this.state.backgroundColor }}> */}
+				<Route exact path="/login" component={Login} />
 				{(isMobile)?(<div>
 					{(isAndroid)?(<div><MenuAppBar pathname={document.location.pathname} compact={this.state.compact} scrolling={this.state.scrolling}
 						data={[{ url: "home", label: "home" }, { url: "about", label: "about" }]}></MenuAppBar>

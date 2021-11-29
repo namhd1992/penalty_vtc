@@ -435,22 +435,22 @@ class Lucky_Rotation extends React.Component {
 					if(data.code > 0){
 						if(data.data!==null){
 							var info_seesion=data.data.room;
-							this.setState({info_seesion:info_seesion})
+							this.setState({info_seesion:info_seesion, user_data: data.data.user})
 							localStorage.setItem("info_seesion", JSON.stringify(info_seesion));
 							switch (type) {
 								case 1:
-									window.location.replace('/duatop')
+									this.checkBetting(1, '');
 									break;
 								case 2:
-									this.giathuvang();
-									
+									this.checkBetting(2, 'GIẬT HŨ VÀNG');
 									break;
 								case 3:
-									window.location.replace('/loaitructiep')
+									this.checkBetting(3, 'LOẠI TRỰC TIẾP');
+									// window.location.replace('/loaitructiep')
 									break;
 							
 								default:
-									window.location.replace('/duatop')
+									this.checkBetting(1, '');
 									break;
 							}
 							
@@ -477,13 +477,14 @@ class Lucky_Rotation extends React.Component {
 	}
 
 
-	giathuvang=()=>{
-		const {info_seesion}=this.state;
+	checkBetting=(type, title_module)=>{
+		const {info_seesion, user_data}=this.state;
 		var time=Date.now();
 		var user = JSON.parse(localStorage.getItem("user"));
 		var data= {...info}
 		data.userId= user.uid;
-		data.type=21
+		data.type=21;
+		this.setState({type_modeId: type, title_module:title_module})
 		if(time < info_seesion.betsStartTime){
 			this.setState({message_error:'Chưa tới thời gian đặt cược .'},()=>{
 				$('#tb_err').modal('show');
@@ -497,35 +498,47 @@ class Lucky_Rotation extends React.Component {
 			})
 			return;
 		}
-
-		if (user !== null) {
-			this.props.getBalances(user.access_token, data).then(()=>{
-				var data=this.props.dataBalances;
-				console.log(data)
-				if(data!==undefined){
-					if(data.code > 0){
-						this.setState({points: data.data.balance},()=>{
-							$('#datcuoc').modal('show');
-						})
-					}else{
-						this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
+		
+		if(type===1){
+			if(user_data.points > 0){
+				window.location.replace('/duatop')
+			}else{
+				this.setState({message_error:'Bạn không còn điểm để chơi.'},()=>{
+					$('#tb_err').modal('show');
+				})
+			}
+			
+		}else{
+			if(type===3){
+				if(user_data.points > info_seesion.minBet){
+					if(user_data.betKnockout > 0){
+						this.setState({message_error:'Bạn đã quá số lần cược của phiên.'},()=>{
 							$('#tb_err').modal('show');
 						})
+					}else{
+						$('#datcuoc').modal('show');
 					}
+					
 				}else{
-					this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
+					this.setState({message_error:'Số điểm của bạn không đủ để cược.'},()=>{
 						$('#tb_err').modal('show');
 					})
 				}
-			});
-		}else {
-			$('#tb').modal('show');
-		}
+			}else{
+				if(user_data.points > info_seesion.minBet){
+					$('#datcuoc').modal('show');
+				}else{
+					this.setState({message_error:'Số điểm của bạn không đủ để cược.'},()=>{
+						$('#tb_err').modal('show');
+					})
+				}
+			}
 			
+		}	
 	
 	}
 
-	onBest=()=>{
+	onBest=(type_modeId)=>{
 
 		const {info_seesion}=this.state;
 		var user = JSON.parse(localStorage.getItem("user"));
@@ -533,7 +546,7 @@ class Lucky_Rotation extends React.Component {
 		data.gameId=1;
 		data.serverId=1;
 		data.limit=10;
-		data.modeId=2;
+		data.modeId=type_modeId;
 		data.roomId=info_seesion.id;
 		data.userId=user.uid;
 		data.price=info_seesion.minBet;
@@ -1124,7 +1137,7 @@ class Lucky_Rotation extends React.Component {
 
 
 	render() {
-		const {points, info_seesion, bxh_tab_1, bxh_tab_2, bxh_tab_3,message_sanqua_empty, listSanqua,showRollup, type_action, dataInfoDonate, rollup, message_rollup, content,tab_1, tab_2, tab_3, tab_4,tab_5,tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
+		const {type_modeId, title_module,points, info_seesion, bxh_tab_1, bxh_tab_2, bxh_tab_3,message_sanqua_empty, listSanqua,showRollup, type_action, dataInfoDonate, rollup, message_rollup, content,tab_1, tab_2, tab_3, tab_4,tab_5,tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
 			waiting, activeTuDo, activeHistory, activeVinhDanh, limit, countTuDo, countHistory, countVinhDanh, listHistory, listTuDo, listVinhDanh, user}=this.state;
 		const { classes } = this.props;
 		return (<div>
@@ -1585,11 +1598,11 @@ class Lucky_Rotation extends React.Component {
 										</div>
 									</div>
 									<div class="text-center pb-2">
-										<p class="mb-2">Để tham gia GIẬT HŨ VÀNG bạn cần đặt cược số điểm: <br /> <span class="text-warning h6">{info_seesion.minBet} Điểm</span></p>
+										<p class="mb-2">Để tham gia {title_module} bạn cần đặt cược số điểm: <br /> <span class="text-warning h6">{info_seesion.minBet} Điểm</span></p>
 										<p>Khi đã đặt cược số điểm sẽ không được hoàn lại.</p>
 									</div>
 									<div class="text-center">
-										<button type="button" class="btn btn-danger" style={{marginRight:5}} onClick={this.onBest}>Đồng ý</button>
+										<button type="button" class="btn btn-danger" style={{marginRight:5}} onClick={()=>this.onBest(type_modeId)}>Đồng ý</button>
 										<button type="button" class="btn btn-light" style={{marginLeft:5}} onClick={this.closeDatCuoc}>Thoát</button>
 									</div>
 								</div>

@@ -79,6 +79,7 @@ class MenuAppBar extends React.Component {
 		} else {
 			this.setState({ auth: false });
 			var code = Ultilities.parse_query_string("code", window.location.href);
+			console.log('code:', code)
 			var fb_mess = Ultilities.parse_query_string("fbmessid", window.location.href);
 			var currentPath=localStorage.getItem("currentPath");
 			if (code != null) {

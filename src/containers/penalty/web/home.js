@@ -183,7 +183,8 @@ class Lucky_Rotation extends React.Component {
 			info_seesion:{},
 			points:0,
 			title_module:'',
-			type_modeId:0
+			type_modeId:0,
+			user_data:{}
 		};
 	}
 	componentWillMount(){
@@ -425,6 +426,7 @@ class Lucky_Rotation extends React.Component {
 		data.gameId=1;
 		data.serverId=1;
 		data.modeId=type;
+		data.userId= user.uid;
 		localStorage.removeItem("info_seesion");
 		if (user !== null) {
 			this.props.sessionInPlay(user.access_token, data).then(()=>{
@@ -434,11 +436,11 @@ class Lucky_Rotation extends React.Component {
 						if(data.data!==null){
 							
 							var info_seesion=data.data.room;
-							this.setState({info_seesion:info_seesion})
+							this.setState({info_seesion:info_seesion, user_data: data.data.user})
 							localStorage.setItem("info_seesion", JSON.stringify(info_seesion));
 							switch (type) {
 								case 1:
-									window.location.replace('/duatop')
+									this.checkBetting(1, '');
 									break;
 								case 2:
 									this.checkBetting(2, 'GIẬT HŨ VÀNG');
@@ -449,7 +451,7 @@ class Lucky_Rotation extends React.Component {
 									break;
 							
 								default:
-									window.location.replace('/duatop')
+									this.checkBetting(1, '');
 									break;
 							}
 						}else{
@@ -476,59 +478,81 @@ class Lucky_Rotation extends React.Component {
 
 
 	checkBetting=(type, title_module)=>{
-		const {info_seesion}=this.state;
+		const {info_seesion, user_data}=this.state;
 		var time=Date.now();
 		var user = JSON.parse(localStorage.getItem("user"));
 		var data= {...info}
 		data.userId= user.uid;
 		data.type=21;
 		this.setState({type_modeId: type, title_module:title_module})
-		if(time < info_seesion.betsStartTime){
-			this.setState({message_error:'Chưa tới thời gian đặt cược .'},()=>{
-				$('#tb_err').modal('show');
-			})
-			return;
-		}
 		
-		if(time > info_seesion.betsEndTime){
-			this.setState({message_error:'Thời gian đặt cược đã hết.'},()=>{
-				$('#tb_err').modal('show');
-			})
-			return;
-		}
 		
-		if(type===3){
-
-		}
-
-		if (user !== null) {
-			this.props.getBalances(user.access_token, data).then(()=>{
-				var data=this.props.dataBalances;
-				console.log(data)
-				if(data!==undefined){
-					if(data.code > 0){
-						this.setState({points: data.data.balance},()=>{
-							$('#datcuoc').modal('show');
-						})
-					}else{
-						this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
+		if(type===1){
+			if(time < info_seesion.startTime){
+				this.setState({message_error:'Phiên mới chưa bắt đầu.'},()=>{
+					$('#tb_err').modal('show');
+				})
+				return;
+			}
+			
+			if(time > info_seesion.endTime){
+				this.setState({message_error:'Phiên chơi đã kết thúc.'},()=>{
+					$('#tb_err').modal('show');
+				})
+				return;
+			}
+			if(user_data.points > 0){
+				window.location.replace('/duatop')
+			}else{
+				this.setState({message_error:'Bạn không còn điểm để chơi.'},()=>{
+					$('#tb_err').modal('show');
+				})
+			}
+			
+		}else{
+			if(time < info_seesion.betsStartTime){
+				this.setState({message_error:'Chưa tới thời gian đặt cược .'},()=>{
+					$('#tb_err').modal('show');
+				})
+				return;
+			}
+			
+			if(time > info_seesion.betsEndTime){
+				this.setState({message_error:'Thời gian đặt cược đã hết.'},()=>{
+					$('#tb_err').modal('show');
+				})
+				return;
+			}
+			if(type===3){
+				if(user_data.points > info_seesion.minBet){
+					if(user_data.betKnockout > 0){
+						this.setState({message_error:'Bạn đã quá số lần cược của phiên.'},()=>{
 							$('#tb_err').modal('show');
 						})
+					}else{
+						$('#datcuoc').modal('show');
 					}
+					
 				}else{
-					this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
+					this.setState({message_error:'Số điểm của bạn không đủ để cược.'},()=>{
 						$('#tb_err').modal('show');
 					})
 				}
-			});
-		}else {
-			$('#tb').modal('show');
-		}
+			}else{
+				if(user_data.points > info_seesion.minBet){
+					$('#datcuoc').modal('show');
+				}else{
+					this.setState({message_error:'Số điểm của bạn không đủ để cược.'},()=>{
+						$('#tb_err').modal('show');
+					})
+				}
+			}
 			
+		}	
 	
 	}
 
-	onBest=()=>{
+	onBest=(type_modeId)=>{
 
 		const {info_seesion}=this.state;
 		var user = JSON.parse(localStorage.getItem("user"));
@@ -536,7 +560,7 @@ class Lucky_Rotation extends React.Component {
 		data.gameId=1;
 		data.serverId=1;
 		data.limit=10;
-		data.modeId=2;
+		data.modeId=type_modeId;
 		data.roomId=info_seesion.id;
 		data.userId=user.uid;
 		data.price=info_seesion.minBet;
@@ -548,7 +572,12 @@ class Lucky_Rotation extends React.Component {
 				console.log(data)
 				if(data!==undefined){
 					if(data.code > 0){
-						window.location.replace('/giathuvang')
+						if(type_modeId===2){
+							window.location.replace('/giathuvang')
+						}else{
+							window.location.replace('/loaitructiep')
+						}
+						
 					}else{
 						this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
 							$('#tb_err').modal('show');
@@ -584,6 +613,7 @@ class Lucky_Rotation extends React.Component {
 		window.location.replace(`http://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}/login&agencyid=0`)
 
 	}
+	
 	logoutAction = () => {
 		this.logout();
 	}
