@@ -181,7 +181,9 @@ class Lucky_Rotation extends React.Component {
 			message_sanqua_empty:'',
 			message_diemdanh:'',
 			info_seesion:{},
-			points:0
+			points:0,
+			title_module:'',
+			type_modeId:0
 		};
 	}
 	componentWillMount(){
@@ -439,10 +441,11 @@ class Lucky_Rotation extends React.Component {
 									window.location.replace('/duatop')
 									break;
 								case 2:
-									this.giathuvang();
+									this.checkBetting(2, 'GIẬT HŨ VÀNG');
 									break;
 								case 3:
-									window.location.replace('/loaitructiep')
+									this.checkBetting(3, 'LOẠI TRỰC TIẾP');
+									// window.location.replace('/loaitructiep')
 									break;
 							
 								default:
@@ -472,13 +475,14 @@ class Lucky_Rotation extends React.Component {
 	}
 
 
-	giathuvang=()=>{
+	checkBetting=(type, title_module)=>{
 		const {info_seesion}=this.state;
 		var time=Date.now();
 		var user = JSON.parse(localStorage.getItem("user"));
 		var data= {...info}
 		data.userId= user.uid;
-		data.type=21
+		data.type=21;
+		this.setState({type_modeId: type, title_module:title_module})
 		if(time < info_seesion.betsStartTime){
 			this.setState({message_error:'Chưa tới thời gian đặt cược .'},()=>{
 				$('#tb_err').modal('show');
@@ -491,6 +495,10 @@ class Lucky_Rotation extends React.Component {
 				$('#tb_err').modal('show');
 			})
 			return;
+		}
+		
+		if(type===3){
+
 		}
 
 		if (user !== null) {
@@ -855,46 +863,37 @@ class Lucky_Rotation extends React.Component {
 	}
 
 	getImgItem=(item)=>{
+
+// 		11: InGame
+// 21: Thẻ scoin
+// 22: Topup scoin
+// 31: Vochue Banks
+// 32: Vochue scoin
+// 5: Giftcode
+// 6: Điểm thưởng
+
 		var obj;
 		switch (item) {
-			case "ScoinCard10K":
+			case 5:
 				obj=img_card10k;
 				break;
-			case "ScoinCard20K":
-				obj=img_card20k;
+			case 6:
+				obj=img_card10k;
 				break;
-			case "ScoinCard50K":
-				obj=img_card50k;
+			case 11:
+				obj=img_card10k;
 				break;
-			case "ScoinCard100K":
-				obj=img_card100k;
-				break;
-			case "ScoinCard200K":
-				obj=img_card200k;
-				break;
-			case "ScoinCard300K":
-				obj=img_card300k;
-				break;
-			case "ScoinCard500K":
-				obj=img_card500k;
-				break;
-			case "ScoinCard1000K":
-				obj=img_card1000k
-				break;
-			case "ScoinCard2000K":
-				obj=img_card2000k
-				break;
-			case "ScoinCard5000K":
-				obj=img_card5000k;
-				break;
-			case "TopupScoin50K":
+			case 21:
 				obj=logo_scoin;
 				break;
-			case "ScoinVoucher10K":
+			case 22:
+				obj=img_card50k;
+				break;
+			case 31:
 				obj=img_thescoinvoucher;
 				break;
-			case "BankTransferVoucher20K":
-				obj=img_thescoinvoucher;
+			case 32:
+				obj=logo_scoin;
 				break;
 			default:
 				obj=logo_scoin;
@@ -938,13 +937,13 @@ class Lucky_Rotation extends React.Component {
 		var startTime=obj.startTime;
 		var endTime=obj.endTime;
 		if(startTime > t){
-			return <p class="font-size-16 mb-0">Còn: {this.timeModalGiaiThuowng(obj.startTime)}</p>;
+			return <p class="font-3vw mb-0">Còn: {this.timeModalGiaiThuowng(obj.startTime)}</p>;
 		}
 		if(t > endTime){
-			return <p class="font-size-16 mb-0 text-danger">Đã kết thúc {this.timeEnd(obj.endTime)}</p>;
+			return <p class="font-3vw mb-0 text-danger">Đã kết thúc {this.timeEnd(obj.endTime)}</p>;
 		}
 		if(t > startTime && t < endTime){
-			return <p class="font-size-16 mb-0 text-yellow text-blink"><span class="spinner-grow text-yellow" style={{width: ".8rem", height: ".8rem"}}></span> Đang diễn ra ... </p>;
+			return <p class="font-3vw mb-0 text-yellow text-blink"><span class="spinner-grow text-yellow" style={{width: ".8rem", height: ".8rem"}}></span> Đang diễn ra ... </p>;
 		}
 		return <div></div>;
 	}
@@ -1106,7 +1105,7 @@ class Lucky_Rotation extends React.Component {
 
 
 	render() {
-		const {points,info_seesion, bxh_tab_1, bxh_tab_2, bxh_tab_3, message_sanqua_empty, listSanqua, showRollup,type_action, dataInfoDonate, rollup, message_rollup, content, warning_tudo,tab_1, tab_2, tab_3, tab_4,tab_5, tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
+		const {type_modeId, title_module,points,info_seesion, bxh_tab_1, bxh_tab_2, bxh_tab_3, message_sanqua_empty, listSanqua, showRollup,type_action, dataInfoDonate, rollup, message_rollup, content, warning_tudo,tab_1, tab_2, tab_3, tab_4,tab_5, tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
 			waiting, activeTuDo, activeHistory, activeVinhDanh, limit, countTuDo, countHistory, countVinhDanh, listHistory, listTuDo, listVinhDanh, user}=this.state;
 		return (<div>	
 					<div class="page-fluid_web">
@@ -1320,25 +1319,23 @@ class Lucky_Rotation extends React.Component {
 								
 
 								{/* <!-- Modal body --> */}
-								<div class="modal-body bg-pop-gt-body p-2rem py-1 font-3vw text-white">
+								<div class="modal-body bg-pop-gt-body p-2rem py-1 font-3vw_web text-white">
 									<div class="tab-content">
 										<div class="container">
 											{listSesstions.map((obj, key) => (
-												<div class="row mx-0 mb-1 border-giaithuong-e position-relative d-flex justify-content-center" key={key}>
-													<div class="col-12 text-center text-brown pt-1">
-														<h2 class="font-size-16 font-weight-bold text-uppercase mb-0">{this.getTypeGiaiThuong(obj.gameModeId)}</h2>
+												<div class="row mx-0 mb-1 border-giaithuong-web position-relative d-flex justify-content-center" key={key}>
+													<div class="col-12 text-center text-brown pt-1 mb-2">
+														<h2 class="font-weight-bold text-uppercase mb-0" style={{fontSize:18}}>{this.getTypeGiaiThuong(obj.gameModeId)}</h2>
 														<this.TimeModalGiaiThuong obj={obj} />
 													</div>
 
 													{obj.award.map((v, j) => (
 														<div class="col-4 text-center" key={j}>
-															<p class="m-0"><img src={this.getImgItem(v.code)} alt="" width="60%" /></p>
-															<p class="font-size-16 text-yellow">{v.name}</p>
+															<p class="m-0"><img src={this.getImgItem(v.rewardType)} alt="" width="60%" /></p>
+															<p class="font-3vw_web text-yellow">{v.name}</p>
 														</div>
 													))}
 													<this.HetGio obj={obj} />
-
-													{/* {(obj.Status===2)?(<img class="img-dacochu" src={img_dacochu} alt="" width="30%" />):(<div></div>)} */}
 													
 												</div>
 											))}
@@ -1578,11 +1575,11 @@ class Lucky_Rotation extends React.Component {
 										</div>
 									</div>
 									<div class="text-center pb-4">
-										<p class="mb-2">Để tham gia GIẬT HŨ VÀNG bạn cần đặt cược số điểm: <span class="text-warning h4">{info_seesion.minBet} Điểm</span></p>
+										<p class="mb-2">Để tham gia {title_module} bạn cần đặt cược số điểm: <span class="text-warning h4">{info_seesion.minBet} Điểm</span></p>
 										<p>Khi đã đặt cược số điểm sẽ không được hoàn lại.</p>
 									</div>
 									<div class="text-center">
-										<button type="button" class="btn btn-danger w-25" style={{marginRight:10}} onClick={this.onBest}>Đồng ý</button>
+										<button type="button" class="btn btn-danger w-25" style={{marginRight:10}} onClick={()=>this.onBest(type_modeId)}>Đồng ý</button>
 										<button type="button" class="btn btn-light w-25" style={{marginLeft:10}} onClick={this.closeDatCuoc}>Thoát</button>
 									</div>
 								</div>

@@ -90,6 +90,7 @@ export default class Game extends Phaser.Scene{
 
 
     init(data){
+        var _this=this;
         this.id=data.id;
         var reg = {};
         var user = JSON.parse(localStorage.getItem("user"));
@@ -110,10 +111,18 @@ export default class Game extends Phaser.Scene{
                 }
             }
             axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/connect', data, header).then(function (response) {
-    
-                if(response.data.code>=0){
-                    data_game=response.data.data
+                if(response.data !==undefined){
+                    if(response.data.code>=0){
+                        data_game=response.data.data
+                        _this.timeRemain(data_game.room.endTime)
+                    }else{
+                        window.location.replace('/')
+                    }
+                }else{
+                    window.location.replace('/')
                 }
+            }).catch(function (error) {
+                window.location.replace('/')
             })
         }
     }
@@ -610,6 +619,10 @@ export default class Game extends Phaser.Scene{
                
                 
             }
+        }
+
+        if(Object.keys(data_game).length !== 0){
+
         }
 
         // this.time_update += delta;

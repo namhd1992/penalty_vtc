@@ -90,6 +90,7 @@ export default class Game extends Phaser.Scene{
 
 
     init(data){
+        var _this=this;
         this.id=data.id;
         var reg = {};
         var user = JSON.parse(localStorage.getItem("user"));
@@ -110,10 +111,19 @@ export default class Game extends Phaser.Scene{
                 }
             }
             axios.post(Ultilities.base_url() +'/lobby/api/v1/jackpot/connect', data, header).then(function (response) {
-    
-                if(response.data.code>=0){
-                    data_game=response.data.data
+                console.log(response.data)
+                if(response.data !==undefined){
+                    if(response.data.code>=0){
+                        data_game=response.data.data
+                        _this.timeRemain(data_game.room.endTime)
+                    }else{
+                        window.location.replace('/')
+                    }
+                }else{
+                    window.location.replace('/')
                 }
+            }).catch(function (error) {
+                window.location.replace('/')
             })
         }
     }
@@ -367,14 +377,15 @@ export default class Game extends Phaser.Scene{
         this.opt_suttudong = this.add.image(60,620,'opt_suttudong');
         this.opt_suttudong.setScale(0.3,0.3)
 
-        this.txt_banthang = this.add.text(120,  90, data_game.summary.winCount, { font: "40px Arial", fill: "#ffffff" });
+
+        this.txt_banthang = this.add.text(120,  90, '00', { font: "40px Arial", fill: "#ffffff" });
         this.txt_suttudong = this.add.text(85,  605, "Sút tự động", { font: "27px Arial", fill: "#ffffff" });
         this.txt_title = this.add.text(480,  10, "GIẬT HŨ VÀNG", { font: "40px Arial", fill: "#ffffff", align:'center' });
         this.txt_time = this.add.text(530,  75, 'Còn: 00h00p00', { font: "16px Arial", fill: "#ffffff", align:'center' });
         this.txt_giaithuong = this.add.text(440,  115, `Tổng điểm Hũ Vàng`, { font: "17px Arial", fill: "#ffffff", align:"center", fixedWidth: 200 });
-        this.txt_giaithuong = this.add.text(660,  115, data_game.estimateJackpot, { font: "17px Arial", fill: "#ffffff", align:"center", fixedWidth: 100 });
+        this.txt_giaithuong_value = this.add.text(660,  115, '00', { font: "17px Arial", fill: "#ffffff", align:"center", fixedWidth: 100 });
         this.txt_acc = this.add.text(980,  15, `Chào: ${user.nick_name}`, { font: "18px Arial", fill: "#ffffff", align:'center' });
-        this.txt_points = this.add.text(980,  45, `Điểm: ${data_game.user.points} | Lượt: ${data_game.user.balance} `, { font: "18px Arial", fill: "#ffffff", align:'center' });
+        this.txt_points = this.add.text(980,  45, `Điểm: 00 | Lượt: 00 `, { font: "18px Arial", fill: "#ffffff", align:'center' });
         this.txt_titleRanking = this.add.text(30,  290, 'TÀI KHOẢN                BÀN THẮNG', { font: "13px Arial bold", fill: "#ffffff" });
         var tk=
         `user 1 \nuser 2 \nuser 3 \nuser 4\nuser 5\nuser 6 \nuser 7 \nuser 8 \nuser 9 \nuser 10`
@@ -602,10 +613,16 @@ export default class Game extends Phaser.Scene{
                 
             }
         }
-        this.time_update += delta;
-        while (this.time_update > 1000) {
-            this.timeRemain(data_game.room.endTime)
-            this.time_update -= 1000;
+
+        if(Object.keys(data_game).length !== 0){
+            this.txt_banthang.setText(data_game.summary.winCount)
+            this.txt_giaithuong_value.setText(data_game.estimateJackpot)
+            this.txt_points.setText(`Điểm: ${data_game.user.points} | Lượt: ${data_game.user.balance} `)
+            this.time_update += delta;
+            while (this.time_update > 1000) {
+                this.timeRemain(data_game.room.endTime)
+                this.time_update -= 1000;
+            }
         }
     }
 

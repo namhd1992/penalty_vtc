@@ -59,7 +59,7 @@ body {margin: 0; padding: 0;}
 .bg-ltt_web .box-banthang {position: absolute; top: 0; left: 0; background: url(../images/bg-banthang.png) no-repeat center center; background-size: 100%; width: 243px; height: 145px}
 .bg-ltt_web .box-bxh {position: absolute; top: 36%; left: 20px; background: url(../images/bg-bangxephang.png) no-repeat center center; background-size: 100%; width: 223px; height: 247px}
 .bg-ltt_web .box-suttudong {position: absolute; bottom: 2%; left: 20px; width: 224px; height: 65px}
-
+.border-giaithuong-web {border: solid 1px #800000; border-radius: 8px}
 .s-bvd_web .nav .nav-item .nav-link.active {
     text-align: center;
     -webkit-animation: glow 1s ease-in-out infinite alternate;

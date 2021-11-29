@@ -4,7 +4,6 @@ import {
 	osName,
 	mobileModel
   } from "react-device-detect";
-  import bigInt from "big-integer";
 import axios from 'axios';
 import Ultilities from '../../../../../Ultilities/global'
 
@@ -90,14 +89,14 @@ export default class Game extends Phaser.Scene{
 
 
     init(data){
-        this.id=data.id;
+        this.getDataConnect();
         var _this=this;
         var reg = {};
         var user = JSON.parse(localStorage.getItem("user"));
         var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
         if(user!==null){
             var data= {...info}
-            data.userId= bigInt(user.uid);
+            data.userId= user.uid;
             data.gameId=1;
             data.serverId=1;
             data.modeId=1;
@@ -111,11 +110,18 @@ export default class Game extends Phaser.Scene{
                 }
             }
             axios.post(Ultilities.base_url() +'/lobby/api/v1/race/connect', data, header).then(function (response) {
-    
-                if(response.data.code>=0){
-                    data_game=response.data.data
-                    _this.timeRemain(data_game.room.endTime)
+                if(response.data !==undefined){
+                    if(response.data.code>=0){
+                        data_game=response.data.data
+                        _this.timeRemain(data_game.room.endTime)
+                    }else{
+                        window.location.replace('/')
+                    }
+                }else{
+                    window.location.replace('/')
                 }
+            }).catch(function (error) {
+                window.location.replace('/')
             })
         }
     }
@@ -370,13 +376,13 @@ export default class Game extends Phaser.Scene{
         this.opt_suttudong = this.add.image(60,620,'opt_suttudong');
         this.opt_suttudong.setScale(0.3,0.3)
 
-        this.txt_banthang = this.add.text(120,  90, data_game.summary.winCount, { font: "40px Arial", fill: "#ffffff" });
+        this.txt_banthang = this.add.text(120,  90, '00', { font: "40px Arial", fill: "#ffffff" });
         this.txt_suttudong = this.add.text(85,  605, "Sút tự động", { font: "27px Arial", fill: "#ffffff" });
         this.txt_title = this.add.text(520,  10, "ĐUA TOP", { font: "40px Arial", fill: "#ffffff", align:'center' });
         this.txt_time = this.add.text(530,  75, "Còn: 00h00p00", { font: "16px Arial", fill: "#ffffff", align:'center' });
-        this.txt_giaithuong = this.add.text(440,  115, `Giải thưởng: ${data_game.rewards[0].name}`, { font: "17px Arial", fill: "#ffffff", align:"center", fixedWidth: 333 });
+        this.txt_giaithuong = this.add.text(440,  115, `Giải thưởng:`, { font: "17px Arial", fill: "#ffffff", align:"center", fixedWidth: 333 });
         this.txt_acc = this.add.text(980,  15, `Chào: ${user.nick_name}`, { font: "18px Arial", fill: "#ffffff", align:'center' });
-        this.txt_points = this.add.text(980,  45, `Điểm: ${data_game.user.points} | Lượt: ${data_game.user.balance} `, { font: "18px Arial", fill: "#ffffff", align:'center' });
+        this.txt_points = this.add.text(980,  45, `Điểm: 00 | Lượt: 00 `, { font: "18px Arial", fill: "#ffffff", align:'center' });
         this.txt_titleRanking = this.add.text(30,  290, 'TÀI KHOẢN                BÀN THẮNG', { font: "13px Arial bold", fill: "#ffffff" });
         var tk=
         `user 1 \nuser 2 \nuser 3 \nuser 4\nuser 5\nuser 6 \nuser 7 \nuser 8 \nuser 9 \nuser 10`
@@ -384,8 +390,6 @@ export default class Game extends Phaser.Scene{
         var p=
         `01 \n02 \n03 \n04\n05\n06 \n07 \n08 \n09 \n10`
         this.txt_ranking = this.add.text(180,  305, p, { font: "13px Arial", fill: "#ffffff" });
-
-
 
         // var a= Phaser.Math.Distance.BetweenPoints
         const self = this;
@@ -428,7 +432,7 @@ export default class Game extends Phaser.Scene{
                     console.log('keeper_id',keeper_id)
                     if(user!==null){
                         var data= {...info}
-                        data.userId= bigInt(user.uid);
+                        data.userId= user.uid;
                         data.gameId=1;
                         data.serverId=1;
                         data.modeId=1;
@@ -603,11 +607,20 @@ export default class Game extends Phaser.Scene{
             }
         }
 
-        this.time_update += delta;
-        while (this.time_update > 1000) {
-            this.timeRemain(data_game.room.endTime)
-            this.time_update -= 1000;
+        if(Object.keys(data_game).length !== 0){
+            this.txt_banthang.setText(data_game.summary.winCount)
+            this.txt_giaithuong.setText(`Giải thưởng: ${data_game.rewards[0].name}`)
+            this.txt_points.setText(`Điểm: ${data_game.user.points} | Lượt: ${data_game.user.balance} `)
+            this.time_update += delta;
+            while (this.time_update > 1000) {
+                this.timeRemain(data_game.room.endTime)
+                this.time_update -= 1000;
+            }
         }
+    }
+
+    getDataConnect(){
+
     }
 
     footballOut(){
