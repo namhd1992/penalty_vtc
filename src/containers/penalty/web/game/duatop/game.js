@@ -219,6 +219,16 @@ export default class Game extends Phaser.Scene{
         this.goal_right_sprite.visible=false;
         this.goal_right_sprite.play('g_right');
 
+        const k_idleConfig = {
+            key: 'k_id',
+            frames: 'k_idle',
+            frameRate: 50,
+            repeat: -1
+        };
+        this.anims.create(k_idleConfig);
+    
+        this.k_idle_sprite=this.add.sprite(600, 365, 'k_idle', 'k_idle_').play('k_id');
+
         const keep_goal_left_1_Config = {
             key: 'k_left_1',
             frames: 'keep_goal_left_1',
@@ -384,6 +394,10 @@ export default class Game extends Phaser.Scene{
         this.opt_suttudong_checked.setScale(0.3,0.3)
         this.opt_suttudong_checked.visible=false;
 
+        this.txt_goal = this.add.text(500,  270, 'GOAL', { font: "600 80px Arial", fill: "#ffffff" });
+        this.txt_goal.visible=false;
+        this.txt_miss = this.add.text(500,  270, 'MISS', { font: "600 80px Arial", fill: "#bf0606" });
+        this.txt_miss.visible=false;
 
         this.txt_banthang = this.add.text(120,  90, '00', { font: "40px Arial", fill: "#ffffff" });
         this.txt_suttudong = this.add.text(85,  605, "Sút tự động", { font: "27px Arial", fill: "#ffffff" });
@@ -413,20 +427,7 @@ export default class Game extends Phaser.Scene{
         //     repeat: -1
         // };
 
-        const k_idleConfig = {
-            key: 'k_id',
-            frames: 'k_idle',
-            frameRate: 50,
-            repeat: -1
-        };
-        this.anims.create(k_idleConfig);
-    
-        // this.anims.create(config);
-        // this.anims.create(k_i);
-    
-        // this.add.sprite(400, 300, 'ball_rotation').play('explodeAnimation');
-        this.k_idle_sprite=this.add.sprite(600, 365, 'k_idle', 'k_idle_').play('k_id');
-        // this.k_idle_sprite.visible=false;
+
 
         this.opt_suttudong.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
             self.opt_suttudong.visible=false;
@@ -447,9 +448,9 @@ export default class Game extends Phaser.Scene{
                 if(points>0){
                     if(pointer.downY-pointer.upY > 0){
                         var positionBall=self.getPositionBall(pointer);
-                        var keeper_id=self.setPositionKeeper(positionBall[0],positionBall[1])
+                        var keeper=self.setPositionKeeper(positionBall[0],positionBall[1])
                         console.log(positionBall)
-                        console.log('keeper_id',keeper_id)
+                        console.log('keeper',keeper)
                         if(user!==null){
                             var data= {...info}
                             data.userId= user.uid;
@@ -460,7 +461,7 @@ export default class Game extends Phaser.Scene{
                             data.x=positionBall[0];
                             data.y=positionBall[1];
                             data.z=1;
-                            data.zone=11;
+                            data.zone=keeper[1];
                             data.autoPlay=false
                             var header = {
                                 headers: {
@@ -481,7 +482,7 @@ export default class Game extends Phaser.Scene{
                                     }, 550);
                 
                                     setTimeout(()=>{ 
-                                        self.setKeepGoal(keeper_id);
+                                        self.setKeepGoal(keeper[0]);
                                         self.k_idle_sprite.visible=false;
                                     }, 1500);
                 
@@ -568,6 +569,7 @@ export default class Game extends Phaser.Scene{
                     }
                     if(result===2){
                         this.goal.visible=false;
+                        this.txt_goal.visible=true;
                         if(increase_x > 1.05){
                             this.goal_left_sprite.visible=true
                         }else if(increase_x < -1.05){
@@ -575,6 +577,8 @@ export default class Game extends Phaser.Scene{
                         }else{
                             this.goal_center_anims_sprite.visible=true
                         }
+                    }else{
+                        this.txt_miss.visible=true;
                     }      
                 }else{
                    
@@ -737,27 +741,27 @@ export default class Game extends Phaser.Scene{
 
     setPositionKeeper(x,y){
         if(x >= 338 && x < 475 && y >= 228 && y < 336)
-            return 1;
+            return [1, 11];
         if(x >= 475 && x < 555 && y >= 228 && y < 336)
-            return 2;
+            return [2, 12];
         if(x >= 655 && x < 745 && y >= 228 && y < 336)
-            return 3;
+            return [3, 14];
         if(x >= 745 && x < 870 && y >= 228 && y < 336)
-            return 4;
+            return [4, 15];
         if(x >= 338 && x < 475 && y >= 336 && y < 430)
-            return 5;
+            return [5,21];
         if(x >= 475 && x < 555 && y >= 336 && y < 430)
-            return 6;
+            return [6, 22];
         if(x >= 655 && x < 745 && y >= 336 && y < 430)
-            return 7;
+            return [7,24];
         if(x >= 745 && x < 870 && y >= 336 && y < 430)
-            return 8;
+            return [8, 25];
         if(x >= 555 && x < 655 && y >= 228 && y < 430)
-            return 9;
+            return [9,23];
         if(y===0)
-            return this.getRandomInt(1,9)
+            return [this.getRandomInt(1,9), 0]
         if(x > 870 || x < 338)
-            return this.getRandomInt(1,9)
+            return [this.getRandomInt(1,9),0]
     }
 
 
