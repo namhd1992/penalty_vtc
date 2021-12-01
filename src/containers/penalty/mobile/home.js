@@ -1182,7 +1182,7 @@ class Lucky_Rotation extends React.Component {
 								</li>
 								<li class="nav-item text-center" style={{width: "25%"}}>
 									{isLogin ? (<div>
-											<span class="text-warning fw-bold">{user.nick_name}</span> <br />
+											<span class="text-warning font-2vw">{user.nick_name}</span>
 											<a class="fst-italic font-2vw" onClick={this.logoutAction} title="Thoát">(Thoát)</a>
 											</div>): (
 											<a class="nav-link p-0 text-center text-white font-UTMFacebookKT"  onClick={this.loginAction} title="Đăng nhập"><img src={btn_dang_nhap} width="100%" alt="Đăng nhập" /></a>

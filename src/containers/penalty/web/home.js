@@ -446,23 +446,30 @@ class Lucky_Rotation extends React.Component {
 							if(info_seesion!==null){
 								this.setState({info_seesion:info_seesion, user_data: data.data.user})
 							}
-							
-							localStorage.setItem("info_seesion", JSON.stringify(info_seesion));
-							switch (type) {
-								case 1:
-									this.checkBetting(1, '');
-									break;
-								case 2:
-									this.checkBetting(2, 'GIẬT HŨ VÀNG');
-									break;
-								case 3:
-									this.checkBetting(3, 'LOẠI TRỰC TIẾP');
-									// window.location.replace('/loaitructiep')
-									break;
-							
-								default:
-									this.checkBetting(1, '');
-									break;
+
+							if(data.data.room!==null){
+								localStorage.setItem("info_seesion", JSON.stringify(info_seesion));
+								switch (type) {
+									case 1:
+										this.checkBetting(1, '');
+										break;
+									case 2:
+										this.checkBetting(2, 'GIẬT HŨ VÀNG');
+										break;
+									case 3:
+										this.checkBetting(3, 'LOẠI TRỰC TIẾP');
+										// window.location.replace('/loaitructiep')
+										break;
+								
+									default:
+										this.checkBetting(1, '');
+										break;
+								}
+							}else{
+								this.setState({message_error:"Hiện chưa có phiên nào."}, ()=>{
+									let myModal = new Modal(document.getElementById('tb_err'));
+									myModal.show();
+								})
 							}
 						}else{
 							this.setState({message_error:"Hiện chưa có phiên nào."}, ()=>{
@@ -546,8 +553,10 @@ class Lucky_Rotation extends React.Component {
 							myModal.show();
 						})
 					}else{
-						let myModal = new Modal(document.getElementById('datcuoc'));
-						myModal.show();
+						this.setState({points:user_data.points},()=>{
+							let myModal = new Modal(document.getElementById('datcuoc'));
+							myModal.show();
+						})
 					}
 					
 				}else{
@@ -558,8 +567,10 @@ class Lucky_Rotation extends React.Component {
 				}
 			}else{
 				if(user_data.points > info_seesion.minBet){
-					let myModal = new Modal(document.getElementById('datcuoc'));
-					myModal.show();
+					this.setState({points:user_data.points},()=>{
+						let myModal = new Modal(document.getElementById('datcuoc'));
+						myModal.show();
+					})
 				}else{
 					this.setState({message_error:'Số điểm của bạn không đủ để cược.'},()=>{
 						let myModal = new Modal(document.getElementById('tb_err'));
@@ -1281,9 +1292,9 @@ class Lucky_Rotation extends React.Component {
 								<div class="modal-content modal-huongdan_web bg-transparent border-0">
 
 								{/* <!-- Modal Header --> */}
-								<div class="modal-header bg-pop-hd-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
+								<div class="modal-header bg-pop-hd_web-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
 									<button type="button" class="btn-close-white btn-close float-end m-0" data-bs-dismiss="modal"></button>
-									<div class="tab-hd w-100">
+									<div class="tab-hd_web w-100">
 										<ul class="nav justify-content-center">
 										<li class="nav-item" style={{width: "17%"}}>
 											<a class={tab_1 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Tham gia" onClick={this.tab1}>&nbsp;</a>
@@ -1306,7 +1317,7 @@ class Lucky_Rotation extends React.Component {
 								
 
 								{/* <!-- Modal body --> */}
-								<div class="modal-body bg-pop-hd-body p-2rem py-1 font-3vw text-white">
+								<div class="modal-body bg-pop-hd_web-body p-2rem py-1 font-3vw text-white">
 									{/* <!-- Tab panes --> */}
 									<div class="tab-content">
 									<div class="tab-pane container active" id="tg">
@@ -1349,7 +1360,7 @@ class Lucky_Rotation extends React.Component {
 									
 								</div>
 								{/* <!-- Modal footer --> */}
-								<div class="modal-footer bg-pop-hd-bottom border-0">
+								<div class="modal-footer bg-pop-hd_web-bottom border-0">
 									
 								</div>
 
@@ -1411,7 +1422,7 @@ class Lucky_Rotation extends React.Component {
 								<div class="modal-content modal-td_web bg-transparent border-0">
 
 								{/* <!-- Modal Header --> */}
-								<div class="modal-header bg-pop-td-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
+								<div class="modal-header bg-pop-td_web-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
 									<button type="button" class="btn-close-white btn-close float-end m-0" data-bs-dismiss="modal" style={{marginRight: "3%"}}></button>
 									{/* <div class="tab-hd w-100">
 										<ul class="nav justify-content-center">

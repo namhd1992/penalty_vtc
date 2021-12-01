@@ -387,11 +387,16 @@ export default class Game extends Phaser.Scene{
         this.txt_acc = this.add.text(980,  15, `Chào: ${user.nick_name}`, { font: "18px Arial", fill: "#ffffff", align:'center' });
         this.txt_points = this.add.text(980,  45, `Điểm: 00 | Lượt: 00 `, { font: "18px Arial", fill: "#ffffff", align:'center' });
         this.txt_titleRanking = this.add.text(30,  290, 'TÀI KHOẢN                BÀN THẮNG', { font: "13px Arial bold", fill: "#ffffff" });
-        var tk=
-        `user 1 \nuser 2 \nuser 3 \nuser 4\nuser 5\nuser 6 \nuser 7 \nuser 8 \nuser 9 \nuser 10`
+        var len_ranking=data_game.rankings.length;
+        var tk=``;
+        var p=``;
+        if(len_ranking > 0){
+            for (let i = 0; i < len_ranking; i++) {
+                tk +=`${data_game.rankings[i].userName} \n`
+                p +=`${data_game.rankings[i].winCount} \n`
+            }
+        }
         this.txt_ranking = this.add.text(30,  305, tk, { font: "13px Arial", fill: "#ffffff" });
-        var p=
-        `01 \n02 \n03 \n04\n05\n06 \n07 \n08 \n09 \n10`
         this.txt_ranking = this.add.text(180,  305, p, { font: "13px Arial", fill: "#ffffff" });
 
 
