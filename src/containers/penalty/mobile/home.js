@@ -431,12 +431,14 @@ class Lucky_Rotation extends React.Component {
   
 	getSessionInPlay=(type)=>{
 		var user = JSON.parse(localStorage.getItem("user"));
-		var data= {...info}
-		data.gameId=1;
-		data.serverId=1;
-		data.modeId=type;
+		
 		localStorage.removeItem("info_seesion");
 		if (user !== null) {
+			var data= {...info}
+			data.gameId=1;
+			data.serverId=1;
+			data.modeId=type;
+			data.userId= user.uid;
 			this.props.sessionInPlay(user.access_token, data).then(()=>{
 				var data=this.props.dataSessionInplay;
 				if(data!==undefined){

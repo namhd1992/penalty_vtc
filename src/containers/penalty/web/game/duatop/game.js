@@ -86,6 +86,7 @@ var result=0;
 var delta_alpha=1;
 var data_game={};
 var isPlay=true;
+var auto_play=false;
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -453,11 +454,13 @@ export default class Game extends Phaser.Scene{
 
         this.opt_suttudong.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
             self.opt_suttudong.visible=false;
-            self.opt_suttudong_checked.visible=true
+            auto_play=true;
+            self.opt_suttudong_checked.visible=true;
         })
 
         this.opt_suttudong_checked.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
             self.opt_suttudong.visible=true;
+            auto_play=false;
             self.opt_suttudong_checked.visible=false;
         })
 
@@ -656,7 +659,7 @@ export default class Game extends Phaser.Scene{
         if(Object.keys(data_game).length !== 0){
             this.txt_banthang.setText(data_game.summary.winCount)
             this.txt_giaithuong.setText(`Giải thưởng: ${data_game.rewards[0].name}`)
-            this.txt_points.setText(`Điểm: ${data_game.user.points} | Lượt: ${data_game.user.balance} `)
+            this.txt_points.setText(`Điểm: ${data_game.user.points}`)
             this.time_update += delta;
             while (this.time_update > 1000) {
                 this.timeRemain(data_game.room.endTime)
