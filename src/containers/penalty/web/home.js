@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import Pagination from "react-js-pagination";
 import Ultilities from '../../../Ultilities/global'
 import { Link } from "react-router-dom";
+import { Modal } from 'bootstrap'
 import axios from 'axios';
 import { connect } from 'react-redux';
 import bigInt from "big-integer";
@@ -212,14 +213,14 @@ class Lucky_Rotation extends React.Component {
 		// if(update29===null){
 		// 	$('#Modalbanner').modal('show');
 		// }
-		$('#Modalbanner').modal('show');
+		// $('#Modalbanner').modal('show');
 
 
 		// localStorage.setItem("update29", true);
 	
 
 		this.getVinhDanh(1,0);
-		$('.popover-visible-trigger').popover('show').off('click'); 
+		// $('.popover-visible-trigger').popover('show').off('click'); 
 
 
 		if (user !== null) {
@@ -367,12 +368,14 @@ class Lucky_Rotation extends React.Component {
 					}else{
 						
 						this.setState({message_error:'Không lấy được dữ liệu bảng vinh danh.'}, ()=>{
-							$('#tb_err').modal('show');
+							let myModal = new Modal(document.getElementById('tb_err'));
+							myModal.show();
 						})
 					}
 				}else{
 					this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
-						$('#tb_err').modal('show');
+						let myModal = new Modal(document.getElementById('tb_err'));
+						myModal.show();
 					})
 				}
 			});
@@ -402,33 +405,37 @@ class Lucky_Rotation extends React.Component {
 				if(data!==undefined){
 					if(data.code > 0){
 						this.setState({listSesstions: new_room},()=>{
-							$('#gt_web').modal('show');
+							let myModal = new Modal(document.getElementById('gt_web'));
+							myModal.show();
 						})
 					}else{
 						this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
-							$('#tb_err').modal('show');
+							let myModal = new Modal(document.getElementById('tb_err'));
+							myModal.show();
 						})
 					}
 				}else{
 					this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
-						$('#tb_err').modal('show');
+						let myModal = new Modal(document.getElementById('tb_err'));
+						myModal.show();
 					})
 				}
 			});
 		}else {
-			$('#tb_web').modal('show');
+			let myModal = new Modal(document.getElementById('tb_web'));
+			myModal.show();
 		}
 	}
   
 	getSessionInPlay=(type)=>{
 		var user = JSON.parse(localStorage.getItem("user"));
-		var data= {...info}
-		data.gameId=1;
-		data.serverId=1;
-		data.modeId=type;
-		data.userId= user.uid;
 		localStorage.removeItem("info_seesion");
 		if (user !== null) {
+			var data= {...info}
+			data.gameId=1;
+			data.serverId=1;
+			data.modeId=type;
+			data.userId= user.uid;
 			this.props.sessionInPlay(user.access_token, data).then(()=>{
 				var data=this.props.dataSessionInplay;
 				if(data!==undefined){
@@ -459,23 +466,27 @@ class Lucky_Rotation extends React.Component {
 							}
 						}else{
 							this.setState({message_error:"Hiện chưa có phiên nào."}, ()=>{
-								$('#tb_err').modal('show');
+								let myModal = new Modal(document.getElementById('tb_err'));
+								myModal.show();
 							})
 						}
 					
 					}else{
 						this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
-							$('#tb_err').modal('show');
+							let myModal = new Modal(document.getElementById('tb_err'));
+							myModal.show();
 						})
 					}
 				}else{
 					this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
-						$('#tb_err').modal('show');
+						let myModal = new Modal(document.getElementById('tb_err'));
+						myModal.show();
 					})
 				}
 			});
 		}else {
-			$('#tb_web').modal('show');
+			let myModal = new Modal(document.getElementById('tb_web'));
+			myModal.show();
 		}
 	}
 
@@ -483,24 +494,22 @@ class Lucky_Rotation extends React.Component {
 	checkBetting=(type, title_module)=>{
 		const {info_seesion, user_data}=this.state;
 		var time=Date.now();
-		var user = JSON.parse(localStorage.getItem("user"));
-		var data= {...info}
-		data.userId= user.uid;
-		data.type=21;
 		this.setState({type_modeId: type, title_module:title_module})
 		
 		
 		if(type===1){
 			if(time < info_seesion.startTime){
 				this.setState({message_error:'Phiên mới chưa bắt đầu.'},()=>{
-					$('#tb_err').modal('show');
+					let myModal = new Modal(document.getElementById('tb_err'));
+					myModal.show();
 				})
 				return;
 			}
 			
 			if(time > info_seesion.endTime){
 				this.setState({message_error:'Phiên chơi đã kết thúc.'},()=>{
-					$('#tb_err').modal('show');
+					let myModal = new Modal(document.getElementById('tb_err'));
+					myModal.show();
 				})
 				return;
 			}
@@ -508,21 +517,24 @@ class Lucky_Rotation extends React.Component {
 				window.location.replace('/duatop')
 			}else{
 				this.setState({message_error:'Bạn không còn điểm để chơi.'},()=>{
-					$('#tb_err').modal('show');
+					let myModal = new Modal(document.getElementById('tb_err'));
+					myModal.show();
 				})
 			}
 			
 		}else{
 			if(time < info_seesion.betsStartTime){
 				this.setState({message_error:'Chưa tới thời gian đặt cược .'},()=>{
-					$('#tb_err').modal('show');
+					let myModal = new Modal(document.getElementById('tb_err'));
+					myModal.show();
 				})
 				return;
 			}
 			
 			if(time > info_seesion.betsEndTime){
 				this.setState({message_error:'Thời gian đặt cược đã hết.'},()=>{
-					$('#tb_err').modal('show');
+					let myModal = new Modal(document.getElementById('tb_err'));
+					myModal.show();
 				})
 				return;
 			}
@@ -530,23 +542,28 @@ class Lucky_Rotation extends React.Component {
 				if(user_data.points > info_seesion.minBet){
 					if(user_data.betKnockout > 0){
 						this.setState({message_error:'Bạn đã quá số lần cược của phiên.'},()=>{
-							$('#tb_err').modal('show');
+							let myModal = new Modal(document.getElementById('tb_err'));
+							myModal.show();
 						})
 					}else{
-						$('#datcuoc').modal('show');
+						let myModal = new Modal(document.getElementById('datcuoc'));
+						myModal.show();
 					}
 					
 				}else{
 					this.setState({message_error:'Số điểm của bạn không đủ để cược.'},()=>{
-						$('#tb_err').modal('show');
+						let myModal = new Modal(document.getElementById('tb_err'));
+						myModal.show();
 					})
 				}
 			}else{
 				if(user_data.points > info_seesion.minBet){
-					$('#datcuoc').modal('show');
+					let myModal = new Modal(document.getElementById('datcuoc'));
+					myModal.show();
 				}else{
 					this.setState({message_error:'Số điểm của bạn không đủ để cược.'},()=>{
-						$('#tb_err').modal('show');
+						let myModal = new Modal(document.getElementById('tb_err'));
+						myModal.show();
 					})
 				}
 			}
@@ -559,17 +576,18 @@ class Lucky_Rotation extends React.Component {
 
 		const {info_seesion}=this.state;
 		var user = JSON.parse(localStorage.getItem("user"));
-		var data= {...info}
-		data.gameId=1;
-		data.serverId=1;
-		data.limit=10;
-		data.modeId=type_modeId;
-		data.roomId=info_seesion.id;
-		data.userId=user.uid;
-		data.price=info_seesion.minBet;
-		data.source=21;
-
+		
 		if (user !== null) {
+			var data= {...info}
+			data.gameId=1;
+			data.serverId=1;
+			data.limit=10;
+			data.modeId=type_modeId;
+			data.roomId=info_seesion.id;
+			data.userId=user.uid;
+			data.price=info_seesion.minBet;
+			data.source=21;
+
 			this.props.betting(user.access_token, data).then(()=>{
 				var data=this.props.dataBetting;
 				console.log(data)
@@ -583,17 +601,20 @@ class Lucky_Rotation extends React.Component {
 						
 					}else{
 						this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
-							$('#tb_err').modal('show');
+							let myModal = new Modal(document.getElementById('tb_err'));
+							myModal.show();
 						})
 					}
 				}else{
 					this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
-						$('#tb_err').modal('show');
+						let myModal = new Modal(document.getElementById('tb_err'));
+						myModal.show();
 					})
 				}
 			});
 		}else {
-			$('#tb_web').modal('show');
+			let myModal = new Modal(document.getElementById('tb_web'));
+			myModal.show();
 		}
 	}
 
@@ -623,25 +644,28 @@ class Lucky_Rotation extends React.Component {
 
 	logout=()=>{
 		var user = JSON.parse(localStorage.getItem("user"));
-		var data= {...info}
-		data.userId= bigInt(user.uid);
-		console.log(data)
-		var header = {
-			headers: {
-				"Content-Type": "application/json",
-				"Authorization": `Bearer ${user.access_token}`,
-				"dataType":"json"
+		
+		if(user!==null){
+			var data= {...info}
+			data.userId= user.uid;
+			var header = {
+				headers: {
+					"Content-Type": "application/json",
+					"Authorization": `Bearer ${user.access_token}`,
+					"dataType":"json"
+				}
 			}
-		}
-		axios.post(Ultilities.base_url() +'/users/api/v1/account/logout', data, header).then(function (response) {
+			axios.post(Ultilities.base_url() +'/users/api/v1/account/logout', data, header).then(function (response) {
 
-			if(response.data.code>=0){
-				localStorage.removeItem("user");
-				window.location.replace(
-					`https://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}&action=logout&agencyid=0`,
-				);
-			}
-		})
+				if(response.data.code>=0){
+					localStorage.removeItem("user");
+					window.location.replace(
+						`https://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}&action=logout&agencyid=0`,
+					);
+				}
+			})
+		}
+		
 	}
 
 
@@ -676,65 +700,69 @@ class Lucky_Rotation extends React.Component {
 	}
 
 
-	showModalRules=()=>{
-		$('#myModal1').modal('show'); 
-	}
-
-	hideModalRules=()=>{
-		$('#myModal1').modal('hide');
-	}
-
 	showModalTuDo=()=>{
 		var user = JSON.parse(localStorage.getItem("user"));
 		if (user !== null) {
 			this.getDataTuDo(user);
 		}else {
-			$('#tb_web').modal('show');
+			let myModal = new Modal(document.getElementById('tb_web'));
+			myModal.show();
 		}
 	}
 
 
 
 	showModalHuongDan=()=>{
-		$('#huongdan_web').modal('show');
+		let myModal = new Modal(document.getElementById('huongdan_web'));
+		myModal.show();
 	}
 
   
 	getDataTuDo=(user)=>{
 		const {limit, activeTuDo}=this.state;
-		var data= {...info}
-		data.gameId=1;
-		data.serverId=1;
-		data.modeId=1;
-		data.userId= user.uid;
-		data.type=5;
-		data.fromDate=-1;
-		data.toDate=-1;
-		data.pageIndex=activeTuDo;
-		data.pageSize=limit;
+		
 		this.setState({tab_tudo: true})
-		this.props.getTuDo(user.access_token, data).then(()=>{
-			var d=this.props.dataTuDo;
-			if(d!==undefined){
-				if(d.code>0){
-					this.setState({listTuDo:d.data.items, countTuDo:d.data.totalItems, noti_tudo:false}, ()=>{
-						$('#td_web').modal('show');
-					})
-				}else if(d.Status===3){
-					this.logoutAction();
+		if(user!==null){
+			var data= {...info}
+			data.gameId=1;
+			data.serverId=1;
+			data.modeId=1;
+			data.userId= user.uid;
+			data.type=5;
+			data.fromDate=-1;
+			data.toDate=-1;
+			data.pageIndex=activeTuDo;
+			data.pageSize=limit;
+			this.props.getTuDo(user.access_token, data).then(()=>{
+				var d=this.props.dataTuDo;
+				if(d!==undefined){
+					if(d.code>0){
+						this.setState({listTuDo:d.data.items, countTuDo:d.data.totalItems, noti_tudo:false}, ()=>{
+							let myModal = new Modal(document.getElementById('td_web'));
+							myModal.show();
+						})
+					}else if(d.Status===3){
+						this.logoutAction();
+					}else{
+					
+						this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'}, ()=>{
+							let myModal = new Modal(document.getElementById('tb_err'));
+							myModal.show();
+						})
+					}
 				}else{
-				
-					this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'}, ()=>{
-						$('#tb_err').modal('show');
+					this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
+						let myModal = new Modal(document.getElementById('tb_err'));
+						myModal.show();
 					})
 				}
-			}else{
-				this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
-					$('#tb_err').modal('show');
-				})
-			}
-			
-		});
+				
+			});
+		}else {
+			let myModal = new Modal(document.getElementById('tb_web'));
+			myModal.show();
+		}
+		
 	}
 
 	getHistory=(user)=>{
@@ -803,13 +831,6 @@ class Lucky_Rotation extends React.Component {
 		$('#myModal9').modal('hide');
 	}
 
-	showModalDetailBonus=()=>{
-		$('#myModal4').modal('show');
-	}
-
-	hideModalDetailBonus=()=>{
-		$('#myModal4').modal('hide');
-	}
 	closeServerErr=()=>{
 		$('#myModal12').modal('hide');
 	}
@@ -842,13 +863,6 @@ class Lucky_Rotation extends React.Component {
 		window.open(url, '_blank').focus();
 	}
 
-	xacThuc=(url)=> {
-		localStorage.removeItem("user");
-		document.location.reload(true);
-		$('#myModal8').modal('hide');
-		window.open(url, '_blank').focus();
-	}
-
 
 
 	randomItemIndex=()=>{
@@ -859,9 +873,6 @@ class Lucky_Rotation extends React.Component {
 		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
 
-	sanqua=()=>{
-		$('#Modalthele').modal('show');
-	}
 
 	showTooltip=()=>{
 		$('[data-toggle="tooltip"]').tooltip();
@@ -1025,17 +1036,20 @@ class Lucky_Rotation extends React.Component {
 				if(data!==undefined){
 					if(data.code >0){
 						this.setState({rollup:true, message_error: data.message, type_action:'Điểm danh', showRollup:false}, ()=>{
-							$('#tb_err').modal('show');
+							let myModal = new Modal(document.getElementById('tb_err'));
+							myModal.show();
 						})
 					}else{
 						this.setState({rollup:false, message_error: data.message}, ()=>{
-							$('#tb_err').modal('show');
+							let myModal = new Modal(document.getElementById('tb_err'));
+							myModal.show();
 						})
 					}
 				}
 			})
 		}else {
-			$('#tb_web').modal('show');
+			let myModal = new Modal(document.getElementById('tb_web'));
+			myModal.show();
 		}
 
 	}
@@ -1112,27 +1126,33 @@ class Lucky_Rotation extends React.Component {
 	}
 
 	closeHD=()=>{
-		$('#huongdan_web').modal('hide');
+		let myModal = new Modal(document.getElementById('huongdan_web'));
+		myModal.hide();
 	}
 
 	closeGT=()=>{
-		$('#gt_web').modal('hide');
+		let myModal = new Modal(document.getElementById('gt_web'));
+		myModal.hide();
 	}
 
 	closeTD=()=>{
-		$('#td_web').modal('hide');
+		let myModal = new Modal(document.getElementById('td_web'));
+		myModal.hide();
 	}
 
 	closeTb=()=>{
-		$('#tb_web').modal('hide');
+		let myModal = new Modal(document.getElementById('tb_web'));
+		myModal.hide();
 	}
 
 	closeTbErr=()=>{
-		$('#tb_err').modal('hide');
+		let myModal = new Modal(document.getElementById('tb_err'));
+		myModal.hide();
 	}
 
 	closeDatCuoc=()=>{
-		$('#datcuoc').modal('hide');
+		let myModal = new Modal(document.getElementById('datcuoc'));
+		myModal.hide();
 	}
 
 
@@ -1169,8 +1189,8 @@ class Lucky_Rotation extends React.Component {
 								</ul>
 								<div class="s-btn-options_web d-flex justify-content-around">
 									<a class="text-center" title="Đua TOP" onClick={()=>this.getSessionInPlay(1)} style={{cursor:'pointer'}}><img src={btn_duatop} alt="Đua TOP" width="80%" /></a>
-									<a class="text-center" title="Giật Hũ Vàng" onClick={()=>this.getSessionInPlay(2)} style={{cursor:'pointer'}}><img src={btn_giathuvang} alt="Đua TOP" width="80%" /></a>
-									<a class="text-center" title="Loại Trực Tiếp" onClick={()=>this.getSessionInPlay(3)} style={{cursor:'pointer'}}><img src={btn_loaitructiep} alt="Đua TOP" width="80%" /></a>
+									<a class="text-center" title="Giật Hũ Vàng" onClick={()=>this.getSessionInPlay(2)} style={{cursor:'pointer'}}><img src={btn_giathuvang} alt="Giật Hũ Vàng" width="80%" /></a>
+									<a class="text-center" title="Loại Trực Tiếp" onClick={()=>this.getSessionInPlay(3)} style={{cursor:'pointer'}}><img src={btn_loaitructiep} alt="Loại Trực Tiếp" width="80%" /></a>
 								</div>
 							</div>
 							<div class="s-bvd_web position-relative">
@@ -1263,7 +1283,7 @@ class Lucky_Rotation extends React.Component {
 
 								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-hd-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
-									<button type="button" class="btn-close float-end pe-5" onClick={this.closeHD} style={{marginRight: "3%"}}></button>
+									<button type="button" class="btn-close-white btn-close float-end m-0" data-bs-dismiss="modal"></button>
 									<div class="tab-hd w-100">
 										<ul class="nav justify-content-center">
 										<li class="nav-item" style={{width: "17%"}}>
@@ -1347,7 +1367,7 @@ class Lucky_Rotation extends React.Component {
 
 								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-gt-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
-									<button type="button" class="btn-close float-end pe-5" onClick={this.closeGT} style={{marginRight: "3%"}}></button>
+									<button type="button" class="btn-close-white btn-close float-end m-0" data-bs-dismiss="modal"></button>
 								</div>
 								
 
@@ -1393,7 +1413,7 @@ class Lucky_Rotation extends React.Component {
 
 								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-td-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
-									<button type="button" class="btn-close float-end pe-5" onClick={this.closeTD} style={{marginRight: "3%"}}></button>
+									<button type="button" class="btn-close-white btn-close float-end m-0" data-bs-dismiss="modal" style={{marginRight: "3%"}}></button>
 									{/* <div class="tab-hd w-100">
 										<ul class="nav justify-content-center">
 										<li class="nav-item" style={{width: "43%"}}>
@@ -1468,7 +1488,7 @@ class Lucky_Rotation extends React.Component {
 
 									{/* <!-- Modal Header --> */}
 									<div class="modal-header bg-pop-tb-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
-										<button type="button" class="btn-close float-end pe-5" onClick={this.closeTb} style={{marginRight: "3%"}}></button>
+										<button type="button" class="btn-close-white btn-close float-end m-0" data-bs-dismiss="modal"></button>
 									</div>
 									
 
@@ -1500,7 +1520,7 @@ class Lucky_Rotation extends React.Component {
 
 								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-mq-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
-									<button type="button" class="btn-close float-end pe-5" data-bs-dismiss="modal" style={{marginRight: "3%"}}></button>
+									<button type="button" class="btn-close-white btn-close float-end m-0" data-bs-dismiss="modal"></button>
 								</div>
 								
 
@@ -1544,7 +1564,7 @@ class Lucky_Rotation extends React.Component {
 
 								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-tb_err-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
-									<button type="button" class="btn-close float-end pe-5" onClick={this.closeTbErr} style={{marginRight: "3%"}}></button>
+									<button type="button" class="btn-close-white btn-close float-end m-0" data-bs-dismiss="modal"></button>
 								</div>
 								
 
