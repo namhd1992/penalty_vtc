@@ -1123,6 +1123,14 @@ class Lucky_Rotation extends React.Component {
 		$('#td_web').modal('hide');
 	}
 
+	closeTb=()=>{
+		$('#tb_web').modal('hide');
+	}
+
+	closeTbErr=()=>{
+		$('#tb_err').modal('hide');
+	}
+
 	closeDatCuoc=()=>{
 		$('#datcuoc').modal('hide');
 	}
@@ -1460,7 +1468,7 @@ class Lucky_Rotation extends React.Component {
 
 									{/* <!-- Modal Header --> */}
 									<div class="modal-header bg-pop-tb-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
-										<button type="button" class="btn-close float-end pe-5" data-bs-dismiss="modal" style={{marginRight: "3%"}}></button>
+										<button type="button" class="btn-close float-end pe-5" onClick={this.closeTb} style={{marginRight: "3%"}}></button>
 									</div>
 									
 
@@ -1536,7 +1544,7 @@ class Lucky_Rotation extends React.Component {
 
 								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-tb_err-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
-									<button type="button" class="btn-close float-end pe-5" data-bs-dismiss="modal" style={{marginRight: "3%"}}></button>
+									<button type="button" class="btn-close float-end pe-5" onClick={this.closeTbErr} style={{marginRight: "3%"}}></button>
 								</div>
 								
 
