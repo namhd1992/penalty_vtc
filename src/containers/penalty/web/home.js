@@ -720,8 +720,6 @@ class Lucky_Rotation extends React.Component {
   
 	getDataTuDo=(user)=>{
 		const {limit, activeTuDo}=this.state;
-		
-		this.setState({tab_tudo: true})
 		if(user!==null){
 			var data= {...info}
 			data.gameId=1;
@@ -733,6 +731,7 @@ class Lucky_Rotation extends React.Component {
 			data.toDate=-1;
 			data.pageIndex=activeTuDo;
 			data.pageSize=limit;
+			this.setState({tab_tudo: true})
 			this.props.getTuDo(user.access_token, data).then(()=>{
 				var d=this.props.dataTuDo;
 				if(d!==undefined){

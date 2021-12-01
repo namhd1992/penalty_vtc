@@ -30,7 +30,7 @@ body {margin: 0; padding: 0;}
 .font-UTMFacebookKTBold {font-family: UTMFacebookKTBold;}
 .font-UTMFacebookKTBoldItalic {font-family: UTMFacebookKTBoldItalic;}
 .text-blue_web {color:#208081 !important;}
-.p-2rem_web {padding: 2rem !important;}
+.p-2rem_web {padding: 1rem 2rem 2rem 2rem !important;}
 .wrap_web {max-width: 768px !important; width: 100%; height: auto; display: block;}
 .s-bvd_web {background:url(../images/bg-bvd.png) no-repeat; background-size: 100%; background-position: top center; height: 550px; margin-top: -7px; z-index: 10}
 .s-bvd_web .nav {padding-top: 11%;}
