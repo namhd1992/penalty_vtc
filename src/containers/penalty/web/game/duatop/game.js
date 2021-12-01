@@ -131,6 +131,23 @@ export default class Game extends Phaser.Scene{
     }
     
     preload(){
+        var seft=this;
+        var progress = this.add.graphics();
+
+        this.load.on('progress', function (value) {
+            seft.add.text(580,  300, 'Loading', { font: "40px Arial", fill: "#ffffff" });
+    
+            progress.clear();
+            progress.fillStyle(0xffffff, 1);
+            // progress.fillRect(0, 270, 800 * value, 60);
+    
+        });
+    
+        this.load.on('complete', function () {
+    
+            progress.destroy();
+    
+        });
         
         this.load.image('background', backgound);
         this.load.image('goal_center', goal_center);
@@ -508,7 +525,7 @@ export default class Game extends Phaser.Scene{
                            
                         }
                     }else{
-                        console.log("Bạn đã hết Điểm")
+                        console.log("Vuốt lên để chơi")
                     }
                 }
             }  
@@ -644,7 +661,7 @@ export default class Game extends Phaser.Scene{
     }
 
     getDataConnect(){
-
+       
     }
 
     footballOut(){

@@ -416,7 +416,7 @@ class Lucky_Rotation extends React.Component {
 				}
 			});
 		}else {
-			$('#tb').modal('show');
+			$('#tb_web').modal('show');
 		}
 	}
   
@@ -436,7 +436,10 @@ class Lucky_Rotation extends React.Component {
 						if(data.data!==null){
 							
 							var info_seesion=data.data.room;
-							this.setState({info_seesion:info_seesion, user_data: data.data.user})
+							if(info_seesion!==null){
+								this.setState({info_seesion:info_seesion, user_data: data.data.user})
+							}
+							
 							localStorage.setItem("info_seesion", JSON.stringify(info_seesion));
 							switch (type) {
 								case 1:
@@ -472,7 +475,7 @@ class Lucky_Rotation extends React.Component {
 				}
 			});
 		}else {
-			$('#tb').modal('show');
+			$('#tb_web').modal('show');
 		}
 	}
 
@@ -590,7 +593,7 @@ class Lucky_Rotation extends React.Component {
 				}
 			});
 		}else {
-			$('#tb').modal('show');
+			$('#tb_web').modal('show');
 		}
 	}
 
@@ -686,7 +689,7 @@ class Lucky_Rotation extends React.Component {
 		if (user !== null) {
 			this.getDataTuDo(user);
 		}else {
-			$('#tb').modal('show');
+			$('#tb_web').modal('show');
 		}
 	}
 
@@ -860,15 +863,6 @@ class Lucky_Rotation extends React.Component {
 		$('#Modalthele').modal('show');
 	}
 
-	dangNhap=()=>{
-		var user = JSON.parse(localStorage.getItem("user"));
-		if (user !== null) {
-			$('#activeVip').modal('show');
-		}else {
-			$('#tb').modal('show');
-		}
-	}
-
 	showTooltip=()=>{
 		$('[data-toggle="tooltip"]').tooltip();
 	}
@@ -1030,18 +1024,18 @@ class Lucky_Rotation extends React.Component {
 				console.log(data.message)
 				if(data!==undefined){
 					if(data.code >0){
-						this.setState({rollup:true, message_rollup: data.message, type_action:'Điểm danh', showRollup:false}, ()=>{
-							$('#diemdanh').modal('show');
+						this.setState({rollup:true, message_error: data.message, type_action:'Điểm danh', showRollup:false}, ()=>{
+							$('#tb_err').modal('show');
 						})
 					}else{
-						this.setState({rollup:false, message_rollup: data.message}, ()=>{
-							$('#diemdanh').modal('show');
+						this.setState({rollup:false, message_error: data.message}, ()=>{
+							$('#tb_err').modal('show');
 						})
 					}
 				}
 			})
 		}else {
-			$('#tb').modal('show');
+			$('#tb_web').modal('show');
 		}
 
 	}
@@ -1341,7 +1335,7 @@ class Lucky_Rotation extends React.Component {
 						{/* <!-- The Modal Giải thưởng --> */}
 						<div class="modal fade" id="gt_web">
 							<div class="modal-dialog modal-dialog-scrollable">
-								<div class="modal-content modal-gt bg-transparent border-0">
+								<div class="modal-content modal-gt_web bg-transparent border-0">
 
 								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-gt-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
@@ -1387,7 +1381,7 @@ class Lucky_Rotation extends React.Component {
 						{/* <!-- The Modal Tủ đồ --> */}
 						<div class="modal fade" id="td_web">
 							<div class="modal-dialog modal-dialog-scrollable">
-								<div class="modal-content modal-td bg-transparent border-0">
+								<div class="modal-content modal-td_web bg-transparent border-0">
 
 								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-td-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
@@ -1460,9 +1454,9 @@ class Lucky_Rotation extends React.Component {
 						{/* <!-- End The Modal Tủ đồ --> */}
 
 						{/* <!-- The Modal Đăng nhập --> */}
-						<div class="modal fade" id="tb">
+						<div class="modal fade" id="tb_web">
 							<div class="modal-dialog modal-dialog-scrollable">
-								<div class="modal-content modal-tb bg-transparent border-0">
+								<div class="modal-content modal-tb_web bg-transparent border-0">
 
 									{/* <!-- Modal Header --> */}
 									<div class="modal-header bg-pop-tb-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
@@ -1482,7 +1476,7 @@ class Lucky_Rotation extends React.Component {
 									</div>
 
 									{/* <!-- Modal footer --> */}
-									<div class="modal-footer bg-pop-hd-bottom border-0">
+									<div class="modal-footer bg-pop-tb-bottom border-0">
 									
 									</div>
 
@@ -1538,16 +1532,16 @@ class Lucky_Rotation extends React.Component {
 					{/* <!-- The Modal Thông báo --> */}
 					<div class="modal fade" id="tb_err">
 						<div class="modal-dialog modal-dialog-scrollable">
-							<div class="modal-content modal-tb bg-transparent border-0">
+							<div class="modal-content modal-tb_err_web bg-transparent border-0">
 
 								{/* <!-- Modal Header --> */}
-								<div class="modal-header bg-pop-tb-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
+								<div class="modal-header bg-pop-tb_err-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
 									<button type="button" class="btn-close float-end pe-5" data-bs-dismiss="modal" style={{marginRight: "3%"}}></button>
 								</div>
 								
 
 								{/* <!-- Modal body --> */}
-								<div class="modal-body bg-pop-tb-body p-2rem py-1 font-3vw text-white">
+								<div class="modal-body bg-pop-tb_err-body p-2rem py-1 font-3vw text-white">
 									<div class="tab-content">
 									<div class="container text-center p-5">
 										<h4 class="pt-1 pb-3 font-UTMFacebookKT">{message_error}</h4>
@@ -1557,7 +1551,7 @@ class Lucky_Rotation extends React.Component {
 								</div>
 
 								{/* <!-- Modal footer --> */}
-								<div class="modal-footer bg-pop-hd-bottom border-0">
+								<div class="modal-footer bg-pop-tb_err-bottom border-0">
 									
 								</div>
 
@@ -1568,17 +1562,15 @@ class Lucky_Rotation extends React.Component {
 
 					
 					{/* <!-- The Modal Điểm danh --> */}
-					<div class="modal fade" id="diemdanh">
+					{/* <div class="modal fade" id="diemdanh">
 						<div class="modal-dialog modal-dialog-scrollable">
-							<div class="modal-content modal-tb bg-transparent border-0">
+							<div class="modal-content modal-tb_web bg-transparent border-0">
 
-								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-tb-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
 									<button type="button" class="btn-close float-end pe-5" data-bs-dismiss="modal" style={{marginRight: "3%"}}></button>
 								</div>
 								
 
-								{/* <!-- Modal body --> */}
 								<div class="modal-body bg-pop-tb-body p-2rem py-1 font-3vw text-white">
 									<div class="tab-content">
 									<div class="container text-center p-5">
@@ -1588,14 +1580,13 @@ class Lucky_Rotation extends React.Component {
 									
 								</div>
 
-								{/* <!-- Modal footer --> */}
 								<div class="modal-footer bg-pop-hd-bottom border-0">
 									
 								</div>
 
 							</div>
 						</div>
-					</div>
+					</div> */}
 					{/* <!-- End The Modal --> */}
 
 					{/* <!-- The Modal Đặt cược --> */}
