@@ -494,28 +494,25 @@ class Lucky_Rotation extends React.Component {
 	checkBetting=(type, title_module)=>{
 		const {info_seesion, user_data}=this.state;
 		var time=Date.now();
-		var user = JSON.parse(localStorage.getItem("user"));
-		var data= {...info}
-		data.userId= user.uid;
-		data.type=21;
 		this.setState({type_modeId: type, title_module:title_module})
-		if(time < info_seesion.betsStartTime){
-			this.setState({message_error:'Chưa tới thời gian đặt cược .'},()=>{
-				let myModal = new Modal(document.getElementById('tb_err'));
-				myModal.show();
-			})
-			return;
-		}
 		
-		if(time > info_seesion.betsEndTime){
-			this.setState({message_error:'Thời gian đặt cược đã hết.'},()=>{
-				let myModal = new Modal(document.getElementById('tb_err'));
-				myModal.show();
-			})
-			return;
-		}
 		
 		if(type===1){
+			if(time < info_seesion.startTime){
+				this.setState({message_error:'Phiên mới chưa bắt đầu.'},()=>{
+					let myModal = new Modal(document.getElementById('tb_err'));
+					myModal.show();
+				})
+				return;
+			}
+			
+			if(time > info_seesion.endTime){
+				this.setState({message_error:'Phiên chơi đã kết thúc.'},()=>{
+					let myModal = new Modal(document.getElementById('tb_err'));
+					myModal.show();
+				})
+				return;
+			}
 			if(user_data.points > 0){
 				window.location.replace('/duatop')
 			}else{
@@ -526,6 +523,21 @@ class Lucky_Rotation extends React.Component {
 			}
 			
 		}else{
+			if(time < info_seesion.betsStartTime){
+				this.setState({message_error:'Chưa tới thời gian đặt cược .'},()=>{
+					let myModal = new Modal(document.getElementById('tb_err'));
+					myModal.show();
+				})
+				return;
+			}
+			
+			if(time > info_seesion.betsEndTime){
+				this.setState({message_error:'Thời gian đặt cược đã hết.'},()=>{
+					let myModal = new Modal(document.getElementById('tb_err'));
+					myModal.show();
+				})
+				return;
+			}
 			if(type===3){
 				if(user_data.points > info_seesion.minBet){
 					if(user_data.betKnockout > 0){
@@ -534,8 +546,10 @@ class Lucky_Rotation extends React.Component {
 							myModal.show();
 						})
 					}else{
-						let myModal = new Modal(document.getElementById('datcuoc'));
-						myModal.show();
+						this.setState({points:user_data.points},()=>{
+							let myModal = new Modal(document.getElementById('datcuoc'));
+							myModal.show();
+						})
 					}
 					
 				}else{
@@ -546,8 +560,10 @@ class Lucky_Rotation extends React.Component {
 				}
 			}else{
 				if(user_data.points > info_seesion.minBet){
-					let myModal = new Modal(document.getElementById('datcuoc'));
-					myModal.show();
+					this.setState({points:user_data.points},()=>{
+						let myModal = new Modal(document.getElementById('datcuoc'));
+						myModal.show();
+					})
 				}else{
 					this.setState({message_error:'Số điểm của bạn không đủ để cược.'},()=>{
 						let myModal = new Modal(document.getElementById('tb_err'));

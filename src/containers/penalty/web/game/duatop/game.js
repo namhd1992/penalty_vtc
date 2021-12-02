@@ -136,18 +136,11 @@ export default class Game extends Phaser.Scene{
         var progress = this.add.graphics();
 
         this.load.on('progress', function (value) {
-            seft.add.text(580,  300, 'Loading', { font: "40px Arial", fill: "#ffffff" });
-    
-            progress.clear();
-            progress.fillStyle(0xffffff, 1);
-            // progress.fillRect(0, 270, 800 * value, 60);
-    
+            seft.add.text(550,  300, 'Loading...', { font: "40px Arial", fill: "#ffffff" });
         });
     
         this.load.on('complete', function () {
-    
             progress.destroy();
-    
         });
         
         this.load.image('background', backgound);
@@ -423,19 +416,11 @@ export default class Game extends Phaser.Scene{
         this.txt_time = this.add.text(530,  75, "Còn: 00h00p00", { font: "16px Arial", fill: "#ffffff", align:'center' });
         this.txt_giaithuong = this.add.text(440,  115, `Giải thưởng:`, { font: "17px Arial", fill: "#ffffff", align:"center", fixedWidth: 333 });
         this.txt_acc = this.add.text(980,  15, `Chào: ${user.nick_name}`, { font: "18px Arial", fill: "#ffffff", align:'center' });
-        this.txt_points = this.add.text(980,  45, `Điểm: 00 | Lượt: 00 `, { font: "18px Arial", fill: "#ffffff", align:'center' });
+        this.txt_points = this.add.text(980,  45, `Điểm: 00`, { font: "18px Arial", fill: "#ffffff", align:'center' });
         this.txt_titleRanking = this.add.text(30,  290, 'TÀI KHOẢN                BÀN THẮNG', { font: "13px Arial bold", fill: "#ffffff" });
-        var len_ranking=data_game.rankings.length;
-        var tk=``;
-        var p=``;
-        if(len_ranking > 0){
-            for (let i = 0; i < len_ranking; i++) {
-                tk +=`${data_game.rankings[i].userName} \n`
-                p +=`${data_game.rankings[i].winCount} \n`
-            }
-        }
-        this.txt_ranking = this.add.text(30,  305, tk, { font: "13px Arial", fill: "#ffffff" });
-        this.txt_ranking = this.add.text(180,  305, p, { font: "13px Arial", fill: "#ffffff" });
+      
+        this.txt_ranking_acc = this.add.text(30,  305, '', { font: "13px Arial", fill: "#ffffff" });
+        this.txt_ranking_point = this.add.text(180,  305, '', { font: "13px Arial", fill: "#ffffff" });
 
         // var a= Phaser.Math.Distance.BetweenPoints
         const self = this;
@@ -657,10 +642,22 @@ export default class Game extends Phaser.Scene{
         }
 
         if(Object.keys(data_game).length !== 0){
+            this.time_update += delta;
+            var len_ranking=data_game.rankings.length;
+            var tk=``;
+            var p=``;
+            if(len_ranking > 0){
+                for (let i = 0; i < len_ranking; i++) {
+                    tk +=`${data_game.rankings[i].userName} \n`
+                    p +=`${data_game.rankings[i].winCount} \n`
+                }
+            }
+            this.txt_ranking_acc.setText(tk);
+            this.txt_ranking_point.setText(p);
             this.txt_banthang.setText(data_game.summary.winCount)
             this.txt_giaithuong.setText(`Giải thưởng: ${data_game.rewards[0].name}`)
             this.txt_points.setText(`Điểm: ${data_game.user.points}`)
-            this.time_update += delta;
+
             while (this.time_update > 1000) {
                 this.timeRemain(data_game.room.endTime)
                 this.time_update -= 1000;
