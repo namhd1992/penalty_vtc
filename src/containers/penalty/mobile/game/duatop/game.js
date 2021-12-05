@@ -559,14 +559,14 @@ export default class Game extends Phaser.Scene{
             // console.log(h)
            
             var k=h > 100 ? h/100 : 1;
-            if(h>0 && h<110){
+            if(h>0 && h<110*delta_y){
                 ball_with_time=0.0125;
-                power=412;
-            }else if(h>110 & h<250){
-                power=515-h;
+                power=412*delta_y;
+            }else if(h>110*delta_y & h<250*delta_y){
+                power=515*delta_y-h;
                 ball_with_time=0.0145
             }else{
-                power=515-h;
+                power=515*delta_y-h;
                 ball_with_time=0.02;
                 k=5
             }
@@ -619,16 +619,16 @@ export default class Game extends Phaser.Scene{
             
             
             if(is_ball_lasted){
-                if(h<250){
-                    if(this.ball_lasted_collision_sprite.y < 423){
+                if(h<250*delta_y){
+                    if(this.ball_lasted_collision_sprite.y < 423*delta_y){
                         this.ball_lasted_collision_sprite.y +=1.5*k;
                         this.ball_lasted_collision_sprite.x +=1*increase_x;
-                        if(this.ball_lasted_collision_sprite.x > 844){
+                        if(this.ball_lasted_collision_sprite.x > 844*delta_x){
                             this.ball_lasted_collision_sprite.x -=1*increase_x;
                             this.ball_lasted_collision_sprite.y +=1.7*k;
                         }
 
-                        if(this.ball_lasted_collision_sprite.x < 380){
+                        if(this.ball_lasted_collision_sprite.x < 380*delta_x){
                             this.ball_lasted_collision_sprite.x -=1*increase_x;
                             this.ball_lasted_collision_sprite.y +=1.7*k;
                         }
@@ -736,7 +736,7 @@ export default class Game extends Phaser.Scene{
         var b=startY-endY;
         var m=0
         var dis1=Math.sqrt((a*a+b*b))
-        var k=b > 100 ? b/100 : 1;
+        var k=b > 100*delta_y ? b/100*delta_y : 1;
        
         increase_x=a>0?(-dis1/b):(dis1/b)
 
@@ -746,41 +746,41 @@ export default class Game extends Phaser.Scene{
             m=2
         }
 
-        if(b>0 && b<110){
-            power=415;
-        }else if(b>110 & b<250){
-            power=515-b;
+        if(b>0 && b<110*delta_y){
+            power=415*delta_y;
+        }else if(b>110*delta_y & b<250*delta_y){
+            power=515*delta_y-b;
         }
 
-        var n=(530-power)/(2*k)
+        var n=(530*delta_y-power)/(2*k)
         var y=power;
-        var x=605+n*increase_x*m;
+        var x=605*delta_y+n*increase_x*m;
         return [x,y];
     }
 
 
     setPositionKeeper(x,y){
-        if(x >= 338 && x < 475 && y >= 228 && y < 336)
+        if(x >= 338*delta_x && x < 475*delta_x && y >= 228*delta_y && y < 336*delta_y)
             return [1, 11];
-        if(x >= 475 && x < 555 && y >= 228 && y < 336)
+        if(x >= 475*delta_x && x < 555*delta_x && y >= 228*delta_y && y < 336*delta_y)
             return [2, 12];
-        if(x >= 655 && x < 745 && y >= 228 && y < 336)
+        if(x >= 655*delta_x && x < 745*delta_x && y >= 228*delta_y && y < 336*delta_y)
             return [3, 14];
-        if(x >= 745 && x < 870 && y >= 228 && y < 336)
+        if(x >= 745*delta_x && x < 870*delta_x && y >= 228*delta_y && y < 336*delta_y)
             return [4, 15];
-        if(x >= 338 && x < 475 && y >= 336 && y < 430)
+        if(x >= 338*delta_x && x < 475*delta_x && y >= 336*delta_y && y < 430*delta_y)
             return [5,21];
-        if(x >= 475 && x < 555 && y >= 336 && y < 430)
+        if(x >= 475*delta_x && x < 555*delta_x && y >= 336*delta_y && y < 430*delta_y)
             return [6, 22];
-        if(x >= 655 && x < 745 && y >= 336 && y < 430)
+        if(x >= 655*delta_x && x < 745*delta_x && y >= 336*delta_y && y < 430*delta_y)
             return [7,24];
-        if(x >= 745 && x < 870 && y >= 336 && y < 430)
+        if(x >= 745*delta_x && x < 870*delta_x && y >= 336*delta_y && y < 430*delta_y)
             return [8, 25];
-        if(x >= 555 && x < 655 && y >= 228 && y < 430)
+        if(x >= 555*delta_x && x < 655*delta_x && y >= 228*delta_y && y < 430*delta_y)
             return [9,23];
         if(y===0)
             return [this.getRandomInt(1,9), 0]
-        if(x > 870 || x < 338)
+        if(x > 870*delta_x || x < 338*delta_x)
             return [this.getRandomInt(1,9),0]
     }
 
@@ -848,7 +848,7 @@ export default class Game extends Phaser.Scene{
         // })
         // this.sprite.setDisplaySize(this.sprite.displayOriginX-11, this.sprite.displayOriginY-11);
         // // this.sprite.y -=0.5;
-        // if(this.sprite.y<430){
+        // if(this.sprite.y<430*delta_y){
         //     this.sprite.stop();
         //     // console.log("BBBBBBBB")
         // }else{

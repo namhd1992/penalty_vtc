@@ -1,24 +1,25 @@
 import React, { Component } from 'react'
 import Phaser from 'phaser'
 import { IonPhaser } from '@ion-phaser/react';
-import Game from './game';
-import Info from './info';
 import BootScene from './bootScene';
+import rotate from '../../../assert/rotate.png';
 
 var width = window.screen.width;
 var height = window.screen.height;
 
-export default class Duatop extends React.Component {
+export default class duatop extends React.Component {
 
     constructor(props) {
 		super(props);
 		this.state = {
+            horizontal:false,
+            innerWidth:0,
             initialize: true,
             game: {
                 width: width,
                 height: height,
                 type: Phaser.AUTO,
-                autoCenter: Phaser.Scale.CENTER_BOTH,
+                autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
                 scene: [BootScene],
                 physics:{
                     default:'arcade',
@@ -31,11 +32,50 @@ export default class Duatop extends React.Component {
           
         }
 	}
+
+    componentWillMount(){
+        var user = JSON.parse(localStorage.getItem("user"));
+        window.addEventListener("resize", this.setScreenOrientation);
+		window.addEventListener("visibilitychange", this.visibilityChange);
+        if(user===null){
+			window.location.replace("/")
+		}
+		if(window.innerWidth < window.innerHeight){
+			this.setState({horizontal: false})
+		}else{
+			this.setState({horizontal: true})
+		}
+        this.setState({innerWidth:window.innerWidth})
+	}
+
+    visibilityChange=()=>{
+		if (document.hidden){
+			this.setState({isChangetab:true})
+		} else {
+			this.setState({isChangetab:false})
+		}
+		
+	}
+
+	setScreenOrientation=()=>{
+		const {innerWidth}=this.state;
+		if(Math.abs(innerWidth - window.innerWidth) >100){
+			window.location.reload();
+			this.setState({innerWidth:window.innerWidth})
+		}
+		this.toggleFullScreen() 
+	}
+
     render() {
-        const { initialize, game } = this.state;
+        const { initialize, game , horizontal} = this.state;
         return (
-          <IonPhaser game={game} initialize={initialize} style={{backgroundColor:"#fff", marginTop:"0px"}}/>
-        // <div>AAAA</div>
+            <div>
+                {(horizontal)?(
+                     <IonPhaser game={game} initialize={initialize} style={{backgroundColor:"#fff", marginTop:"0px"}}/>
+                ):(
+                    <img src={rotate} width="100%" alt="" />
+                )}
+            </div>
         )
     }
 }

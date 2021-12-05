@@ -7,14 +7,18 @@ import {
 import axios from 'axios';
 import Ultilities from '../../../../../Ultilities/global'
 
+
 import backgound from '../../../assert/background.png';
 import ball from '../../../assert/ball.png';
 import goal_center from '../../../assert/goal_center.png';
 import ball_rotation from '../../../assert/ball/ball_sprite.png';
 import ball_rotation_json from '../../../assert/ball/ball_sprite.json';
 
-import ball_lasted_collision from '../../../assert/ball/ball_sprite.png';
-import ball_lasted_collision_json from '../../../assert/ball/ball_sprite.json';
+import ball_collision_goal from '../../../assert/ball/ball_sprite.png';
+import ball_collision_goal_json from '../../../assert/ball/ball_sprite.json';
+
+import ball_collision_keeper from '../../../assert/ball/ball_sprite.png';
+import ball_collision_keeper_json from '../../../assert/ball/ball_sprite.json';
 
 import k_idle from '../../../assert/keep_goal/keep_goal_idle.png';
 import k_idle_json from '../../../assert/keep_goal/keep_goal_idle.json';
@@ -79,8 +83,8 @@ var play=false;
 var x=1;
 var increase_x=0;
 var increase_y=0;
-var ball_collision_goal=false;
-var ball_collision_keper=false;
+// var ball_collision_goal=false;
+// var ball_collision_keper=false;
 var is_ball_lasted=false;
 var result=0;
 var delta_alpha=1;
@@ -149,7 +153,8 @@ export default class Game extends Phaser.Scene{
         // this.load.image('bg_bangxephang', opt_suttudong);
 
         this.load.atlas('ball_rotation', ball_rotation, ball_rotation_json);
-        this.load.atlas('ball_lasted_collision', ball_lasted_collision, ball_lasted_collision_json);
+        this.load.atlas('ball_collision_goal', ball_collision_goal, ball_collision_goal_json);
+        this.load.atlas('ball_collision_keeper', ball_collision_keeper, ball_collision_keeper_json);
         this.load.atlas('keep_goal_left_1', keep_goal_left_1, keep_goal_left_1_json);
         this.load.atlas('keep_goal_left_2', keep_goal_left_2, keep_goal_left_2_json);
         this.load.atlas('keep_goal_left_3', keep_goal_left_3, keep_goal_left_3_json);
@@ -240,107 +245,121 @@ export default class Game extends Phaser.Scene{
     
         this.k_idle_sprite=this.add.sprite(600, 365, 'k_idle', 'k_idle_').play('k_id');
 
+        const ball_collision_goal_config = {
+            key: 'ball_goal',
+            frames: 'ball_collision_goal',
+            frameRate: 10,
+            repeat: -1
+        };
+        this.anims.create(ball_collision_goal_config);
+
+        this.ball_collision_goal_sprite = this.physics.add.sprite(605, 530, 'ball_collision_goal', 'rotation_');
+        this.ball_collision_goal_sprite.play('ball_goal');
+        this.ball_collision_goal_sprite.visible=false;
+
+
         const keep_goal_left_1_Config = {
             key: 'k_left_1',
             frames: 'keep_goal_left_1',
-            frameRate: 5,
+            frameRate: 24,
             repeat: -2
         };
         this.anims.create(keep_goal_left_1_Config);
         this.keep_goal_left_1_sprite=this.add.sprite(675, 365, 'keep_goal_left_1', 'k_left_');
         this.keep_goal_left_1_sprite.visible=false;
-        this.keep_goal_left_1_sprite.play('k_left_1');
+
 
         const keep_goal_left_2_Config = {
             key: 'k_left_2',
             frames: 'keep_goal_left_2',
-            frameRate: 6,
+            frameRate: 24,
             repeat: -2
         };
         this.anims.create(keep_goal_left_2_Config);
         this.keep_goal_left_2_sprite=this.add.sprite(730, 361, 'keep_goal_left_2', 'k_left2_');
         this.keep_goal_left_2_sprite.visible=false;
-        this.keep_goal_left_2_sprite.play('k_left_2');
+
 
 
         const keep_goal_left_3_Config = {
             key: 'k_left_3',
             frames: 'keep_goal_left_3',
-            frameRate: 6,
+            frameRate: 24,
             repeat: -2
         };
         this.anims.create(keep_goal_left_3_Config);
         this.keep_goal_left_3_sprite=this.add.sprite(645, 365, 'keep_goal_left_3', 'k_left3_');
         this.keep_goal_left_3_sprite.visible=false;
-        this.keep_goal_left_3_sprite.play('k_left_3');
+
 
         const keep_goal_left_4_Config = {
             key: 'k_left_4',
             frames: 'keep_goal_left_4',
-            frameRate: 8,
+            frameRate: 24,
             repeat: -2
         };
         this.anims.create(keep_goal_left_4_Config);
         this.keep_goal_left_4_sprite=this.add.sprite(733, 365, 'keep_goal_left_4', 'k_left4_');
         this.keep_goal_left_4_sprite.visible=false;
-        this.keep_goal_left_4_sprite.play('k_left_4');
+
         
         const keep_goal_punch_Config = {
             key: 'k_punch',
             frames: 'keep_goal_punch',
-            frameRate: 8,
+            frameRate: 24,
             repeat: -2
         };
         this.anims.create(keep_goal_punch_Config);
         this.keep_goal_punch_sprite=this.add.sprite(595, 365, 'keep_goal_punch', 'k_punch_');
         this.keep_goal_punch_sprite.visible=false;
-        this.keep_goal_punch_sprite.play('k_punch');
+
 
         const keep_goal_right_1_Config = {
             key: 'k_right_1',
             frames: 'keep_goal_right_1',
-            frameRate: 8,
+            frameRate: 24,
             repeat: -2
         };
         this.anims.create(keep_goal_right_1_Config);
         this.keep_goal_right_1_sprite=this.add.sprite(525, 365, 'keep_goal_right_1', 'k_right1_');
         this.keep_goal_right_1_sprite.visible=false;
-        this.keep_goal_right_1_sprite.play('k_right_1');
+
 
         const keep_goal_right_2_Config = {
             key: 'k_right_2',
             frames: 'keep_goal_right_2',
-            frameRate: 8,
+            frameRate: 24,
             repeat: -2
         };
         this.anims.create(keep_goal_right_2_Config);
         this.keep_goal_right_2_sprite=this.add.sprite(465, 360, 'keep_goal_right_2', 'k_right2_');
         this.keep_goal_right_2_sprite.visible=false;
-        this.keep_goal_right_2_sprite.play('k_right_2');
+
 
 
         const keep_goal_right_3_Config = {
             key: 'k_right_3',
             frames: 'keep_goal_right_3',
-            frameRate: 8,
+            frameRate: 24,
             repeat: -2
         };
         this.anims.create(keep_goal_right_3_Config);
         this.keep_goal_right_3_sprite=this.add.sprite(560, 370, 'keep_goal_right_3', 'k_right3_');
         this.keep_goal_right_3_sprite.visible=false;
-        this.keep_goal_right_3_sprite.play('k_right_3');
+
 
 
         const keep_goal_right_4_Config = {
             key: 'k_right_4',
             frames: 'keep_goal_right_4',
-            frameRate: 8,
+            frameRate: 24,
             repeat: -2
         };
         this.anims.create(keep_goal_right_4_Config);
         this.keep_goal_right_4_sprite=this.add.sprite(485, 365, 'keep_goal_right_4', 'k_right4_');
         this.keep_goal_right_4_sprite.visible=false;
-        this.keep_goal_right_4_sprite.play('k_right_4');
+
+
 
         const animConfig = {
             key: 'walk',
@@ -354,17 +373,18 @@ export default class Game extends Phaser.Scene{
         this.ball_rotation_sprite.play('walk');
         this.ball_rotation_sprite.visible=false;
 
-        const ball_lasted_collision_config = {
-            key: 'ball_lasted',
-            frames: 'ball_lasted_collision',
+
+        const ball_collision_keeper_config = {
+            key: 'ball_keeper',
+            frames: 'ball_collision_keeper',
             frameRate: 10,
             repeat: -1
         };
-        this.anims.create(ball_lasted_collision_config);
+        this.anims.create(ball_collision_keeper_config);
 
-        this.ball_lasted_collision_sprite = this.physics.add.sprite(605, 530, 'ball_lasted_collision', 'rotation_');
-        this.ball_lasted_collision_sprite.play('ball_lasted');
-        this.ball_lasted_collision_sprite.visible=false;
+        this.ball_collision_keeper_sprite = this.physics.add.sprite(605, 530, 'ball_collision_keeper', 'rotation_');
+        this.ball_collision_keeper_sprite.play('ball_keeper');
+        this.ball_collision_keeper_sprite.visible=false;
 
 
         const soccer_kick_left_Config = {
@@ -486,15 +506,21 @@ export default class Game extends Phaser.Scene{
                                     result=response.data.data.result; 
                                     self.setBallLine(pointer)
                                     var g = self.getRandomInt(0,2)
-                                    var kg = self.getRandomInt(0,8)
+                                    var kg = self.getRandomInt(1,9)
                                     setTimeout(()=>{ 
                                         play=true;
                                     }, 550);
                 
                                     setTimeout(()=>{ 
-                                        self.setKeepGoal(keeper[0]);
-                                        self.k_idle_sprite.visible=false;
-                                    }, 1500);
+                                        if(result===2){
+                                            self.setKeepGoal(kg);
+                                            self.k_idle_sprite.visible=false;
+                                        }else{
+                                            self.setKeepGoal(keeper[0]);
+                                            self.k_idle_sprite.visible=false;
+                                        }
+                                       
+                                    }, 700);
                 
                                     self.soccer_kick_left_sprite.play("kick_left")
                                     
@@ -506,6 +532,8 @@ export default class Game extends Phaser.Scene{
                                         increase_y=0;
                                         delta_alpha=1;
                                         is_ball_lasted=false;
+                                        self.ball_collision_keeper_sprite.play('ball_keeper');
+                                        self.ball_collision_goal_sprite.play('ball_goal');
                                         self.registry.destroy();
                                         self.events.off();
                                         self.scene.restart();
@@ -536,16 +564,20 @@ export default class Game extends Phaser.Scene{
     update(time, delta){
         if(play){
             // console.log(result)
-        
+           
             this.ball_1.visible=false;
             if(!is_ball_lasted){
                 this.ball_rotation_sprite.visible=true;
             }
+            var delta_power=0
+            if(result===3){
+                delta_power=-10;
+            } 
             var power=0;
             var ball_with_time=0;
             var h=increase_y;
             var m=0;
-            if(increase_x>-1.05 && increase_x<1.05){
+            if(increase_x>-1.1 && increase_x<1.1){
                 m=1
             }else{
                 m=2
@@ -555,12 +587,12 @@ export default class Game extends Phaser.Scene{
             var k=h > 100 ? h/100 : 1;
             if(h>0 && h<110){
                 ball_with_time=0.0125;
-                power=412;
+                power=412-delta_power;
             }else if(h>110 & h<250){
-                power=515-h;
+                power=515-h-delta_power;
                 ball_with_time=0.0145
             }else{
-                power=515-h;
+                power=515-h-delta_power;
                 ball_with_time=0.02;
                 k=5
             }
@@ -569,15 +601,16 @@ export default class Game extends Phaser.Scene{
             // this.sprite.play('walk');
             if(h<250){
                 if(this.ball_rotation_sprite.y<power){
-                    if(!is_ball_lasted){
-                        this.ball_rotation_sprite.visible=false;
-                        this.ball_lasted_collision_sprite.setX(this.ball_rotation_sprite.x);
-                        this.ball_lasted_collision_sprite.setY(this.ball_rotation_sprite.y);
-                        this.ball_lasted_collision_sprite.setScale(this.ball_rotation_sprite._scaleX, this.ball_rotation_sprite._scaleY)
-                        this.ball_lasted_collision_sprite.visible=true;
-                        is_ball_lasted=true;
-                    }
+                   
                     if(result===2){
+                        if(!is_ball_lasted){
+                            this.ball_rotation_sprite.visible=false;
+                            this.ball_collision_goal_sprite.setX(this.ball_rotation_sprite.x);
+                            this.ball_collision_goal_sprite.setY(this.ball_rotation_sprite.y);
+                            this.ball_collision_goal_sprite.setScale(this.ball_rotation_sprite._scaleX, this.ball_rotation_sprite._scaleY)
+                            this.ball_collision_goal_sprite.visible=true;
+                            is_ball_lasted=true;
+                        }
                         this.goal.visible=false;
                         this.txt_goal.visible=true;
                         if(increase_x > 1.05){
@@ -588,6 +621,14 @@ export default class Game extends Phaser.Scene{
                             this.goal_center_anims_sprite.visible=true
                         }
                     }else{
+                        if(!is_ball_lasted){
+                            this.ball_rotation_sprite.visible=false;
+                            this.ball_collision_keeper_sprite.setX(this.ball_rotation_sprite.x);
+                            this.ball_collision_keeper_sprite.setY(this.ball_rotation_sprite.y);
+                            this.ball_collision_keeper_sprite.setScale(this.ball_rotation_sprite._scaleX, this.ball_rotation_sprite._scaleY)
+                            this.ball_collision_keeper_sprite.visible=true;
+                            is_ball_lasted=true;
+                        }
                         this.txt_miss.visible=true;
                     }      
                 }else{
@@ -617,27 +658,48 @@ export default class Game extends Phaser.Scene{
             
             if(is_ball_lasted){
                 if(h<250){
-                    if(this.ball_lasted_collision_sprite.y < 423){
-                        this.ball_lasted_collision_sprite.y +=1.5*k;
-                        this.ball_lasted_collision_sprite.x +=1*increase_x;
-                        if(this.ball_lasted_collision_sprite.x > 844){
-                            this.ball_lasted_collision_sprite.x -=1*increase_x;
-                            this.ball_lasted_collision_sprite.y +=1.7*k;
+                    if(result==2){
+                        if(this.ball_collision_goal_sprite.y < 423){
+                            this.ball_collision_goal_sprite.y +=1.5*k;
+                            this.ball_collision_goal_sprite.x +=1*increase_x;
+                            if(this.ball_collision_goal_sprite.x > 844){
+                                this.ball_collision_goal_sprite.x -=1*increase_x;
+                                this.ball_collision_goal_sprite.y +=1.7*k;
+                            }
+    
+                            if(this.ball_collision_goal_sprite.x < 380){
+                                this.ball_collision_goal_sprite.x -=1*increase_x;
+                                this.ball_collision_goal_sprite.y +=1.7*k;
+                            }
+                        }else{
+                            setTimeout(()=>{ 
+                                this.ball_collision_goal_sprite.stop()
+                            }, 500);
+                            
                         }
-
-                        if(this.ball_lasted_collision_sprite.x < 380){
-                            this.ball_lasted_collision_sprite.x -=1*increase_x;
-                            this.ball_lasted_collision_sprite.y +=1.7*k;
-                        }
-                    }else{
-                        setTimeout(()=>{ 
-                            this.ball_lasted_collision_sprite.stop()
-                        }, 500);
-                        
                     }
-                }
-               
-                
+                    if(result===3){
+                        // console.log('AAAAAAAAAA')
+                        if(this.ball_collision_keeper_sprite.y < 450){
+                            this.ball_collision_keeper_sprite.y +=2*k;
+                            this.ball_collision_keeper_sprite.x +=1*increase_x;
+                            if(this.ball_collision_keeper_sprite.x > 844){
+                                this.ball_collision_keeper_sprite.x -=1*increase_x;
+                                this.ball_collision_keeper_sprite.y +=1.7*k;
+                            }
+    
+                            if(this.ball_collision_keeper_sprite.x < 380){
+                                this.ball_collision_keeper_sprite.x -=1*increase_x;
+                                this.ball_collision_keeper_sprite.y +=1.7*k;
+                            }
+                        }else{
+                            setTimeout(()=>{ 
+                                this.ball_collision_keeper_sprite.stop()
+                            }, 1000);
+                            
+                        }
+                    }
+                } 
             }
         }
 
@@ -695,33 +757,43 @@ export default class Game extends Phaser.Scene{
         switch (n) {
             case 1:
                 this.keep_goal_right_2_sprite.visible=true;
+                this.keep_goal_right_2_sprite.play('k_right_2');
                 break;
             case 2:
                 this.keep_goal_right_1_sprite.visible=true;
+                this.keep_goal_right_1_sprite.play('k_right_1');
                 break;
             case 3:
                 this.keep_goal_left_1_sprite.visible=true;
+                this.keep_goal_left_1_sprite.play('k_left_1');
                 break;
             case 4:
                 this.keep_goal_left_2_sprite.visible=true;
+                this.keep_goal_left_2_sprite.play('k_left_2');
                 break;
             case 5:
                 this.keep_goal_right_4_sprite.visible=true;
+                this.keep_goal_right_4_sprite.play('k_right_4');
                 break;
             case 6:
                 this.keep_goal_right_3_sprite.visible=true;
+                this.keep_goal_right_3_sprite.play('k_right_3');
                 break;
             case 7:
                 this.keep_goal_left_3_sprite.visible=true;
+                this.keep_goal_left_3_sprite.play('k_left_3');
                 break;
             case 8:
                 this.keep_goal_left_4_sprite.visible=true;
+                this.keep_goal_left_4_sprite.play('k_left_4');
                 break;
             case 9:
                 this.keep_goal_punch_sprite.visible=true;
+                this.keep_goal_punch_sprite.play('k_punch');
                 break;
             default:
-                this.goal_center_anims_sprite.visible=true
+                this.keep_goal_punch_sprite.visible=true;
+                this.keep_goal_punch_sprite.play('k_punch');
                 break;
         }
         
