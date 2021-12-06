@@ -63,7 +63,6 @@ export default class loaitructiep extends React.Component {
 			window.location.reload();
 			this.setState({innerWidth:window.innerWidth})
 		}
-		this.toggleFullScreen() 
 	}
 
     render() {

@@ -91,6 +91,7 @@ var delta_alpha=1;
 var data_game={};
 var isPlay=true;
 var auto_play=false;
+var number_playauto=0;
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -473,7 +474,7 @@ export default class Game extends Phaser.Scene{
 
         this.input.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, function (pointer) {
             var p1=[pointer.downX, pointer.downY];
-            var p2=[pointer.upX, pointer.upY]
+            var p2=[pointer.upX, pointer.upY];
             self.play(p1,p2)
             
         });
@@ -573,7 +574,7 @@ export default class Game extends Phaser.Scene{
                         x -=ball_with_time;
                         this.ball_rotation_sprite.setScale(x,x);
                         this.timer=0;
-                    }         
+                    }
                 }
             }else{
                 this.ball_rotation_sprite.y -=2*k;
@@ -585,7 +586,9 @@ export default class Game extends Phaser.Scene{
                     this.ball_rotation_sprite.setScale(x,x);
                     this.ball_rotation_sprite.setAlpha(delta_alpha);
                     this.timer=0;
-                }         
+                }   
+                
+                this.txt_miss.visible=true;
             }
             
             
@@ -637,10 +640,17 @@ export default class Game extends Phaser.Scene{
         }
 
         if(auto_play){
+            var time_delta_auto=0;
+            if(number_playauto===0){
+                time_delta_auto=0
+            }else{
+                time_delta_auto=1000
+            }
             this.time_autoplay += delta;
-            while (this.time_autoplay > 5000) {
+            while (this.time_autoplay > time_delta_auto) {
                 this.autoPlay();
                 this.time_autoplay -= 1000;
+                number_playauto+=1;
             }
         }
         
@@ -750,8 +760,13 @@ export default class Game extends Phaser.Scene{
                     console.log("Vuốt lên để chơi")
                 }
             }
-        }  
+        }
+        if(p1[1] > p2[1]){
+            isPlay=false;
+        }
+        
     }
+    
 
     getDataConnect(){
        
@@ -775,15 +790,12 @@ export default class Game extends Phaser.Scene{
     }
 
     autoPlay(){
-        console.log("AAAAAAAAAAA")
         var x1=this.getRandomInt(240, 950);
         var x2=this.getRandomInt(240, 950);
         var y1=this.getRandomInt(470, 630);
         var y2=this.getRandomInt(215, 470);
         var p1=[x1, y1];
         var p2=[x2, y2];
-        console.log(p1,p2)
-
         this.play(p1, p2);
     }
     
