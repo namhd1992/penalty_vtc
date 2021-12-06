@@ -37,6 +37,8 @@ export const KNOCKOUT_STATE="lucky/KNOCKOUT_STATE";
 export const KNOCKOUT_SUMMARY="lucky/KNOCKOUT_SUMMARY";
 
 export const BETTING="lucky/BETTING";
+
+export const CHECK_PLACE="lucky/CHECK_PLACE";
 export const BALANCES="lucky/BALANCES";
 
 
@@ -239,6 +241,12 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				dataBetting: action.data,
+				waiting: false
+			}
+		case CHECK_PLACE:
+			return {
+				...state,
+				dataCheckPlace: action.data,
 				waiting: false
 			}
 		case BALANCES:
@@ -787,6 +795,34 @@ export const betting = (token, data) => {
 		})
 	}
 }
+
+export const checkPlace = (token, data) => {
+	var header = {
+		headers: {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		}
+	}
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "/pay/api/v1/bets/check-place"
+		return axios.post(url, data, header).then(function (response) {
+			console.log(response)
+			dispatch({
+				type: CHECK_PLACE,
+				data: response.data
+			})
+		}).catch(function (error) {
+			console.log(error)
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
+}
+
 
 export const getBalances = (token, data) => {
 	var header = {

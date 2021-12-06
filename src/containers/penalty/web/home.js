@@ -24,7 +24,8 @@ import {
 	sessionInPlay,
 	sessionUpcomming,
 	betting,
-	getBalances
+	getBalances,
+	checkPlace
 } from '../../../modules/lucky'
 import {
 	getData
@@ -505,7 +506,7 @@ class Lucky_Rotation extends React.Component {
 
 
 	checkBetting=(type, title_module)=>{
-		const {info_seesion, user_data}=this.state;
+		const {info_seesion, user_data, user}=this.state;
 		var time=Date.now();
 		this.setState({type_modeId: type, title_module:title_module})
 		
@@ -552,24 +553,56 @@ class Lucky_Rotation extends React.Component {
 				return;
 			}
 			if(type===3){
-				if(user_data.points > info_seesion.minBet){
-					if(user_data.betKnockout > 0){
-						this.setState({message_error:'Bạn đã quá số lần cược của phiên.'},()=>{
-							let myModal = new Modal(document.getElementById('tb_err'));
-							myModal.show();
-						})
-					}else{
-						this.setState({points:user_data.points},()=>{
-							let myModal = new Modal(document.getElementById('datcuoc'));
-							myModal.show();
-						})
-					}
+				// if(user_data.points > info_seesion.minBet){
+				// 	if(user_data.betKnockout > 0){
+				// 		this.setState({message_error:'Bạn đã quá số lần cược của phiên.'},()=>{
+				// 			let myModal = new Modal(document.getElementById('tb_err'));
+				// 			myModal.show();
+				// 		})
+				// 	}else{
+				// 		this.setState({points:user_data.points},()=>{
+				// 			let myModal = new Modal(document.getElementById('datcuoc'));
+				// 			myModal.show();
+				// 		})
+				// 	}
 					
-				}else{
-					this.setState({message_error:'Số điểm của bạn không đủ để cược.'},()=>{
-						let myModal = new Modal(document.getElementById('tb_err'));
-						myModal.show();
-					})
+				// }else{
+				// 	this.setState({message_error:'Số điểm của bạn không đủ để cược.'},()=>{
+				// 		let myModal = new Modal(document.getElementById('tb_err'));
+				// 		myModal.show();
+				// 	})
+				// }
+				if (user !== null) {
+					var data= {...info}
+					data.gameId=1;
+					data.serverId=1;
+					data.modeId=type;
+					data.roomId=info_seesion.id;
+					data.userId=user.uid;
+		
+					this.props.checkPlace(user.access_token, data).then(()=>{
+						var data=this.props.dataCheckPlace;
+						console.log(data)
+						if(data!==undefined){
+							if(data.code > 0){
+								
+								
+							}else{
+								this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
+									let myModal = new Modal(document.getElementById('tb_err'));
+									myModal.show();
+								})
+							}
+						}else{
+							this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
+								let myModal = new Modal(document.getElementById('tb_err'));
+								myModal.show();
+							})
+						}
+					});
+				}else {
+					let myModal = new Modal(document.getElementById('tb_web'));
+					myModal.show();
 				}
 			}else{
 				if(user_data.points > info_seesion.minBet){
@@ -1687,6 +1720,7 @@ class Lucky_Rotation extends React.Component {
 }
 
 const mapStateToProps = state => ({
+	dataCheckPlace:state.lucky.dataCheckPlace,
 	dataBalances:state.lucky.dataBalances,
 	dataBetting:state.lucky.dataBetting,
 	dataSessionInplay:state.lucky.dataSessionInplay,
@@ -1731,7 +1765,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 	getListSanQua,
 	sessionInPlay,
 	sessionUpcomming,
-	getBalances
+	getBalances,
+	checkPlace
 }, dispatch)
 
 

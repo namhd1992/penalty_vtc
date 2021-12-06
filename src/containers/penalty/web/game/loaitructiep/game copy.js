@@ -4,9 +4,9 @@ import {
 	osName,
 	mobileModel
   } from "react-device-detect";
+  import bigInt from "big-integer";
 import axios from 'axios';
 import Ultilities from '../../../../../Ultilities/global'
-
 
 import backgound from '../../../assert/background.png';
 import ball from '../../../assert/ball.png';
@@ -14,15 +14,11 @@ import goal_center from '../../../assert/goal_center.png';
 import ball_rotation from '../../../assert/ball/ball_sprite.png';
 import ball_rotation_json from '../../../assert/ball/ball_sprite.json';
 
-import ball_collision_goal from '../../../assert/ball/ball_sprite.png';
-import ball_collision_goal_json from '../../../assert/ball/ball_sprite.json';
-
-import ball_collision_keeper from '../../../assert/ball/ball_sprite.png';
-import ball_collision_keeper_json from '../../../assert/ball/ball_sprite.json';
+import ball_lasted_collision from '../../../assert/ball/ball_sprite.png';
+import ball_lasted_collision_json from '../../../assert/ball/ball_sprite.json';
 
 import k_idle from '../../../assert/keep_goal/keep_goal_idle.png';
 import k_idle_json from '../../../assert/keep_goal/keep_goal_idle.json';
-
 
 import keep_goal_left_1 from '../../../assert/keep_goal/keep_goal_left_1.png';
 import keep_goal_left_1_json from '../../../assert/keep_goal/keep_goal_left_1.json';
@@ -57,7 +53,6 @@ import goal_left_json from '../../../assert/goal_anims/goal_left.json';
 import goal_right from '../../../assert/goal_anims/goal_right.png';
 import goal_right_json from '../../../assert/goal_anims/goal_right.json';
 
-import opt_suttudong_checked from '../../../assert/duatop/opt-suttudong-checked.png';
 import opt_suttudong from '../../../assert/duatop/opt-suttudong.png';
 import bg_banthang from '../../../assert/loaitructiep/bg-banthang.png';
 import btn_suttudong from '../../../assert/loaitructiep/btn-suttudong.png';
@@ -66,9 +61,8 @@ import bg_giaithuong from '../../../assert/loaitructiep/bg-giaithuong.png';
 import bg_taikhoan from '../../../assert/loaitructiep/bg-taikhoan.png';
 import bg_title_loaitructiep from '../../../assert/loaitructiep/bg-title-loaitructiep.png';
 
-
-
-
+const list_keep=[]
+const list_goal=[]
 const info={
 	"lang": "vi",
 	"osType": osName.toLocaleUpperCase(),
@@ -83,15 +77,13 @@ var play=false;
 var x=1;
 var increase_x=0;
 var increase_y=0;
-// var ball_collision_goal=false;
-// var ball_collision_keper=false;
+var ball_collision_goal=false;
+var ball_collision_keper=false;
 var is_ball_lasted=false;
 var result=0;
 var delta_alpha=1;
 var data_game={};
 var isPlay=true;
-var auto_play=false;
-var number_playauto=0;
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -99,14 +91,14 @@ export default class Game extends Phaser.Scene{
 
 
     init(data){
-        this.getDataConnect();
         var _this=this;
+        this.id=data.id;
         var reg = {};
         var user = JSON.parse(localStorage.getItem("user"));
         var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
         if(user!==null){
             var data= {...info}
-            data.userId= user.uid;
+            data.userId= bigInt(user.uid);
             data.gameId=1;
             data.serverId=1;
             data.modeId=3;
@@ -137,25 +129,13 @@ export default class Game extends Phaser.Scene{
     }
     
     preload(){
-        var seft=this;
-        var progress = this.add.graphics();
-
-        this.load.on('progress', function (value) {
-            seft.add.text(550,  300, 'Loading...', { font: "40px Arial", fill: "#ffffff" });
-        });
-    
-        this.load.on('complete', function () {
-            progress.destroy();
-        });
-        
         this.load.image('background', backgound);
         this.load.image('goal_center', goal_center);
         this.load.image('ball', ball);
         // this.load.image('bg_bangxephang', opt_suttudong);
 
         this.load.atlas('ball_rotation', ball_rotation, ball_rotation_json);
-        this.load.atlas('ball_collision_goal', ball_collision_goal, ball_collision_goal_json);
-        this.load.atlas('ball_collision_keeper', ball_collision_keeper, ball_collision_keeper_json);
+        this.load.atlas('ball_lasted_collision', ball_lasted_collision, ball_lasted_collision_json);
         this.load.atlas('keep_goal_left_1', keep_goal_left_1, keep_goal_left_1_json);
         this.load.atlas('keep_goal_left_2', keep_goal_left_2, keep_goal_left_2_json);
         this.load.atlas('keep_goal_left_3', keep_goal_left_3, keep_goal_left_3_json);
@@ -174,7 +154,6 @@ export default class Game extends Phaser.Scene{
 
         
         this.load.image('opt_suttudong', opt_suttudong);
-        this.load.image('opt_suttudong_checked', opt_suttudong_checked);
         this.load.image('bg_banthang', bg_banthang);
         this.load.image('btn_suttudong', btn_suttudong);
         this.load.image('bg_bangxephang', bg_bangxephang);
@@ -187,7 +166,6 @@ export default class Game extends Phaser.Scene{
         var user = JSON.parse(localStorage.getItem("user"));
         this.timer=0;
         this.time_update=0;
-        this.time_autoplay=0;
         this.timer_reload=0;
         this.add.image(600,338,'background')
         this.goal=this.physics.add.image(600,320,'goal_center')
@@ -237,131 +215,107 @@ export default class Game extends Phaser.Scene{
         this.goal_right_sprite.visible=false;
         this.goal_right_sprite.play('g_right');
 
-        const k_idleConfig = {
-            key: 'k_id',
-            frames: 'k_idle',
-            frameRate: 50,
-            repeat: -1
-        };
-        this.anims.create(k_idleConfig);
-    
-        this.k_idle_sprite=this.add.sprite(600, 365, 'k_idle', 'k_idle_').play('k_id');
-
-        const ball_collision_goal_config = {
-            key: 'ball_goal',
-            frames: 'ball_collision_goal',
-            frameRate: 10,
-            repeat: -1
-        };
-        this.anims.create(ball_collision_goal_config);
-
-        this.ball_collision_goal_sprite = this.physics.add.sprite(605, 530, 'ball_collision_goal', 'rotation_');
-        this.ball_collision_goal_sprite.play('ball_goal');
-        this.ball_collision_goal_sprite.visible=false;
-
-
         const keep_goal_left_1_Config = {
             key: 'k_left_1',
             frames: 'keep_goal_left_1',
-            frameRate: 24,
+            frameRate: 5,
             repeat: -2
         };
         this.anims.create(keep_goal_left_1_Config);
         this.keep_goal_left_1_sprite=this.add.sprite(675, 365, 'keep_goal_left_1', 'k_left_');
         this.keep_goal_left_1_sprite.visible=false;
-
+        this.keep_goal_left_1_sprite.play('k_left_1');
 
         const keep_goal_left_2_Config = {
             key: 'k_left_2',
             frames: 'keep_goal_left_2',
-            frameRate: 24,
+            frameRate: 6,
             repeat: -2
         };
         this.anims.create(keep_goal_left_2_Config);
         this.keep_goal_left_2_sprite=this.add.sprite(730, 361, 'keep_goal_left_2', 'k_left2_');
         this.keep_goal_left_2_sprite.visible=false;
-
+        this.keep_goal_left_2_sprite.play('k_left_2');
 
 
         const keep_goal_left_3_Config = {
             key: 'k_left_3',
             frames: 'keep_goal_left_3',
-            frameRate: 24,
+            frameRate: 6,
             repeat: -2
         };
         this.anims.create(keep_goal_left_3_Config);
         this.keep_goal_left_3_sprite=this.add.sprite(645, 365, 'keep_goal_left_3', 'k_left3_');
         this.keep_goal_left_3_sprite.visible=false;
-
+        this.keep_goal_left_3_sprite.play('k_left_3');
 
         const keep_goal_left_4_Config = {
             key: 'k_left_4',
             frames: 'keep_goal_left_4',
-            frameRate: 24,
+            frameRate: 8,
             repeat: -2
         };
         this.anims.create(keep_goal_left_4_Config);
         this.keep_goal_left_4_sprite=this.add.sprite(733, 365, 'keep_goal_left_4', 'k_left4_');
         this.keep_goal_left_4_sprite.visible=false;
-
+        this.keep_goal_left_4_sprite.play('k_left_4');
         
         const keep_goal_punch_Config = {
             key: 'k_punch',
             frames: 'keep_goal_punch',
-            frameRate: 24,
+            frameRate: 8,
             repeat: -2
         };
         this.anims.create(keep_goal_punch_Config);
         this.keep_goal_punch_sprite=this.add.sprite(595, 365, 'keep_goal_punch', 'k_punch_');
         this.keep_goal_punch_sprite.visible=false;
-
+        this.keep_goal_punch_sprite.play('k_punch');
 
         const keep_goal_right_1_Config = {
             key: 'k_right_1',
             frames: 'keep_goal_right_1',
-            frameRate: 24,
+            frameRate: 8,
             repeat: -2
         };
         this.anims.create(keep_goal_right_1_Config);
         this.keep_goal_right_1_sprite=this.add.sprite(525, 365, 'keep_goal_right_1', 'k_right1_');
         this.keep_goal_right_1_sprite.visible=false;
-
+        this.keep_goal_right_1_sprite.play('k_right_1');
 
         const keep_goal_right_2_Config = {
             key: 'k_right_2',
             frames: 'keep_goal_right_2',
-            frameRate: 24,
+            frameRate: 8,
             repeat: -2
         };
         this.anims.create(keep_goal_right_2_Config);
         this.keep_goal_right_2_sprite=this.add.sprite(465, 360, 'keep_goal_right_2', 'k_right2_');
         this.keep_goal_right_2_sprite.visible=false;
-
+        this.keep_goal_right_2_sprite.play('k_right_2');
 
 
         const keep_goal_right_3_Config = {
             key: 'k_right_3',
             frames: 'keep_goal_right_3',
-            frameRate: 24,
+            frameRate: 8,
             repeat: -2
         };
         this.anims.create(keep_goal_right_3_Config);
         this.keep_goal_right_3_sprite=this.add.sprite(560, 370, 'keep_goal_right_3', 'k_right3_');
         this.keep_goal_right_3_sprite.visible=false;
-
+        this.keep_goal_right_3_sprite.play('k_right_3');
 
 
         const keep_goal_right_4_Config = {
             key: 'k_right_4',
             frames: 'keep_goal_right_4',
-            frameRate: 24,
+            frameRate: 8,
             repeat: -2
         };
         this.anims.create(keep_goal_right_4_Config);
         this.keep_goal_right_4_sprite=this.add.sprite(485, 365, 'keep_goal_right_4', 'k_right4_');
         this.keep_goal_right_4_sprite.visible=false;
-
-
+        this.keep_goal_right_4_sprite.play('k_right_4');
 
         const animConfig = {
             key: 'walk',
@@ -375,18 +329,17 @@ export default class Game extends Phaser.Scene{
         this.ball_rotation_sprite.play('walk');
         this.ball_rotation_sprite.visible=false;
 
-
-        const ball_collision_keeper_config = {
-            key: 'ball_keeper',
-            frames: 'ball_collision_keeper',
+        const ball_lasted_collision_config = {
+            key: 'ball_lasted',
+            frames: 'ball_lasted_collision',
             frameRate: 10,
             repeat: -1
         };
-        this.anims.create(ball_collision_keeper_config);
+        this.anims.create(ball_lasted_collision_config);
 
-        this.ball_collision_keeper_sprite = this.physics.add.sprite(605, 530, 'ball_collision_keeper', 'rotation_');
-        this.ball_collision_keeper_sprite.play('ball_keeper');
-        this.ball_collision_keeper_sprite.visible=false;
+        this.ball_lasted_collision_sprite = this.physics.add.sprite(605, 530, 'ball_lasted_collision', 'rotation_');
+        this.ball_lasted_collision_sprite.play('ball_lasted');
+        this.ball_lasted_collision_sprite.visible=false;
 
 
         const soccer_kick_left_Config = {
@@ -411,7 +364,6 @@ export default class Game extends Phaser.Scene{
     
         this.soccer_kick_right_sprite.visible=false;
 
-        
         this.bg_banthang = this.add.image(121,75,'bg_banthang')
         this.btn_suttudong = this.add.image(135,620,'btn_suttudong')
         this.btn_suttudong.setScale(0.33,0.33)
@@ -424,26 +376,26 @@ export default class Game extends Phaser.Scene{
         this.bg_title_loaitructiep.setScale(0.325,0.325)
         this.opt_suttudong = this.add.image(60,620,'opt_suttudong');
         this.opt_suttudong.setScale(0.3,0.3)
-        this.opt_suttudong_checked = this.add.image(60,620,'opt_suttudong_checked');
-        this.opt_suttudong_checked.setScale(0.3,0.3)
-        this.opt_suttudong_checked.visible=false;
 
-        this.txt_goal = this.add.text(500,  270, 'GOAL', { font: "600 80px Arial", fill: "#ffffff" });
-        this.txt_goal.visible=false;
-        this.txt_miss = this.add.text(500,  270, 'MISS', { font: "600 80px Arial", fill: "#bf0606" });
-        this.txt_miss.visible=false;
-
-        this.txt_banthang = this.add.text(120,  90, '00', { font: "40px Arial", fill: "#ffffff" });
+        // this.txt_banthang = this.add.text(120,  90, data_game.summary.winCount, { font: "40px Arial", fill: "#ffffff" });
         this.txt_suttudong = this.add.text(85,  605, "Sút tự động", { font: "27px Arial", fill: "#ffffff" });
         this.txt_title = this.add.text(445,  10, "LOẠI TRỰC TIẾP", { font: "40px Arial", fill: "#ffffff", align:'center' });
         this.txt_time = this.add.text(530,  75, 'Còn: 00h00p00', { font: "16px Arial", fill: "#ffffff", align:'center' });
-        this.txt_giaithuong = this.add.text(440,  115, `Giải thưởng:`, { font: "17px Arial", fill: "#ffffff", align:"center", fixedWidth: 333 });
+        // this.txt_giaithuong = this.add.text(440,  115, `Tổng điểm Hũ Vàng`, { font: "17px Arial", fill: "#ffffff", align:"center", fixedWidth: 200 });
+        // this.txt_giaithuong = this.add.text(660,  115, data_game.estimateJackpot, { font: "17px Arial", fill: "#ffffff", align:"center", fixedWidth: 100 });
         this.txt_acc = this.add.text(980,  15, `Chào: ${user.nick_name}`, { font: "18px Arial", fill: "#ffffff", align:'center' });
-        this.txt_points = this.add.text(980,  45, `Điểm: 00`, { font: "18px Arial", fill: "#ffffff", align:'center' });
-        this.txt_titleRanking = this.add.text(30,  290, 'TÀI KHOẢN                BÀN THẮNG', { font: "13px Arial bold", fill: "#ffffff" });
-      
-        this.txt_ranking_acc = this.add.text(30,  305, '', { font: "13px Arial", fill: "#ffffff" });
-        this.txt_ranking_point = this.add.text(180,  305, '', { font: "13px Arial", fill: "#ffffff" });
+        // this.txt_points = this.add.text(980,  45, `Điểm: ${data_game.user.points} | Lượt: ${data_game.user.balance} `, { font: "18px Arial", fill: "#ffffff", align:'center' });
+        // this.txt_titleRanking = this.add.text(30,  290, 'TÀI KHOẢN                BÀN THẮNG', { font: "13px Arial bold", fill: "#ffffff" });
+        // var tk=
+        // `user 1 \nuser 2 \nuser 3 \nuser 4\nuser 5\nuser 6 \nuser 7 \nuser 8 \nuser 9 \nuser 10`
+        // this.txt_ranking = this.add.text(30,  305, tk, { font: "13px Arial", fill: "#ffffff" });
+        // var p=
+        // `01 \n02 \n03 \n04\n05\n06 \n07 \n08 \n09 \n10`
+        // this.txt_ranking = this.add.text(180,  305, p, { font: "13px Arial", fill: "#ffffff" });
+
+
+
+
 
         // var a= Phaser.Math.Distance.BetweenPoints
         const self = this;
@@ -458,27 +410,107 @@ export default class Game extends Phaser.Scene{
         //     repeat: -1
         // };
 
+        const k_idleConfig = {
+            key: 'k_id',
+            frames: 'k_idle',
+            frameRate: 50,
+            repeat: -1
+        };
+        this.anims.create(k_idleConfig);
+    
+        // this.anims.create(config);
+        // this.anims.create(k_i);
+    
+        // this.add.sprite(400, 300, 'ball_rotation').play('explodeAnimation');
+        this.k_idle_sprite=this.add.sprite(600, 365, 'k_idle', 'k_idle_').play('k_id');
+        // this.k_idle_sprite.visible=false;
 
+        // this.add.image(600,338,'bg_bangxephang')
+        // this.add.image(600,338,'bg_banthang')
+        // this.add.image(600,338,'bg_giaithuong')
+        // this.add.image(600,338,'btn_suttudong')
+        // this.add.image(600,338,'opt_suttudong')
+        // this.add.image(600,338,'bg_taikhoan')
+        // this.add.image(600,338,'bg_title_loaitructiep')
 
-        this.opt_suttudong.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
-            self.opt_suttudong.visible=false;
-            auto_play=true;
-            self.opt_suttudong_checked.visible=true;
-        })
-
-        this.opt_suttudong_checked.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
-            self.opt_suttudong.visible=true;
-            auto_play=false;
-            self.opt_suttudong_checked.visible=false;
-        })
-
+        
 
         this.input.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, function (pointer) {
-            var p1=[pointer.downX, pointer.downY];
-            var p2=[pointer.upX, pointer.upY];
-            self.play(p1,p2)
+            if(isPlay){
+                console.log("AAAAAA", isPlay)
+                var user = JSON.parse(localStorage.getItem("user"));
+                var points=data_game.user.points;
+                var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
+                if(points>0){
+                    if(pointer.downY-pointer.upY > 0){
+                        var positionBall=self.getPositionBall(pointer);
+                        var keeper_id=self.setPositionKeeper(positionBall[0],positionBall[1])
+                        console.log(positionBall)
+                        console.log('keeper_id',keeper_id)
+                        if(user!==null){
+                            var data= {...info}
+                            data.userId= bigInt(user.uid);
+                            data.gameId=1;
+                            data.serverId=1;
+                            data.modeId=3;
+                            data.roomId=info_seesion.id;
+                            data.x=1;
+                            data.y=1;
+                            data.z=1;
+                            data.zone=11;
+                            data.autoPlay=false
+                            var header = {
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "Authorization": `Bearer ${user.access_token}`,
+                                    "dataType":"json"
+                                }
+                            }
+                            axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/playing', data, header).then(function (response) {
+                                if(response.data.code>=0){
+                                    isPlay=false
+                                    result=response.data.data.result; 
+                                    self.setBallLine(pointer)
+                                    var g = self.getRandomInt(0,2)
+                                    var kg = self.getRandomInt(0,8)
+                                    setTimeout(()=>{ 
+                                        play=true;
+                                    }, 550);
+                
+                                    setTimeout(()=>{ 
+                                        self.setKeepGoal(keeper_id);
+                                        self.k_idle_sprite.visible=false;
+                                    }, 1500);
+                
+                                    self.soccer_kick_left_sprite.play("kick_left")
+                                    
+                                    setTimeout(()=>{ 
+                                        play=false;
+                                        x=1;
+                                        increase_x=0;
+                                        increase_y=0;
+                                        delta_alpha=1;
+                                        isPlay=true
+                                        is_ball_lasted=false;
+                                        self.registry.destroy();
+                                        self.events.off();
+                                        self.scene.restart();
+                                    }, 5000);
+                                }else{
+                                    console.log("Server đang lỗi.")
+                                }
+                            })
+        
+                           
+                        }
+                    }else{
+                        console.log("Bạn đã hết Điểm")
+                    }
+                }
+            }
             
         });
+        
 
         // starsIcon.on('pointerup', function () {
         //     this.cre
@@ -487,32 +519,22 @@ export default class Game extends Phaser.Scene{
 
         // }, this);
 
+
     }
 
     update(time, delta){
-        if(auto_play){
-            this.opt_suttudong.visible=false;
-            this.opt_suttudong_checked.visible=true;
-        }else{
-            this.opt_suttudong.visible=true;
-            this.opt_suttudong_checked.visible=false;
-        }
         if(play){
             // console.log(result)
-           
+        
             this.ball_1.visible=false;
             if(!is_ball_lasted){
                 this.ball_rotation_sprite.visible=true;
             }
-            var delta_power=0
-            if(result===3){
-                delta_power=-10;
-            } 
             var power=0;
             var ball_with_time=0;
             var h=increase_y;
             var m=0;
-            if(increase_x>-1.1 && increase_x<1.1){
+            if(increase_x>-1.05 && increase_x<1.05){
                 m=1
             }else{
                 m=2
@@ -522,12 +544,12 @@ export default class Game extends Phaser.Scene{
             var k=h > 100 ? h/100 : 1;
             if(h>0 && h<110){
                 ball_with_time=0.0125;
-                power=412-delta_power;
+                power=412;
             }else if(h>110 & h<250){
-                power=515-h-delta_power;
+                power=515-h;
                 ball_with_time=0.0145
             }else{
-                power=515-h-delta_power;
+                power=515-h;
                 ball_with_time=0.02;
                 k=5
             }
@@ -536,18 +558,16 @@ export default class Game extends Phaser.Scene{
             // this.sprite.play('walk');
             if(h<250){
                 if(this.ball_rotation_sprite.y<power){
-                   
+                    if(!is_ball_lasted){
+                        this.ball_rotation_sprite.visible=false;
+                        this.ball_lasted_collision_sprite.setX(this.ball_rotation_sprite.x);
+                        this.ball_lasted_collision_sprite.setY(this.ball_rotation_sprite.y);
+                        this.ball_lasted_collision_sprite.setScale(this.ball_rotation_sprite._scaleX, this.ball_rotation_sprite._scaleY)
+                        this.ball_lasted_collision_sprite.visible=true;
+                        is_ball_lasted=true;
+                    }
                     if(result===2){
-                        if(!is_ball_lasted){
-                            this.ball_rotation_sprite.visible=false;
-                            this.ball_collision_goal_sprite.setX(this.ball_rotation_sprite.x);
-                            this.ball_collision_goal_sprite.setY(this.ball_rotation_sprite.y);
-                            this.ball_collision_goal_sprite.setScale(this.ball_rotation_sprite._scaleX, this.ball_rotation_sprite._scaleY)
-                            this.ball_collision_goal_sprite.visible=true;
-                            is_ball_lasted=true;
-                        }
                         this.goal.visible=false;
-                        this.txt_goal.visible=true;
                         if(increase_x > 1.05){
                             this.goal_left_sprite.visible=true
                         }else if(increase_x < -1.05){
@@ -555,16 +575,6 @@ export default class Game extends Phaser.Scene{
                         }else{
                             this.goal_center_anims_sprite.visible=true
                         }
-                    }else{
-                        if(!is_ball_lasted){
-                            this.ball_rotation_sprite.visible=false;
-                            this.ball_collision_keeper_sprite.setX(this.ball_rotation_sprite.x);
-                            this.ball_collision_keeper_sprite.setY(this.ball_rotation_sprite.y);
-                            this.ball_collision_keeper_sprite.setScale(this.ball_rotation_sprite._scaleX, this.ball_rotation_sprite._scaleY)
-                            this.ball_collision_keeper_sprite.visible=true;
-                            is_ball_lasted=true;
-                        }
-                        this.txt_miss.visible=true;
                     }      
                 }else{
                    
@@ -575,7 +585,7 @@ export default class Game extends Phaser.Scene{
                         x -=ball_with_time;
                         this.ball_rotation_sprite.setScale(x,x);
                         this.timer=0;
-                    }
+                    }         
                 }
             }else{
                 this.ball_rotation_sprite.y -=2*k;
@@ -587,190 +597,45 @@ export default class Game extends Phaser.Scene{
                     this.ball_rotation_sprite.setScale(x,x);
                     this.ball_rotation_sprite.setAlpha(delta_alpha);
                     this.timer=0;
-                }   
-                
-                this.txt_miss.visible=true;
+                }         
             }
             
             
             if(is_ball_lasted){
                 if(h<250){
-                    if(result==2){
-                        if(this.ball_collision_goal_sprite.y < 423){
-                            this.ball_collision_goal_sprite.y +=1.5*k;
-                            this.ball_collision_goal_sprite.x +=1*increase_x;
-                            if(this.ball_collision_goal_sprite.x > 844){
-                                this.ball_collision_goal_sprite.x -=1*increase_x;
-                                this.ball_collision_goal_sprite.y +=1.7*k;
-                            }
-    
-                            if(this.ball_collision_goal_sprite.x < 380){
-                                this.ball_collision_goal_sprite.x -=1*increase_x;
-                                this.ball_collision_goal_sprite.y +=1.7*k;
-                            }
-                        }else{
-                            setTimeout(()=>{ 
-                                this.ball_collision_goal_sprite.stop()
-                            }, 500);
-                            
+                    if(this.ball_lasted_collision_sprite.y < 423){
+                        this.ball_lasted_collision_sprite.y +=1.5*k;
+                        this.ball_lasted_collision_sprite.x +=1*increase_x;
+                        if(this.ball_lasted_collision_sprite.x > 844){
+                            this.ball_lasted_collision_sprite.x -=1*increase_x;
+                            this.ball_lasted_collision_sprite.y +=1.7*k;
                         }
-                    }
-                    if(result===3){
-                        // console.log('AAAAAAAAAA')
-                        if(this.ball_collision_keeper_sprite.y < 450){
-                            this.ball_collision_keeper_sprite.y +=2*k;
-                            this.ball_collision_keeper_sprite.x +=1*increase_x;
-                            if(this.ball_collision_keeper_sprite.x > 844){
-                                this.ball_collision_keeper_sprite.x -=1*increase_x;
-                                this.ball_collision_keeper_sprite.y +=1.7*k;
-                            }
-    
-                            if(this.ball_collision_keeper_sprite.x < 380){
-                                this.ball_collision_keeper_sprite.x -=1*increase_x;
-                                this.ball_collision_keeper_sprite.y +=1.7*k;
-                            }
-                        }else{
-                            setTimeout(()=>{ 
-                                this.ball_collision_keeper_sprite.stop()
-                            }, 1000);
-                            
-                        }
-                    }
-                } 
-            }
-        }
 
-        if(auto_play){
-            var time_delta_auto=0;
-            if(number_playauto===0){
-                time_delta_auto=0
-            }else{
-                time_delta_auto=1000
-            }
-            this.time_autoplay += delta;
-            while (this.time_autoplay > time_delta_auto) {
-                this.autoPlay();
-                this.time_autoplay -= 1000;
-                number_playauto+=1;
+                        if(this.ball_lasted_collision_sprite.x < 380){
+                            this.ball_lasted_collision_sprite.x -=1*increase_x;
+                            this.ball_lasted_collision_sprite.y +=1.7*k;
+                        }
+                    }else{
+                        setTimeout(()=>{ 
+                            this.ball_lasted_collision_sprite.stop()
+                        }, 500);
+                        
+                    }
+                }
+               
+                
             }
         }
-        
-        
 
         if(Object.keys(data_game).length !== 0){
-            this.time_update += delta;
-            var len_ranking=data_game.rankings.length;
-            var tk=``;
-            var p=``;
-            if(len_ranking > 0){
-                for (let i = 0; i < len_ranking; i++) {
-                    tk +=`${data_game.rankings[i].userName} \n`
-                    p +=`${data_game.rankings[i].winCount} \n`
-                }
-            }
-            this.txt_ranking_acc.setText(tk);
-            this.txt_ranking_point.setText(p);
-            this.txt_banthang.setText(data_game.summary.winCount)
-            this.txt_giaithuong.setText(`Giải thưởng: ${data_game.rewards[0].name}`)
-            this.txt_points.setText(`Điểm: ${data_game.user.points}`)
 
-            while (this.time_update > 1000) {
-                this.timeRemain(data_game.room.endTime)
-                this.time_update -= 1000;
-            }
         }
-    }
 
-    play(p1,p2){
-        var _this=this;
-        if(isPlay){
-            var user = JSON.parse(localStorage.getItem("user"));
-            var points=data_game.user.points;
-            var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
-            if(points>0){
-                if(p1[1]-p2[1] > 0){
-                    var positionBall=this.getPositionBall(p1,p2);
-                    var keeper=this.setPositionKeeper(positionBall[0],positionBall[1])
-                    console.log(positionBall)
-                    console.log('keeper',keeper)
-                    if(user!==null){
-                        var data= {...info}
-                        data.userId= user.uid;
-                        data.gameId=1;
-                        data.serverId=1;
-                        data.modeId=3;
-                        data.roomId=info_seesion.id;
-                        data.x=positionBall[0];
-                        data.y=positionBall[1];
-                        data.z=1;
-                        data.zone=keeper[1];
-                        data.autoPlay=false
-                        var header = {
-                            headers: {
-                                "Content-Type": "application/json",
-                                "Authorization": `Bearer ${user.access_token}`,
-                                "dataType":"json"
-                            }
-                        }
-                        axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/playing', data, header).then(function (response) {
-                            if(response.data.code>=0){
-                                isPlay=false;
-                                result=response.data.data.result; 
-                                _this.setBallLine(p1,p2)
-                                var g = _this.getRandomInt(0,2)
-                                var kg = _this.getRandomInt(1,9)
-                                setTimeout(()=>{ 
-                                    play=true;
-                                }, 550);
-            
-                                setTimeout(()=>{ 
-                                    if(result===2){
-                                        _this.setKeepGoal(kg);
-                                        _this.k_idle_sprite.visible=false;
-                                    }else{
-                                        _this.setKeepGoal(keeper[0]);
-                                        _this.k_idle_sprite.visible=false;
-                                    }
-                                   
-                                }, 700);
-            
-                                _this.soccer_kick_left_sprite.play("kick_left")
-                                
-                                setTimeout(()=>{ 
-                                    play=false;
-                                    isPlay=true;
-                                    x=1;
-                                    increase_x=0;
-                                    increase_y=0;
-                                    delta_alpha=1;
-                                    is_ball_lasted=false;
-                                    _this.ball_collision_keeper_sprite.play('ball_keeper');
-                                    _this.ball_collision_goal_sprite.play('ball_goal');
-                                    _this.registry.destroy();
-                                    _this.events.off();
-                                    _this.scene.restart();
-                                }, 5000);
-                            }else{
-                                console.log("Server đang lỗi.")
-                            }
-                        })
-    
-                       
-                    }
-                }else{
-                    console.log("Vuốt lên để chơi")
-                }
-            }
-        }
-        if(p1[1] > p2[1]){
-            isPlay=false;
-        }
-        
-    }
-    
-
-    getDataConnect(){
-       
+        // this.time_update += delta;
+        // while (this.time_update > 1000) {
+        //     this.timeRemain(data_game.room.endTime)
+        //     this.time_update -= 1000;
+        // }
     }
 
     footballOut(){
@@ -781,23 +646,17 @@ export default class Game extends Phaser.Scene{
         
     }
 
-    setBallLine(p1,p2){
-        var a=p1[0]-p2[0];
-        var b=p1[1]-p2[1];
+    setBallLine(pointer){
+        const startX=pointer.downX;
+        const startY=pointer.downY;
+        const endX=pointer.upX;
+        const endY=pointer.upY;
+        var a=startX-endX;
+        var b=startY-endY;
         var dis1=Math.sqrt((a*a+b*b))
        
         increase_x=a>0?(-dis1/b):(dis1/b)
         increase_y=b;
-    }
-
-    autoPlay(){
-        var x1=this.getRandomInt(240, 950);
-        var x2=this.getRandomInt(240, 950);
-        var y1=this.getRandomInt(470, 630);
-        var y2=this.getRandomInt(215, 470);
-        var p1=[x1, y1];
-        var p2=[x2, y2];
-        this.play(p1, p2);
     }
     
     setKeepGoal(n){
@@ -805,52 +664,46 @@ export default class Game extends Phaser.Scene{
         switch (n) {
             case 1:
                 this.keep_goal_right_2_sprite.visible=true;
-                this.keep_goal_right_2_sprite.play('k_right_2');
                 break;
             case 2:
                 this.keep_goal_right_1_sprite.visible=true;
-                this.keep_goal_right_1_sprite.play('k_right_1');
                 break;
             case 3:
                 this.keep_goal_left_1_sprite.visible=true;
-                this.keep_goal_left_1_sprite.play('k_left_1');
                 break;
             case 4:
                 this.keep_goal_left_2_sprite.visible=true;
-                this.keep_goal_left_2_sprite.play('k_left_2');
                 break;
             case 5:
                 this.keep_goal_right_4_sprite.visible=true;
-                this.keep_goal_right_4_sprite.play('k_right_4');
                 break;
             case 6:
                 this.keep_goal_right_3_sprite.visible=true;
-                this.keep_goal_right_3_sprite.play('k_right_3');
                 break;
             case 7:
                 this.keep_goal_left_3_sprite.visible=true;
-                this.keep_goal_left_3_sprite.play('k_left_3');
                 break;
             case 8:
                 this.keep_goal_left_4_sprite.visible=true;
-                this.keep_goal_left_4_sprite.play('k_left_4');
                 break;
             case 9:
                 this.keep_goal_punch_sprite.visible=true;
-                this.keep_goal_punch_sprite.play('k_punch');
                 break;
             default:
-                this.keep_goal_punch_sprite.visible=true;
-                this.keep_goal_punch_sprite.play('k_punch');
+                this.goal_center_anims_sprite.visible=true
                 break;
         }
         
     }
 
-    getPositionBall(p1,p2){
+    getPositionBall(pointer){
+        const startX=pointer.downX;
+        const startY=pointer.downY;
+        const endX=pointer.upX;
+        const endY=pointer.upY;
         var power=0
-        var a=p1[0]-p2[0];
-        var b=p1[1]-p2[1];
+        var a=startX-endX;
+        var b=startY-endY;
         var m=0
         var dis1=Math.sqrt((a*a+b*b))
         var k=b > 100 ? b/100 : 1;
@@ -872,34 +725,29 @@ export default class Game extends Phaser.Scene{
         var n=(530-power)/(2*k)
         var y=power;
         var x=605+n*increase_x*m;
-        console.log(x,y)
         return [x,y];
     }
 
 
     setPositionKeeper(x,y){
         if(x >= 338 && x < 475 && y >= 228 && y < 336)
-            return [1, 11];
+            return 1;
         if(x >= 475 && x < 555 && y >= 228 && y < 336)
-            return [2, 12];
+            return 2;
         if(x >= 655 && x < 745 && y >= 228 && y < 336)
-            return [3, 14];
+            return 3;
         if(x >= 745 && x < 870 && y >= 228 && y < 336)
-            return [4, 15];
+            return 4;
         if(x >= 338 && x < 475 && y >= 336 && y < 430)
-            return [5,21];
+            return 5;
         if(x >= 475 && x < 555 && y >= 336 && y < 430)
-            return [6, 22];
+            return 6;
         if(x >= 655 && x < 745 && y >= 336 && y < 430)
-            return [7,24];
+            return 7;
         if(x >= 745 && x < 870 && y >= 336 && y < 430)
-            return [8, 25];
+            return 8;
         if(x >= 555 && x < 655 && y >= 228 && y < 430)
-            return [9,23];
-        if(y===0)
-            return [this.getRandomInt(1,9), 0]
-        if(x > 870 || x < 338)
-            return [this.getRandomInt(1,9),0]
+            return 9;
     }
 
 
@@ -925,7 +773,6 @@ export default class Game extends Phaser.Scene{
            
         }
 	}
-
 
 }
 
