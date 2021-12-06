@@ -186,6 +186,7 @@ export default class Game extends Phaser.Scene{
         var user = JSON.parse(localStorage.getItem("user"));
         this.timer=0;
         this.time_update=0;
+        this.time_autoplay=0;
         this.timer_reload=0;
         this.add.image(600,338,'background')
         this.goal=this.physics.add.image(600,320,'goal_center')
@@ -471,85 +472,10 @@ export default class Game extends Phaser.Scene{
 
 
         this.input.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, function (pointer) {
-            if(isPlay){
-                var user = JSON.parse(localStorage.getItem("user"));
-                var points=data_game.user.points;
-                var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
-                if(points>0){
-                    if(pointer.downY-pointer.upY > 0){
-                        var positionBall=self.getPositionBall(pointer);
-                        var keeper=self.setPositionKeeper(positionBall[0],positionBall[1])
-                        console.log(positionBall)
-                        console.log('keeper',keeper)
-                        if(user!==null){
-                            var data= {...info}
-                            data.userId= user.uid;
-                            data.gameId=1;
-                            data.serverId=1;
-                            data.modeId=1;
-                            data.roomId=info_seesion.id;
-                            data.x=positionBall[0];
-                            data.y=positionBall[1];
-                            data.z=1;
-                            data.zone=keeper[1];
-                            data.autoPlay=false
-                            var header = {
-                                headers: {
-                                    "Content-Type": "application/json",
-                                    "Authorization": `Bearer ${user.access_token}`,
-                                    "dataType":"json"
-                                }
-                            }
-                            axios.post(Ultilities.base_url() +'/lobby/api/v1/race/playing', data, header).then(function (response) {
-                                if(response.data.code>=0){
-                                    isPlay=false;
-                                    result=response.data.data.result; 
-                                    self.setBallLine(pointer)
-                                    var g = self.getRandomInt(0,2)
-                                    var kg = self.getRandomInt(1,9)
-                                    setTimeout(()=>{ 
-                                        play=true;
-                                    }, 550);
-                
-                                    setTimeout(()=>{ 
-                                        if(result===2){
-                                            self.setKeepGoal(kg);
-                                            self.k_idle_sprite.visible=false;
-                                        }else{
-                                            self.setKeepGoal(keeper[0]);
-                                            self.k_idle_sprite.visible=false;
-                                        }
-                                       
-                                    }, 700);
-                
-                                    self.soccer_kick_left_sprite.play("kick_left")
-                                    
-                                    setTimeout(()=>{ 
-                                        play=false;
-                                        isPlay=true;
-                                        x=1;
-                                        increase_x=0;
-                                        increase_y=0;
-                                        delta_alpha=1;
-                                        is_ball_lasted=false;
-                                        self.ball_collision_keeper_sprite.play('ball_keeper');
-                                        self.ball_collision_goal_sprite.play('ball_goal');
-                                        self.registry.destroy();
-                                        self.events.off();
-                                        self.scene.restart();
-                                    }, 5000);
-                                }else{
-                                    console.log("Server đang lỗi.")
-                                }
-                            })
-        
-                           
-                        }
-                    }else{
-                        console.log("Vuốt lên để chơi")
-                    }
-                }
-            }  
+            var p1=[pointer.downX, pointer.downY];
+            var p2=[pointer.upX, pointer.upY]
+            self.play(p1,p2)
+            
         });
 
         // starsIcon.on('pointerup', function () {
@@ -702,6 +628,13 @@ export default class Game extends Phaser.Scene{
                 } 
             }
         }
+        if(auto_play){
+            while (this.time_autoplay > 5000) {
+                this.autoPlay();
+                this.time_autoplay -= 1000;
+            }
+        }
+        
 
         if(Object.keys(data_game).length !== 0){
             this.time_update += delta;
@@ -727,6 +660,89 @@ export default class Game extends Phaser.Scene{
         }
     }
 
+    play(p1,p2){
+        var _this=this;
+        if(isPlay){
+            var user = JSON.parse(localStorage.getItem("user"));
+            var points=data_game.user.points;
+            var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
+            if(points>0){
+                if(p1[1]-p2[1] > 0){
+                    var positionBall=this.getPositionBall(p1,p2);
+                    var keeper=this.setPositionKeeper(positionBall[0],positionBall[1])
+                    console.log(positionBall)
+                    console.log('keeper',keeper)
+                    if(user!==null){
+                        var data= {...info}
+                        data.userId= user.uid;
+                        data.gameId=1;
+                        data.serverId=1;
+                        data.modeId=1;
+                        data.roomId=info_seesion.id;
+                        data.x=positionBall[0];
+                        data.y=positionBall[1];
+                        data.z=1;
+                        data.zone=keeper[1];
+                        data.autoPlay=false
+                        var header = {
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": `Bearer ${user.access_token}`,
+                                "dataType":"json"
+                            }
+                        }
+                        axios.post(Ultilities.base_url() +'/lobby/api/v1/race/playing', data, header).then(function (response) {
+                            if(response.data.code>=0){
+                                isPlay=false;
+                                result=response.data.data.result; 
+                                _this.setBallLine(p1,p2)
+                                var g = _this.getRandomInt(0,2)
+                                var kg = _this.getRandomInt(1,9)
+                                setTimeout(()=>{ 
+                                    play=true;
+                                }, 550);
+            
+                                setTimeout(()=>{ 
+                                    if(result===2){
+                                        _this.setKeepGoal(kg);
+                                        _this.k_idle_sprite.visible=false;
+                                    }else{
+                                        _this.setKeepGoal(keeper[0]);
+                                        _this.k_idle_sprite.visible=false;
+                                    }
+                                   
+                                }, 700);
+            
+                                _this.soccer_kick_left_sprite.play("kick_left")
+                                
+                                setTimeout(()=>{ 
+                                    play=false;
+                                    isPlay=true;
+                                    x=1;
+                                    increase_x=0;
+                                    increase_y=0;
+                                    delta_alpha=1;
+                                    is_ball_lasted=false;
+                                    _this.ball_collision_keeper_sprite.play('ball_keeper');
+                                    _this.ball_collision_goal_sprite.play('ball_goal');
+                                    _this.registry.destroy();
+                                    _this.events.off();
+                                    _this.scene.restart();
+                                }, 5000);
+                            }else{
+                                console.log("Server đang lỗi.")
+                            }
+                        })
+    
+                       
+                    }
+                }else{
+                    console.log("Vuốt lên để chơi")
+                }
+            }
+        }  
+    }
+
     getDataConnect(){
        
     }
@@ -739,17 +755,24 @@ export default class Game extends Phaser.Scene{
         
     }
 
-    setBallLine(pointer){
-        const startX=pointer.downX;
-        const startY=pointer.downY;
-        const endX=pointer.upX;
-        const endY=pointer.upY;
-        var a=startX-endX;
-        var b=startY-endY;
+    setBallLine(p1,p2){
+        var a=p1[0]-p2[0];
+        var b=p1[1]-p2[1];
         var dis1=Math.sqrt((a*a+b*b))
        
         increase_x=a>0?(-dis1/b):(dis1/b)
         increase_y=b;
+    }
+
+    autoPlay(){
+        var x1=this.getRandomInt(240, 950);
+        var x2=this.getRandomInt(240, 950);
+        var y1=this.getRandomInt(470, 630);
+        var y2=this.getRandomInt(215, 470);
+        var p1=[x1, y1];
+        var p2=[x2, y2];
+
+        this.play(p1, p2);
     }
     
     setKeepGoal(n){
@@ -799,14 +822,10 @@ export default class Game extends Phaser.Scene{
         
     }
 
-    getPositionBall(pointer){
-        const startX=pointer.downX;
-        const startY=pointer.downY;
-        const endX=pointer.upX;
-        const endY=pointer.upY;
+    getPositionBall(p1,p2){
         var power=0
-        var a=startX-endX;
-        var b=startY-endY;
+        var a=p1[0]-p2[0];
+        var b=p1[1]-p2[1];
         var m=0
         var dis1=Math.sqrt((a*a+b*b))
         var k=b > 100 ? b/100 : 1;
