@@ -488,6 +488,13 @@ export default class Game extends Phaser.Scene{
     }
 
     update(time, delta){
+        if(auto_play){
+            this.opt_suttudong.visible=false;
+            this.opt_suttudong_checked.visible=true;
+        }else{
+            this.opt_suttudong.visible=true;
+            this.opt_suttudong_checked.visible=false;
+        }
         if(play){
             // console.log(result)
            
@@ -628,12 +635,15 @@ export default class Game extends Phaser.Scene{
                 } 
             }
         }
+
         if(auto_play){
+            this.time_autoplay += delta;
             while (this.time_autoplay > 5000) {
                 this.autoPlay();
                 this.time_autoplay -= 1000;
             }
         }
+        
         
 
         if(Object.keys(data_game).length !== 0){
@@ -765,12 +775,14 @@ export default class Game extends Phaser.Scene{
     }
 
     autoPlay(){
+        console.log("AAAAAAAAAAA")
         var x1=this.getRandomInt(240, 950);
         var x2=this.getRandomInt(240, 950);
         var y1=this.getRandomInt(470, 630);
         var y2=this.getRandomInt(215, 470);
         var p1=[x1, y1];
         var p2=[x2, y2];
+        console.log(p1,p2)
 
         this.play(p1, p2);
     }
