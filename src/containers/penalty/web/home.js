@@ -30,6 +30,12 @@ import {
 	getData
 } from '../../../modules/profile'
 
+import img_ingame from './images/img-ingame.png';
+import img_diem from './images/img-diem.png';
+import img_giftcode from './images/img-giftcode.png';
+import img_toup_scoin from './images/img-toup-scoin.png';
+import img_thescoinvoucher from './images/img-thescoinvoucher.png';
+
 import avatar from './images/avatar.png';
 import bg_bangxephang from './images/bg-bangxephang.png';
 import bg_banthang from './images/bg-banthang.png';
@@ -83,7 +89,7 @@ import img_card500k from './images/img-card500k.png';
 import img_card1000k from './images/img-card1000k.png';
 import img_card2000k from './images/img-card2000k.png';
 import img_card5000k from './images/img-card5000k.png';
-import img_thescoinvoucher from './images/img-thescoinvoucher.png';
+
 
 import img_dacochu from './images/img-dacochu.png';
 
@@ -920,25 +926,25 @@ class Lucky_Rotation extends React.Component {
 		var obj;
 		switch (item) {
 			case 5:
-				obj=img_card10k;
+				obj=img_giftcode;
 				break;
 			case 6:
-				obj=img_card10k;
+				obj=img_diem;
 				break;
 			case 11:
-				obj=img_card10k;
+				obj=img_ingame;
 				break;
 			case 21:
 				obj=logo_scoin;
 				break;
 			case 22:
-				obj=img_card50k;
+				obj=img_toup_scoin;
 				break;
 			case 31:
 				obj=img_thescoinvoucher;
 				break;
 			case 32:
-				obj=logo_scoin;
+				obj=img_thescoinvoucher;
 				break;
 			default:
 				obj=logo_scoin;

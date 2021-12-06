@@ -28,6 +28,12 @@ import {
 	getData
 } from '../../../modules/profile';
 
+import img_ingame from './images/img-ingame.png';
+import img_diem from './images/img-diem.png';
+import img_giftcode from './images/img-giftcode.png';
+import img_toup_scoin from './images/img-toup-scoin.png';
+import img_thescoinvoucher from './images/img-thescoinvoucher.png';
+
 import avatar from './images/avatar.png';
 import bg_bottom from './images/bg-bottom.png';
 import bg_bvd from './images/bg-bvd.png';
@@ -74,7 +80,6 @@ import img_card500k from './images/img-card500k.png';
 import img_card1000k from './images/img-card1000k.png';
 import img_card2000k from './images/img-card2000k.png';
 import img_card5000k from './images/img-card5000k.png';
-import img_thescoinvoucher from './images/img-thescoinvoucher.png';
 import img_dacochu from './images/img-dacochu.png';
 
 
@@ -923,43 +928,25 @@ class Lucky_Rotation extends React.Component {
 	getImgItem=(item)=>{
 		var obj;
 		switch (item) {
-			case "ScoinCard10K":
-				obj=img_card10k;
+			case 5:
+				obj=img_giftcode;
 				break;
-			case "ScoinCard20K":
-				obj=img_card20k;
+			case 6:
+				obj=img_diem;
 				break;
-			case "ScoinCard50K":
-				obj=img_card50k;
+			case 11:
+				obj=img_ingame;
 				break;
-			case "ScoinCard100K":
-				obj=img_card100k;
-				break;
-			case "ScoinCard200K":
-				obj=img_card200k;
-				break;
-			case "ScoinCard300K":
-				obj=img_card300k;
-				break;
-			case "ScoinCard500K":
-				obj=img_card500k;
-				break;
-			case "ScoinCard1000K":
-				obj=img_card1000k
-				break;
-			case "ScoinCard2000K":
-				obj=img_card2000k
-				break;
-			case "ScoinCard5000K":
-				obj=img_card5000k;
-				break;
-			case "TopupScoin50K":
+			case 21:
 				obj=logo_scoin;
 				break;
-			case "ScoinVoucher10K":
+			case 22:
+				obj=img_toup_scoin;
+				break;
+			case 31:
 				obj=img_thescoinvoucher;
 				break;
-			case "BankTransferVoucher20K":
+			case 32:
 				obj=img_thescoinvoucher;
 				break;
 			default:
@@ -968,7 +955,6 @@ class Lucky_Rotation extends React.Component {
 		}
 		return obj;
 	}
-
 	timeModalGiaiThuowng=(time)=>{
 		var start=time.substring(time.indexOf("(") +1,time.indexOf(")"));
 		var times=(start-Date.now())/1000;
