@@ -6,7 +6,7 @@ import {
   } from "react-device-detect";
 import axios from 'axios';
 import Ultilities from '../../../../../Ultilities/global'
-
+import $ from 'jquery';
 
 import backgound from '../../../assert/background.png';
 import ball from '../../../assert/ball.png';
@@ -66,6 +66,9 @@ import bg_giaithuong_duatop from '../../../assert/duatop/bg-giaithuong-duatop.pn
 import bg_taikhoan from '../../../assert/duatop/bg-taikhoan.png';
 import bg_title_duatop from '../../../assert/duatop/bg-title-duatop.png';
 
+import bg_pop_ingame from '../../../assert/1.png';
+import btn_dongy from '../../../assert/btn-dongy.png';
+import btn_thoat from '../../../assert/btn-thoat.png';
 
 
 
@@ -96,6 +99,7 @@ export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
     }
+    
 
 
     init(data){
@@ -133,6 +137,8 @@ export default class Game extends Phaser.Scene{
             }).catch(function (error) {
                 window.location.replace('/')
             })
+        }else{
+            window.location.replace('/')
         }
     }
     
@@ -181,6 +187,10 @@ export default class Game extends Phaser.Scene{
         this.load.image('bg_giaithuong_duatop', bg_giaithuong_duatop);
         this.load.image('bg_taikhoan', bg_taikhoan);
         this.load.image('bg_title_duatop', bg_title_duatop);
+
+        this.load.image('bg_pop_ingame', bg_pop_ingame);
+        this.load.image('btn_dongy', btn_dongy);
+        this.load.image('btn_thoat', btn_thoat);
     }
 
     create(){
@@ -755,6 +765,8 @@ export default class Game extends Phaser.Scene{
                         })
     
                        
+                    }else{
+                        window.location.replace('/')
                     }
                 }else{
                     console.log("Vuốt lên để chơi")

@@ -66,6 +66,9 @@ import bg_giaithuong_giathuvang from '../../../assert/huvang/bg-giaithuong-giath
 import bg_taikhoan from '../../../assert/huvang/bg-taikhoan.png';
 import bg_title_giathuvang from '../../../assert/huvang/bg-title-giathuvang.png';
 
+import bg_pop_ingame from '../../../assert/1.png';
+import btn_dongy from '../../../assert/btn-dongy.png';
+import btn_thoat from '../../../assert/btn-thoat.png';
 
 
 
@@ -133,6 +136,8 @@ export default class Game extends Phaser.Scene{
             }).catch(function (error) {
                 window.location.replace('/')
             })
+        }else{
+            window.location.replace('/')
         }
     }
     
@@ -181,6 +186,10 @@ export default class Game extends Phaser.Scene{
         this.load.image('bg_giaithuong_giathuvang', bg_giaithuong_giathuvang);
         this.load.image('bg_taikhoan', bg_taikhoan);
         this.load.image('bg_title_giathuvang', bg_title_giathuvang);
+
+        this.load.image('bg_pop_ingame', bg_pop_ingame);
+        this.load.image('btn_dongy', btn_dongy);
+        this.load.image('btn_thoat', btn_thoat);
     }
 
     create(){
@@ -757,6 +766,8 @@ export default class Game extends Phaser.Scene{
                         })
     
                        
+                    }else{
+                        window.location.replace('/')
                     }
                 }else{
                     console.log("Vuốt lên để chơi")

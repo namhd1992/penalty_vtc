@@ -66,6 +66,10 @@ import bg_giaithuong from '../../../assert/loaitructiep/bg-giaithuong.png';
 import bg_taikhoan from '../../../assert/loaitructiep/bg-taikhoan.png';
 import bg_title_loaitructiep from '../../../assert/loaitructiep/bg-title-loaitructiep.png';
 
+import bg_pop_ingame from '../../../assert/1.png';
+import btn_dongy from '../../../assert/btn-dongy.png';
+import btn_thoat from '../../../assert/btn-thoat.png';
+
 
 
 
@@ -133,6 +137,8 @@ export default class Game extends Phaser.Scene{
             }).catch(function (error) {
                 window.location.replace('/')
             })
+        }else{
+            window.location.replace('/')
         }
     }
     
@@ -181,6 +187,10 @@ export default class Game extends Phaser.Scene{
         this.load.image('bg_giaithuong', bg_giaithuong);
         this.load.image('bg_taikhoan', bg_taikhoan);
         this.load.image('bg_title_loaitructiep', bg_title_loaitructiep);
+
+        this.load.image('bg_pop_ingame', bg_pop_ingame);
+        this.load.image('btn_dongy', btn_dongy);
+        this.load.image('btn_thoat', btn_thoat);
     }
 
     create(){
@@ -439,7 +449,7 @@ export default class Game extends Phaser.Scene{
         this.txt_time = this.add.text(530,  75, 'Còn: 00h00p00', { font: "16px Arial", fill: "#ffffff", align:'center' });
         this.txt_giaithuong = this.add.text(440,  115, `Giải thưởng:`, { font: "17px Arial", fill: "#ffffff", align:"center", fixedWidth: 333 });
         this.txt_acc = this.add.text(980,  15, `Chào: ${user.nick_name}`, { font: "18px Arial", fill: "#ffffff", align:'center' });
-        this.txt_points = this.add.text(980,  45, `Điểm: 00`, { font: "18px Arial", fill: "#ffffff", align:'center' });
+        this.txt_points = this.add.text(980,  45, `Lượt: 00`, { font: "18px Arial", fill: "#ffffff", align:'center' });
         this.txt_titleRanking = this.add.text(30,  290, 'TÀI KHOẢN                BÀN THẮNG', { font: "13px Arial bold", fill: "#ffffff" });
       
         this.txt_ranking_acc = this.add.text(30,  305, '', { font: "13px Arial", fill: "#ffffff" });
@@ -672,7 +682,7 @@ export default class Game extends Phaser.Scene{
             this.txt_ranking_point.setText(p);
             this.txt_banthang.setText(data_game.summary.winCount)
             this.txt_giaithuong.setText(`Giải thưởng: ${data_game.rewards[0].name}`)
-            this.txt_points.setText(`Điểm: ${data_game.user.points}`)
+            this.txt_points.setText(`Điểm: ${data_game.user.betAmount}`)
 
             while (this.time_update > 1000) {
                 this.timeRemain(data_game.room.endTime)
@@ -713,6 +723,7 @@ export default class Game extends Phaser.Scene{
                             }
                         }
                         axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/playing', data, header).then(function (response) {
+                            console.log(response.data)
                             if(response.data.code>=0){
                                 isPlay=false;
                                 result=response.data.data.result; 
@@ -751,11 +762,15 @@ export default class Game extends Phaser.Scene{
                                     _this.scene.restart();
                                 }, 5000);
                             }else{
-                                console.log("Server đang lỗi.")
+                                // console.log("Server đang lỗi.")
+                                _this.showMessageBox(response.data.message)
+                                isPlay=true;
                             }
                         })
     
                        
+                    }else{
+                        window.location.replace('/')
                     }
                 }else{
                     console.log("Vuốt lên để chơi")
@@ -768,6 +783,27 @@ export default class Game extends Phaser.Scene{
         
     }
     
+    showMessageBox(text) {
+        //just in case the message box already exists
+        //destroy it
+        var _this=this;
+        this.back = this.add.sprite(600, 675/2, "bg_pop_ingame");
+        this.closeButton = this.add.sprite(470, 480, "btn_dongy");
+        this.thoatButton = this.add.sprite(730, 480, "btn_thoat");
+        this.text1 = this.add.text(400, 300, text, { font: "18px Arial", fill: "#000000", align:'center', fixedWidth: 400, wordWrap:true});
+        this.closeButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+            _this.hideBox()
+        })
+        this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+            window.location.replace('/')
+        })
+    }
+    hideBox() {
+        this.back.destroy();
+        this.closeButton.destroy();
+        this.thoatButton.destroy();
+        this.text1.destroy();
+    }
 
     getDataConnect(){
        
