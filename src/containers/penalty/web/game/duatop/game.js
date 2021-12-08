@@ -539,7 +539,8 @@ export default class Game extends Phaser.Scene{
         this.txt_title = this.add.text(520,  10, "ĐUA TOP", { font: "40px Arial", fill: "#ffffff", align:'center' });
         this.txt_time = this.add.text(530,  75, "Còn: 00h00p00", { font: "16px Arial", fill: "#ffffff", align:'center' });
         this.txt_giaithuong = this.add.text(440,  115, `Giải thưởng:`, { font: "17px Arial", fill: "#ffffff", align:"center", fixedWidth: 333 });
-        this.txt_acc = this.add.text(980,  15, `Chào: ${user.nick_name}`, { font: "18px Arial", fill: "#ffffff", align:'center' });
+        this.txt_acc = this.add.text(980,  15, `Chào: ${user.nick_name.substring(0, 10)}`, { font: "18px Arial", fill: "#ffffff", align:'center' });
+        this.txt_thoat = this.add.text(1125,  15, '(Thoát)', { font: `18px Arial`, fill: "#ffc107", align:'center' });
         this.txt_points = this.add.text(980,  45, `Điểm: 00`, { font: "18px Arial", fill: "#ffffff", align:'center' });
         this.txt_titleRanking = this.add.text(30,  290, 'TÀI KHOẢN                BÀN THẮNG', { font: "13px Arial bold", fill: "#ffffff" });
       
@@ -573,6 +574,9 @@ export default class Game extends Phaser.Scene{
             self.opt_suttudong_checked.visible=false;
         })
 
+        this.txt_thoat.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
+            window.location.replace('/')
+        })
 
         this.input.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, function (pointer) {
             var p1=[pointer.downX, pointer.downY];
