@@ -518,7 +518,7 @@ class Lucky_Rotation extends React.Component {
 				return;
 			}
 			if(user_data.points > 0){
-				window.location.replace('/duatop')
+				window.location.href=window.location.href+'duatop';
 			}else{
 				this.setState({message_error:'Bạn không còn điểm để chơi.'},()=>{
 					let myModal = new Modal(document.getElementById('tb_err'));
@@ -543,24 +543,59 @@ class Lucky_Rotation extends React.Component {
 				return;
 			}
 			if(type===3){
-				if(user_data.points > info_seesion.minBet){
-					if(user_data.betKnockout > 0){
-						this.setState({message_error:'Bạn đã quá số lần cược của phiên.'},()=>{
-							let myModal = new Modal(document.getElementById('tb_err'));
-							myModal.show();
-						})
-					}else{
-						this.setState({points:user_data.points},()=>{
-							let myModal = new Modal(document.getElementById('datcuoc'));
-							myModal.show();
-						})
-					}
-					
-				}else{
-					this.setState({message_error:'Số điểm của bạn không đủ để cược.'},()=>{
-						let myModal = new Modal(document.getElementById('tb_err'));
-						myModal.show();
-					})
+				if (user !== null) {
+					var data= {...info}
+					data.gameId=1;
+					data.serverId=1;
+					data.modeId=type;
+					data.roomId=info_seesion.id;
+					data.userId=user.uid;
+		
+					this.props.checkPlace(user.access_token, data).then(()=>{
+						var data=this.props.dataCheckPlace;
+						console.log(data)
+						if(data!==undefined){
+							if(data.code > 0){
+								if(data.data.isBets){
+									if(data.data.isKnockout){
+										this.setState({message_error:'Bạn đã bị loại khỏi phiên đấu hiện tại'},()=>{
+											let myModal = new Modal(document.getElementById('tb_err'));
+											myModal.show();
+										})
+									}else{
+										if(data.data.isBets){
+											window.location.href=window.location.href+'loaitructiep';
+										}else{
+											this.setState({points:user_data.points},()=>{
+												let myModal = new Modal(document.getElementById('datcuoc'));
+												myModal.show();
+											})
+										}
+									}
+									// window.location.href=window.location.href+'loaitructiep';
+								}else{
+									this.setState({message_error:'Phiên đấu chưa diễn ra hoặc đã kết thúc.'},()=>{
+										let myModal = new Modal(document.getElementById('tb_err'));
+										myModal.show();
+									})
+								}
+								
+							}else{
+								this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
+									let myModal = new Modal(document.getElementById('tb_err'));
+									myModal.show();
+								})
+							}
+						}else{
+							this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
+								let myModal = new Modal(document.getElementById('tb_err'));
+								myModal.show();
+							})
+						}
+					});
+				}else {
+					let myModal = new Modal(document.getElementById('tb_web'));
+					myModal.show();
 				}
 			}else{
 				if(user_data.points > info_seesion.minBet){
@@ -600,7 +635,11 @@ class Lucky_Rotation extends React.Component {
 				console.log(data)
 				if(data!==undefined){
 					if(data.code > 0){
-						// window.location.replace('/giathuvang')
+						if(type_modeId===2){
+							window.location.href=window.location.href+'giathuvang';
+						}else{
+							window.location.href=window.location.href+'loaitructiep';
+						}
 					}else{
 						this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
 							let myModal = new Modal(document.getElementById('tb_err'));
