@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import Game from './games';
+import Game from './game';
 import Info from './info';
 
 const SCENES = {
