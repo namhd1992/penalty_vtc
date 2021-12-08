@@ -399,7 +399,7 @@ export default class Game extends Phaser.Scene{
         const keep_goal_left_4_Config = {
             key: 'k_left_4',
             frames: 'keep_goal_left_4',
-            frameRate: 16,
+            frameRate: 24,
             repeat: -2
         };
         this.anims.create(keep_goal_left_4_Config);
@@ -826,14 +826,13 @@ export default class Game extends Phaser.Scene{
                                 }, 550);
             
                                 setTimeout(()=>{ 
-                                    // if(result===2){
-                                    //     _this.setKeepGoal(kg);
-                                    //     _this.k_idle_sprite.visible=false;
-                                    // }else{
-                                    //     _this.setKeepGoal(keeper[0]);
-                                    //     _this.k_idle_sprite.visible=false;
-                                    // }
-                                    _this.setKeepGoal(15);
+                                    if(result===2){
+                                        _this.setKeepGoal(kg);
+                                        _this.k_idle_sprite.visible=false;
+                                    }else{
+                                        _this.setKeepGoal(keeper[0]);
+                                        _this.k_idle_sprite.visible=false;
+                                    }
                                 }, 700);
             
                                 _this.soccer_kick_left_sprite.play("kick_left")

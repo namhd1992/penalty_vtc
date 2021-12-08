@@ -394,7 +394,7 @@ export default class Game extends Phaser.Scene{
         const keep_goal_left_4_Config = {
             key: 'k_left_4',
             frames: 'keep_goal_left_4',
-            frameRate: 16,
+            frameRate: 24,
             repeat: -2
         };
         this.anims.create(keep_goal_left_4_Config);
