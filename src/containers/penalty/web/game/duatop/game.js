@@ -23,6 +23,18 @@ import ball_collision_keeper_json from '../../../assert/ball/ball_sprite.json';
 import k_idle from '../../../assert/keep_goal/keep_goal_idle.png';
 import k_idle_json from '../../../assert/keep_goal/keep_goal_idle.json';
 
+import center_down from '../../../assert/keep_goal/center_down.png';
+import center_down_json from '../../../assert/keep_goal/center_down.json';
+import center_up from '../../../assert/keep_goal/center_up.png';
+import center_up_json from '../../../assert/keep_goal/center_up.json';
+import side_left_up from '../../../assert/keep_goal/side_left_up.png';
+import side_left_up_json from '../../../assert/keep_goal/side_left_up.json';
+import side_left from '../../../assert/keep_goal/side_left.png';
+import side_left_json from '../../../assert/keep_goal/side_left.json';
+import side_right_up from '../../../assert/keep_goal/side_right_up.png';
+import side_right_up_json from '../../../assert/keep_goal/side_right_up.json';
+import side_right from '../../../assert/keep_goal/side_right.png';
+import side_right_json from '../../../assert/keep_goal/side_right.json';
 
 import keep_goal_left_1 from '../../../assert/keep_goal/keep_goal_left_1.png';
 import keep_goal_left_1_json from '../../../assert/keep_goal/keep_goal_left_1.json';
@@ -32,6 +44,7 @@ import keep_goal_left_3 from '../../../assert/keep_goal/keep_goal_left_3.png';
 import keep_goal_left_3_json from '../../../assert/keep_goal/keep_goal_left_3.json';
 import keep_goal_left_4 from '../../../assert/keep_goal/keep_goal_left_4.png';
 import keep_goal_left_4_json from '../../../assert/keep_goal/keep_goal_left_4.json';
+
 
 import keep_goal_punch from '../../../assert/keep_goal/keep_goal_punch.png';
 import keep_goal_punch_json from '../../../assert//keep_goal/keep_goal_punch.json';
@@ -44,6 +57,7 @@ import keep_goal_right_3 from '../../../assert/keep_goal/keep_goal_right_3.png';
 import keep_goal_right_3_json from '../../../assert/keep_goal/keep_goal_right_3.json';
 import keep_goal_right_4 from '../../../assert/keep_goal/keep_goal_right_4.png';
 import keep_goal_right_4_json from '../../../assert/keep_goal/keep_goal_right_4.json';
+
 
 import soccer_kick_left from '../../../assert/keep_goal/soccer_kick_left.png';
 import soccer_kick_left_json from '../../../assert/keep_goal/soccer_kick_left.json';
@@ -126,8 +140,12 @@ export default class Game extends Phaser.Scene{
             axios.post(Ultilities.base_url() +'/lobby/api/v1/race/connect', data, header).then(function (response) {
                 if(response.data !==undefined){
                     if(response.data.code>=0){
-                        data_game=response.data.data
-                        _this.timeRemain(data_game.room.endTime)
+                        if(_this.checkTimeSession(response.data.data.room)){
+                            data_game=response.data.data
+                            _this.timeRemain(data_game.room.endTime)
+                        }else{
+                            window.location.replace('/')
+                        }
                     }else{
                         window.location.replace('/')
                     }
@@ -177,6 +195,13 @@ export default class Game extends Phaser.Scene{
         this.load.atlas('goal_left', goal_left, goal_left_json);
         this.load.atlas('goal_right', goal_right, goal_right_json);  
         this.load.atlas('k_idle',k_idle,k_idle_json);
+
+        this.load.atlas('center_down',center_down,center_down_json);
+        this.load.atlas('center_up',center_up,center_up_json);
+        this.load.atlas('side_left_up',side_left_up,side_left_up_json);
+        this.load.atlas('side_left',side_left,side_left_json);
+        this.load.atlas('side_right_up',side_right_up,side_right_up_json);
+        this.load.atlas('side_right',side_right,side_right_json);
 
         
         this.load.image('opt_suttudong', opt_suttudong);
@@ -270,6 +295,70 @@ export default class Game extends Phaser.Scene{
         this.ball_collision_goal_sprite.visible=false;
 
 
+
+
+        const center_down_Config = {
+            key: 'center_down',
+            frames: 'center_down',
+            frameRate: 24,
+            repeat: -2
+        };
+        this.anims.create(center_down_Config);
+        this.center_down_sprite=this.add.sprite(605, 365, 'center_down', 'center_down_');
+        this.center_down_sprite.visible=false;
+
+        const center_up_Config = {
+            key: 'center_up',
+            frames: 'center_up',
+            frameRate: 24,
+            repeat: -2
+        };
+        this.anims.create(center_up_Config);
+        this.center_up_sprite=this.add.sprite(615, 340, 'center_up', 'center_up_');
+        this.center_up_sprite.visible=false;
+
+        const side_left_up_Config = {
+            key: 'side_left_up',
+            frames: 'side_left_up',
+            frameRate: 24,
+            repeat: -2
+        };
+        this.anims.create(side_left_up_Config);
+        this.side_left_up_sprite=this.add.sprite(675, 350, 'side_left_up', 'side_left_up_');
+        this.side_left_up_sprite.visible=false;
+
+        const side_left_Config = {
+            key: 'side_left',
+            frames: 'side_left',
+            frameRate: 24,
+            repeat: -2
+        };
+        this.anims.create(side_left_Config);
+        this.side_left_sprite=this.add.sprite(675, 367, 'side_left', 'side_left_');
+        this.side_left_sprite.visible=false;
+        
+
+        const side_right_up_Config = {
+            key: 'side_right_up',
+            frames: 'side_right_up',
+            frameRate: 24,
+            repeat: -2
+        };
+        this.anims.create(side_right_up_Config);
+        this.side_right_up_sprite=this.add.sprite(535, 350, 'side_right_up', 'side_right_up_');
+        this.side_right_up_sprite.visible=false;
+        
+
+        const side_right_Config = {
+            key: 'side_right',
+            frames: 'side_right',
+            frameRate: 24,
+            repeat: -2
+        };
+        this.anims.create(side_right_Config);
+        this.side_right_sprite=this.add.sprite(535, 367, 'side_right', 'side_right_');
+        this.side_right_sprite.visible=false;
+        
         const keep_goal_left_1_Config = {
             key: 'k_left_1',
             frames: 'keep_goal_left_1',
@@ -279,6 +368,7 @@ export default class Game extends Phaser.Scene{
         this.anims.create(keep_goal_left_1_Config);
         this.keep_goal_left_1_sprite=this.add.sprite(675, 365, 'keep_goal_left_1', 'k_left_');
         this.keep_goal_left_1_sprite.visible=false;
+        
 
 
         const keep_goal_left_2_Config = {
@@ -288,8 +378,9 @@ export default class Game extends Phaser.Scene{
             repeat: -2
         };
         this.anims.create(keep_goal_left_2_Config);
-        this.keep_goal_left_2_sprite=this.add.sprite(730, 361, 'keep_goal_left_2', 'k_left2_');
+        this.keep_goal_left_2_sprite=this.add.sprite(750, 350, 'keep_goal_left_2', 'k_left2_');
         this.keep_goal_left_2_sprite.visible=false;
+        
 
 
 
@@ -302,17 +393,19 @@ export default class Game extends Phaser.Scene{
         this.anims.create(keep_goal_left_3_Config);
         this.keep_goal_left_3_sprite=this.add.sprite(645, 365, 'keep_goal_left_3', 'k_left3_');
         this.keep_goal_left_3_sprite.visible=false;
+        
 
 
         const keep_goal_left_4_Config = {
             key: 'k_left_4',
             frames: 'keep_goal_left_4',
-            frameRate: 24,
+            frameRate: 16,
             repeat: -2
         };
         this.anims.create(keep_goal_left_4_Config);
         this.keep_goal_left_4_sprite=this.add.sprite(733, 365, 'keep_goal_left_4', 'k_left4_');
         this.keep_goal_left_4_sprite.visible=false;
+        
 
         
         const keep_goal_punch_Config = {
@@ -324,6 +417,7 @@ export default class Game extends Phaser.Scene{
         this.anims.create(keep_goal_punch_Config);
         this.keep_goal_punch_sprite=this.add.sprite(595, 365, 'keep_goal_punch', 'k_punch_');
         this.keep_goal_punch_sprite.visible=false;
+       
 
 
         const keep_goal_right_1_Config = {
@@ -335,6 +429,7 @@ export default class Game extends Phaser.Scene{
         this.anims.create(keep_goal_right_1_Config);
         this.keep_goal_right_1_sprite=this.add.sprite(525, 365, 'keep_goal_right_1', 'k_right1_');
         this.keep_goal_right_1_sprite.visible=false;
+        
 
 
         const keep_goal_right_2_Config = {
@@ -344,9 +439,8 @@ export default class Game extends Phaser.Scene{
             repeat: -2
         };
         this.anims.create(keep_goal_right_2_Config);
-        this.keep_goal_right_2_sprite=this.add.sprite(465, 360, 'keep_goal_right_2', 'k_right2_');
+        this.keep_goal_right_2_sprite=this.add.sprite(460, 352, 'keep_goal_right_2', 'k_right2_');
         this.keep_goal_right_2_sprite.visible=false;
-
 
 
         const keep_goal_right_3_Config = {
@@ -360,7 +454,6 @@ export default class Game extends Phaser.Scene{
         this.keep_goal_right_3_sprite.visible=false;
 
 
-
         const keep_goal_right_4_Config = {
             key: 'k_right_4',
             frames: 'keep_goal_right_4',
@@ -368,7 +461,7 @@ export default class Game extends Phaser.Scene{
             repeat: -2
         };
         this.anims.create(keep_goal_right_4_Config);
-        this.keep_goal_right_4_sprite=this.add.sprite(485, 365, 'keep_goal_right_4', 'k_right4_');
+        this.keep_goal_right_4_sprite=this.add.sprite(475, 355, 'keep_goal_right_4', 'k_right4_');
         this.keep_goal_right_4_sprite.visible=false;
 
 
@@ -626,7 +719,7 @@ export default class Game extends Phaser.Scene{
                     }
                     if(result===3){
                         // console.log('AAAAAAAAAA')
-                        if(this.ball_collision_keeper_sprite.y < 450){
+                        if(this.ball_collision_keeper_sprite.y < 445){
                             this.ball_collision_keeper_sprite.y +=2*k;
                             this.ball_collision_keeper_sprite.x +=1*increase_x;
                             if(this.ball_collision_keeper_sprite.x > 844){
@@ -727,7 +820,7 @@ export default class Game extends Phaser.Scene{
                                 result=response.data.data.result; 
                                 _this.setBallLine(p1,p2)
                                 var g = _this.getRandomInt(0,2)
-                                var kg = _this.getRandomInt(1,9)
+                                var kg = _this.getRandomInt(1,15)
                                 setTimeout(()=>{ 
                                     play=true;
                                 }, 550);
@@ -760,7 +853,8 @@ export default class Game extends Phaser.Scene{
                                     _this.scene.restart();
                                 }, 5000);
                             }else{
-                                console.log("Server đang lỗi.")
+                                _this.showMessageBox(response.data.message)
+                                isPlay=true;
                             }
                         })
     
@@ -777,6 +871,29 @@ export default class Game extends Phaser.Scene{
             isPlay=false;
         }
         
+    }
+
+    showMessageBox(text) {
+        //just in case the message box already exists
+        //destroy it
+        var _this=this;
+        this.back = this.add.sprite(600, 675/2, "bg_pop_ingame");
+        this.closeButton = this.add.sprite(470, 480, "btn_dongy");
+        this.thoatButton = this.add.sprite(730, 480, "btn_thoat");
+        this.text1 = this.add.text(400, 300, text, { font: "18px Arial", fill: "#000000", align:'center', fixedWidth: 400, wordWrap:true});
+        this.closeButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+            _this.hideBox()
+        })
+        this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+            window.location.replace('/')
+        })
+    }
+
+    hideBox() {
+        this.back.destroy();
+        this.closeButton.destroy();
+        this.thoatButton.destroy();
+        this.text1.destroy();
     }
     
 
@@ -819,36 +936,60 @@ export default class Game extends Phaser.Scene{
                 this.keep_goal_right_2_sprite.play('k_right_2');
                 break;
             case 2:
-                this.keep_goal_right_1_sprite.visible=true;
-                this.keep_goal_right_1_sprite.play('k_right_1');
-                break;
-            case 3:
-                this.keep_goal_left_1_sprite.visible=true;
-                this.keep_goal_left_1_sprite.play('k_left_1');
-                break;
-            case 4:
-                this.keep_goal_left_2_sprite.visible=true;
-                this.keep_goal_left_2_sprite.play('k_left_2');
-                break;
-            case 5:
                 this.keep_goal_right_4_sprite.visible=true;
                 this.keep_goal_right_4_sprite.play('k_right_4');
+                break;
+            case 3:
+                this.side_right_up_sprite.visible=true;
+                this.side_right_up_sprite.play('side_right_up');
+                break;
+            case 4:
+                this.side_right_sprite.visible=true;
+                this.side_right_sprite.play('side_right');
+                break;
+            case 5:
+                this.keep_goal_right_1_sprite.visible=true;
+                this.keep_goal_right_1_sprite.play('k_right_1');
                 break;
             case 6:
                 this.keep_goal_right_3_sprite.visible=true;
                 this.keep_goal_right_3_sprite.play('k_right_3');
                 break;
             case 7:
+                this.center_up_sprite.visible=true;
+                this.center_up_sprite.play('center_up');
+                break;
+            case 8:
+                this.keep_goal_punch_sprite.visible=true;
+                this.keep_goal_punch_sprite.play('k_punch');
+                break;
+            case 9:
+                this.center_down_sprite.visible=true;
+                this.center_down_sprite.play('center_down');
+                break;
+            case 10:
+                this.side_left_up_sprite.visible=true;
+                this.side_left_up_sprite.play('side_left_up');
+                break;
+            case 11:
+                this.side_left_sprite.visible=true;
+                this.side_left_sprite.play('side_left');
+                break;
+            case 12:
+                this.keep_goal_left_1_sprite.visible=true;
+                this.keep_goal_left_1_sprite.play('k_left_1');
+                break;
+            case 13:
                 this.keep_goal_left_3_sprite.visible=true;
                 this.keep_goal_left_3_sprite.play('k_left_3');
                 break;
-            case 8:
+            case 14:
+                this.keep_goal_left_2_sprite.visible=true;
+                this.keep_goal_left_2_sprite.play('k_left_2');
+                break;
+            case 15:
                 this.keep_goal_left_4_sprite.visible=true;
                 this.keep_goal_left_4_sprite.play('k_left_4');
-                break;
-            case 9:
-                this.keep_goal_punch_sprite.visible=true;
-                this.keep_goal_punch_sprite.play('k_punch');
                 break;
             default:
                 this.keep_goal_punch_sprite.visible=true;
@@ -889,24 +1030,36 @@ export default class Game extends Phaser.Scene{
 
 
     setPositionKeeper(x,y){
-        if(x >= 338 && x < 475 && y >= 228 && y < 336)
+        if(x >= 335 && x < 458 && y >= 228 && y < 330)
             return [1, 11];
-        if(x >= 475 && x < 555 && y >= 228 && y < 336)
+        if(x >= 335 && x < 458 && y >= 300 && y < 430)
             return [2, 12];
-        if(x >= 655 && x < 745 && y >= 228 && y < 336)
+        if(x >= 458 && x < 560 && y >= 228 && y < 280)
             return [3, 14];
-        if(x >= 745 && x < 870 && y >= 228 && y < 336)
+        if(x >= 458 && x < 560 && y >= 280 && y < 340)
             return [4, 15];
-        if(x >= 338 && x < 475 && y >= 336 && y < 430)
+        if(x >= 458 && x < 560 && y >= 340 && y < 385)
             return [5,21];
-        if(x >= 475 && x < 555 && y >= 336 && y < 430)
+        if(x >= 458 && x < 560 && y >= 385 && y < 430)
             return [6, 22];
-        if(x >= 655 && x < 745 && y >= 336 && y < 430)
+        if(x >= 560 && x < 640 && y >= 228 && y < 280)
             return [7,24];
-        if(x >= 745 && x < 870 && y >= 336 && y < 430)
+        if(x >= 560 && x < 640 && y >= 280 && y < 385)
             return [8, 25];
-        if(x >= 555 && x < 655 && y >= 228 && y < 430)
+        if(x >= 560 && x < 640 && y >= 385 && y < 430)
             return [9,23];
+        if(x >= 640 && x < 750 && y >= 228 && y < 280)
+            return [10,23];
+        if(x >= 640 && x < 750 && y >= 280 && y < 340)
+            return [11,23];
+        if(x >= 640 && x < 750 && y >= 340 && y < 385)
+            return [12,23];
+        if(x >= 640 && x < 750 && y >= 385 && y < 430)
+            return [13,23];
+        if(x >= 750 && x < 870 && y >= 228 && y < 330)
+            return [14,23];
+        if(x >= 750 && x < 870 && y >= 330 && y < 430)
+            return [15,23];
         if(y===0)
             return [this.getRandomInt(1,9), 0]
         if(x > 870 || x < 338)
@@ -937,30 +1090,36 @@ export default class Game extends Phaser.Scene{
         }
 	}
 
+    checkTimeSession=(room)=>{
+        var time=Date.now();
+        if(time < room.startTime){
+            return false;
+        }
+        
+        if(time > room.endTime){
+            return false;
+        }
+        return true
+    }
+
 
 }
 
-// điểm 1: x:338 , y:228
-// điểm 2: x:475 , y:228
-// điểm 3: x:555 , y:228
-// điểm 4: x:605 , y:228
-// điểm 5: x:655 , y:228
-// điểm 6: x:745 , y:228
-// điểm 7: x:870 , y:228
-// điểm 8: x:338 , y:336
-// điểm 9: x:475 , y:336
-// điểm 10: x:555 , y:336
-// điểm 11: x:605 , y:336
-// điểm 12: x:655 , y:336
-// điểm 13: x:745 , y:336
-// điểm 14: x:870 , y:336
-// điểm 15: x:338 , y:430
-// điểm 16: x:475 , y:430
-// điểm 17: x:555 , y:430
-// điểm 18: x:605 , y:430
-// điểm 19: x:655 , y:430
-// điểm 20: x:745 , y:430
-// điểm 21: x:870 , y:430
+// điểm 1: 335 < x 458 , 228 < y < 330
+// điểm 2: 335 < x 458 , 300 < y < 430
+// điểm 3: 458 < x < 560 ,  228 < y < 280
+// điểm 4: 458 < x < 560 ,  280 < y < 330
+// điểm 5: 458 < x < 560 ,  330 < y < 385
+// điểm 6: 458 < x < 560 ,  385 < y < 430
+// điểm 7: 560 < x < 640 ,  228 < y < 280
+// điểm 8: 560 < x < 640 ,  280 < y < 385
+// điểm 9: 560 < x < 640 ,  385 < y < 430
+// điểm 10: 640 < x < 750 ,  228 < y < 280
+// điểm 11: 640 < x < 750 ,  280 < y < 330
+// điểm 12: 640 < x < 750 ,  330 < y < 385
+// điểm 13: 640 < x < 750 ,  385 < y < 430
+// điểm 14: 750 < x < 870 , 228 < y < 330
+// điểm 15: 750 < x < 870 , 300 < y < 430
 
 // y1:267 y2:432 x1:336 x2:864
 
