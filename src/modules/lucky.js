@@ -1004,72 +1004,72 @@ export const getMoreSessions= () => {
 }
 
 
-export const gds = (type,sessionId,  token, code_key, type_device, x, y, i, delta) => {
+// export const gds = (type,sessionId,  token, code_key, type_device, x, y, i, delta) => {
 
-	var code=encrypt(`t=${type}&s=${sessionId}&x=${x}&y=${y}&c=${type_device}&i=${i}&d=${delta}`, code_key)
+// 	var code=encrypt(`t=${type}&s=${sessionId}&x=${x}&y=${y}&c=${type_device}&i=${i}&d=${delta}`, code_key)
 
 
-	var myHeaders = new Headers();
-	myHeaders.append("token", token);
+// 	var myHeaders = new Headers();
+// 	myHeaders.append("token", token);
 
-	var formdata = new FormData();
-	formdata.append("code", code);
+// 	var formdata = new FormData();
+// 	formdata.append("code", code);
 
-	var requestOptions = {
-		method: 'POST',
-		headers: myHeaders,
-		body: formdata,
-		redirect: 'follow'
-	  };
+// 	var requestOptions = {
+// 		method: 'POST',
+// 		headers: myHeaders,
+// 		body: formdata,
+// 		redirect: 'follow'
+// 	  };
 	
 
-	return dispatch => {
-		dispatch({
-			type: LUCKY_REQUEST
-		})
-		var url = Ultilities.base_url() + `darts/user-throw/`;
-		return fetch(url, requestOptions)
-		.then(response => response.json())
-		.then(result => {
-			dispatch({
-				type: DATA_USER_SPIN,
-				data: result
-			})
-		}).catch(function (error) {
-			dispatch({
-				type: SERVER_ERROR
-			})
-		})
-	}
-}
+// 	return dispatch => {
+// 		dispatch({
+// 			type: LUCKY_REQUEST
+// 		})
+// 		var url = Ultilities.base_url() + `darts/user-throw/`;
+// 		return fetch(url, requestOptions)
+// 		.then(response => response.json())
+// 		.then(result => {
+// 			dispatch({
+// 				type: DATA_USER_SPIN,
+// 				data: result
+// 			})
+// 		}).catch(function (error) {
+// 			dispatch({
+// 				type: SERVER_ERROR
+// 			})
+// 		})
+// 	}
+// }
 
 
 
-export const gdssssss = (type, points,sessionId,  token, code_key) => {
-	var header = {
-		headers: {
-			"Content-Type": "application/json",
-			"token": token,
-		}
-	}
+// export const gdssssss = (type, points,sessionId,  token, code_key) => {
+// 	var header = {
+// 		headers: {
+// 			"Content-Type": "application/json",
+// 			"token": token,
+// 		}
+// 	}
 	
-	return dispatch => {
-		dispatch({
-			type: LUCKY_REQUEST
-		})
-		var url = Ultilities.base_url() + `darts/user-throw/?type=${type}&points=${points}&sessionId=${sessionId}`;
-		return axios.get(url, header).then(function (response) {
-			dispatch({
-				type: DATA_USER_SPIN,
-				data: response.data
-			})
-		}).catch(function (error) {
-			dispatch({
-				type: SERVER_ERROR
-			})
-		})
-	}
-}
+// 	return dispatch => {
+// 		dispatch({
+// 			type: LUCKY_REQUEST
+// 		})
+// 		var url = Ultilities.base_url() + `darts/user-throw/?type=${type}&points=${points}&sessionId=${sessionId}`;
+// 		return axios.get(url, header).then(function (response) {
+// 			dispatch({
+// 				type: DATA_USER_SPIN,
+// 				data: response.data
+// 			})
+// 		}).catch(function (error) {
+// 			dispatch({
+// 				type: SERVER_ERROR
+// 			})
+// 		})
+// 	}
+// }
 
 
 export const getHistoryTuDo = (token, limit, offset) => {
@@ -1147,41 +1147,41 @@ export const getInfoUser = (token) => {
 
 
 
-function encrypt(msg, pass) {
-    var salt = window.CryptoJS.lib.WordArray.random(saltSize / 8);
+// function encrypt(msg, pass) {
+//     var salt = window.CryptoJS.lib.WordArray.random(saltSize / 8);
 
-    var key = window.CryptoJS.PBKDF2(pass, salt, {
-        keySize: keySize / 32,
-        iterations: iterations
-    });
+//     var key = window.CryptoJS.PBKDF2(pass, salt, {
+//         keySize: keySize / 32,
+//         iterations: iterations
+//     });
 
-    var iv = window.CryptoJS.lib.WordArray.random(ivSize / 8);
+//     var iv = window.CryptoJS.lib.WordArray.random(ivSize / 8);
 
-    var encrypted = window.CryptoJS.AES.encrypt(msg, key, {
-        iv: iv,
-        padding: window.CryptoJS.pad.Pkcs7,
-        mode: window.CryptoJS.mode.CBC
+//     var encrypted = window.CryptoJS.AES.encrypt(msg, key, {
+//         iv: iv,
+//         padding: window.CryptoJS.pad.Pkcs7,
+//         mode: window.CryptoJS.mode.CBC
 
-    });
+//     });
 
-    var encryptedHex = base64ToHex(encrypted.toString());
-    var base64result = hexToBase64(salt + iv + encryptedHex);
+//     var encryptedHex = base64ToHex(encrypted.toString());
+//     var base64result = hexToBase64(salt + iv + encryptedHex);
 
 
-    return base64result;
-}
+//     return base64result;
+// }
 
-function hexToBase64(str) {
-    return btoa(String.fromCharCode.apply(null,
-        str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" "))
-    );
-}
+// function hexToBase64(str) {
+//     return btoa(String.fromCharCode.apply(null,
+//         str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" "))
+//     );
+// }
 
-function base64ToHex(str) {
-    for (var i = 0, bin = atob(str.replace(/[ \r\n]+$/, "")), hex = []; i < bin.length; ++i) {
-        var tmp = bin.charCodeAt(i).toString(16);
-        if (tmp.length === 1) tmp = "0" + tmp;
-        hex[hex.length] = tmp;
-    }
-    return hex.join("");
-}
+// function base64ToHex(str) {
+//     for (var i = 0, bin = atob(str.replace(/[ \r\n]+$/, "")), hex = []; i < bin.length; ++i) {
+//         var tmp = bin.charCodeAt(i).toString(16);
+//         if (tmp.length === 1) tmp = "0" + tmp;
+//         hex[hex.length] = tmp;
+//     }
+//     return hex.join("");
+// }
