@@ -826,14 +826,14 @@ export default class Game extends Phaser.Scene{
                                 }, 550);
             
                                 setTimeout(()=>{ 
-                                    if(result===2){
-                                        _this.setKeepGoal(kg);
-                                        _this.k_idle_sprite.visible=false;
-                                    }else{
-                                        _this.setKeepGoal(keeper[0]);
-                                        _this.k_idle_sprite.visible=false;
-                                    }
-                                   
+                                    // if(result===2){
+                                    //     _this.setKeepGoal(kg);
+                                    //     _this.k_idle_sprite.visible=false;
+                                    // }else{
+                                    //     _this.setKeepGoal(keeper[0]);
+                                    //     _this.k_idle_sprite.visible=false;
+                                    // }
+                                    _this.setKeepGoal(15);
                                 }, 700);
             
                                 _this.soccer_kick_left_sprite.play("kick_left")

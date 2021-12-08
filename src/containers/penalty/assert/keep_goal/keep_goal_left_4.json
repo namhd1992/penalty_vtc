@@ -220,7 +220,7 @@
 					}
 				},
 				{
-					"filename": "k_left4_00019.png",
+					"filename": "k_left4_0019.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -325,7 +325,7 @@
 					}
 				},
 				{
-					"filename": "k_left4_00013.png",
+					"filename": "k_left4_0013.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -556,7 +556,7 @@
 					}
 				},
 				{
-					"filename": "k_left4_00010.png",
+					"filename": "k_left4_0010.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -577,7 +577,7 @@
 					}
 				},
 				{
-					"filename": "k_left4_00011.png",
+					"filename": "k_left4_0011.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -640,7 +640,7 @@
 					}
 				},
 				{
-					"filename": "k_left4_00012.png",
+					"filename": "k_left4_0012.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -682,7 +682,7 @@
 					}
 				},
 				{
-					"filename": "k_left4_00015.png",
+					"filename": "k_left4_0015.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -703,7 +703,7 @@
 					}
 				},
 				{
-					"filename": "k_left4_00016.png",
+					"filename": "k_left4_0016.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -724,7 +724,7 @@
 					}
 				},
 				{
-					"filename": "k_left4_00014.png",
+					"filename": "k_left4_0014.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -745,7 +745,7 @@
 					}
 				},
 				{
-					"filename": "k_left4_00017.png",
+					"filename": "k_left4_0017.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -787,7 +787,7 @@
 					}
 				},
 				{
-					"filename": "k_left4_00020.png",
+					"filename": "k_left4_0020.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -829,7 +829,7 @@
 					}
 				},
 				{
-					"filename": "k_left4_00018.png",
+					"filename": "k_left4_0018.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -897,6 +897,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:5d6d3bba819ae6f6dc8f345b68178a3f:e488e9c11c1b5612a8b81cc0a2c2efe7:589f739cdbf0b30eb9f75c93e52318b4$"
+		"smartupdate": "$TexturePacker:SmartUpdate:5943e5a91507da9954ef3db07b609c3a:d672afb95af56f7bf4bce8309a0d7783:589f739cdbf0b30eb9f75c93e52318b4$"
 	}
 }
