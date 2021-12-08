@@ -496,7 +496,7 @@ class Lucky_Rotation extends React.Component {
 
 
 	checkBetting=(type, title_module)=>{
-		const {info_seesion, user_data}=this.state;
+		const {info_seesion, user_data, user}=this.state;
 		var time=Date.now();
 		this.setState({type_modeId: type, title_module:title_module})
 		
