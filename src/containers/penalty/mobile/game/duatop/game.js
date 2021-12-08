@@ -20,6 +20,19 @@ import ball_lasted_collision_json from '../../../assert/ball/ball_sprite.json';
 import k_idle from '../../../assert/keep_goal/keep_goal_idle.png';
 import k_idle_json from '../../../assert/keep_goal/keep_goal_idle.json';
 
+import center_down from '../../../assert/keep_goal/center_down.png';
+import center_down_json from '../../../assert/keep_goal/center_down.json';
+import center_up from '../../../assert/keep_goal/center_up.png';
+import center_up_json from '../../../assert/keep_goal/center_up.json';
+import side_left_up from '../../../assert/keep_goal/side_left_up.png';
+import side_left_up_json from '../../../assert/keep_goal/side_left_up.json';
+import side_left from '../../../assert/keep_goal/side_left.png';
+import side_left_json from '../../../assert/keep_goal/side_left.json';
+import side_right_up from '../../../assert/keep_goal/side_right_up.png';
+import side_right_up_json from '../../../assert/keep_goal/side_right_up.json';
+import side_right from '../../../assert/keep_goal/side_right.png';
+import side_right_json from '../../../assert/keep_goal/side_right.json';
+
 import keep_goal_left_1 from '../../../assert/keep_goal/keep_goal_left_1.png';
 import keep_goal_left_1_json from '../../../assert/keep_goal/keep_goal_left_1.json';
 import keep_goal_left_2 from '../../../assert/keep_goal/keep_goal_left_2.png';
@@ -62,6 +75,10 @@ import bg_giaithuong_duatop from '../../../assert/duatop/bg-giaithuong-duatop.pn
 import bg_taikhoan from '../../../assert/duatop/bg-taikhoan.png';
 import bg_title_duatop from '../../../assert/duatop/bg-title-duatop.png';
 
+import bg_pop_ingame from '../../../assert/1.png';
+import btn_dongy from '../../../assert/btn-dongy.png';
+import btn_thoat from '../../../assert/btn-thoat.png';
+
 const list_keep=[]
 const list_goal=[]
 const info={
@@ -80,16 +97,17 @@ var increase_x=0;
 var increase_y=0;
 var ball_collision_goal=false;
 var ball_collision_keper=false;
-var is_ball_lasted=false;
-var result=0;
-var delta_alpha=1;
-var data_game={};
 var width = window.screen.width;
 var height = window.screen.height;
 var delta_x=width/1200;
 var delta_y=height/  675;
+var is_ball_lasted=false;
+var result=0;
+var delta_alpha=1;
+var data_game={};
 var isPlay=true;
 var auto_play=false;
+var number_playauto=0;
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -97,6 +115,7 @@ export default class Game extends Phaser.Scene{
 
 
     init(data){
+        var _this=this;
         this.id=data.id;
         var reg = {};
         var user = JSON.parse(localStorage.getItem("user"));
@@ -117,9 +136,19 @@ export default class Game extends Phaser.Scene{
                 }
             }
             axios.post(Ultilities.base_url() +'/lobby/api/v1/race/connect', data, header).then(function (response) {
-    
-                if(response.data.code>=0){
-                    data_game=response.data.data
+                if(response.data !==undefined){
+                    if(response.data.code>=0){
+                        if(_this.checkTimeSession(response.data.data.room)){
+                            data_game=response.data.data
+                            _this.timeRemain(data_game.room.endTime)
+                        }else{
+                            window.location.replace('/')
+                        }
+                    }else{
+                        window.location.replace('/')
+                    }
+                }else{
+                    window.location.replace('/')
                 }
             })
         }
@@ -160,6 +189,12 @@ export default class Game extends Phaser.Scene{
         this.load.atlas('goal_right', goal_right, goal_right_json);  
         this.load.atlas('k_idle',k_idle,k_idle_json);
 
+        this.load.atlas('center_down',center_down,center_down_json);
+        this.load.atlas('center_up',center_up,center_up_json);
+        this.load.atlas('side_left_up',side_left_up,side_left_up_json);
+        this.load.atlas('side_left',side_left,side_left_json);
+        this.load.atlas('side_right_up',side_right_up,side_right_up_json);
+        this.load.atlas('side_right',side_right,side_right_json);
         
         this.load.image('opt_suttudong', opt_suttudong);
         this.load.image('opt_suttudong_checked', opt_suttudong_checked);
@@ -169,6 +204,10 @@ export default class Game extends Phaser.Scene{
         this.load.image('bg_giaithuong_duatop', bg_giaithuong_duatop);
         this.load.image('bg_taikhoan', bg_taikhoan);
         this.load.image('bg_title_duatop', bg_title_duatop);
+
+        this.load.image('bg_pop_ingame', bg_pop_ingame);
+        this.load.image('btn_dongy', btn_dongy);
+        this.load.image('btn_thoat', btn_thoat);
     }
 
     create(){
@@ -236,119 +275,208 @@ export default class Game extends Phaser.Scene{
             repeat: -1
         };
         this.anims.create(k_idleConfig);
-        this.k_idle_sprite=this.add.sprite(width/2, height/2+18, 'k_idle', 'k_idle_').play('k_id');
-        this.k_idle_sprite.setScale(delta_x, delta_y)
+    
+        this.k_idle_sprite=this.add.sprite(600, 365, 'k_idle', 'k_idle_').play('k_id');
 
+        const ball_collision_goal_config = {
+            key: 'ball_goal',
+            frames: 'ball_collision_goal',
+            frameRate: 10,
+            repeat: -1
+        };
+        this.anims.create(ball_collision_goal_config);
+
+        this.ball_collision_goal_sprite = this.physics.add.sprite(605*delta_x, 530*delta_y, 'ball_collision_goal', 'rotation_');
+        this.ball_collision_goal_sprite.play('ball_goal');
+        this.ball_collision_goal_sprite.setScale(delta_x, delta_y)
+        this.ball_collision_goal_sprite.visible=false;
+
+
+
+
+        const center_down_Config = {
+            key: 'center_down',
+            frames: 'center_down',
+            frameRate: 24,
+            repeat: -2
+        };
+        this.anims.create(center_down_Config);
+        this.center_down_sprite=this.add.sprite(605*delta_x, 365*delta_y, 'center_down', 'center_down_');
+        this.center_down_sprite.setScale(delta_x, delta_y)
+        // this.center_down_sprite.visible=false;
+
+        const center_up_Config = {
+            key: 'center_up',
+            frames: 'center_up',
+            frameRate: 24,
+            repeat: -2
+        };
+        this.anims.create(center_up_Config);
+        this.center_up_sprite=this.add.sprite(615, 340, 'center_up', 'center_up_');
+        this.center_up_sprite.setScale(delta_x, delta_y)
+        this.center_up_sprite.visible=false;
+
+        const side_left_up_Config = {
+            key: 'side_left_up',
+            frames: 'side_left_up',
+            frameRate: 24,
+            repeat: -2
+        };
+        this.anims.create(side_left_up_Config);
+        this.side_left_up_sprite=this.add.sprite(675, 350, 'side_left_up', 'side_left_up_');
+        this.side_left_up_sprite.setScale(delta_x, delta_y)
+        this.side_left_up_sprite.visible=false;
+
+        const side_left_Config = {
+            key: 'side_left',
+            frames: 'side_left',
+            frameRate: 24,
+            repeat: -2
+        };
+        this.anims.create(side_left_Config);
+        this.side_left_sprite=this.add.sprite(675, 367, 'side_left', 'side_left_');
+        this.side_left_sprite.setScale(delta_x, delta_y)
+        this.side_left_sprite.visible=false;
+        
+
+        const side_right_up_Config = {
+            key: 'side_right_up',
+            frames: 'side_right_up',
+            frameRate: 24,
+            repeat: -2
+        };
+        this.anims.create(side_right_up_Config);
+        this.side_right_up_sprite=this.add.sprite(535, 350, 'side_right_up', 'side_right_up_');
+        this.side_right_up_sprite.setScale(delta_x, delta_y)
+        this.side_right_up_sprite.visible=false;
+        
+
+        const side_right_Config = {
+            key: 'side_right',
+            frames: 'side_right',
+            frameRate: 24,
+            repeat: -2
+        };
+        this.anims.create(side_right_Config);
+        this.side_right_sprite=this.add.sprite(535, 367, 'side_right', 'side_right_');
+        this.side_right_sprite.setScale(delta_x, delta_y)
+        this.side_right_sprite.visible=false;
+        
         const keep_goal_left_1_Config = {
             key: 'k_left_1',
             frames: 'keep_goal_left_1',
-            frameRate: 5,
+            frameRate: 24,
             repeat: -2
         };
         this.anims.create(keep_goal_left_1_Config);
-        this.keep_goal_left_1_sprite=this.add.sprite(width/2+75*delta_x, height/2+18, 'keep_goal_left_1', 'k_left_');
-        this.keep_goal_left_1_sprite.setScale(delta_x, delta_y);
+        this.keep_goal_left_1_sprite=this.add.sprite(675, 365, 'keep_goal_left_1', 'k_left_');
+        this.keep_goal_left_1_sprite.setScale(delta_x, delta_y)
         this.keep_goal_left_1_sprite.visible=false;
-        this.keep_goal_left_1_sprite.play('k_left_1');
+        
+
 
         const keep_goal_left_2_Config = {
             key: 'k_left_2',
             frames: 'keep_goal_left_2',
-            frameRate: 6,
+            frameRate: 24,
             repeat: -2
         };
         this.anims.create(keep_goal_left_2_Config);
-        this.keep_goal_left_2_sprite=this.add.sprite(width/2+130*delta_x, height/2+20*delta_y, 'keep_goal_left_2', 'k_left2_');
-        this.keep_goal_left_2_sprite.setScale(delta_x, delta_y);
+        this.keep_goal_left_2_sprite=this.add.sprite(750, 350, 'keep_goal_left_2', 'k_left2_');
+        this.keep_goal_left_2_sprite.setScale(delta_x, delta_y)
         this.keep_goal_left_2_sprite.visible=false;
-        this.keep_goal_left_2_sprite.play('k_left_2');
+        
+
 
 
         const keep_goal_left_3_Config = {
             key: 'k_left_3',
             frames: 'keep_goal_left_3',
-            frameRate: 6,
+            frameRate: 24,
             repeat: -2
         };
         this.anims.create(keep_goal_left_3_Config);
-        this.keep_goal_left_3_sprite=this.add.sprite(width/2+45*delta_x, height/2+30*delta_y, 'keep_goal_left_3', 'k_left3_');
-        this.keep_goal_left_3_sprite.setScale(delta_x, delta_y);
+        this.keep_goal_left_3_sprite=this.add.sprite(645, 365, 'keep_goal_left_3', 'k_left3_');
+        this.keep_goal_left_3_sprite.setScale(delta_x, delta_y)
         this.keep_goal_left_3_sprite.visible=false;
-        this.keep_goal_left_3_sprite.play('k_left_3');
+        
+
 
         const keep_goal_left_4_Config = {
             key: 'k_left_4',
             frames: 'keep_goal_left_4',
-            frameRate: 8,
+            frameRate: 24,
             repeat: -2
         };
         this.anims.create(keep_goal_left_4_Config);
-        this.keep_goal_left_4_sprite=this.add.sprite(width/2+133*delta_x, height/2+30*delta_y, 'keep_goal_left_4', 'k_left4_');
-        this.keep_goal_left_4_sprite.setScale(delta_x, delta_y);
+        this.keep_goal_left_4_sprite=this.add.sprite(733, 365, 'keep_goal_left_4', 'k_left4_');
+        this.keep_goal_left_4_sprite.setScale(delta_x, delta_y)
         this.keep_goal_left_4_sprite.visible=false;
-        this.keep_goal_left_4_sprite.play('k_left_4');
+        
+
         
         const keep_goal_punch_Config = {
             key: 'k_punch',
             frames: 'keep_goal_punch',
-            frameRate: 8,
+            frameRate: 24,
             repeat: -2
         };
         this.anims.create(keep_goal_punch_Config);
-        this.keep_goal_punch_sprite=this.add.sprite(width/2-5*delta_x, height/2+30*delta_y, 'keep_goal_punch', 'k_punch_');
-        this.keep_goal_punch_sprite.setScale(delta_x, delta_y);
+        this.keep_goal_punch_sprite=this.add.sprite(595, 365, 'keep_goal_punch', 'k_punch_');
+        this.keep_goal_punch_sprite.setScale(delta_x, delta_y)
         this.keep_goal_punch_sprite.visible=false;
-        this.keep_goal_punch_sprite.play('k_punch');
+       
+
 
         const keep_goal_right_1_Config = {
             key: 'k_right_1',
             frames: 'keep_goal_right_1',
-            frameRate: 8,
+            frameRate: 24,
             repeat: -2
         };
         this.anims.create(keep_goal_right_1_Config);
-        this.keep_goal_right_1_sprite=this.add.sprite(width/2-75*delta_x, height/2+30*delta_y, 'keep_goal_right_1', 'k_right1_');
-        this.keep_goal_right_1_sprite.setScale(delta_x, delta_y);
+        this.keep_goal_right_1_sprite=this.add.sprite(525, 365, 'keep_goal_right_1', 'k_right1_');
+        this.keep_goal_right_1_sprite.setScale(delta_x, delta_y)
         this.keep_goal_right_1_sprite.visible=false;
-        this.keep_goal_right_1_sprite.play('k_right_1');
+        
+
 
         const keep_goal_right_2_Config = {
             key: 'k_right_2',
             frames: 'keep_goal_right_2',
-            frameRate: 8,
+            frameRate: 24,
             repeat: -2
         };
         this.anims.create(keep_goal_right_2_Config);
-        this.keep_goal_right_2_sprite=this.add.sprite(width/2-135*delta_x, height/2+25*delta_y, 'keep_goal_right_2', 'k_right2_');
-        this.keep_goal_right_2_sprite.setScale(delta_x, delta_y);
+        this.keep_goal_right_2_sprite=this.add.sprite(460, 352, 'keep_goal_right_2', 'k_right2_');
+        this.keep_goal_right_2_sprite.setScale(delta_x, delta_y)
         this.keep_goal_right_2_sprite.visible=false;
-        this.keep_goal_right_2_sprite.play('k_right_2');
 
 
         const keep_goal_right_3_Config = {
             key: 'k_right_3',
             frames: 'keep_goal_right_3',
-            frameRate: 8,
+            frameRate: 24,
             repeat: -2
         };
         this.anims.create(keep_goal_right_3_Config);
-        this.keep_goal_right_3_sprite=this.add.sprite(width/2-40*delta_x, height/2+35*delta_y, 'keep_goal_right_3', 'k_right3_');
-        this.keep_goal_right_3_sprite.setScale(delta_x, delta_y);
+        this.keep_goal_right_3_sprite=this.add.sprite(560, 370, 'keep_goal_right_3', 'k_right3_');
+        this.keep_goal_right_3_sprite.setScale(delta_x, delta_y)
         this.keep_goal_right_3_sprite.visible=false;
-        this.keep_goal_right_3_sprite.play('k_right_3');
 
 
         const keep_goal_right_4_Config = {
             key: 'k_right_4',
             frames: 'keep_goal_right_4',
-            frameRate: 8,
+            frameRate: 24,
             repeat: -2
         };
         this.anims.create(keep_goal_right_4_Config);
-        this.keep_goal_right_4_sprite=this.add.sprite(width/2-115*delta_x, height/2+28*delta_y, 'keep_goal_right_4', 'k_right4_');
-        this.keep_goal_right_4_sprite.setScale(delta_x, delta_y);
+        this.keep_goal_right_4_sprite=this.add.sprite(475, 355, 'keep_goal_right_4', 'k_right4_');
+        this.keep_goal_right_4_sprite.setScale(delta_x, delta_y)
         this.keep_goal_right_4_sprite.visible=false;
-        this.keep_goal_right_4_sprite.play('k_right_4');
+
+
 
         const animConfig = {
             key: 'walk',
@@ -358,23 +486,24 @@ export default class Game extends Phaser.Scene{
         };
         this.anims.create(animConfig);
 
-        this.ball_rotation_sprite = this.physics.add.sprite(width/2+5,height/2+115, 'ball_rotation', 'rotation_');
-        this.ball_rotation_sprite.setScale(delta_x, delta_y);
+        this.ball_rotation_sprite = this.physics.add.sprite(605, 530, 'ball_rotation', 'rotation_');
+        this.ball_rotation_sprite.setScale(delta_x, delta_y)
         this.ball_rotation_sprite.play('walk');
         this.ball_rotation_sprite.visible=false;
 
-        const ball_lasted_collision_config = {
-            key: 'ball_lasted',
-            frames: 'ball_lasted_collision',
+
+        const ball_collision_keeper_config = {
+            key: 'ball_keeper',
+            frames: 'ball_collision_keeper',
             frameRate: 10,
             repeat: -1
         };
-        this.anims.create(ball_lasted_collision_config);
+        this.anims.create(ball_collision_keeper_config);
 
-        this.ball_lasted_collision_sprite = this.physics.add.sprite(width/2+5,height/2+115, 'ball_lasted_collision', 'rotation_');
-        this.ball_lasted_collision_sprite.setScale(delta_x, delta_y);
-        this.ball_lasted_collision_sprite.play('ball_lasted');
-        this.ball_lasted_collision_sprite.visible=false;
+        this.ball_collision_keeper_sprite = this.physics.add.sprite(605, 530, 'ball_collision_keeper', 'rotation_');
+        this.ball_collision_keeper_sprite.setScale(delta_x, delta_y)
+        this.ball_collision_keeper_sprite.play('ball_keeper');
+        this.ball_collision_keeper_sprite.visible=false;
 
 
         const soccer_kick_left_Config = {
@@ -384,8 +513,8 @@ export default class Game extends Phaser.Scene{
             repeat: -2
         };
         this.anims.create(soccer_kick_left_Config);
-        this.soccer_kick_left_sprite=this.add.sprite(width/2+285*delta_x, height/2-85*delta_y, 'soccer_kick_left', 'kick_left_');
-        this.soccer_kick_left_sprite.setScale(delta_x, delta_y);
+        this.goal_right_sprite=this.add.sprite(885, 250, 'soccer_kick_left', 'kick_left_');
+        this.goal_right_sprite.setScale(delta_x, delta_y)
         // this.soccer_kick_left_sprite.setScale(3.4,3.4);
         // this.soccer_kick_left_sprite.visible=false;
 
@@ -393,12 +522,11 @@ export default class Game extends Phaser.Scene{
             key: 'kick_right',
             frames: 'soccer_kick_right',
             frameRate: 30,
-            repeat: -1
+            repeat: -2
         };
         this.anims.create(soccer_kick_right_Config);
         this.soccer_kick_right_sprite=this.add.sprite(665, 365, 'soccer_kick_right', 'kick_right_');
-        this.soccer_kick_right_sprite.setScale(delta_x, delta_y);
-    
+        this.soccer_kick_right_sprite.setScale(delta_x, delta_y)
         this.soccer_kick_right_sprite.visible=false;
 
 
@@ -457,77 +585,9 @@ export default class Game extends Phaser.Scene{
 
 
         this.input.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, function (pointer) {
-            if(isPlay){
-                var user = JSON.parse(localStorage.getItem("user"));
-                var points=data_game.user.points;
-                var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
-                if(points>0){
-                    if(pointer.downY-pointer.upY > 0){
-                        var positionBall=self.getPositionBall(pointer);
-                        var keeper=self.setPositionKeeper(positionBall[0],positionBall[1])
-                        console.log(positionBall)
-                        console.log('keeper',keeper)
-                        if(user!==null){
-                            var data= {...info}
-                            data.userId= user.uid;
-                            data.gameId=1;
-                            data.serverId=1;
-                            data.modeId=1;
-                            data.roomId=info_seesion.id;
-                            data.x=positionBall[0];
-                            data.y=positionBall[1];
-                            data.z=1;
-                            data.zone=keeper[1];
-                            data.autoPlay=false
-                            var header = {
-                                headers: {
-                                    "Content-Type": "application/json",
-                                    "Authorization": `Bearer ${user.access_token}`,
-                                    "dataType":"json"
-                                }
-                            }
-                            axios.post(Ultilities.base_url() +'/lobby/api/v1/race/playing', data, header).then(function (response) {
-                                if(response.data.code>=0){
-                                    isPlay=false;
-                                    result=response.data.data.result; 
-                                    self.setBallLine(pointer)
-                                    var g = self.getRandomInt(0,2)
-                                    var kg = self.getRandomInt(0,8)
-                                    setTimeout(()=>{ 
-                                        play=true;
-                                    }, 550);
-                
-                                    setTimeout(()=>{ 
-                                        self.setKeepGoal(keeper[0]);
-                                        self.k_idle_sprite.visible=false;
-                                    }, 1500);
-                
-                                    self.soccer_kick_left_sprite.play("kick_left")
-                                    
-                                    setTimeout(()=>{ 
-                                        play=false;
-                                        isPlay=true;
-                                        x=1;
-                                        increase_x=0;
-                                        increase_y=0;
-                                        delta_alpha=1;
-                                        is_ball_lasted=false;
-                                        self.registry.destroy();
-                                        self.events.off();
-                                        self.scene.restart();
-                                    }, 5000);
-                                }else{
-                                    console.log("Server đang lỗi.")
-                                }
-                            })
-        
-                           
-                        }
-                    }else{
-                        console.log("Vuốt lên để chơi")
-                    }
-                }
-            }  
+            var p1=[pointer.downX, pointer.downY];
+            var p2=[pointer.upX, pointer.upY];
+            self.play(p1,p2)
         });
 
         // starsIcon.on('pointerup', function () {
@@ -644,6 +704,21 @@ export default class Game extends Phaser.Scene{
             }
         }
 
+        if(auto_play){
+            var time_delta_auto=0;
+            if(number_playauto===0){
+                time_delta_auto=0
+            }else{
+                time_delta_auto=1000
+            }
+            this.time_autoplay += delta;
+            while (this.time_autoplay > time_delta_auto) {
+                this.autoPlay();
+                this.time_autoplay -= 1000;
+                number_playauto+=1;
+            }
+        }
+
         if(Object.keys(data_game).length !== 0){
             this.time_update += delta;
             var len_ranking=data_game.rankings.length;
@@ -676,6 +751,118 @@ export default class Game extends Phaser.Scene{
         
     }
 
+    play(p1,p2){
+        var _this=this;
+        if(isPlay){
+            var user = JSON.parse(localStorage.getItem("user"));
+            var points=data_game.user.points;
+            var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
+            if(points>0){
+                if(p1[1]-p2[1] > 0){
+                    var positionBall=this.getPositionBall(p1,p2);
+                    var keeper=this.setPositionKeeper(positionBall[0],positionBall[1])
+                    console.log(positionBall)
+                    console.log('keeper',keeper)
+                    if(user!==null){
+                        var data= {...info}
+                        data.userId= user.uid;
+                        data.gameId=1;
+                        data.serverId=1;
+                        data.modeId=1;
+                        data.roomId=info_seesion.id;
+                        data.x=positionBall[0];
+                        data.y=positionBall[1];
+                        data.z=1;
+                        data.zone=keeper[1];
+                        data.autoPlay=false
+                        var header = {
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": `Bearer ${user.access_token}`,
+                                "dataType":"json"
+                            }
+                        }
+                        axios.post(Ultilities.base_url() +'/lobby/api/v1/race/playing', data, header).then(function (response) {
+                            if(response.data.code>=0){
+                                isPlay=false;
+                                result=response.data.data.result; 
+                                _this.setBallLine(p1,p2)
+                                var g = _this.getRandomInt(0,2)
+                                var kg = _this.getRandomInt(1,15)
+                                setTimeout(()=>{ 
+                                    play=true;
+                                }, 550);
+            
+                                setTimeout(()=>{ 
+                                    if(result===2){
+                                        _this.setKeepGoal(kg);
+                                        _this.k_idle_sprite.visible=false;
+                                    }else{
+                                        _this.setKeepGoal(keeper[0]);
+                                        _this.k_idle_sprite.visible=false;
+                                    }
+                                }, 700);
+            
+                                _this.soccer_kick_left_sprite.play("kick_left")
+                                
+                                setTimeout(()=>{ 
+                                    play=false;
+                                    isPlay=true;
+                                    x=1;
+                                    increase_x=0;
+                                    increase_y=0;
+                                    delta_alpha=1;
+                                    is_ball_lasted=false;
+                                    _this.ball_collision_keeper_sprite.play('ball_keeper');
+                                    _this.ball_collision_goal_sprite.play('ball_goal');
+                                    _this.registry.destroy();
+                                    _this.events.off();
+                                    _this.scene.restart();
+                                }, 5000);
+                            }else{
+                                _this.showMessageBox(response.data.message)
+                                isPlay=true;
+                            }
+                        })
+    
+                       
+                    }else{
+                        window.location.replace('/')
+                    }
+                }else{
+                    console.log("Vuốt lên để chơi")
+                }
+            }
+        }
+        if(p1[1] > p2[1]){
+            isPlay=false;
+        }
+    }
+
+    showMessageBox(text) {
+        //just in case the message box already exists
+        //destroy it
+        var _this=this;
+        this.back = this.add.sprite(600, 675/2, "bg_pop_ingame");
+        this.closeButton = this.add.sprite(470, 480, "btn_dongy");
+        this.thoatButton = this.add.sprite(730, 480, "btn_thoat");
+        this.text1 = this.add.text(400, 300, text, { font: "18px Arial", fill: "#000000", align:'center', fixedWidth: 400, wordWrap:true});
+        this.closeButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+            _this.hideBox()
+        })
+        this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+            window.location.replace('/')
+        })
+    }
+
+    hideBox() {
+        this.back.destroy();
+        this.closeButton.destroy();
+        this.thoatButton.destroy();
+        this.text1.destroy();
+    }
+    
+
     setBallLine(pointer){
         const startX=pointer.downX;
         const startY=pointer.downY;
@@ -689,38 +876,82 @@ export default class Game extends Phaser.Scene{
         increase_y=b;
     }
     
+    autoPlay(){
+        var x1=this.getRandomInt(240, 950);
+        var x2=this.getRandomInt(240, 950);
+        var y1=this.getRandomInt(470, 630);
+        var y2=this.getRandomInt(215, 470);
+        var p1=[x1, y1];
+        var p2=[x2, y2];
+        this.play(p1, p2);
+    }
+
     setKeepGoal(n){
         // console.log(n)
         switch (n) {
             case 1:
                 this.keep_goal_right_2_sprite.visible=true;
+                this.keep_goal_right_2_sprite.play('k_right_2');
                 break;
             case 2:
-                this.keep_goal_right_1_sprite.visible=true;
+                this.keep_goal_right_4_sprite.visible=true;
+                this.keep_goal_right_4_sprite.play('k_right_4');
                 break;
             case 3:
-                this.keep_goal_left_1_sprite.visible=true;
+                this.side_right_up_sprite.visible=true;
+                this.side_right_up_sprite.play('side_right_up');
                 break;
             case 4:
-                this.keep_goal_left_2_sprite.visible=true;
+                this.side_right_sprite.visible=true;
+                this.side_right_sprite.play('side_right');
                 break;
             case 5:
-                this.keep_goal_right_4_sprite.visible=true;
+                this.keep_goal_right_1_sprite.visible=true;
+                this.keep_goal_right_1_sprite.play('k_right_1');
                 break;
             case 6:
                 this.keep_goal_right_3_sprite.visible=true;
+                this.keep_goal_right_3_sprite.play('k_right_3');
                 break;
             case 7:
-                this.keep_goal_left_3_sprite.visible=true;
+                this.center_up_sprite.visible=true;
+                this.center_up_sprite.play('center_up');
                 break;
             case 8:
-                this.keep_goal_left_4_sprite.visible=true;
+                this.keep_goal_punch_sprite.visible=true;
+                this.keep_goal_punch_sprite.play('k_punch');
                 break;
             case 9:
-                this.keep_goal_punch_sprite.visible=true;
+                this.center_down_sprite.visible=true;
+                this.center_down_sprite.play('center_down');
+                break;
+            case 10:
+                this.side_left_up_sprite.visible=true;
+                this.side_left_up_sprite.play('side_left_up');
+                break;
+            case 11:
+                this.side_left_sprite.visible=true;
+                this.side_left_sprite.play('side_left');
+                break;
+            case 12:
+                this.keep_goal_left_1_sprite.visible=true;
+                this.keep_goal_left_1_sprite.play('k_left_1');
+                break;
+            case 13:
+                this.keep_goal_left_3_sprite.visible=true;
+                this.keep_goal_left_3_sprite.play('k_left_3');
+                break;
+            case 14:
+                this.keep_goal_left_2_sprite.visible=true;
+                this.keep_goal_left_2_sprite.play('k_left_2');
+                break;
+            case 15:
+                this.keep_goal_left_4_sprite.visible=true;
+                this.keep_goal_left_4_sprite.play('k_left_4');
                 break;
             default:
-                this.goal_center_anims_sprite.visible=true
+                this.keep_goal_punch_sprite.visible=true;
+                this.keep_goal_punch_sprite.play('k_punch');
                 break;
         }
         
@@ -784,6 +1015,43 @@ export default class Game extends Phaser.Scene{
             return [this.getRandomInt(1,9),0]
     }
 
+    setPositionKeeper(x,y){
+        if(x >= 335*delta_x && x < 458*delta_x && y >= 228 && y < 330)
+            return [1, 11];
+        if(x >= 335*delta_x && x < 458*delta_x && y >= 300 && y < 430)
+            return [2, 12];
+        if(x >= 458*delta_x && x < 560*delta_x && y >= 228 && y < 280)
+            return [3, 14];
+        if(x >= 458*delta_x && x < 560*delta_x && y >= 280 && y < 340)
+            return [4, 15];
+        if(x >= 458*delta_x && x < 560*delta_x && y >= 340 && y < 385)
+            return [5,21];
+        if(x >= 458*delta_x && x < 560*delta_x && y >= 385 && y < 430)
+            return [6, 22];
+        if(x >= 560*delta_x && x < 640*delta_x && y >= 228 && y < 280)
+            return [7,24];
+        if(x >= 560*delta_x && x < 640*delta_x && y >= 280 && y < 385)
+            return [8, 25];
+        if(x >= 560*delta_x && x < 640*delta_x && y >= 385 && y < 430)
+            return [9,23];
+        if(x >= 640*delta_x && x < 750*delta_x && y >= 228 && y < 280)
+            return [10,23];
+        if(x >= 640*delta_x && x < 750*delta_x && y >= 280 && y < 340)
+            return [11,23];
+        if(x >= 640*delta_x && x < 750*delta_x && y >= 340 && y < 385)
+            return [12,23];
+        if(x >= 640*delta_x && x < 750*delta_x && y >= 385 && y < 430)
+            return [13,23];
+        if(x >= 750*delta_x && x < 870*delta_x && y >= 228 && y < 330)
+            return [14,23];
+        if(x >= 750*delta_x && x < 870*delta_x && y >= 330 && y < 430)
+            return [15,23];
+        if(y===0)
+            return [this.getRandomInt(1,15), 0]
+        if(x > 870*delta_x || x < 338*delta_x)
+            return [this.getRandomInt(1,15),0]
+    }
+
 
 
     
@@ -792,6 +1060,32 @@ export default class Game extends Phaser.Scene{
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    timeRemain=(times)=>{
+        
+        var time=(times-Date.now())/1000;
+        if(time>0){
+            var day=Math.floor(time/86400) > 9 ? Math.floor(time/86400) : `0${Math.floor(time/86400)}`;
+            var hour=Math.floor((time%86400)/3600) > 9 ? Math.floor((time%86400)/3600) : `0${Math.floor((time%86400)/3600)}`;
+            var minute=Math.floor(((time%86400)%3600)/60) > 9 ? Math.floor(((time%86400)%3600)/60) : `0${Math.floor(((time%86400)%3600)/60)}`;
+            var second=Math.ceil(((time%86400)%3600)%60) > 9 ? Math.ceil(((time%86400)%3600)%60) : `0${Math.ceil(((time%86400)%3600)%60)}`;
+            if(this.txt_time!==undefined)
+            this.txt_time.setText(`Còn: ${hour}h${minute}p${second}`);
+           
+        }
+	}
+
+    checkTimeSession=(room)=>{
+        var time=Date.now();
+        if(time < room.startTime){
+            return false;
+        }
+        
+        if(time > room.endTime){
+            return false;
+        }
+        return true
     }
 
 

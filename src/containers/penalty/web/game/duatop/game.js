@@ -117,7 +117,6 @@ export default class Game extends Phaser.Scene{
 
 
     init(data){
-        this.getDataConnect();
         var _this=this;
         var reg = {};
         var user = JSON.parse(localStorage.getItem("user"));
@@ -1060,9 +1059,9 @@ export default class Game extends Phaser.Scene{
         if(x >= 750 && x < 870 && y >= 330 && y < 430)
             return [15,23];
         if(y===0)
-            return [this.getRandomInt(1,9), 0]
+            return [this.getRandomInt(1,15), 0]
         if(x > 870 || x < 338)
-            return [this.getRandomInt(1,9),0]
+            return [this.getRandomInt(1,15),0]
     }
 
 
