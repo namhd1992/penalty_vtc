@@ -775,7 +775,7 @@ export default class Game extends Phaser.Scene{
             this.txt_ranking_point.setText(p);
             this.txt_banthang.setText(data_game.summary.winCount)
             this.txt_giaithuong.setText(`Giải thưởng: ${data_game.rewards[0].name}`)
-            this.txt_points.setText(`Điểm: ${data_game.user.betAmount}`)
+            this.txt_points.setText(`Lượt: ${data_game.user.betAmount}`)
 
             while (this.time_update > 1000) {
                 this.timeRemain(data_game.room.endTime)

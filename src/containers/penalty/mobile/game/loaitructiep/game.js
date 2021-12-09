@@ -71,12 +71,12 @@ import goal_right_json from '../../../assert/goal_anims/goal_right.json';
 
 import opt_suttudong_checked from '../../../assert/duatop/opt-suttudong-checked.png';
 import opt_suttudong from '../../../assert/duatop/opt-suttudong.png';
-import bg_banthang from '../../../assert/duatop/bg-banthang.png';
-import btn_suttudong from '../../../assert/duatop/btn-suttudong.png';
-import bg_bangxephang from '../../../assert/duatop/bg-bangxephang.png';
-import bg_giaithuong_duatop from '../../../assert/duatop/bg-giaithuong-duatop.png';
-import bg_taikhoan from '../../../assert/duatop/bg-taikhoan.png';
-import bg_title_duatop from '../../../assert/duatop/bg-title-duatop.png';
+import bg_banthang from '../../../assert/loaitructiep/bg-banthang.png';
+import btn_suttudong from '../../../assert/loaitructiep/btn-suttudong.png';
+import bg_bangxephang from '../../../assert/loaitructiep/bg-bangxephang.png';
+import bg_giaithuong from '../../../assert/loaitructiep/bg-giaithuong.png';
+import bg_taikhoan from '../../../assert/loaitructiep/bg-taikhoan.png';
+import bg_title_loaitructiep from '../../../assert/loaitructiep/bg-title-loaitructiep.png';
 
 import bg_pop_ingame from '../../../assert/1.png';
 import btn_dongy from '../../../assert/btn-dongy.png';
@@ -137,7 +137,7 @@ export default class Game extends Phaser.Scene{
                     "dataType":"json"
                 }
             }
-            axios.post(Ultilities.base_url() +'/lobby/api/v1/race/connect', data, header).then(function (response) {
+            axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/connect', data, header).then(function (response) {
                 if(response.data !==undefined){
                     if(response.data.code>=0){
                         if(_this.checkTimeSession(response.data.data.room)){
@@ -152,6 +152,8 @@ export default class Game extends Phaser.Scene{
                 }else{
                     window.location.replace('/')
                 }
+            }).catch(function (error) {
+                window.location.replace('/')
             })
         }
     }
@@ -205,9 +207,9 @@ export default class Game extends Phaser.Scene{
         this.load.image('bg_banthang', bg_banthang);
         this.load.image('btn_suttudong', btn_suttudong);
         this.load.image('bg_bangxephang', bg_bangxephang);
-        this.load.image('bg_giaithuong_duatop', bg_giaithuong_duatop);
+        this.load.image('bg_giaithuong', bg_giaithuong);
         this.load.image('bg_taikhoan', bg_taikhoan);
-        this.load.image('bg_title_duatop', bg_title_duatop);
+        this.load.image('bg_title_loaitructiep', bg_title_loaitructiep);
 
         this.load.image('bg_pop_ingame', bg_pop_ingame);
         this.load.image('btn_dongy', btn_dongy);
@@ -543,12 +545,12 @@ export default class Game extends Phaser.Scene{
         this.btn_suttudong.setScale(0.33*delta_x,0.33*delta_y)
         this.bg_bangxephang = this.add.image(132*delta_x,360*delta_y,'bg_bangxephang')
         this.bg_bangxephang.setScale(delta_x, delta_y);
-        this.bg_giaithuong_duatop = this.add.image(600*delta_x,125*delta_y,'bg_giaithuong_duatop')
-        this.bg_giaithuong_duatop.setScale(0.33*delta_x,0.33*delta_y)
+        this.bg_giaithuong = this.add.image(600*delta_x,125*delta_y,'bg_giaithuong')
+        this.bg_giaithuong.setScale(0.325*delta_x,0.325*delta_y)
         this.bg_taikhoan = this.add.image(1078*delta_x,42*delta_y,'bg_taikhoan')
         this.bg_taikhoan.setScale(0.33*delta_x,0.33*delta_y)
-        this.bg_title_duatop = this.add.image(600*delta_x,34*delta_y,'bg_title_duatop')
-        this.bg_title_duatop.setScale(delta_x, delta_y);
+        this.bg_title_loaitructiep = this.add.image(600*delta_x,34*delta_y,'bg_title_loaitructiep');
+        this.bg_title_loaitructiep.setScale(0.325*delta_x,0.325*delta_y)
         this.opt_suttudong = this.add.image(60*delta_x,620*delta_y,'opt_suttudong');
         this.opt_suttudong.setScale(0.3*delta_x,0.3*delta_y)
         this.opt_suttudong_checked = this.add.image(60*delta_x,620*delta_y,'opt_suttudong_checked');
@@ -562,12 +564,12 @@ export default class Game extends Phaser.Scene{
 
         this.txt_banthang = this.add.text(120*delta_x,  90*delta_y, '00', { font: `${40*delta_x}px Arial`, fill: "#ffffff" });
         this.txt_suttudong = this.add.text(85*delta_x,  605*delta_y, "Sút tự động", { font: `${27*delta_x}px Arial`, fill: "#ffffff" });
-        this.txt_title = this.add.text(520*delta_x,  10*delta_y, "ĐUA TOP", { font: `${40*delta_x}px Arial`, fill: "#ffffff", align:'center' });
+        this.txt_title = this.add.text(520*delta_x,  10*delta_y, "LOẠI TRỰC TIẾP", { font: `${40*delta_x}px Arial`, fill: "#ffffff", align:'center' });
         this.txt_time = this.add.text(530*delta_x,  75*delta_y, "Còn: 00h00p00", { font: `${16*delta_x}px Arial`, fill: "#ffffff", align:'center' });
         this.txt_giaithuong = this.add.text(440*delta_x,  115*delta_y, `Giải thưởng:`, { font: `${17*delta_x}px Arial`, fill: "#ffffff", align:"center", fixedWidth: 333*delta_x });
-        this.txt_acc = this.add.text(980*delta_x,  15*delta_y, `Chào: ${user.nick_name.substring(0, 10)}`, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center' });
-        this.txt_thoat = this.add.text(1125*delta_x,  15*delta_y, '(Thoát)', { font: `${18*delta_x}px Arial`, fill: "#ffc107", align:'center' });
-        this.txt_points = this.add.text(980*delta_x,  45*delta_y, `Điểm: 00`, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center' });
+        this.txt_acc = this.add.text(975*delta_x,  15*delta_y, `Chào: ${user.nick_name.substring(0, 10)}...`, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center' });
+        this.txt_thoat = this.add.text(1130*delta_x,  15*delta_y, '(Thoát)', { font: `${18*delta_x}px Arial`, fill: "#ffc107", align:'center' });
+        this.txt_points = this.add.text(975*delta_x,  45*delta_y, `Lượt: 00`, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center' });
         this.txt_titleRanking = this.add.text(30*delta_x,  290*delta_y, 'TÀI KHOẢN                BÀN THẮNG', { font: `${13*delta_x}px Arial bold`, fill: "#ffffff" });
       
         this.txt_ranking_acc = this.add.text(30*delta_x,  305*delta_y, '', { font: `${15*delta_x}px Arial`, fill: "#ffffff" });
@@ -787,7 +789,7 @@ export default class Game extends Phaser.Scene{
             this.txt_ranking_point.setText(p);
             this.txt_banthang.setText(data_game.summary.winCount)
             this.txt_giaithuong.setText(`Giải thưởng: ${data_game.rewards[0].name}`)
-            this.txt_points.setText(`Điểm: ${data_game.user.points}`)
+            this.txt_points.setText(`Lượt: ${data_game.user.betAmount}`)
 
             while (this.time_update > 1000) {
                 this.timeRemain(data_game.room.endTime)
@@ -835,7 +837,7 @@ export default class Game extends Phaser.Scene{
                                 "dataType":"json"
                             }
                         }
-                        axios.post(Ultilities.base_url() +'/lobby/api/v1/race/playing', data, header).then(function (response) {
+                        axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/playing', data, header).then(function (response) {
                             if(response.data.code>=0){
                                 isPlay=false;
                                 result=response.data.data.result; 

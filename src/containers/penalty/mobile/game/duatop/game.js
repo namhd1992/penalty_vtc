@@ -152,6 +152,8 @@ export default class Game extends Phaser.Scene{
                 }else{
                     window.location.replace('/')
                 }
+            }).catch(function (error) {
+                window.location.replace('/')
             })
         }
     }
@@ -565,9 +567,9 @@ export default class Game extends Phaser.Scene{
         this.txt_title = this.add.text(520*delta_x,  10*delta_y, "ĐUA TOP", { font: `${40*delta_x}px Arial`, fill: "#ffffff", align:'center' });
         this.txt_time = this.add.text(530*delta_x,  75*delta_y, "Còn: 00h00p00", { font: `${16*delta_x}px Arial`, fill: "#ffffff", align:'center' });
         this.txt_giaithuong = this.add.text(440*delta_x,  115*delta_y, `Giải thưởng:`, { font: `${17*delta_x}px Arial`, fill: "#ffffff", align:"center", fixedWidth: 333*delta_x });
-        this.txt_acc = this.add.text(980*delta_x,  15*delta_y, `Chào: ${user.nick_name.substring(0, 10)}`, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center' });
-        this.txt_thoat = this.add.text(1125*delta_x,  15*delta_y, '(Thoát)', { font: `${18*delta_x}px Arial`, fill: "#ffc107", align:'center' });
-        this.txt_points = this.add.text(980*delta_x,  45*delta_y, `Điểm: 00`, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center' });
+        this.txt_acc = this.add.text(975*delta_x,  15*delta_y, `Chào: ${user.nick_name.substring(0, 10)}...`, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center' });
+        this.txt_thoat = this.add.text(1130*delta_x,  15*delta_y, '(Thoát)', { font: `${18*delta_x}px Arial`, fill: "#ffc107", align:'center' });
+        this.txt_points = this.add.text(975*delta_x,  45*delta_y, `Điểm: 00`, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center' });
         this.txt_titleRanking = this.add.text(30*delta_x,  290*delta_y, 'TÀI KHOẢN                BÀN THẮNG', { font: `${13*delta_x}px Arial bold`, fill: "#ffffff" });
       
         this.txt_ranking_acc = this.add.text(30*delta_x,  305*delta_y, '', { font: `${15*delta_x}px Arial`, fill: "#ffffff" });
