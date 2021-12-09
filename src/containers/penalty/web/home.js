@@ -24,7 +24,8 @@ import {
 	sessionUpcomming,
 	betting,
 	getBalances,
-	checkPlace
+	checkPlace,
+	getContentGuide
 } from '../../../modules/lucky'
 import {
 	getData
@@ -191,7 +192,8 @@ class Lucky_Rotation extends React.Component {
 			points:0,
 			title_module:'',
 			type_modeId:0,
-			user_data:{}
+			user_data:{},
+			contentGuide:''
 		};
 	}
 	componentWillMount(){
@@ -784,9 +786,61 @@ class Lucky_Rotation extends React.Component {
 
 
 
-	showModalHuongDan=()=>{
-		let myModal = new Modal(document.getElementById('huongdan_web'));
-		myModal.show();
+	// showModalHuongDan=()=>{
+	// 	let myModal = new Modal(document.getElementById('huongdan_web'));
+	// 	myModal.show();
+
+	// 	getContentGuide
+	// }
+
+
+	showModalHuongDan=(catalogId)=>{
+		const {limit}=this.state;
+		var data= {...info}
+		data.siteId=1;
+		data.catalogId=catalogId;
+		data.type=-1;
+
+		switch (catalogId) {
+			case 18:
+				this.setState({tab_1:true, tab_2:false, tab_3:false, tab_4:false, tab_5:false})
+				break;
+			case 19:
+				this.setState({tab_1:false, tab_2:true, tab_3:false, tab_4:false, tab_5:false})
+				break;
+			case 20:
+				this.setState({tab_1:false, tab_2:false, tab_3:true, tab_4:false, tab_5:false})
+				break;
+			case 21:
+				this.setState({tab_1:false, tab_2:false, tab_3:false, tab_4:true, tab_5:false})
+				break;
+			case 22:
+				this.setState({tab_1:false, tab_2:false, tab_3:false, tab_4:false, tab_5:true})
+				break;
+		
+			default:
+				break;
+		}
+		this.setState({contentGuide:''}, ()=>{
+			this.props.getContentGuide(data).then(()=>{
+				var data=this.props.dataContentGuide;
+				if(data!==undefined){
+					if(data.code > 0){
+						this.setState({contentGuide: data.data.content})
+					}else{
+						this.setState({message_error:'Không lấy được dữ liệu bảng vinh danh.'}, ()=>{
+							let myModal = new Modal(document.getElementById('tb_err'));
+							myModal.show();
+						})
+					}
+				}else{
+					this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
+						let myModal = new Modal(document.getElementById('tb_err'));
+						myModal.show();
+					})
+				}
+			});
+		})
 	}
 
   
@@ -1069,25 +1123,7 @@ class Lucky_Rotation extends React.Component {
 		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
 
-	tab1=()=>{
-		this.setState({tab_1:true, tab_2:false, tab_3:false, tab_4:false, tab_5:false})
-	}
 
-	tab2=()=>{
-		this.setState({tab_1:false, tab_2:true, tab_3:false, tab_4:false, tab_5:false})
-	}
-
-	tab3=()=>{
-		this.setState({tab_1:false, tab_2:false, tab_3:true, tab_4:false, tab_5:false})
-	}
-
-	tab4=()=>{
-		this.setState({tab_1:false, tab_2:false, tab_3:false, tab_4:true, tab_5:false})
-	}
-
-	tab5=()=>{
-		this.setState({tab_1:false, tab_2:false, tab_3:false, tab_4:false, tab_5:true})
-	}
 
 
 
@@ -1228,7 +1264,7 @@ class Lucky_Rotation extends React.Component {
 
 
 	render() {
-		const {type_modeId, title_module,points,info_seesion, bxh_tab_1, bxh_tab_2, bxh_tab_3, message_sanqua_empty, listSanqua, showRollup,type_action, dataInfoDonate, rollup, message_rollup, content, warning_tudo,tab_1, tab_2, tab_3, tab_4,tab_5, tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
+		const {contentGuide, type_modeId, title_module,points,info_seesion, bxh_tab_1, bxh_tab_2, bxh_tab_3, message_sanqua_empty, listSanqua, showRollup,type_action, dataInfoDonate, rollup, message_rollup, content, warning_tudo,tab_1, tab_2, tab_3, tab_4,tab_5, tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
 			waiting, activeTuDo, activeHistory, activeVinhDanh, limit, countTuDo, countHistory, countVinhDanh, listHistory, listTuDo, listVinhDanh, user}=this.state;
 		return (<div>	
 					<div class="page-fluid_web">
@@ -1236,7 +1272,7 @@ class Lucky_Rotation extends React.Component {
 							<div class="s-top_web position-relative">
 								<ul class="nav justify-content-between align-items-center flex-nowrap font-3vw">
 									<li class="nav-item text-nowrap" style={{width: "16%"}}>
-										<a class="nav-link p-0 text-nowrap text-center text-white pt-1 font-UTMFacebookKT" onClick={this.showModalHuongDan} title="Hướng dẫn" style={{cursor: "pointer"}}>Hướng dẫn</a>
+										<a class="nav-link p-0 text-nowrap text-center text-white pt-1 font-UTMFacebookKT" onClick={()=>this.showModalHuongDan(18)} title="Hướng dẫn" style={{cursor: "pointer"}}>Hướng dẫn</a>
 									</li>
 									<li class="nav-item text-nowrap" style={{width: "16%"}}>
 										<a class="nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT" onClick={this.getSessionUpcomming} title="Giải thưởng" style={{cursor: "pointer"}}>Giải thưởng</a>
@@ -1358,19 +1394,19 @@ class Lucky_Rotation extends React.Component {
 									<div class="tab-hd_web w-100">
 										<ul class="nav justify-content-center">
 										<li class="nav-item" style={{width: "17%"}}>
-											<a class={tab_1 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Tham gia" onClick={this.tab1}>&nbsp;</a>
+											<a class={tab_1 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Tham gia" onClick={()=>this.showModalHuongDan(18)}>&nbsp;</a>
 										</li>
 										<li class="nav-item" style={{width: "17%"}}>
-											<a class={tab_2 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Đua TOP" onClick={this.tab2}>&nbsp;</a>
+											<a class={tab_2 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Đua TOP" onClick={()=>this.showModalHuongDan(19)}>&nbsp;</a>
 										</li>
 										<li class="nav-item" style={{width: "18%"}}>
-											<a class={tab_3 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Loại Trực Tiếp" onClick={this.tab3}>&nbsp;</a>
+											<a class={tab_3 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Loại Trực Tiếp" onClick={()=>this.showModalHuongDan(20)}>&nbsp;</a>
 										</li>
 										<li class="nav-item" style={{width: "18%"}}>
-											<a class={tab_4 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Giật Hũ Vàng" onClick={this.tab4}>&nbsp;</a>
+											<a class={tab_4 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Giật Hũ Vàng" onClick={()=>this.showModalHuongDan(21)}>&nbsp;</a>
 										</li>
 										<li class="nav-item" style={{width: "17%"}}>
-											<a class={tab_5 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Sử Dụng Giải Thưởng" onClick={this.tab5}>&nbsp;</a>
+											<a class={tab_5 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Sử Dụng Giải Thưởng" onClick={()=>this.showModalHuongDan(22)}>&nbsp;</a>
 										</li>
 										</ul> 
 									</div>
@@ -1381,42 +1417,9 @@ class Lucky_Rotation extends React.Component {
 								<div class="modal-body bg-pop-hd_web-body p-2rem py-1 font-3vw text-white">
 									{/* <!-- Tab panes --> */}
 									<div class="tab-content">
-									<div class="tab-pane container active" id="tg">
-										1. Về đối tượng tham gia bảo hiểm xã hội bắt buộc
-										
-										Tại khoản 1 Điều 1 Thông tư 06/2021 sửa đổi khoản 1 Điều 2 Thông tư 59/2015 như sau:
-										
-										Người hoạt động không chuyên trách ở xã, phường, thị trấn đồng thời là người giao kết hợp đồng lao động quy định tại điểm a và điểm b khoản 1 Điều 2 Luật Bảo hiểm xã hội thì tham gia BHXH bắt buộc theo đối tượng quy định tại điểm a và điểm b khoản 1 Điều 2 Luật Bảo hiểm xã hội.
-										
-										Cụ thể, điểm a, b khoản 1 Điều 2 Luật Bảo hiểm xã hội quy định:
-										
-										Cụ thể, điểm a, b khoản 1 Điều 2 Luật Bảo hiểm xã hội quy định:
-										
-										"Điều 2. Đối tượng áp dụng
-										
-										1. Người lao động là công dân Việt Nam thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc, bao gồm:
-										
-										a) Người làm việc theo hợp đồng lao động không xác định thời hạn, hợp đồng lao động xác định thời hạn, hợp đồng lao động theo mùa vụ hoặc theo một công việc nhất định có thời hạn từ đủ 03 tháng đến dưới 12 tháng, kể cả hợp đồng lao động được ký kết giữa người sử dụng lao động với người đại diện theo pháp luật của người dưới 15 tuổi theo quy định của pháp luật về lao động;
-										. Về đối tượng tham gia bảo hiểm xã hội bắt buộc
-										
-										Tại khoản 1 Điều 1 Thông tư 06/2021 sửa đổi khoản 1 Điều 2 Thông tư 59/2015 như sau:
-										
-										Người hoạt động không chuyên trách ở xã, phường, thị trấn đồng thời là người giao kết hợp đồng lao động quy định tại điểm a và điểm b khoản 1 Điều 2 Luật Bảo hiểm xã hội thì tham gia BHXH bắt buộc theo đối tượng quy định tại điểm a và điểm b khoản 1 Điều 2 Luật Bảo hiểm xã hội.
-										
-										Cụ thể, điểm a, b khoản 1 Điều 2 Luật Bảo hiểm xã hội quy định:
-										
-										Cụ thể, điểm a, b khoản 1 Điều 2 Luật Bảo hiểm xã hội quy định:
-										
-										"Điều 2. Đối tượng áp dụng
-										
-										1. Người lao động là công dân Việt Nam thuộc đối tượng tham gia bảo hiểm xã hội bắt buộc, bao gồm:
-										
-										a) Người làm việc theo hợp đồng lao động không xác định thời hạn, hợp đồng lao động xác định thời hạn, hợp đồng lao động theo mùa vụ hoặc theo một công việc nhất định có thời hạn từ đủ 03 tháng đến dưới 12 tháng, kể cả hợp đồng lao động được ký kết giữa người sử dụng lao động với người đại diện theo pháp luật của người dưới 15 tuổi theo quy định của pháp luật về lao động;
-									</div>
-									<div class="tab-pane container fade" id="dt">...</div>
-									<div class="tab-pane container fade" id="ltt">...</div>
-									<div class="tab-pane container fade" id="ghv">...</div>
-									<div class="tab-pane container fade" id="sdgt">...</div>
+										<div class="tab-pane container active" id="tg">
+											<div class="text-red font-size-18" dangerouslySetInnerHTML={{__html: 'contentGuide'}}></div>
+										</div>
 									</div>
 									
 								</div>
@@ -1515,17 +1518,18 @@ class Lucky_Rotation extends React.Component {
 												<tbody>
 													{listTuDo.map((obj, key) => (
 														<tr key={key} class="bg-border-bottom">
-															<td class="border-start-0 py-1">{obj.AwardName}</td>
-															<td class="ps-1 py-1">{obj.AwardDisplay}</td>
-															<td className="ps-1 py-1">{this.timeConverter(obj.RewardTime)}</td>
-															{(obj.Status===1)?(<td class="border-end-0 ps-1 py-1"><a class="text-primary"  style={{cursor:'pointer'}} onClick={()=>this.getItem(user, obj)}>Mở quà</a></td>):(<td class="p-1 w-auto valign-middle position-relative"><a class="text-primary"  style={{cursor:'pointer'}} onClick={()=>this.getItem(user, obj)}>Mở quà</a><span class="badge badge-pill badge-danger position-absolute noti-tudo">!</span></td>)}
+															<td class="border-start-0 py-1">{obj.rewardName}</td>
+															<td class="ps-1 py-1">{obj.amount}</td>
+															<td className="ps-1 py-1">{this.timeConverter(obj.createdTime)}</td>
+															{(obj.receiverStatus===1)?(<td class="border-end-0 ps-1 py-1"><a class="text-primary"  style={{cursor:'pointer'}} onClick={()=>this.getItem(user, obj)}>Mở quà</a></td>):(<div></div>)}
+															{(obj.receiverStatus===2)?(<td class="border-end-0 ps-1 py-1"><a class="text-primary"  style={{cursor:'pointer'}} onClick={()=>this.viewItem(user, obj)}>Xem quà</a></td>):(<div></div>)}
 															
 														</tr>
 													))}		
 												
 												</tbody>
 											</table>
-											<div className="pagination justify-content-center pag-custom mt-1">
+											{(countTuDo > 10) ? (<div className="pagination justify-content-center pag-custom mt-1">
 												<Pagination
 													activePage={activeTuDo}
 													itemsCountPerPage={limit}
@@ -1537,7 +1541,8 @@ class Lucky_Rotation extends React.Component {
 													linkClass={"page-link"}
 													onChange={(v) => this.handlePageChangeTuDo(v)}
 												/>
-											</div> 
+											</div> ):(<div></div>)}
+											
 										</div>
 									</div>
 									
@@ -1742,6 +1747,7 @@ class Lucky_Rotation extends React.Component {
 }
 
 const mapStateToProps = state => ({
+	dataContentGuide: state.lucky.dataContentGuide,
 	dataCheckPlace:state.lucky.dataCheckPlace,
 	dataBalances:state.lucky.dataBalances,
 	dataBetting:state.lucky.dataBetting,
@@ -1787,7 +1793,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 	sessionInPlay,
 	sessionUpcomming,
 	getBalances,
-	checkPlace
+	checkPlace,
+	getContentGuide
 }, dispatch)
 
 

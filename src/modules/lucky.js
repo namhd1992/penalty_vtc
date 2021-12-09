@@ -40,6 +40,7 @@ export const BETTING="lucky/BETTING";
 
 export const CHECK_PLACE="lucky/CHECK_PLACE";
 export const BALANCES="lucky/BALANCES";
+export const CONTENT_GUIDE ="lucky/CONTENT_GUIDE";
 
 
 
@@ -253,6 +254,12 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				dataBalances: action.data,
+				waiting: false
+			}
+		case CONTENT_GUIDE:
+			return {
+				...state,
+				dataContentGuide: action.data,
 				waiting: false
 			}
 			
@@ -851,6 +858,27 @@ export const getBalances = (token, data) => {
 	}
 }
 
+
+export const getContentGuide = (data) => {
+
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "/content/api/v1/news/firstordefault"
+		return axios.post(url, data).then(function (response) {
+			console.log('AAAAAAAAAAAAAA',response)
+			dispatch({
+				type: CONTENT_GUIDE,
+				data: response.data
+			})
+		}).catch(function (error) {
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
+}
 
 
 

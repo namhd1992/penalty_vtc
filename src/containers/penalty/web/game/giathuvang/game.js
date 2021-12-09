@@ -866,6 +866,9 @@ export default class Game extends Phaser.Scene{
                 }else{
                     console.log("Vuốt lên để chơi")
                 }
+            }else{
+                _this.showMessageBox('Bạn đã hết lượt chơi.')
+                isPlay=true;
             }
         }
         if(p1[1] > p2[1]){
@@ -1030,33 +1033,33 @@ export default class Game extends Phaser.Scene{
         if(x >= 335 && x < 458 && y >= 228 && y < 330)
             return [1, 11];
         if(x >= 335 && x < 458 && y >= 300 && y < 430)
-            return [2, 12];
+            return [2, 21];
         if(x >= 458 && x < 560 && y >= 228 && y < 280)
-            return [3, 14];
+            return [3, 12];
         if(x >= 458 && x < 560 && y >= 280 && y < 340)
-            return [4, 15];
+            return [4, 12];
         if(x >= 458 && x < 560 && y >= 340 && y < 385)
-            return [5,21];
+            return [5,22];
         if(x >= 458 && x < 560 && y >= 385 && y < 430)
             return [6, 22];
         if(x >= 560 && x < 640 && y >= 228 && y < 280)
-            return [7,24];
+            return [7,13];
         if(x >= 560 && x < 640 && y >= 280 && y < 385)
-            return [8, 25];
+            return [8, 13];
         if(x >= 560 && x < 640 && y >= 385 && y < 430)
             return [9,23];
         if(x >= 640 && x < 750 && y >= 228 && y < 280)
-            return [10,23];
+            return [10,14];
         if(x >= 640 && x < 750 && y >= 280 && y < 340)
-            return [11,23];
+            return [11,14];
         if(x >= 640 && x < 750 && y >= 340 && y < 385)
-            return [12,23];
+            return [12,24];
         if(x >= 640 && x < 750 && y >= 385 && y < 430)
-            return [13,23];
+            return [13,24];
         if(x >= 750 && x < 870 && y >= 228 && y < 330)
-            return [14,23];
+            return [14,15];
         if(x >= 750 && x < 870 && y >= 330 && y < 430)
-            return [15,23];
+            return [15,25];
         if(y===0)
             return [this.getRandomInt(1,15), 0]
         if(x > 870 || x < 338)

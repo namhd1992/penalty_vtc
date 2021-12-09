@@ -4,8 +4,8 @@ import { IonPhaser } from '@ion-phaser/react';
 import BootScene from './bootScene';
 import rotate from '../../../assert/rotate.png';
 
-var width = window.screen.width;
-var height = window.screen.height;
+var width = window.innerWidth;
+var height = window.innerHeight;
 
 export default class loaitructiep extends React.Component {
 

@@ -284,7 +284,7 @@ export default class Game extends Phaser.Scene{
         };
         this.anims.create(k_idleConfig);
         
-        this.k_idle_sprite=this.add.sprite(width/2, height/2+18, 'k_idle', 'k_idle_').play('k_id');
+        this.k_idle_sprite=this.add.sprite(605*delta_x, 365*delta_y, 'k_idle', 'k_idle_').play('k_id');
         this.k_idle_sprite.setScale(delta_x, delta_y)
 
         const ball_collision_goal_config = {
@@ -498,6 +498,7 @@ export default class Game extends Phaser.Scene{
         this.ball_rotation_sprite = this.physics.add.sprite(605*delta_x, 530*delta_y, 'ball_rotation', 'rotation_');
         this.ball_rotation_sprite.setScale(delta_x, delta_y)
         this.ball_rotation_sprite.play('walk');
+        console.log(this.ball_rotation_sprite.y)
         this.ball_rotation_sprite.visible=false;
 
 
@@ -631,23 +632,17 @@ export default class Game extends Phaser.Scene{
             var power=0;
             var ball_with_time=0;
             var h=increase_y;
-            var m=0;
-            if(increase_x>-1.05 && increase_x<1.05){
-                m=1
-            }else{
-                m=2
-            }
-           
+
             var k=h > 100*delta_y ? h/100*delta_y : 1;
             if(h>0 && h<110*delta_y){
-                ball_with_time=0.0125;
+                ball_with_time=0.0125*delta_x*5/2;
                 power=412*delta_y;
             }else if(h>110*delta_y & h<250*delta_y){
                 power=515*delta_y-h;
-                ball_with_time=0.0145
+                ball_with_time=0.0145*delta_x*5/2
             }else{
                 power=515*delta_y-h;
-                ball_with_time=0.02;
+                ball_with_time=0.02*delta_x*5/2;
                 k=5
             }
             // console.log(increase_x)
@@ -686,24 +681,24 @@ export default class Game extends Phaser.Scene{
                         this.txt_miss.visible=true;
                     }      
                 }else{
-                   
-                    this.ball_rotation_sprite.y -=2*k;
-                    this.ball_rotation_sprite.x +=m*increase_x;
+                    // console.log(this.ball_rotation_sprite.y)
+                    this.ball_rotation_sprite.y -=5*k;
+                    this.ball_rotation_sprite.x +=increase_x;
                     this.timer += delta;
-                    while (this.timer > 5) {
+                    while (this.timer > 5*delta_x) {
                         x -=ball_with_time;
-                        this.ball_rotation_sprite.setScale(x,x);
+                        this.ball_rotation_sprite.setScale(x*delta_x,x*delta_x);
                         this.timer=0;
                     }
                 }
             }else{
                 this.ball_rotation_sprite.y -=2*k;
-                this.ball_rotation_sprite.x +=m*increase_x;
+                this.ball_rotation_sprite.x +=increase_x;
                 this.timer += delta;
-                while (this.timer > 5) {
+                while (this.timer > 5*delta_x) {
                     x -=ball_with_time;
                     delta_alpha -=0.01
-                    this.ball_rotation_sprite.setScale(x,x);
+                    this.ball_rotation_sprite.setScale(x*delta_x,x*delta_x);
                     this.ball_rotation_sprite.setAlpha(delta_alpha);
                     this.timer=0;
                 }   
@@ -887,6 +882,9 @@ export default class Game extends Phaser.Scene{
                 }else{
                     console.log("Vuốt lên để chơi")
                 }
+            }else{
+                _this.showMessageBox('Bạn đã hết lượt chơi.')
+                isPlay=true;
             }
         }
         if(p1[1] > p2[1]){
@@ -898,10 +896,10 @@ export default class Game extends Phaser.Scene{
         //just in case the message box already exists
         //destroy it
         var _this=this;
-        this.back = this.add.sprite(600, 675/2, "bg_pop_ingame");
-        this.closeButton = this.add.sprite(470, 480, "btn_dongy");
-        this.thoatButton = this.add.sprite(730, 480, "btn_thoat");
-        this.text1 = this.add.text(400, 300, text, { font: "18px Arial", fill: "#000000", align:'center', fixedWidth: 400, wordWrap:true});
+        this.back = this.add.sprite(600*delta_x, (675/2)*delta_y, "bg_pop_ingame");
+        this.closeButton = this.add.sprite(470*delta_x, 480*delta_y, "btn_dongy");
+        this.thoatButton = this.add.sprite(730*delta_x, 480*delta_y, "btn_thoat");
+        this.text1 = this.add.text(400*delta_x, 300*delta_y, text, { font: "18px Arial", fill: "#000000", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
         this.closeButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             _this.hideBox()
         })
@@ -1012,17 +1010,10 @@ export default class Game extends Phaser.Scene{
         var power=0
         var a=p1[0]-p2[0];
         var b=p1[1]-p2[1];
-        var m=0
         var dis1=Math.sqrt((a*a+b*b))
         var k=b > 100*delta_y ? b/100*delta_y : 1;
        
         increase_x=a>0?(-dis1/b):(dis1/b)
-
-        if(increase_x>-1.05 && increase_x<1.05){
-            m=1
-        }else{
-            m=2
-        }
 
         if(b>0 && b<110*delta_y){
             power=415*delta_y;
@@ -1030,43 +1021,44 @@ export default class Game extends Phaser.Scene{
             power=515*delta_y-b;
         }
 
-        var n=(530*delta_y-power)/(2*k)
+        var n=(530*delta_y-power)/(5*k)
         var y=power;
-        var x=605*delta_y+n*increase_x*m;
+        var x=605*delta_x+n*increase_x;
         return [x,y];
     }
 
     setPositionKeeper(x,y){
+        console.log(x,y)
         if(x >= 335*delta_x && x < 458*delta_x && y >= 228*delta_y && y < 330*delta_y)
             return [1, 11];
         if(x >= 335*delta_x && x < 458*delta_x && y >= 300*delta_y && y < 430*delta_y)
-            return [2, 12];
+            return [2, 21];
         if(x >= 458*delta_x && x < 560*delta_x && y >= 228*delta_y && y < 280*delta_y)
-            return [3, 14];
+            return [3, 12];
         if(x >= 458*delta_x && x < 560*delta_x && y >= 280*delta_y && y < 340*delta_y)
-            return [4, 15];
+            return [4, 12];
         if(x >= 458*delta_x && x < 560*delta_x && y >= 340*delta_y && y < 385*delta_y)
-            return [5,21];
+            return [5,22];
         if(x >= 458*delta_x && x < 560*delta_x && y >= 385*delta_y && y < 430*delta_y)
             return [6, 22];
         if(x >= 560*delta_x && x < 640*delta_x && y >= 228*delta_y && y < 280*delta_y)
-            return [7,24];
+            return [7,13];
         if(x >= 560*delta_x && x < 640*delta_x && y >= 280*delta_y && y < 385*delta_y)
-            return [8, 25];
+            return [8, 13];
         if(x >= 560*delta_x && x < 640*delta_x && y >= 385*delta_y && y < 430*delta_y)
             return [9,23];
         if(x >= 640*delta_x && x < 750*delta_x && y >= 228*delta_y && y < 280*delta_y)
-            return [10,23];
+            return [10,14];
         if(x >= 640*delta_x && x < 750*delta_x && y >= 280*delta_y && y < 340*delta_y)
-            return [11,23];
+            return [11,14];
         if(x >= 640*delta_x && x < 750*delta_x && y >= 340*delta_y && y < 385*delta_y)
-            return [12,23];
+            return [12,24];
         if(x >= 640*delta_x && x < 750*delta_x && y >= 385*delta_y && y < 430*delta_y)
-            return [13,23];
+            return [13,24];
         if(x >= 750*delta_x && x < 870*delta_x && y >= 228*delta_y && y < 330*delta_y)
-            return [14,23];
+            return [14,15];
         if(x >= 750*delta_x && x < 870*delta_x && y >= 330*delta_y && y < 430*delta_y)
-            return [15,23];
+            return [15,25];
         if(y===0)
             return [this.getRandomInt(1,15), 0]
         if(x > 870*delta_x || x < 338*delta_x)
