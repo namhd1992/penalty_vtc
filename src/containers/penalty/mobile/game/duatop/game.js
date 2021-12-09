@@ -69,6 +69,7 @@ import goal_left_json from '../../../assert/goal_anims/goal_left.json';
 import goal_right from '../../../assert/goal_anims/goal_right.png';
 import goal_right_json from '../../../assert/goal_anims/goal_right.json';
 
+
 import opt_suttudong_checked from '../../../assert/duatop/opt-suttudong-checked.png';
 import opt_suttudong from '../../../assert/duatop/opt-suttudong.png';
 import bg_banthang from '../../../assert/duatop/bg-banthang.png';
@@ -242,8 +243,8 @@ export default class Game extends Phaser.Scene{
         const goal_center_anims_Config = {
             key: 'goal_center',
             frames: 'goal_center_anims',
-            frameRate: 12,
-            repeat: 2
+            frameRate: 24,
+            repeat: 1
         };
         this.anims.create(goal_center_anims_Config);
         this.goal_center_anims_sprite=this.add.sprite(width/2, height/2-10, 'goal_center_anims', 'center_');
@@ -255,8 +256,8 @@ export default class Game extends Phaser.Scene{
         const goal_left_Config = {
             key: 'g_left',
             frames: 'goal_left',
-            frameRate: 12,
-            repeat: 2
+            frameRate: 24,
+            repeat: 1
         };
         this.anims.create(goal_left_Config);
         this.goal_left_sprite=this.add.sprite(width/2, height/2-10, 'goal_left', 'left_');
@@ -267,8 +268,8 @@ export default class Game extends Phaser.Scene{
         const goal_right_Config = {
             key: 'g_right',
             frames: 'goal_right',
-            frameRate: 12,
-            repeat: 2
+            frameRate: 24,
+            repeat: 1
         };
         this.anims.create(goal_right_Config);
         this.goal_right_sprite=this.add.sprite(width/2, height/2-10, 'goal_right', 'center_');
@@ -520,7 +521,7 @@ export default class Game extends Phaser.Scene{
             key: 'kick_left',
             frames: 'soccer_kick_left',
             frameRate: 20,
-            repeat: -2
+            repeat: -1
         };
         this.anims.create(soccer_kick_left_Config);
         this.soccer_kick_left_sprite=this.add.sprite(885*delta_x, 250*delta_y, 'soccer_kick_left', 'kick_left_');
