@@ -227,8 +227,8 @@ export default class Game extends Phaser.Scene{
         this.background.setScale(delta_x, delta_y)
         this.goal=this.physics.add.image(width/2,height/2-10,'goal_center')
         this.goal.setScale(delta_x, delta_y)
-        this.ball_1=this.add.image(605*delta_x,530*delta_y,'ball');
-        this.ball_1.setScale(delta_x, delta_y)
+        this.ball_1=this.add.image(605*delta_x,520*delta_y,'ball');
+        this.ball_1.setScale(delta_x, delta_x)
 
         // const soccerAnimation = this.anims.create({
         //     key: 'soccer',
@@ -499,7 +499,6 @@ export default class Game extends Phaser.Scene{
         this.ball_rotation_sprite = this.physics.add.sprite(605*delta_x, 530*delta_y, 'ball_rotation', 'rotation_');
         this.ball_rotation_sprite.setScale(delta_x, delta_y)
         this.ball_rotation_sprite.play('walk');
-        console.log(this.ball_rotation_sprite.y)
         this.ball_rotation_sprite.visible=false;
 
 
@@ -521,7 +520,7 @@ export default class Game extends Phaser.Scene{
             key: 'kick_left',
             frames: 'soccer_kick_left',
             frameRate: 20,
-            repeat: -1
+            repeat: -2
         };
         this.anims.create(soccer_kick_left_Config);
         this.soccer_kick_left_sprite=this.add.sprite(885*delta_x, 250*delta_y, 'soccer_kick_left', 'kick_left_');
@@ -624,7 +623,6 @@ export default class Game extends Phaser.Scene{
             this.opt_suttudong_checked.visible=false;
         }
         if(play){
-            // console.log(result)
         
             this.ball_1.visible=false;
             if(!is_ball_lasted){
@@ -634,21 +632,20 @@ export default class Game extends Phaser.Scene{
             var ball_with_time=0;
             var h=increase_y;
 
-            var k=h > 100*delta_y ? h/100*delta_y : 1;
+            
+
+            var k=h > 100*delta_y ? h/100*delta_y : 0.4;
             if(h>0 && h<110*delta_y){
-                ball_with_time=0.0125*delta_x*5/2;
-                power=412*delta_y;
+                ball_with_time=0.025*delta_x;
+                power=400*delta_y;
             }else if(h>110*delta_y & h<250*delta_y){
                 power=515*delta_y-h;
-                ball_with_time=0.0145*delta_x*5/2
+                ball_with_time=0.029*delta_x
             }else{
                 power=515*delta_y-h;
-                ball_with_time=0.02*delta_x*5/2;
+                ball_with_time=0.04*delta_x;
                 k=5
             }
-            // console.log(increase_x)
-
-            // this.sprite.play('walk');
             if(h<250*delta_y){
                 if(this.ball_rotation_sprite.y<power){
                    
@@ -682,7 +679,6 @@ export default class Game extends Phaser.Scene{
                         this.txt_miss.visible=true;
                     }      
                 }else{
-                    // console.log(this.ball_rotation_sprite.y)
                     this.ball_rotation_sprite.y -=5*k;
                     this.ball_rotation_sprite.x +=increase_x;
                     this.timer += delta;
@@ -693,7 +689,7 @@ export default class Game extends Phaser.Scene{
                     }
                 }
             }else{
-                this.ball_rotation_sprite.y -=2*k;
+                this.ball_rotation_sprite.y -=5*k;
                 this.ball_rotation_sprite.x +=increase_x;
                 this.timer += delta;
                 while (this.timer > 5*delta_x) {
@@ -731,7 +727,6 @@ export default class Game extends Phaser.Scene{
                         }
                     }
                     if(result===3){
-                        // console.log('AAAAAAAAAA')
                         if(this.ball_collision_keeper_sprite.y < 445*delta_y){
                             this.ball_collision_keeper_sprite.y +=2*k;
                             this.ball_collision_keeper_sprite.x +=1*increase_x;
@@ -794,13 +789,7 @@ export default class Game extends Phaser.Scene{
         }
     }
 
-    footballOut(){
 
-    }
-
-    setSizeBall(positionY){
-        
-    }
 
     play(p1,p2){
         var _this=this;
@@ -812,8 +801,6 @@ export default class Game extends Phaser.Scene{
                 if(p1[1]-p2[1] > 0){
                     var positionBall=this.getPositionBall(p1,p2);
                     var keeper=this.setPositionKeeper(positionBall[0],positionBall[1])
-                    console.log(positionBall)
-                    console.log('keeper',keeper)
                     if(user!==null){
                         var data= {...info}
                         data.userId= user.uid;
@@ -842,7 +829,7 @@ export default class Game extends Phaser.Scene{
                                 var kg = _this.getRandomInt(1,15)
                                 setTimeout(()=>{ 
                                     play=true;
-                                }, 550);
+                                }, 500);
             
                                 setTimeout(()=>{ 
                                     if(result===2){
@@ -853,7 +840,7 @@ export default class Game extends Phaser.Scene{
                                         _this.k_idle_sprite.visible=false;
                                     }
                                 }, 700);
-                                // _this.soccer_kick_left_sprite.visible=true;
+                                _this.soccer_kick_left_sprite.visible=true;
                                 _this.soccer_kick_left_sprite.play("kick_left")
                                 
                                 setTimeout(()=>{ 
@@ -940,7 +927,6 @@ export default class Game extends Phaser.Scene{
     }
 
     setKeepGoal(n){
-        // console.log(n)
         switch (n) {
             case 1:
                 this.keep_goal_right_2_sprite.visible=true;
@@ -1015,12 +1001,12 @@ export default class Game extends Phaser.Scene{
         var a=p1[0]-p2[0];
         var b=p1[1]-p2[1];
         var dis1=Math.sqrt((a*a+b*b))
-        var k=b > 100*delta_y ? b/100*delta_y : 1;
+        var k=b > 100*delta_y ? b/100*delta_y : 0.4;
        
         increase_x=a>0?(-dis1/b):(dis1/b)
 
         if(b>0 && b<110*delta_y){
-            power=415*delta_y;
+            power=400*delta_y;
         }else if(b>110*delta_y & b<250*delta_y){
             power=515*delta_y-b;
         }
@@ -1032,7 +1018,6 @@ export default class Game extends Phaser.Scene{
     }
 
     setPositionKeeper(x,y){
-        console.log(x,y)
         if(x >= 335*delta_x && x < 458*delta_x && y >= 228*delta_y && y < 330*delta_y)
             return [1, 11];
         if(x >= 335*delta_x && x < 458*delta_x && y >= 300*delta_y && y < 430*delta_y)

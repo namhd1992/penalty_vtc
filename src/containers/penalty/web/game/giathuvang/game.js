@@ -495,7 +495,7 @@ export default class Game extends Phaser.Scene{
         this.anims.create(soccer_kick_left_Config);
         this.soccer_kick_left_sprite=this.add.sprite(885, 250, 'soccer_kick_left', 'kick_left_');
         // this.soccer_kick_left_sprite.setScale(3.4,3.4);
-        // this.soccer_kick_left_sprite.visible=false;
+        this.soccer_kick_left_sprite.visible=false;
 
         const soccer_kick_right_Config = {
             key: 'kick_right',
@@ -824,7 +824,7 @@ export default class Game extends Phaser.Scene{
                                 var kg = _this.getRandomInt(1,15)
                                 setTimeout(()=>{ 
                                     play=true;
-                                }, 550);
+                                }, 500);
             
                                 setTimeout(()=>{ 
                                     if(result===2){
@@ -836,7 +836,7 @@ export default class Game extends Phaser.Scene{
                                     }
                                    
                                 }, 700);
-            
+                                _this.soccer_kick_left_sprite.visible=true;
                                 _this.soccer_kick_left_sprite.play("kick_left")
                                 
                                 setTimeout(()=>{ 
