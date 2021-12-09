@@ -1,36 +1,23 @@
 import Phaser from "phaser";
 
+import test from '../../../assert/background.png';
+
+var width = window.innerWidth;
+var height = window.innerHeight;
+var delta_x=width/1200;
+var delta_y=height/675;
 export default class Info extends Phaser.Scene{
   constructor() {
     super({ key: "Info" });
   }
 
     preload(){
-
+      this.load.image('test', test);
     }
 
     create(){
-      const self = this;
-      this.helloWorld = this.add.text(
-          this.cameras.main.centerX, 
-          this.cameras.main.centerY, 
-          "Hello World", { 
-            font: "40px Arial", 
-            fill: "#ffffff" 
-          }
-      );
-      this.helloWorld.setOrigin(0.5);
-        this.input.on('pointerdown', function (pointer) {
-          console.log(pointer)
-          // self.scene.start("Game", {id:6});
-      });
-
-      // this.helloWorld.setVisible(false)
-      
-
-      this.helloWorld.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
-        console.log("Hello")
-      })
+      this.test=this.add.image(width/2,height/2,'test')
+      this.test.setScale(delta_x, delta_y)
     }
 
     update(){

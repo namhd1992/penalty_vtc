@@ -15,6 +15,7 @@ import {
 	getLuckyInfo,
 	userLogout,
 	getItemAward,
+	viewItemAward,
 	getDonate,
 	getInfoDonate,
 	checkRollup,
@@ -23,12 +24,15 @@ import {
 	sessionUpcomming,
 	betting,
 	getBalances,
-	checkPlace
+	checkPlace,
+	getContentGuide
 } from '../../../modules/lucky'
 import {
 	getData
 } from '../../../modules/profile';
 
+
+import btn_nap_scoin from './images/btn-nap-scoin.png';
 import img_ingame from './images/img-ingame.png';
 import img_diem from './images/img-diem.png';
 import img_giftcode from './images/img-giftcode.png';
@@ -381,7 +385,7 @@ class Lucky_Rotation extends React.Component {
 						})
 					}
 				}else{
-					this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
+					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau'},()=>{
 						let myModal = new Modal(document.getElementById('tb_err'));
 						myModal.show();
 					})
@@ -423,7 +427,7 @@ class Lucky_Rotation extends React.Component {
 						})
 					}
 				}else{
-					this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
+					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau'},()=>{
 						let myModal = new Modal(document.getElementById('tb_err'));
 						myModal.show();
 					})
@@ -484,7 +488,7 @@ class Lucky_Rotation extends React.Component {
 						})
 					}
 				}else{
-					this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
+					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau'},()=>{
 						let myModal = new Modal(document.getElementById('tb_err'));
 						myModal.show();
 					})
@@ -589,7 +593,7 @@ class Lucky_Rotation extends React.Component {
 								})
 							}
 						}else{
-							this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
+							this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau'},()=>{
 								let myModal = new Modal(document.getElementById('tb_err'));
 								myModal.show();
 							})
@@ -649,7 +653,7 @@ class Lucky_Rotation extends React.Component {
 						})
 					}
 				}else{
-					this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
+					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau'},()=>{
 						let myModal = new Modal(document.getElementById('tb_err'));
 						myModal.show();
 					})
@@ -807,7 +811,7 @@ class Lucky_Rotation extends React.Component {
 						})
 					}
 				}else{
-					this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
+					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau'},()=>{
 						let myModal = new Modal(document.getElementById('tb_err'));
 						myModal.show();
 					})
@@ -837,7 +841,7 @@ class Lucky_Rotation extends React.Component {
 	// 				this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'})
 	// 			}
 	// 		}else{
-	// 			this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
+	// 			this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau'},()=>{
 	// 				$('#tb_err').modal('show');
 	// 			})
 	// 		}
@@ -845,38 +849,46 @@ class Lucky_Rotation extends React.Component {
 	// }
 
 	getItem=(user, item)=>{
-		this.props.getItemAward(user.Token, item.AwardId).then(()=>{
-			// $('#Loading').modal('hide');
-			var data=this.props.dataItemAward;
-			if(data!==undefined){
-				if(data.Status===0){
-					this.getDataTuDo(user)
-					if(data.Data.Type ==='BankTransferVoucher'){
-						this.setState({dataItem:data.Data},()=>{
-							$("#Modalmoquavoucher").modal('show');
+		if(user!==null){
+			var data= {...info}
+			data.userId= user.uid;
+			data.id=item.id;
+			this.props.getItemAward(user.access_token, data).then(()=>{
+				var d=this.props.dataItemAward;
+				if(d!==undefined){
+					if(d.code>0){
+						this.setState({dataItem:data.data}, ()=>{
+							if(data.data.rewardType===31){
+								let myModal = new Modal(document.getElementById('mq_bank'));
+								myModal.show();
+							}else{
+								let myModal = new Modal(document.getElementById('mq'));
+								myModal.show();
+							}
 						})
 					}else{
-						this.setState({dataItem:data.Data},()=>{
-							$("#Modalmoqua").modal('show');
+					
+						this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'}, ()=>{
+							let myModal = new Modal(document.getElementById('tb_err'));
+							myModal.show();
 						})
 					}
-				}else if(data.Status===1){
-					this.setState({message_error:data.Message}, ()=>{
-						$('#myModal11').modal('show');
-					})
-				}else if(data.Status===3){
-					this.logoutAction();
 				}else{
-					this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'}, ()=>{
-						$('#myModal11').modal('show');
+					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau.'},()=>{
+						let myModal = new Modal(document.getElementById('tb_err'));
+						myModal.show();
 					})
 				}
-			}else{
-				this.setState({message_error:'Server đang lỗi, vui lòng truy cập lại sau.'},()=>{
-					$('#tb_err').modal('show');
-				})
-			}
-		});
+				
+			});
+		}else {
+			let myModal = new Modal(document.getElementById('tb_web'));
+			myModal.show();
+		}
+	}
+
+	viewItem=()=>{
+		
 	}
 
 	closePopupAuto=()=>{
@@ -1480,10 +1492,10 @@ class Lucky_Rotation extends React.Component {
 										<tr>
 											{listTuDo.map((obj, key) => (
 												<tr key={key} class="bg-border-bottom">
-													<td class="border-start-0 py-1">{obj.AwardName}</td>
-													<td class="ps-1 py-1">{obj.AwardDisplay}</td>
-													<td className="ps-1 py-1">{this.timeConverter(obj.RewardTime)}</td>
-													{(obj.Status===1)?(<td class="border-end-0 ps-1 py-1"><a class="text-primary"  style={{cursor:'pointer'}} onClick={()=>this.getItem(user, obj)}>Mở quà</a></td>):(<td class="p-1 w-auto valign-middle position-relative"><a class="text-primary"  style={{cursor:'pointer'}} onClick={()=>this.getItem(user, obj)}>Mở quà</a><span class="badge badge-pill badge-danger position-absolute noti-tudo">!</span></td>)}
+													<td class="border-start-0 py-1">{obj.rewardName}</td>
+													<td class="ps-1 py-1">{obj.amount}</td>
+													<td className="ps-1 py-1">{this.timeConverter(obj.createdTime)}</td>
+													{(obj.receiverStatus===2)?(<td class="border-end-0 ps-1 py-1"><a class="text-primary"  style={{cursor:'pointer'}} onClick={()=>this.viewItem(user, obj)}>Xem quà</a></td>):(<td class="border-end-0 ps-1 py-1"><a class="text-primary"  style={{cursor:'pointer'}} onClick={()=>this.getItem(user, obj)}>Mở quà</a></td>)}
 													
 												</tr>
 											))}		
@@ -1562,24 +1574,44 @@ class Lucky_Rotation extends React.Component {
 
 						{/* <!-- Modal body --> */}
 						<div class="modal-body bg-pop-mq-body p-2rem py-1 font-3vw text-white">
-							<div class="tab-content">
 							<div class="container text-center p-3 font-UTMFacebookKT">
-								<p class="h4">Thẻ Scoin mệnh giá: <br /> 5.000.000 vnđ</p>
-								<table class="table table-borderless text-white">
-									<tbody>
-									<tr class="border-bottom">
-										<td class="p-1">Mã code:</td>
-										<td class="p-1">xxxxxxxxxxxx</td>
-									</tr>
-									<tr class="border-bottom">
-										<td class="p-1">Serial:</td>
-										<td class="p-1">xxxxxxxxxxxx</td>
-									</tr>
-									</tbody>
-								</table>
-								<p class="card-text text-white">Hạn sử dụng: xx/xx/20xx</p>
-								<p class="card-text"></p>
-							</div>
+								{(dataItem.rewardType===6 || dataItem.rewardType===22)?(<p style={{textAlign:'center', fontSize:20, color:'green'}}>{dataItem.responseMesage}</p>):(<div></div>)}
+								{(dataItem.rewardType===21)?(<div class="card-body text-center">
+									<p class="card-text mb-4 h6 font-weight-bold text-shadow">Thẻ Scoin mệnh giá: <br /> {dataItem.price ? this.numberWithCommas(dataItem.price) : 0} vnđ</p>
+									<table class="table table-borderless text-white">
+										<tbody>
+										<tr class="border-bottom">
+											<td class="p-1">Mã code:</td>
+											<td class="p-1">{dataItem.cardCode}</td>
+										</tr>
+										<tr class="border-bottom">
+											<td class="p-1">Serial:</td>
+											<td class="p-1">{dataItem.cardSerial}</td>
+										</tr>
+										</tbody>
+									</table>
+									<p class="card-text text-secondary">Hạn sử dụng: {this.timeConverter(dataItem.cardEndDate)} </p>
+									<p class="card-text"></p>
+								</div>):(<div></div>)}
+
+								{(dataItem.rewardType===32)?(<div class="card-body text-center">
+									<p class="card-text mb-4 h6 font-weight-bold text-shadow">Thẻ ScoinVoucher mệnh giá: <br /> {dataItem.price ? this.numberWithCommas(dataItem.price) : 0} vnđ</p>
+									<table class="table table-borderless text-white">
+										<tbody>
+										<tr class="border-bottom">
+											<td class="p-1">Mã code:</td>
+											<td class="p-1">{dataItem.cardCode}</td>
+										</tr>
+										<tr class="border-bottom">
+											<td class="p-1">Serial:</td>
+											<td class="p-1">{dataItem.cardSerial}</td>
+										</tr>
+										</tbody>
+									</table>
+									<p class="card-text text-secondary">Ngày bắt đầu: {this.timeConverter(dataItem.cardStartDate)} <br />Ngày kết thúc: {this.timeConverter(dataItem.cardEndDate)}</p>
+									<p class="card-text"></p>
+								</div>):(<div></div>)}
+							
 							</div>
 							
 						</div>
@@ -1592,6 +1624,47 @@ class Lucky_Rotation extends React.Component {
 					</div>
 				</div>
 				{/* <!-- End The Modal Mở quà --> */}
+
+				{/* <!-- The Modal Modalmoquavoucher --> */}
+				<div class="modal fade" id="mq_bank">
+					<div class="modal-dialog modal-dialog-scrollable">
+						<div class="modal-content modal-mq bg-transparent border-0">
+
+						{/* <!-- Modal Header --> */}
+						<div class="modal-header bg-pop-mq-top border-0 d-block pb-0 position-relative" style={{height: "18vw", maxHeight: 95}}>
+							<button type="button" class="btn-close-white btn-close float-end m-0" data-bs-dismiss="modal"></button>
+						</div>
+						
+
+						{/* <!-- Modal body --> */}
+						<div class="modal-body bg-pop-mq-body p-2rem py-1 font-3vw text-white">
+								<div class="container text-center p-3 font-UTMFacebookKT">
+									<div class="card-body text-center">
+										<p class="card-text mb-4 font-size-18 font-weight-bold text-shadow">Tài khoản <span class="text-dark">{user.nick_name}</span> nhận được thẻ Scoin Voucher 20K khi nạp Scoin qua Chuyển khoản Ngân hàng. </p>
+										<table class="table table-borderless">
+											<tbody>
+											<tr class="border-bottom">
+												<td class="p-1 font-size-18">Bạn hãy nạp Scoin để nhận khuyến mại nhé!</td>
+											</tr>
+											<tr class="border-bottom">
+												<td class="p-1 text-secondary">Hạn sử dụng: {dataItem.cardEndDate}</td>
+
+											</tr>
+											</tbody>
+										</table>
+										<p class="text-center"><a href="https://scoin.vn/nap-tien#9" title="Nạp Scoin" target="_blank"><img src={btn_nap_scoin} width="100" hspace="10" alt="" /></a></p>
+									</div>
+								</div>
+							
+						</div>
+						{/* <!-- Modal footer --> */}
+						<div class="modal-footer bg-pop-mq-bottom border-0">
+							
+						</div>
+
+						</div>
+					</div>
+				</div>
 
 				{/* <!-- The Modal Thông báo --> */}
 				<div class="modal fade" id="tb_err">
@@ -1708,6 +1781,8 @@ class Lucky_Rotation extends React.Component {
 }
 
 const mapStateToProps = state => ({
+	dataViewItemAward:state.lucky.dataViewItemAward,
+	dataContentGuide: state.lucky.dataContentGuide,
 	dataCheckPlace:state.lucky.dataCheckPlace,
 	dataBalances:state.lucky.dataBalances,
 	dataBetting:state.lucky.dataBetting,
@@ -1740,6 +1815,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators({
 	getMoreSessions,
 	getItemAward,
+	viewItemAward,
 	getHistoryTuDo,
 	getData,
 	getTuDo,
@@ -1754,7 +1830,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 	sessionUpcomming,
 	getBalances,
 	betting,
-	checkPlace
+	checkPlace,
+	getContentGuide
 }, dispatch)
 
 

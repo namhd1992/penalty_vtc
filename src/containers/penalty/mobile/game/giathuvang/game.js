@@ -102,7 +102,7 @@ var increase_y=0;
 var width = window.innerWidth;
 var height = window.innerHeight;
 var delta_x=width/1200;
-var delta_y=height/  675;
+var delta_y=height/675;
 var is_ball_lasted=false;
 var result=0;
 var delta_alpha=1;
@@ -897,9 +897,12 @@ export default class Game extends Phaser.Scene{
         //destroy it
         var _this=this;
         this.back = this.add.sprite(600*delta_x, (675/2)*delta_y, "bg_pop_ingame");
+        this.back.setScale(delta_x,delta_y)
         this.closeButton = this.add.sprite(470*delta_x, 480*delta_y, "btn_dongy");
+        this.closeButton.setScale(delta_x,delta_y)
         this.thoatButton = this.add.sprite(730*delta_x, 480*delta_y, "btn_thoat");
-        this.text1 = this.add.text(400*delta_x, 300*delta_y, text, { font: "18px Arial", fill: "#000000", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
+        this.thoatButton.setScale(delta_x,delta_y)
+        this.text1 = this.add.text(400*delta_x, 300*delta_y, text, { font: `${18*delta_x}px Arial`, fill: "#000000", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
         this.closeButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             _this.hideBox()
         })
@@ -926,10 +929,10 @@ export default class Game extends Phaser.Scene{
     }
     
     autoPlay(){
-        var x1=this.getRandomInt(240, 950);
-        var x2=this.getRandomInt(240, 950);
-        var y1=this.getRandomInt(470, 630);
-        var y2=this.getRandomInt(215, 470);
+        var x1=this.getRandomInt(240*delta_x, 950*delta_x);
+        var x2=this.getRandomInt(240*delta_x, 950*delta_x);
+        var y1=this.getRandomInt(470*delta_y, 630*delta_y);
+        var y2=this.getRandomInt(215*delta_y, 470*delta_y);
         var p1=[x1, y1];
         var p2=[x2, y2];
         this.play(p1, p2);
