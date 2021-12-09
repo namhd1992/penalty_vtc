@@ -867,7 +867,6 @@ export const getContentGuide = (data) => {
 		})
 		var url = Ultilities.base_url() + "/content/api/v1/news/firstordefault"
 		return axios.post(url, data).then(function (response) {
-			console.log('AAAAAAAAAAAAAA',response)
 			dispatch({
 				type: CONTENT_GUIDE,
 				data: response.data
