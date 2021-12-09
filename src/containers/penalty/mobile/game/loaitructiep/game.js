@@ -110,6 +110,8 @@ var data_game={};
 var isPlay=true;
 var auto_play=false;
 var number_playauto=0;
+var round=1;
+var isPopup=false
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -140,9 +142,16 @@ export default class Game extends Phaser.Scene{
             axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/connect', data, header).then(function (response) {
                 if(response.data !==undefined){
                     if(response.data.code>=0){
-                        if(_this.checkTimeSession(response.data.data.room)){
+                        isPopup=response.data.data.isKnockout;
+                        if(_this.checkTimeSession(response.data.data.room.startTime, response.data.data.room.endTime)){
                             data_game=response.data.data
                             _this.timeRemain(data_game.room.endTime)
+                            round=1;
+                           
+                        }else if(_this.checkTimeSession(response.data.data.room.startBonusTime, response.data.data.room.endBonusTime)){
+                            data_game=response.data.data
+                            _this.timeRemain(data_game.room.endBonusTime)
+                            round=2;
                         }else{
                             window.location.replace('/')
                         }
@@ -599,10 +608,18 @@ export default class Game extends Phaser.Scene{
 
 
         this.input.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, function (pointer) {
-            var p1=[pointer.downX, pointer.downY];
-            var p2=[pointer.upX, pointer.upY];
-            self.play(p1,p2)
+            if(!isPopup){
+                var p1=[pointer.downX, pointer.downY];
+                var p2=[pointer.upX, pointer.upY];
+                self.play(p1,p2)
+            }
+           
         });
+
+        setTimeout(()=>{ 
+            self.showThoat("Bạn đã bị loại, chờ phiên tiếp theo nhé.")
+        }, 1000);
+
 
         // starsIcon.on('pointerup', function () {
         //     this.cre
@@ -819,6 +836,7 @@ export default class Game extends Phaser.Scene{
                         data.serverId=1;
                         data.modeId=3;
                         data.roomId=info_seesion.id;
+                        data.round=round;
                         data.x=positionBall[0];
                         data.y=positionBall[1];
                         data.z=1;
@@ -896,8 +914,11 @@ export default class Game extends Phaser.Scene{
         //destroy it
         var _this=this;
         this.back = this.add.sprite(600*delta_x, (675/2)*delta_y, "bg_pop_ingame");
+        this.back.setScale(delta_x,delta_y)
         this.closeButton = this.add.sprite(470*delta_x, 480*delta_y, "btn_dongy");
+        this.closeButton.setScale(delta_x,delta_y)
         this.thoatButton = this.add.sprite(730*delta_x, 480*delta_y, "btn_thoat");
+        this.thoatButton.setScale(delta_x,delta_y)
         this.text1 = this.add.text(400*delta_x, 300*delta_y, text, { font: "18px Arial", fill: "#000000", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
         this.closeButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             _this.hideBox()
@@ -913,7 +934,20 @@ export default class Game extends Phaser.Scene{
         this.thoatButton.destroy();
         this.text1.destroy();
     }
-    
+
+    showThoat(text) {
+        //just in case the message box already exists
+        //destroy it
+        var _this=this;
+        this.back = this.add.sprite(600*delta_x, (675/2)*delta_y, "bg_pop_ingame");
+        this.back.setScale(delta_x,delta_y)
+        this.thoatButton = this.add.sprite(width/2, 480*delta_y, "btn_thoat");
+        this.thoatButton.setScale(delta_x,delta_y)
+        this.text1 = this.add.text(400*delta_x, 300*delta_y, text, { font: `${18*delta_x}px Arial`, fill: "#000000", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
+        this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+            window.location.replace('/')
+        })
+    }
 
     setBallLine(p1,p2){
         var a=p1[0]-p2[0];

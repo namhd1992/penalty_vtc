@@ -108,6 +108,8 @@ var data_game={};
 var isPlay=true;
 var auto_play=false;
 var number_playauto=0;
+var round=1;
+var isPopup=false;
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -137,12 +139,20 @@ export default class Game extends Phaser.Scene{
             axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/connect', data, header).then(function (response) {
                 if(response.data !==undefined){
                     if(response.data.code>=0){
-                        if(_this.checkTimeSession(response.data.data.room)){
+                        isPopup=response.data.data.isKnockout;
+                        if(_this.checkTimeSession(response.data.data.room.startTime, response.data.data.room.endTime)){
                             data_game=response.data.data
                             _this.timeRemain(data_game.room.endTime)
+                            round=1;
+                           
+                        }else if(_this.checkTimeSession(response.data.data.room.startBonusTime, response.data.data.room.endBonusTime)){
+                            data_game=response.data.data
+                            _this.timeRemain(data_game.room.endBonusTime)
+                            round=2;
                         }else{
                             window.location.replace('/')
                         }
+                       
                     }else{
                         window.location.replace('/')
                     }
@@ -224,6 +234,7 @@ export default class Game extends Phaser.Scene{
         this.add.image(600,338,'background')
         this.goal=this.physics.add.image(600,320,'goal_center')
         this.ball_1=this.add.image(605,530,'ball');
+        
 
         // const soccerAnimation = this.anims.create({
         //     key: 'soccer',
@@ -575,13 +586,20 @@ export default class Game extends Phaser.Scene{
             window.location.replace('/')
         })
 
+        
+
 
         this.input.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, function (pointer) {
-            var p1=[pointer.downX, pointer.downY];
-            var p2=[pointer.upX, pointer.upY];
-            self.play(p1,p2)
-            
+            if(!isPopup){
+                var p1=[pointer.downX, pointer.downY];
+                var p2=[pointer.upX, pointer.upY];
+                self.play(p1,p2)
+            }
         });
+
+        setTimeout(()=>{ 
+            self.showThoat("Bạn đã bị loại, chờ phiên tiếp theo nhé.")
+        }, 500);
 
         // starsIcon.on('pointerup', function () {
         //     this.cre
@@ -600,6 +618,7 @@ export default class Game extends Phaser.Scene{
             this.opt_suttudong.visible=true;
             this.opt_suttudong_checked.visible=false;
         }
+        
         if(play){
             // console.log(result)
            
@@ -803,6 +822,7 @@ export default class Game extends Phaser.Scene{
                         data.serverId=1;
                         data.modeId=3;
                         data.roomId=info_seesion.id;
+                        data.round=round;
                         data.x=positionBall[0];
                         data.y=positionBall[1];
                         data.z=1;
@@ -900,6 +920,19 @@ export default class Game extends Phaser.Scene{
         this.thoatButton.destroy();
         this.text1.destroy();
     }
+
+    showThoat(text) {
+        //just in case the message box already exists
+        //destroy it
+        var _this=this;
+        this.back = this.add.sprite(600, 675/2, "bg_pop_ingame");
+        this.thoatButton = this.add.sprite(600, 480, "btn_thoat");
+        this.text1 = this.add.text(400, 300, text, { font: "18px Arial", fill: "#000000", align:'center', fixedWidth: 400, wordWrap:true});
+        this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+            window.location.replace('/')
+        })
+    }
+
 
     getDataConnect(){
        
@@ -1094,13 +1127,13 @@ export default class Game extends Phaser.Scene{
         }
 	}
 
-    checkTimeSession=(room)=>{
+    checkTimeSession=(start, end)=>{
         var time=Date.now();
-        if(time < room.startTime){
+        if(time < start){
             return false;
         }
         
-        if(time > room.endTime){
+        if(time > end){
             return false;
         }
         return true
