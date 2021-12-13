@@ -1139,6 +1139,108 @@ export default class Game extends Phaser.Scene{
         return true
     }
 
+    loadInitData=()=>{
+        var _this=this;
+        var user = JSON.parse(localStorage.getItem("user"));
+        var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
+        if(user!==null){
+            var data= {...info}
+            data.userId= user.uid;
+            data.gameId=1;
+            data.serverId=1;
+            data.modeId=3;
+            data.roomId=info_seesion.id;
+            data.rakingLimit=10
+            var header = {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${user.access_token}`,
+                    "dataType":"json"
+                }
+            }
+            axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/connect', data, header).then(function (response) {
+                if(response.data !==undefined){
+                    if(response.data.code>=0){
+                        isPopup=response.data.data.isKnockout;
+                        if(_this.checkTimeSession(response.data.data.room.startTime, response.data.data.room.endTime)){
+                            data_game=response.data.data
+                            _this.timeRemain(data_game.room.endTime)
+                            round=1;
+                           
+                        }else if(_this.checkTimeSession(response.data.data.room.startBonusTime, response.data.data.room.endBonusTime)){
+                            data_game=response.data.data
+                            _this.timeRemain(data_game.room.endBonusTime)
+                            round=2;
+                        }else{
+                            window.location.replace('/')
+                        }
+                       
+                    }else{
+                        window.location.replace('/')
+                    }
+                }else{
+                    window.location.replace('/')
+                }
+            }).catch(function (error) {
+                window.location.replace('/')
+            })
+        }else{
+            window.location.replace('/')
+        }
+    }
+
+
+
+    updateDate=()=>{
+        var _this=this;
+        var user = JSON.parse(localStorage.getItem("user"));
+        var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
+        if(user!==null){
+            var data= {...info}
+            data.userId= user.uid;
+            data.gameId=1;
+            data.serverId=1;
+            data.modeId=3;
+            data.roomId=info_seesion.id;
+            data.rakingLimit=10
+            var header = {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${user.access_token}`,
+                    "dataType":"json"
+                }
+            }
+            axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/state', data, header).then(function (response) {
+                if(response.data !==undefined){
+                    if(response.data.code>=0){
+                        isPopup=response.data.data.isKnockout;
+                        if(_this.checkTimeSession(response.data.data.room.startTime, response.data.data.room.endTime)){
+                            data_game=response.data.data
+                            _this.timeRemain(data_game.room.endTime)
+                            round=1;
+                           
+                        }else if(_this.checkTimeSession(response.data.data.room.startBonusTime, response.data.data.room.endBonusTime)){
+                            data_game=response.data.data
+                            _this.timeRemain(data_game.room.endBonusTime)
+                            round=2;
+                        }else{
+                            window.location.replace('/')
+                        }
+                       
+                    }else{
+                        window.location.replace('/')
+                    }
+                }else{
+                    window.location.replace('/')
+                }
+            }).catch(function (error) {
+                window.location.replace('/')
+            })
+        }else{
+            window.location.replace('/')
+        }
+    }
+
 
 }
 
