@@ -32,6 +32,7 @@ import {
 	getData
 } from '../../../modules/profile'
 
+import loading from './images/loading.gif';
 import btn_nap_scoin from './images/btn-nap-scoin.png';
 
 import img_ingame from './images/img-ingame.png';
@@ -1811,6 +1812,17 @@ class Lucky_Rotation extends React.Component {
 						</div>
 					</div>
 					{/* <!-- End The Modal Đặt cược --> */}
+
+					{/* <!-- The Modal Loading--> */}
+				{(waiting)?(<div class="modal fade show modal-backdrop" style={{zIndex: 10015, display: "block", paddingRight: 4}} aria-modal="true" role="dialog">
+					<div class="modal-dialog d-flex justify-content-center align-items-center h-75">
+						<img src={loading} width="32" />
+					</div>
+				</div>):(<div class="modal fade" id="Loading" style={{zIndex: 10015, display: "none"}} aria-hidden="true">
+					<div class="modal-dialog d-flex justify-content-center align-items-center h-75">
+						<img src={loading} width="32" />
+					</div>
+				</div>)}
 
 
 

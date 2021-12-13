@@ -31,7 +31,7 @@ import {
 	getData
 } from '../../../modules/profile';
 
-
+import loading from './images/loading.gif';
 import btn_nap_scoin from './images/btn-nap-scoin.png';
 import img_ingame from './images/img-ingame.png';
 import img_diem from './images/img-diem.png';
@@ -40,24 +40,7 @@ import img_toup_scoin from './images/img-toup-scoin.png';
 import img_thescoinvoucher from './images/img-thescoinvoucher.png';
 
 import avatar from './images/avatar.png';
-import bg_bottom from './images/bg-bottom.png';
-import bg_bvd from './images/bg-bvd.png';
-import bg_giaithuong from './images/bg-giaithuong.png';
-import bg_logo_group from './images/bg-logo-group.png';
-import bg_page from './images/bg-page.png';
-import bg_page_play from './images/bg-page-play.png';
-import bg_popup_gt_top from './images/bg-popup-gt-top.png';
-import bg_popup_hd from './images/bg-popup-hd.png';
-import bg_popup_hd_body from './images/bg-popup-hd-body.png';
-import bg_popup_hd_bottom from './images/bg-popup-hd-bottom.png';
-import bg_popup_hd_top from './images/bg-popup-hd-top.png';
-import bg_popup_mq_top from './images/bg-popup-mq-top.png';
-import bg_popup_tb_top from './images/bg-popup-tb-top.png';
-import bg_popup_td_top from './images/bg-popup-td-top.png';
-import bg_taikhoan from './images/bg-taikhoan.png';
-import bg_title_loaitructiep from './images/bg-title-loaitructiep.png';
-import bg_top from './images/bg-top.png';
-import bg_top_menu from './images/bg-top-menu.png';
+
 import btn_dangnhap from './images/btn-dangnhap.png';
 import btn_dang_nhap from './images/btn-dang-nhap.png';
 import btn_duatop from './images/btn-duatop.png';
@@ -1768,6 +1751,16 @@ class Lucky_Rotation extends React.Component {
 				{/* <!-- End The Modal Đặt cược --> */}
 					
 					
+					{/* <!-- The Modal Loading--> */}
+				{(waiting)?(<div class="modal fade show modal-backdrop" style={{zIndex: 10015, display: "block", paddingRight: 4}} aria-modal="true" role="dialog">
+					<div class="modal-dialog d-flex justify-content-center align-items-center h-75">
+						<img src={loading} width="32" />
+					</div>
+				</div>):(<div class="modal fade" id="Loading" style={{zIndex: 10015, display: "none"}} aria-hidden="true">
+					<div class="modal-dialog d-flex justify-content-center align-items-center h-75">
+						<img src={loading} width="32" />
+					</div>
+				</div>)}
 
 
 			
