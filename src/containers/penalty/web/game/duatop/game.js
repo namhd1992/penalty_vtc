@@ -109,6 +109,9 @@ var data_game={};
 var isPlay=true;
 var auto_play=false;
 var number_playauto=0;
+var first_play=true;
+var number_goal=0;
+
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -117,6 +120,9 @@ export default class Game extends Phaser.Scene{
 
 
     init(data){
+        // if(first_play){
+        //     this.loadInitData();
+        // }
         var _this=this;
         var reg = {};
         var user = JSON.parse(localStorage.getItem("user"));
@@ -820,6 +826,7 @@ export default class Game extends Phaser.Scene{
                         axios.post(Ultilities.base_url() +'/lobby/api/v1/race/playing', data, header).then(function (response) {
                             if(response.data.code>=0){
                                 isPlay=false;
+                                first_play=false;
                                 result=response.data.data.result; 
                                 _this.setBallLine(p1,p2)
                                 var g = _this.getRandomInt(0,2)
@@ -1105,6 +1112,87 @@ export default class Game extends Phaser.Scene{
             return false;
         }
         return true
+    }
+
+    loadInitData=()=>{
+        var _this=this;
+        var user = JSON.parse(localStorage.getItem("user"));
+        var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
+        if(user!==null){
+            var data= {...info}
+            data.userId= user.uid;
+            data.gameId=1;
+            data.serverId=1;
+            data.modeId=1;
+            data.roomId=info_seesion.id;
+            data.rakingLimit=10
+            var header = {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${user.access_token}`,
+                    "dataType":"json"
+                }
+            }
+            axios.post(Ultilities.base_url() +'/lobby/api/v1/race/connect', data, header).then(function (response) {
+                if(response.data !==undefined){
+                    if(response.data.code>=0){
+                        if(_this.checkTimeSession(response.data.data.room)){
+                            data_game=response.data.data
+                            _this.timeRemain(data_game.room.endTime)
+                        }else{
+                            window.location.replace('/')
+                        }
+                    }else{
+                        window.location.replace('/')
+                    }
+                }else{
+                    window.location.replace('/')
+                }
+            }).catch(function (error) {
+                window.location.replace('/')
+            })
+        }else{
+            window.location.replace('/')
+        }
+    }
+
+
+
+    updateDate=()=>{
+        var _this=this;
+        var user = JSON.parse(localStorage.getItem("user"));
+        var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
+        if(user!==null){
+            var data= {...info}
+            data.userId= user.uid;
+            data.gameId=1;
+            data.serverId=1;
+            data.modeId=1;
+            data.roomId=info_seesion.id;
+            data.rakingLimit=10
+            var header = {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${user.access_token}`,
+                    "dataType":"json"
+                }
+            }
+            axios.post(Ultilities.base_url() +'/lobby/api/v1/race/state', data, header).then(function (response) {
+                if(response.data !==undefined){
+                    if(response.data.code>=0){
+                        
+                    }else{
+                        window.location.replace('/')
+                    }
+                }else{
+                    window.location.replace('/')
+                }
+            }).catch(function (error) {
+                window.location.replace('/')
+            })
+        }else{
+            window.location.replace('/')
+        }
     }
 
 
