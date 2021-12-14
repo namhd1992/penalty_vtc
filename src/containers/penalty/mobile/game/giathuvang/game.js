@@ -1115,7 +1115,7 @@ export default class Game extends Phaser.Scene{
                     window.location.replace('/')
                 }
             }).catch(function (error) {
-                // window.location.replace('/')
+                window.location.replace('/')
             })
         }else{
             window.location.replace('/')
