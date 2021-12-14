@@ -163,7 +163,8 @@ class Lucky_Rotation extends React.Component {
 			listSanqua:[],
 			message_sanqua_empty:'',
 			info_seesion:{},
-			points:0
+			points:0,
+			timeServer:0
 		};
 	}
 	componentWillMount(){
@@ -399,7 +400,7 @@ class Lucky_Rotation extends React.Component {
 				console.log(data)
 				if(data!==undefined){
 					if(data.code > 0){
-						this.setState({listSesstions: new_room},()=>{
+						this.setState({listSesstions: new_room, timeServer:data.data.timeServer},()=>{
 							let myModal = new Modal(document.getElementById('gt'));
 							myModal.show();
 						})
@@ -438,7 +439,7 @@ class Lucky_Rotation extends React.Component {
 					if(data.code > 0){
 						if(data.data!==null){
 							var info_seesion=data.data.room;
-							this.setState({info_seesion:info_seesion, user_data: data.data.user})
+							this.setState({info_seesion:info_seesion, user_data: data.data.user, timeServer: data.data.timeServer})
 							localStorage.setItem("info_seesion", JSON.stringify(info_seesion));
 							switch (type) {
 								case 1:
@@ -486,7 +487,7 @@ class Lucky_Rotation extends React.Component {
 
 	checkBetting=(type, title_module)=>{
 		const {info_seesion, user_data, user}=this.state;
-		var time=Date.now();
+		var time=this.state.timeServer;
 		this.setState({type_modeId: type, title_module:title_module})
 		
 		
@@ -697,20 +698,20 @@ class Lucky_Rotation extends React.Component {
 
 
 
-	timeRemain=(times)=>{
-		var _this=this;
-		setInterval(()=>{
-			var time=(times-Date.now())/1000;
-			if(time>0){
-				var day=Math.floor(time/86400) > 9 ? Math.floor(time/86400) : `0${Math.floor(time/86400)}`;
-				var hour=Math.floor((time%86400)/3600) > 9 ? Math.floor((time%86400)/3600) : `0${Math.floor((time%86400)/3600)}`;
-				var minute=Math.floor(((time%86400)%3600)/60) > 9 ? Math.floor(((time%86400)%3600)/60) : `0${Math.floor(((time%86400)%3600)/60)}`;
-				var second=Math.ceil(((time%86400)%3600)%60) > 9 ? Math.ceil(((time%86400)%3600)%60) : `0${Math.ceil(((time%86400)%3600)%60)}`;
-				_this.setState({day:day, hour: hour, minute: minute, second:second})
-				// _this.setState({hour_live: hour, minute_live: minute, second_live:second})
-			}
-		}, 1000);
-	}
+	// timeRemain=(times)=>{
+	// 	var _this=this;
+	// 	setInterval(()=>{
+	// 		var time=(times-Date.now())/1000;
+	// 		if(time>0){
+	// 			var day=Math.floor(time/86400) > 9 ? Math.floor(time/86400) : `0${Math.floor(time/86400)}`;
+	// 			var hour=Math.floor((time%86400)/3600) > 9 ? Math.floor((time%86400)/3600) : `0${Math.floor((time%86400)/3600)}`;
+	// 			var minute=Math.floor(((time%86400)%3600)/60) > 9 ? Math.floor(((time%86400)%3600)/60) : `0${Math.floor(((time%86400)%3600)/60)}`;
+	// 			var second=Math.ceil(((time%86400)%3600)%60) > 9 ? Math.ceil(((time%86400)%3600)%60) : `0${Math.ceil(((time%86400)%3600)%60)}`;
+	// 			_this.setState({day:day, hour: hour, minute: minute, second:second})
+	// 			// _this.setState({hour_live: hour, minute_live: minute, second_live:second})
+	// 		}
+	// 	}, 1000);
+	// }
 
 
 	timeConverter=(time)=>{
@@ -990,9 +991,10 @@ class Lucky_Rotation extends React.Component {
 		}
 		return obj;
 	}
-	timeModalGiaiThuowng=(time)=>{
+	
+	timeModalGiaiThuong=(time)=>{
 		var start=time.substring(time.indexOf("(") +1,time.indexOf(")"));
-		var times=(start-Date.now())/1000;
+		var times=(start-this.state.timeServer)/1000;
 		var s='0h : 0m :0s';
 		if(times>0){
 			var day=Math.floor(times/86400) > 9 ? Math.floor(times/86400) : `0${Math.floor(times/86400)}`;
@@ -1021,11 +1023,11 @@ class Lucky_Rotation extends React.Component {
 	
 	TimeModalGiaiThuong=(props)=>{
 		var obj=props.obj;
-		var t=Date.now();
+		var t=this.state.timeServer;
 		var startTime=obj.startTime;
 		var endTime=obj.endTime;
 		if(startTime > t){
-			return <p class="font-size-16 mb-0">Còn: {this.timeModalGiaiThuowng(obj.startTime)}</p>;
+			return <p class="font-size-16 mb-0">Còn: {this.timeModalGiaiThuong(obj.startTime)}</p>;
 		}
 		if(t > endTime){
 			return <p class="font-size-16 mb-0 text-danger">Đã kết thúc {this.timeEnd(obj.endTime)}</p>;
@@ -1038,7 +1040,7 @@ class Lucky_Rotation extends React.Component {
 
 	HetGio=(props)=>{
 		var obj=props.obj;
-		var t=Date.now();
+		var t=this.state.timeServer;
 		var endTime=obj.endTime;
 		if(t > endTime){
 			return <img class="img-dacochu" src={img_dacochu} alt="" width="30%" />;

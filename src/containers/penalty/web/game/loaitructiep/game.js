@@ -108,6 +108,13 @@ var data_game={};
 var isPlay=true;
 var auto_play=false;
 var number_playauto=0;
+var first_play=true;
+var number_goal=0;
+var _rankings=[];
+var _rewards=[];
+var _user={};
+var _room={};
+var _timeServer=0;
 var round=1;
 var isPopup=false;
 export default class Game extends Phaser.Scene{
@@ -117,67 +124,24 @@ export default class Game extends Phaser.Scene{
 
 
     init(data){
-        var _this=this;
-        var reg = {};
-        var user = JSON.parse(localStorage.getItem("user"));
-        var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
-        if(user!==null){
-            var data= {...info}
-            data.userId= user.uid;
-            data.gameId=1;
-            data.serverId=1;
-            data.modeId=3;
-            data.roomId=info_seesion.id;
-            data.rakingLimit=10
-            var header = {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${user.access_token}`,
-                    "dataType":"json"
-                }
-            }
-            axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/connect', data, header).then(function (response) {
-                if(response.data !==undefined){
-                    if(response.data.code>=0){
-                        isPopup=response.data.data.isKnockout;
-                        if(_this.checkTimeSession(response.data.data.room.startTime, response.data.data.room.endTime)){
-                            data_game=response.data.data
-                            _this.timeRemain(data_game.room.endTime)
-                            round=1;
-                           
-                        }else if(_this.checkTimeSession(response.data.data.room.startBonusTime, response.data.data.room.endBonusTime)){
-                            data_game=response.data.data
-                            _this.timeRemain(data_game.room.endBonusTime)
-                            round=2;
-                        }else{
-                            window.location.replace('/')
-                        }
-                       
-                    }else{
-                        window.location.replace('/')
-                    }
-                }else{
-                    window.location.replace('/')
-                }
-            }).catch(function (error) {
-                window.location.replace('/')
-            })
-        }else{
-            window.location.replace('/')
+        if(first_play){
+            this.loadInitData();
         }
     }
     
     preload(){
         var seft=this;
-        var progress = this.add.graphics();
+        if(first_play){
+            var progress = this.add.graphics();
 
-        this.load.on('progress', function (value) {
-            seft.add.text(550,  300, 'Loading...', { font: "40px Arial", fill: "#ffffff" });
-        });
-    
-        this.load.on('complete', function () {
-            progress.destroy();
-        });
+            this.load.on('progress', function (value) {
+                seft.add.text(550,  300, 'Loading...', { font: "40px Arial", fill: "#ffffff" });
+            });
+        
+            this.load.on('complete', function () {
+                progress.destroy();
+            });
+        }
         
         this.load.image('background', backgound);
         this.load.image('goal_center', goal_center);
@@ -294,7 +258,7 @@ export default class Game extends Phaser.Scene{
             key: 'ball_goal',
             frames: 'ball_collision_goal',
             frameRate: 10,
-            repeat: -1
+            repeat: 6
         };
         this.anims.create(ball_collision_goal_config);
 
@@ -489,7 +453,7 @@ export default class Game extends Phaser.Scene{
             key: 'ball_keeper',
             frames: 'ball_collision_keeper',
             frameRate: 10,
-            repeat: -1
+            repeat: 6
         };
         this.anims.create(ball_collision_keeper_config);
 
@@ -730,11 +694,6 @@ export default class Game extends Phaser.Scene{
                                 this.ball_collision_goal_sprite.x -=1*increase_x;
                                 this.ball_collision_goal_sprite.y +=1.7*k;
                             }
-                        }else{
-                            setTimeout(()=>{ 
-                                this.ball_collision_goal_sprite.stop()
-                            }, 500);
-                            
                         }
                     }
                     if(result===3){
@@ -751,11 +710,6 @@ export default class Game extends Phaser.Scene{
                                 this.ball_collision_keeper_sprite.x -=1*increase_x;
                                 this.ball_collision_keeper_sprite.y +=1.7*k;
                             }
-                        }else{
-                            setTimeout(()=>{ 
-                                this.ball_collision_keeper_sprite.stop()
-                            }, 1000);
-                            
                         }
                     }
                 } 
@@ -781,20 +735,20 @@ export default class Game extends Phaser.Scene{
 
         if(Object.keys(data_game).length !== 0){
             this.time_update += delta;
-            var len_ranking=data_game.rankings.length;
+            var len_ranking=_rankings.length;
             var tk=``;
             var p=``;
             if(len_ranking > 0){
                 for (let i = 0; i < len_ranking; i++) {
-                    tk +=`${data_game.rankings[i].userName} \n`
-                    p +=`${data_game.rankings[i].winCount} \n`
+                    tk +=`${_rankings[i].userName} \n`
+                    p +=`${_rankings[i].winCount} \n`
                 }
             }
             this.txt_ranking_acc.setText(tk);
             this.txt_ranking_point.setText(p);
-            this.txt_banthang.setText(data_game.summary.winCount)
-            this.txt_giaithuong.setText(`Giải thưởng: ${data_game.rewards[0].name}`)
-            this.txt_points.setText(`Lượt: ${data_game.user.betAmount}`)
+            this.txt_banthang.setText(number_goal)
+            this.txt_giaithuong.setText(`Giải thưởng: ${_rewards[0].name}`)
+            this.txt_points.setText(`Lượt: ${_user.betAmount}`)
 
             while (this.time_update > 1000) {
                 this.timeRemain(data_game.room.endTime)
@@ -842,7 +796,12 @@ export default class Game extends Phaser.Scene{
                                 result=response.data.data.result; 
                                 _this.setBallLine(p1,p2)
                                 var g = _this.getRandomInt(0,2)
-                                var kg = _this.getRandomInt(1,15)
+                                var kg = 0;
+                                for (let i = 1; i < 16; i++) {
+                                    kg=_this.getRandomInt(1,15);
+                                    if(kg!==keeper[0])
+                                    break;
+                                }
                                 setTimeout(()=>{ 
                                     play=true;
                                 }, 500);
@@ -857,6 +816,14 @@ export default class Game extends Phaser.Scene{
                                     }
                                    
                                 }, 700);
+
+                                setTimeout(()=>{ 
+                                    if(result===2){
+                                       number_goal+=1;
+                                    }
+                                    _this.updateData()
+                                }, 2000);
+
                                 _this.soccer_kick_left_sprite.visible=true;
                                 _this.soccer_kick_left_sprite.play("kick_left")
                                 
@@ -873,7 +840,7 @@ export default class Game extends Phaser.Scene{
                                     _this.registry.destroy();
                                     _this.events.off();
                                     _this.scene.restart();
-                                }, 5000);
+                                }, 4000);
                             }else{
                                 // console.log("Server đang lỗi.")
                                 _this.showMessageBox(response.data.message)
@@ -1113,22 +1080,24 @@ export default class Game extends Phaser.Scene{
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
+
     timeRemain=(times)=>{
         
-        var time=(times-Date.now())/1000;
+        var time=(times - _timeServer)/1000;
         if(time>0){
             var day=Math.floor(time/86400) > 9 ? Math.floor(time/86400) : `0${Math.floor(time/86400)}`;
             var hour=Math.floor((time%86400)/3600) > 9 ? Math.floor((time%86400)/3600) : `0${Math.floor((time%86400)/3600)}`;
             var minute=Math.floor(((time%86400)%3600)/60) > 9 ? Math.floor(((time%86400)%3600)/60) : `0${Math.floor(((time%86400)%3600)/60)}`;
             var second=Math.ceil(((time%86400)%3600)%60) > 9 ? Math.ceil(((time%86400)%3600)%60) : `0${Math.ceil(((time%86400)%3600)%60)}`;
+            _timeServer +=1000
             if(this.txt_time!==undefined)
             this.txt_time.setText(`Còn: ${hour}h${minute}p${second}`);
            
         }
 	}
 
-    checkTimeSession=(start, end)=>{
-        var time=Date.now();
+    checkTimeSession=(start, end, data)=>{
+        var time=data.timeServer;
         if(time < start){
             return false;
         }
@@ -1162,12 +1131,12 @@ export default class Game extends Phaser.Scene{
                 if(response.data !==undefined){
                     if(response.data.code>=0){
                         isPopup=response.data.data.isKnockout;
-                        if(_this.checkTimeSession(response.data.data.room.startTime, response.data.data.room.endTime)){
+                        if(_this.checkTimeSession(response.data.data.room.startTime, response.data.data.room.endTime, response.data.data)){
                             data_game=response.data.data
                             _this.timeRemain(data_game.room.endTime)
                             round=1;
                            
-                        }else if(_this.checkTimeSession(response.data.data.room.startBonusTime, response.data.data.room.endBonusTime)){
+                        }else if(_this.checkTimeSession(response.data.data.room.startBonusTime, response.data.data.room.endBonusTime, response.data.data)){
                             data_game=response.data.data
                             _this.timeRemain(data_game.room.endBonusTime)
                             round=2;
@@ -1234,7 +1203,7 @@ export default class Game extends Phaser.Scene{
                     window.location.replace('/')
                 }
             }).catch(function (error) {
-                window.location.replace('/')
+                // window.location.replace('/')
             })
         }else{
             window.location.replace('/')
