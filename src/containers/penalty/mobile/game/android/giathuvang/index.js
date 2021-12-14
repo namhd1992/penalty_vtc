@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Phaser from 'phaser'
 import { IonPhaser } from '@ion-phaser/react';
 import BootScene from './bootScene';
-import rotate from '../../../assert/rotate.png';
+import rotate from '../../../../assert/rotate.png';
 
 var width = window.innerWidth;
 var height = window.innerHeight;

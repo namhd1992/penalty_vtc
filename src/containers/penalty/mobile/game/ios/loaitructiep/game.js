@@ -6,81 +6,81 @@ import {
   } from "react-device-detect";
   import bigInt from "big-integer";
 import axios from 'axios';
-import Ultilities from '../../../../../Ultilities/global'
+import Ultilities from '../../../../../../Ultilities/global'
 
-import backgound from '../../../assert/back_mobile.png';
-import ball from '../../../assert/ball.png';
-import goal_center from '../../../assert/goal_center.png';
-import ball_rotation from '../../../assert/ball/ball_sprite.png';
-import ball_rotation_json from '../../../assert/ball/ball_sprite.json';
+import backgound from '../../../../assert/back_mobile.png';
+import ball from '../../../../assert/ball.png';
+import goal_center from '../../../../assert/goal_center.png';
+import ball_rotation from '../../../../assert/ball/ball_sprite.png';
+import ball_rotation_json from '../../../../assert/ball/ball_sprite.json';
 
-import ball_collision_goal from '../../../assert/ball/ball_sprite.png';
-import ball_collision_goal_json from '../../../assert/ball/ball_sprite.json';
+import ball_collision_goal from '../../../../assert/ball/ball_sprite.png';
+import ball_collision_goal_json from '../../../../assert/ball/ball_sprite.json';
 
-import ball_collision_keeper from '../../../assert/ball/ball_sprite.png';
-import ball_collision_keeper_json from '../../../assert/ball/ball_sprite.json';
+import ball_collision_keeper from '../../../../assert/ball/ball_sprite.png';
+import ball_collision_keeper_json from '../../../../assert/ball/ball_sprite.json';
 
-import k_idle from '../../../assert/keep_goal/keep_goal_idle.png';
-import k_idle_json from '../../../assert/keep_goal/keep_goal_idle.json';
+import k_idle from '../../../../assert/keep_goal/keep_goal_idle.png';
+import k_idle_json from '../../../../assert/keep_goal/keep_goal_idle.json';
 
-import center_down from '../../../assert/keep_goal/center_down.png';
-import center_down_json from '../../../assert/keep_goal/center_down.json';
-import center_up from '../../../assert/keep_goal/center_up.png';
-import center_up_json from '../../../assert/keep_goal/center_up.json';
-import side_left_up from '../../../assert/keep_goal/side_left_up.png';
-import side_left_up_json from '../../../assert/keep_goal/side_left_up.json';
-import side_left from '../../../assert/keep_goal/side_left.png';
-import side_left_json from '../../../assert/keep_goal/side_left.json';
-import side_right_up from '../../../assert/keep_goal/side_right_up.png';
-import side_right_up_json from '../../../assert/keep_goal/side_right_up.json';
-import side_right from '../../../assert/keep_goal/side_right.png';
-import side_right_json from '../../../assert/keep_goal/side_right.json';
+import center_down from '../../../../assert/keep_goal/center_down.png';
+import center_down_json from '../../../../assert/keep_goal/center_down.json';
+import center_up from '../../../../assert/keep_goal/center_up.png';
+import center_up_json from '../../../../assert/keep_goal/center_up.json';
+import side_left_up from '../../../../assert/keep_goal/side_left_up.png';
+import side_left_up_json from '../../../../assert/keep_goal/side_left_up.json';
+import side_left from '../../../../assert/keep_goal/side_left.png';
+import side_left_json from '../../../../assert/keep_goal/side_left.json';
+import side_right_up from '../../../../assert/keep_goal/side_right_up.png';
+import side_right_up_json from '../../../../assert/keep_goal/side_right_up.json';
+import side_right from '../../../../assert/keep_goal/side_right.png';
+import side_right_json from '../../../../assert/keep_goal/side_right.json';
 
-import keep_goal_left_1 from '../../../assert/keep_goal/keep_goal_left_1.png';
-import keep_goal_left_1_json from '../../../assert/keep_goal/keep_goal_left_1.json';
-import keep_goal_left_2 from '../../../assert/keep_goal/keep_goal_left_2.png';
-import keep_goal_left_2_json from '../../../assert/keep_goal/keep_goal_left_2.json';
-import keep_goal_left_3 from '../../../assert/keep_goal/keep_goal_left_3.png';
-import keep_goal_left_3_json from '../../../assert/keep_goal/keep_goal_left_3.json';
-import keep_goal_left_4 from '../../../assert/keep_goal/keep_goal_left_4.png';
-import keep_goal_left_4_json from '../../../assert/keep_goal/keep_goal_left_4.json';
+import keep_goal_left_1 from '../../../../assert/keep_goal/keep_goal_left_1.png';
+import keep_goal_left_1_json from '../../../../assert/keep_goal/keep_goal_left_1.json';
+import keep_goal_left_2 from '../../../../assert/keep_goal/keep_goal_left_2.png';
+import keep_goal_left_2_json from '../../../../assert/keep_goal/keep_goal_left_2.json';
+import keep_goal_left_3 from '../../../../assert/keep_goal/keep_goal_left_3.png';
+import keep_goal_left_3_json from '../../../../assert/keep_goal/keep_goal_left_3.json';
+import keep_goal_left_4 from '../../../../assert/keep_goal/keep_goal_left_4.png';
+import keep_goal_left_4_json from '../../../../assert/keep_goal/keep_goal_left_4.json';
 
-import keep_goal_punch from '../../../assert/keep_goal/keep_goal_punch.png';
-import keep_goal_punch_json from '../../../assert//keep_goal/keep_goal_punch.json';
+import keep_goal_punch from '../../../../assert/keep_goal/keep_goal_punch.png';
+import keep_goal_punch_json from '../../../../assert//keep_goal/keep_goal_punch.json';
 
-import keep_goal_right_1 from '../../../assert/keep_goal/keep_goal_right_1.png';
-import keep_goal_right_1_json from '../../../assert/keep_goal/keep_goal_right_1.json';
-import keep_goal_right_2 from '../../../assert/keep_goal/keep_goal_right_2.png';
-import keep_goal_right_2_json from '../../../assert/keep_goal/keep_goal_right_2.json';
-import keep_goal_right_3 from '../../../assert/keep_goal/keep_goal_right_3.png';
-import keep_goal_right_3_json from '../../../assert/keep_goal/keep_goal_right_3.json';
-import keep_goal_right_4 from '../../../assert/keep_goal/keep_goal_right_4.png';
-import keep_goal_right_4_json from '../../../assert/keep_goal/keep_goal_right_4.json';
+import keep_goal_right_1 from '../../../../assert/keep_goal/keep_goal_right_1.png';
+import keep_goal_right_1_json from '../../../../assert/keep_goal/keep_goal_right_1.json';
+import keep_goal_right_2 from '../../../../assert/keep_goal/keep_goal_right_2.png';
+import keep_goal_right_2_json from '../../../../assert/keep_goal/keep_goal_right_2.json';
+import keep_goal_right_3 from '../../../../assert/keep_goal/keep_goal_right_3.png';
+import keep_goal_right_3_json from '../../../../assert/keep_goal/keep_goal_right_3.json';
+import keep_goal_right_4 from '../../../../assert/keep_goal/keep_goal_right_4.png';
+import keep_goal_right_4_json from '../../../../assert/keep_goal/keep_goal_right_4.json';
 
-import soccer_kick_left from '../../../assert/keep_goal/soccer_kick_left.png';
-import soccer_kick_left_json from '../../../assert/keep_goal/soccer_kick_left.json';
-import soccer_kick_right from '../../../assert/keep_goal/soccer_kick_right.png';
-import soccer_kick_right_json from '../../../assert/keep_goal/soccer_kick_right.json';
+import soccer_kick_left from '../../../../assert/keep_goal/soccer_kick_left.png';
+import soccer_kick_left_json from '../../../../assert/keep_goal/soccer_kick_left.json';
+import soccer_kick_right from '../../../../assert/keep_goal/soccer_kick_right.png';
+import soccer_kick_right_json from '../../../../assert/keep_goal/soccer_kick_right.json';
 
-import goal_center_anims from '../../../assert/goal_anims/goal_center_anims.png';
-import goal_center_anims_json from '../../../assert/goal_anims/goal_center_anims.json';
-import goal_left from '../../../assert/goal_anims/goal_left.png';
-import goal_left_json from '../../../assert/goal_anims/goal_left.json';
-import goal_right from '../../../assert/goal_anims/goal_right.png';
-import goal_right_json from '../../../assert/goal_anims/goal_right.json';
+import goal_center_anims from '../../../../assert/goal_anims/goal_center_anims.png';
+import goal_center_anims_json from '../../../../assert/goal_anims/goal_center_anims.json';
+import goal_left from '../../../../assert/goal_anims/goal_left.png';
+import goal_left_json from '../../../../assert/goal_anims/goal_left.json';
+import goal_right from '../../../../assert/goal_anims/goal_right.png';
+import goal_right_json from '../../../../assert/goal_anims/goal_right.json';
 
-import opt_suttudong_checked from '../../../assert/duatop/opt-suttudong-checked.png';
-import opt_suttudong from '../../../assert/duatop/opt-suttudong.png';
-import bg_banthang from '../../../assert/huvang/bg-banthang.png';
-import btn_suttudong from '../../../assert/huvang/btn-suttudong.png';
-import bg_bangxephang from '../../../assert/huvang/bg-bangxephang.png';
-import bg_giaithuong_giathuvang from '../../../assert/huvang/bg-giaithuong-giathuvang.png';
-import bg_taikhoan from '../../../assert/huvang/bg-taikhoan.png';
-import bg_title_giathuvang from '../../../assert/huvang/bg-title-giathuvang.png';
+import opt_suttudong_checked from '../../../../assert/duatop/opt-suttudong-checked.png';
+import opt_suttudong from '../../../../assert/duatop/opt-suttudong.png';
+import bg_banthang from '../../../../assert/loaitructiep/bg-banthang.png';
+import btn_suttudong from '../../../../assert/loaitructiep/btn-suttudong.png';
+import bg_bangxephang from '../../../../assert/loaitructiep/bg-bangxephang.png';
+import bg_giaithuong from '../../../../assert/loaitructiep/bg-giaithuong.png';
+import bg_taikhoan from '../../../../assert/loaitructiep/bg-taikhoan.png';
+import bg_title_loaitructiep from '../../../../assert/loaitructiep/bg-title-loaitructiep.png';
 
-import bg_pop_ingame from '../../../assert/1.png';
-import btn_dongy from '../../../assert/btn-dongy.png';
-import btn_thoat from '../../../assert/btn-thoat.png';
+import bg_pop_ingame from '../../../../assert/1.png';
+import btn_dongy from '../../../../assert/btn-dongy.png';
+import btn_thoat from '../../../../assert/btn-thoat.png';
 
 const list_keep=[]
 const list_goal=[]
@@ -116,8 +116,9 @@ var _rankings=[];
 var _rewards=[];
 var _user={};
 var _room={};
-var _estimateJackpot=0;
 var _timeServer=0;
+var round=1;
+var isPopup=false
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -181,9 +182,9 @@ export default class Game extends Phaser.Scene{
         this.load.image('bg_banthang', bg_banthang);
         this.load.image('btn_suttudong', btn_suttudong);
         this.load.image('bg_bangxephang', bg_bangxephang);
-        this.load.image('bg_giaithuong_giathuvang', bg_giaithuong_giathuvang);
+        this.load.image('bg_giaithuong', bg_giaithuong);
         this.load.image('bg_taikhoan', bg_taikhoan);
-        this.load.image('bg_title_giathuvang', bg_title_giathuvang);
+        this.load.image('bg_title_loaitructiep', bg_title_loaitructiep);
 
         this.load.image('bg_pop_ingame', bg_pop_ingame);
         this.load.image('btn_dongy', btn_dongy);
@@ -519,12 +520,12 @@ export default class Game extends Phaser.Scene{
         this.btn_suttudong.setScale(0.33*delta_x,0.33*delta_y)
         this.bg_bangxephang = this.add.image(132*delta_x,360*delta_y,'bg_bangxephang')
         this.bg_bangxephang.setScale(delta_x, delta_y);
-        this.bg_giaithuong_giathuvang = this.add.image(600*delta_x,125*delta_y,'bg_giaithuong_giathuvang')
-        this.bg_giaithuong_giathuvang.setScale(0.56*delta_x,0.56*delta_y)
+        this.bg_giaithuong = this.add.image(600*delta_x,125*delta_y,'bg_giaithuong')
+        this.bg_giaithuong.setScale(0.325*delta_x,0.325*delta_y)
         this.bg_taikhoan = this.add.image(1078*delta_x,42*delta_y,'bg_taikhoan')
         this.bg_taikhoan.setScale(0.33*delta_x,0.33*delta_y)
-        this.bg_title_giathuvang = this.add.image(600*delta_x,34*delta_y,'bg_title_giathuvang');
-        this.bg_title_giathuvang.setScale(0.66*delta_x,0.66*delta_y)
+        this.bg_title_loaitructiep = this.add.image(600*delta_x,34*delta_y,'bg_title_loaitructiep');
+        this.bg_title_loaitructiep.setScale(0.325*delta_x,0.325*delta_y)
         this.opt_suttudong = this.add.image(60*delta_x,620*delta_y,'opt_suttudong');
         this.opt_suttudong.setScale(0.3*delta_x,0.3*delta_y)
         this.opt_suttudong_checked = this.add.image(60*delta_x,620*delta_y,'opt_suttudong_checked');
@@ -538,10 +539,9 @@ export default class Game extends Phaser.Scene{
 
         this.txt_banthang = this.add.text(120*delta_x,  90*delta_y, '00', { font: `${40*delta_x}px Arial`, fill: "#ffffff" });
         this.txt_suttudong = this.add.text(85*delta_x,  605*delta_y, "Sút tự động", { font: `${27*delta_x}px Arial`, fill: "#ffffff" });
-        this.txt_title = this.add.text(480*delta_x,  10*delta_y, "GIẬT HŨ VÀNG", { font: `${40*delta_x}px Arial`, fill: "#ffffff", align:'center' });
+        this.txt_title = this.add.text(450*delta_x,  10*delta_y, "LOẠI TRỰC TIẾP", { font: `${40*delta_x}px Arial`, fill: "#ffffff", align:'center' });
         this.txt_time = this.add.text(530*delta_x,  75*delta_y, "Còn: 00h00p00", { font: `${16*delta_x}px Arial`, fill: "#ffffff", align:'center' });
-        this.txt_giaithuong = this.add.text(440*delta_x,  115*delta_y, `Tổng điểm Hũ Vàng`, { font: `${17*delta_x}px Arial`, fill: "#ffffff", align:"center", fixedWidth: 200*delta_x });
-        this.txt_giaithuong_value = this.add.text(660*delta_x,  115*delta_y, '00', { font: `${17*delta_x}px Arial`, fill: "#ffffff", align:"center", fixedWidth: 100*delta_x });
+        this.txt_giaithuong = this.add.text(440*delta_x,  115*delta_y, `Giải thưởng:`, { font: `${17*delta_x}px Arial`, fill: "#ffffff", align:"center", fixedWidth: 333*delta_x });
         this.txt_acc = this.add.text(975*delta_x,  15*delta_y, `Chào: ${user.nick_name.substring(0, 10)}...`, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center' });
         this.txt_thoat = this.add.text(1130*delta_x,  15*delta_y, '(Thoát)', { font: `${18*delta_x}px Arial`, fill: "#ffc107", align:'center' });
         this.txt_points = this.add.text(975*delta_x,  45*delta_y, `Lượt: 00`, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center' });
@@ -574,10 +574,18 @@ export default class Game extends Phaser.Scene{
 
 
         this.input.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, function (pointer) {
-            var p1=[pointer.downX, pointer.downY];
-            var p2=[pointer.upX, pointer.upY];
-            self.play(p1,p2)
+            if(!isPopup){
+                var p1=[pointer.downX, pointer.downY];
+                var p2=[pointer.upX, pointer.upY];
+                self.play(p1,p2)
+            }
+           
         });
+
+        setTimeout(()=>{ 
+            self.showThoat("Bạn đã bị loại, chờ phiên tiếp theo nhé.")
+        }, 1000);
+
 
         // starsIcon.on('pointerup', function () {
         //     this.cre
@@ -743,11 +751,11 @@ export default class Game extends Phaser.Scene{
             this.txt_ranking_acc.setText(tk);
             this.txt_ranking_point.setText(p);
             this.txt_banthang.setText(number_goal)
-            this.txt_giaithuong_value.setText(_estimateJackpot)
+            this.txt_giaithuong.setText(`Giải thưởng: ${_rewards[0].name}`)
             this.txt_points.setText(`Lượt: ${_user.betAmount}`)
 
             while (this.time_update > 1000) {
-                this.timeRemain(_room.endTime)
+                this.timeRemain(data_game.room.endTime)
                 this.time_update -= 1000;
             }
         }
@@ -776,8 +784,9 @@ export default class Game extends Phaser.Scene{
                         data.userId= user.uid;
                         data.gameId=1;
                         data.serverId=1;
-                        data.modeId=2;
+                        data.modeId=3;
                         data.roomId=info_seesion.id;
+                        data.round=round;
                         data.x=positionBall[0];
                         data.y=positionBall[1];
                         data.z=1;
@@ -790,7 +799,7 @@ export default class Game extends Phaser.Scene{
                                 "dataType":"json"
                             }
                         }
-                        axios.post(Ultilities.base_url() +'/lobby/api/v1/jackpot/playing', data, header).then(function (response) {
+                        axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/playing', data, header).then(function (response) {
                             if(response.data.code>=0){
                                 isPlay=false;
                                 result=response.data.data.result; 
@@ -815,12 +824,14 @@ export default class Game extends Phaser.Scene{
                                         _this.k_idle_sprite.visible=false;
                                     }
                                 }, 700);
+
                                 setTimeout(()=>{ 
                                     if(result===2){
                                        number_goal+=1;
                                     }
                                     _this.updateData()
                                 }, 2000);
+
                                 _this.soccer_kick_left_sprite.visible=true;
                                 _this.soccer_kick_left_sprite.play("kick_left")
                                 
@@ -886,7 +897,20 @@ export default class Game extends Phaser.Scene{
         this.thoatButton.destroy();
         this.text1.destroy();
     }
-    
+
+    showThoat(text) {
+        //just in case the message box already exists
+        //destroy it
+        var _this=this;
+        this.back = this.add.sprite(600*delta_x, (675/2)*delta_y, "bg_pop_ingame");
+        this.back.setScale(delta_x,delta_y)
+        this.thoatButton = this.add.sprite(width/2, 480*delta_y, "btn_thoat");
+        this.thoatButton.setScale(delta_x,delta_y)
+        this.text1 = this.add.text(400*delta_x, 300*delta_y, text, { font: `${18*delta_x}px Arial`, fill: "#000000", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
+        this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+            window.location.replace('/')
+        })
+    }
 
     setBallLine(p1,p2){
         var a=p1[0]-p2[0];
@@ -1061,13 +1085,13 @@ export default class Game extends Phaser.Scene{
         }
 	}
 
-    checkTimeSession=(data)=>{
+    checkTimeSession=(start, end, data)=>{
         var time=data.timeServer;
-        if(time < data.room.startTime){
+        if(time < start){
             return false;
         }
         
-        if(time > data.room.endTime){
+        if(time > end){
             return false;
         }
         return true
@@ -1082,7 +1106,7 @@ export default class Game extends Phaser.Scene{
             data.userId= user.uid;
             data.gameId=1;
             data.serverId=1;
-            data.modeId=2;
+            data.modeId=3;
             data.roomId=info_seesion.id;
             data.rakingLimit=10
             var header = {
@@ -1092,22 +1116,23 @@ export default class Game extends Phaser.Scene{
                     "dataType":"json"
                 }
             }
-            axios.post(Ultilities.base_url() +'/lobby/api/v1/jackpot/connect', data, header).then(function (response) {
+            axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/connect', data, header).then(function (response) {
                 if(response.data !==undefined){
                     if(response.data.code>=0){
-                        if(_this.checkTimeSession(response.data.data)){
+                        isPopup=response.data.data.isKnockout;
+                        if(_this.checkTimeSession(response.data.data.room.startTime, response.data.data.room.endTime, response.data.data)){
                             data_game=response.data.data
-                            _rankings=response.data.data.rankings;
-                            _rewards=response.data.data.rewards;
-                            number_goal=response.data.data.summary.winCount;
-                            _estimateJackpot=response.data.data.estimateJackpot;
-                            _user=response.data.data.user;
-                            _room=response.data.data.room;
-                            _timeServer=response.data.data.timeServer;
                             _this.timeRemain(data_game.room.endTime)
+                            round=1;
+                           
+                        }else if(_this.checkTimeSession(response.data.data.room.startBonusTime, response.data.data.room.endBonusTime, response.data.data)){
+                            data_game=response.data.data
+                            _this.timeRemain(data_game.room.endBonusTime)
+                            round=2;
                         }else{
                             window.location.replace('/')
                         }
+                       
                     }else{
                         window.location.replace('/')
                     }
@@ -1124,7 +1149,7 @@ export default class Game extends Phaser.Scene{
 
 
 
-    updateData=()=>{
+    updateDate=()=>{
         var _this=this;
         var user = JSON.parse(localStorage.getItem("user"));
         var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
@@ -1133,7 +1158,7 @@ export default class Game extends Phaser.Scene{
             data.userId= user.uid;
             data.gameId=1;
             data.serverId=1;
-            data.modeId=2;
+            data.modeId=3;
             data.roomId=info_seesion.id;
             data.rakingLimit=10
             var header = {
@@ -1143,12 +1168,22 @@ export default class Game extends Phaser.Scene{
                     "dataType":"json"
                 }
             }
-            axios.post(Ultilities.base_url() +'/lobby/api/v1/jackpot/state', data, header).then(function (response) {
+            axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/state', data, header).then(function (response) {
                 if(response.data !==undefined){
                     if(response.data.code>=0){
-                        var data=response.data.data;
-                        _rankings=data.rankings;
-                        _user=data.user;
+                        isPopup=response.data.data.isKnockout;
+                        if(_this.checkTimeSession(response.data.data.room.startTime, response.data.data.room.endTime)){
+                            data_game=response.data.data
+                            _this.timeRemain(data_game.room.endTime)
+                            round=1;
+                           
+                        }else if(_this.checkTimeSession(response.data.data.room.startBonusTime, response.data.data.room.endBonusTime)){
+                            data_game=response.data.data
+                            _this.timeRemain(data_game.room.endBonusTime)
+                            round=2;
+                        }else{
+                            window.location.replace('/')
+                        }
                        
                     }else{
                         window.location.replace('/')
@@ -1163,7 +1198,6 @@ export default class Game extends Phaser.Scene{
             window.location.replace('/')
         }
     }
-
 
 
 }

@@ -6,81 +6,81 @@ import {
   } from "react-device-detect";
   import bigInt from "big-integer";
 import axios from 'axios';
-import Ultilities from '../../../../../Ultilities/global'
+import Ultilities from '../../../../../../Ultilities/global'
 
-import backgound from '../../../assert/back_mobile.png';
-import ball from '../../../assert/ball.png';
-import goal_center from '../../../assert/goal_center.png';
-import ball_rotation from '../../../assert/ball/ball_sprite.png';
-import ball_rotation_json from '../../../assert/ball/ball_sprite.json';
+import backgound from '../../../../assert/back_mobile.png';
+import ball from '../../../../assert/ball.png';
+import goal_center from '../../../../assert/goal_center.png';
+import ball_rotation from '../../../../assert/ball/ball_sprite.png';
+import ball_rotation_json from '../../../../assert/ball/ball_sprite.json';
 
-import ball_collision_goal from '../../../assert/ball/ball_sprite.png';
-import ball_collision_goal_json from '../../../assert/ball/ball_sprite.json';
+import ball_collision_goal from '../../../../assert/ball/ball_sprite.png';
+import ball_collision_goal_json from '../../../../assert/ball/ball_sprite.json';
 
-import ball_collision_keeper from '../../../assert/ball/ball_sprite.png';
-import ball_collision_keeper_json from '../../../assert/ball/ball_sprite.json';
+import ball_collision_keeper from '../../../../assert/ball/ball_sprite.png';
+import ball_collision_keeper_json from '../../../../assert/ball/ball_sprite.json';
 
-import k_idle from '../../../assert/keep_goal/keep_goal_idle.png';
-import k_idle_json from '../../../assert/keep_goal/keep_goal_idle.json';
+import k_idle from '../../../../assert/keep_goal/keep_goal_idle.png';
+import k_idle_json from '../../../../assert/keep_goal/keep_goal_idle.json';
 
-import center_down from '../../../assert/keep_goal/center_down.png';
-import center_down_json from '../../../assert/keep_goal/center_down.json';
-import center_up from '../../../assert/keep_goal/center_up.png';
-import center_up_json from '../../../assert/keep_goal/center_up.json';
-import side_left_up from '../../../assert/keep_goal/side_left_up.png';
-import side_left_up_json from '../../../assert/keep_goal/side_left_up.json';
-import side_left from '../../../assert/keep_goal/side_left.png';
-import side_left_json from '../../../assert/keep_goal/side_left.json';
-import side_right_up from '../../../assert/keep_goal/side_right_up.png';
-import side_right_up_json from '../../../assert/keep_goal/side_right_up.json';
-import side_right from '../../../assert/keep_goal/side_right.png';
-import side_right_json from '../../../assert/keep_goal/side_right.json';
+import center_down from '../../../../assert/keep_goal/center_down.png';
+import center_down_json from '../../../../assert/keep_goal/center_down.json';
+import center_up from '../../../../assert/keep_goal/center_up.png';
+import center_up_json from '../../../../assert/keep_goal/center_up.json';
+import side_left_up from '../../../../assert/keep_goal/side_left_up.png';
+import side_left_up_json from '../../../../assert/keep_goal/side_left_up.json';
+import side_left from '../../../../assert/keep_goal/side_left.png';
+import side_left_json from '../../../../assert/keep_goal/side_left.json';
+import side_right_up from '../../../../assert/keep_goal/side_right_up.png';
+import side_right_up_json from '../../../../assert/keep_goal/side_right_up.json';
+import side_right from '../../../../assert/keep_goal/side_right.png';
+import side_right_json from '../../../../assert/keep_goal/side_right.json';
 
-import keep_goal_left_1 from '../../../assert/keep_goal/keep_goal_left_1.png';
-import keep_goal_left_1_json from '../../../assert/keep_goal/keep_goal_left_1.json';
-import keep_goal_left_2 from '../../../assert/keep_goal/keep_goal_left_2.png';
-import keep_goal_left_2_json from '../../../assert/keep_goal/keep_goal_left_2.json';
-import keep_goal_left_3 from '../../../assert/keep_goal/keep_goal_left_3.png';
-import keep_goal_left_3_json from '../../../assert/keep_goal/keep_goal_left_3.json';
-import keep_goal_left_4 from '../../../assert/keep_goal/keep_goal_left_4.png';
-import keep_goal_left_4_json from '../../../assert/keep_goal/keep_goal_left_4.json';
+import keep_goal_left_1 from '../../../../assert/keep_goal/keep_goal_left_1.png';
+import keep_goal_left_1_json from '../../../../assert/keep_goal/keep_goal_left_1.json';
+import keep_goal_left_2 from '../../../../assert/keep_goal/keep_goal_left_2.png';
+import keep_goal_left_2_json from '../../../../assert/keep_goal/keep_goal_left_2.json';
+import keep_goal_left_3 from '../../../../assert/keep_goal/keep_goal_left_3.png';
+import keep_goal_left_3_json from '../../../../assert/keep_goal/keep_goal_left_3.json';
+import keep_goal_left_4 from '../../../../assert/keep_goal/keep_goal_left_4.png';
+import keep_goal_left_4_json from '../../../../assert/keep_goal/keep_goal_left_4.json';
 
-import keep_goal_punch from '../../../assert/keep_goal/keep_goal_punch.png';
-import keep_goal_punch_json from '../../../assert//keep_goal/keep_goal_punch.json';
+import keep_goal_punch from '../../../../assert/keep_goal/keep_goal_punch.png';
+import keep_goal_punch_json from '../../../../assert//keep_goal/keep_goal_punch.json';
 
-import keep_goal_right_1 from '../../../assert/keep_goal/keep_goal_right_1.png';
-import keep_goal_right_1_json from '../../../assert/keep_goal/keep_goal_right_1.json';
-import keep_goal_right_2 from '../../../assert/keep_goal/keep_goal_right_2.png';
-import keep_goal_right_2_json from '../../../assert/keep_goal/keep_goal_right_2.json';
-import keep_goal_right_3 from '../../../assert/keep_goal/keep_goal_right_3.png';
-import keep_goal_right_3_json from '../../../assert/keep_goal/keep_goal_right_3.json';
-import keep_goal_right_4 from '../../../assert/keep_goal/keep_goal_right_4.png';
-import keep_goal_right_4_json from '../../../assert/keep_goal/keep_goal_right_4.json';
+import keep_goal_right_1 from '../../../../assert/keep_goal/keep_goal_right_1.png';
+import keep_goal_right_1_json from '../../../../assert/keep_goal/keep_goal_right_1.json';
+import keep_goal_right_2 from '../../../../assert/keep_goal/keep_goal_right_2.png';
+import keep_goal_right_2_json from '../../../../assert/keep_goal/keep_goal_right_2.json';
+import keep_goal_right_3 from '../../../../assert/keep_goal/keep_goal_right_3.png';
+import keep_goal_right_3_json from '../../../../assert/keep_goal/keep_goal_right_3.json';
+import keep_goal_right_4 from '../../../../assert/keep_goal/keep_goal_right_4.png';
+import keep_goal_right_4_json from '../../../../assert/keep_goal/keep_goal_right_4.json';
 
-import soccer_kick_left from '../../../assert/keep_goal/soccer_kick_left.png';
-import soccer_kick_left_json from '../../../assert/keep_goal/soccer_kick_left.json';
-import soccer_kick_right from '../../../assert/keep_goal/soccer_kick_right.png';
-import soccer_kick_right_json from '../../../assert/keep_goal/soccer_kick_right.json';
+import soccer_kick_left from '../../../../assert/keep_goal/soccer_kick_left.png';
+import soccer_kick_left_json from '../../../../assert/keep_goal/soccer_kick_left.json';
+import soccer_kick_right from '../../../../assert/keep_goal/soccer_kick_right.png';
+import soccer_kick_right_json from '../../../../assert/keep_goal/soccer_kick_right.json';
 
-import goal_center_anims from '../../../assert/goal_anims/goal_center_anims.png';
-import goal_center_anims_json from '../../../assert/goal_anims/goal_center_anims.json';
-import goal_left from '../../../assert/goal_anims/goal_left.png';
-import goal_left_json from '../../../assert/goal_anims/goal_left.json';
-import goal_right from '../../../assert/goal_anims/goal_right.png';
-import goal_right_json from '../../../assert/goal_anims/goal_right.json';
+import goal_center_anims from '../../../../assert/goal_anims/goal_center_anims.png';
+import goal_center_anims_json from '../../../../assert/goal_anims/goal_center_anims.json';
+import goal_left from '../../../../assert/goal_anims/goal_left.png';
+import goal_left_json from '../../../../assert/goal_anims/goal_left.json';
+import goal_right from '../../../../assert/goal_anims/goal_right.png';
+import goal_right_json from '../../../../assert/goal_anims/goal_right.json';
 
-import opt_suttudong_checked from '../../../assert/duatop/opt-suttudong-checked.png';
-import opt_suttudong from '../../../assert/duatop/opt-suttudong.png';
-import bg_banthang from '../../../assert/loaitructiep/bg-banthang.png';
-import btn_suttudong from '../../../assert/loaitructiep/btn-suttudong.png';
-import bg_bangxephang from '../../../assert/loaitructiep/bg-bangxephang.png';
-import bg_giaithuong from '../../../assert/loaitructiep/bg-giaithuong.png';
-import bg_taikhoan from '../../../assert/loaitructiep/bg-taikhoan.png';
-import bg_title_loaitructiep from '../../../assert/loaitructiep/bg-title-loaitructiep.png';
+import opt_suttudong_checked from '../../../../assert/duatop/opt-suttudong-checked.png';
+import opt_suttudong from '../../../../assert/duatop/opt-suttudong.png';
+import bg_banthang from '../../../../assert/loaitructiep/bg-banthang.png';
+import btn_suttudong from '../../../../assert/loaitructiep/btn-suttudong.png';
+import bg_bangxephang from '../../../../assert/loaitructiep/bg-bangxephang.png';
+import bg_giaithuong from '../../../../assert/loaitructiep/bg-giaithuong.png';
+import bg_taikhoan from '../../../../assert/loaitructiep/bg-taikhoan.png';
+import bg_title_loaitructiep from '../../../../assert/loaitructiep/bg-title-loaitructiep.png';
 
-import bg_pop_ingame from '../../../assert/1.png';
-import btn_dongy from '../../../assert/btn-dongy.png';
-import btn_thoat from '../../../assert/btn-thoat.png';
+import bg_pop_ingame from '../../../../assert/1.png';
+import btn_dongy from '../../../../assert/btn-dongy.png';
+import btn_thoat from '../../../../assert/btn-thoat.png';
 
 const list_keep=[]
 const list_goal=[]

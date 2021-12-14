@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-import test from '../../../assert/background.png';
+import test from '../../../../assert/background.png';
 
 var width = window.innerWidth;
 var height = window.innerHeight;

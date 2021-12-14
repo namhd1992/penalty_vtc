@@ -8,9 +8,13 @@ import DuaTop_Web from '../penalty/web/game/duatop'
 import GiatHuVang_Web from '../penalty/web/game/giathuvang'
 import LoaiTrucTiep_Web from '../penalty/web/game/loaitructiep'
 import Home_Mobile from '../penalty/mobile/home'
-import DuaTop_Mobile from '../penalty/mobile/game/duatop'
-import GiatHuVang_Mobile from '../penalty/mobile/game/giathuvang'
-import LoaiTrucTiep_Mobile from '../penalty/mobile/game/loaitructiep'
+import DuaTop_Android from '../penalty/mobile/game/android/duatop'
+import GiatHuVang_Android from '../penalty/mobile/game/android/giathuvang'
+import LoaiTrucTiep_Android from '../penalty/mobile/game/android/loaitructiep'
+
+import DuaTop_IOS from '../penalty/mobile/game/ios/duatop'
+import GiatHuVang_IOS from '../penalty/mobile/game/ios/giathuvang'
+import LoaiTrucTiep_IOS from '../penalty/mobile/game/ios/loaitructiep'
 
 import Login from '../login/login'
 
@@ -52,16 +56,23 @@ class App extends React.Component {
 				{/* <div style={{maxWidth:"1200px", margin:"auto", background: this.state.backgroundColor }}> */}
 				<Route exact path="/login" component={Login} />
 				{(isMobile)?(<div>
-					<MenuAppBar pathname={document.location.pathname} compact={this.state.compact} scrolling={this.state.scrolling}
+					{(isAndroid)?(<div><MenuAppBar pathname={document.location.pathname} compact={this.state.compact} scrolling={this.state.scrolling}
 						data={[{ url: "home", label: "home" }, { url: "about", label: "about" }]}></MenuAppBar>
 					<main ref={(c) => this.main = c}>
 						<Route exact path="/" component={Home_Mobile} />
-						<Route exact path="/duatop" component={DuaTop_Mobile} />
-						<Route exact path="/giathuvang" component={GiatHuVang_Mobile} />
-						<Route exact path="/loaitructiep" component={LoaiTrucTiep_Mobile} />
-						{/* <Route exact path="/sanqua" component={SanQua_Mobile_IOS} />
-						<Route exact path="/duatop" component={DuaTop_Mobile_IOS} /> */}
-					</main>
+						<Route exact path="/duatop" component={DuaTop_Android} />
+						<Route exact path="/giathuvang" component={GiatHuVang_Android} />
+						<Route exact path="/loaitructiep" component={LoaiTrucTiep_Android} />
+					</main></div>):(<div>
+						<MenuAppBar pathname={document.location.pathname} compact={this.state.compact} scrolling={this.state.scrolling}
+						data={[{ url: "home", label: "home" }, { url: "about", label: "about" }]}></MenuAppBar>
+					<main ref={(c) => this.main = c}>
+					<Route exact path="/" component={Home_Mobile} />
+						<Route exact path="/duatop" component={DuaTop_IOS} />
+						<Route exact path="/giathuvang" component={GiatHuVang_IOS} />
+						<Route exact path="/loaitructiep" component={LoaiTrucTiep_IOS} />
+					</main></div>)}
+					
 				</div>):(<div>
 					<MenuAppBar pathname={document.location.pathname} compact={this.state.compact} scrolling={this.state.scrolling}
 						data={[{ url: "home", label: "home" }, { url: "about", label: "about" }]}></MenuAppBar>
