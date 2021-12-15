@@ -802,6 +802,7 @@ export default class Game extends Phaser.Scene{
                         axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/playing', data, header).then(function (response) {
                             if(response.data.code>=0){
                                 isPlay=false;
+                                first_play=false;
                                 result=response.data.data.result; 
                                 _this.setBallLine(p1,p2)
                                 var g = _this.getRandomInt(0,2)
