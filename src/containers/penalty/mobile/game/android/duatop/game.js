@@ -100,8 +100,8 @@ var x=1;
 var increase_x=0;
 var increase_y=0;
 
-var width = window.innerWidth;
-var height = window.innerHeight;
+var width = window.screen.width - 80;
+var height = window.screen.height;
 var delta_x=width/1200;
 var delta_y=height/675;
 var is_ball_lasted=false;
@@ -136,7 +136,7 @@ export default class Game extends Phaser.Scene{
             var progress = this.add.graphics();
 
             this.load.on('progress', function (value) {
-                seft.add.text(550,  300, 'Loading...', { font: "40px Arial", fill: "#ffffff" });
+                seft.add.text(width/2-50,  height/2-30, 'Loading...', { font: "30px Arial", fill: "#ffffff" });
             });
         
             this.load.on('complete', function () {

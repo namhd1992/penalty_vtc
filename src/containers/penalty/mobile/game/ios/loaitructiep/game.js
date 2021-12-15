@@ -137,7 +137,7 @@ export default class Game extends Phaser.Scene{
             var progress = this.add.graphics();
 
             this.load.on('progress', function (value) {
-                seft.add.text(550,  300, 'Loading...', { font: "40px Arial", fill: "#ffffff" });
+                seft.add.text(width/2-50,  height/2-30, 'Loading...', { font: "30px Arial", fill: "#ffffff" });
             });
         
             this.load.on('complete', function () {
