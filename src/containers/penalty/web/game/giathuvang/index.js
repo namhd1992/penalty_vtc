@@ -31,7 +31,7 @@ export default class Duatop extends React.Component {
     render() {
         const { initialize, game } = this.state;
         return (
-          <IonPhaser game={game} initialize={initialize} style={{backgroundColor:"#fff"}}/>
+          <IonPhaser game={game} initialize={initialize} style={{backgroundColor:"#092b2f"}}/>
         // <div>AAAA</div>
         )
     }

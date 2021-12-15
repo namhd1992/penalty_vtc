@@ -70,7 +70,7 @@ export default class loaitructiep extends React.Component {
         return (
             <div>
                 {(horizontal)?(
-                     <IonPhaser game={game} initialize={initialize} style={{backgroundColor:"#fff", marginTop:"0px"}}/>
+                     <IonPhaser game={game} initialize={initialize} style={{backgroundColor:"#092b2f", marginTop:"0px"}}/>
                 ):(
                     <img src={rotate} width="100%" alt="" />
                 )}
