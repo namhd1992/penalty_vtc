@@ -400,6 +400,33 @@ export const getTuDo = (token, data) => {
 	}
 }
 
+export const getHistoryTuDo = (token, data) => {
+	var header = {
+		headers: {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		}
+	}
+	return dispatch => {
+		dispatch({
+			type: LUCKY_REQUEST
+		})
+		var url = Ultilities.base_url() + "/pay/api/v1/transaction/history"
+		return axios.post(url, data, header).then(function (response) {
+			console.log(response)
+			dispatch({
+				type: LUCKY_HISTORY_TU_DO,
+				data: response.data
+			})
+		}).catch(function (error) {
+			dispatch({
+				type: SERVER_ERROR
+			})
+		})
+	}
+}
+
+
 
 export const getItemAward = (token, data) => {
 	var header = {
@@ -1099,30 +1126,6 @@ export const getMoreSessions= () => {
 // }
 
 
-export const getHistoryTuDo = (token, limit, offset) => {
-	var header = {
-		headers: {
-			"Content-Type": "application/json",
-			"token": token,
-		}
-	}
-	return dispatch => {
-		dispatch({
-			type: LUCKY_REQUEST
-		})
-		var url = Ultilities.base_url() + "darts/user-history/?offset=" + offset + "&limit=" + limit;
-		return axios.get(url, header).then(function (response) {
-			dispatch({
-				type: LUCKY_HISTORY_TU_DO,
-				data: response.data
-			})
-		}).catch(function (error) {
-			dispatch({
-				type: SERVER_ERROR
-			})
-		})
-	}
-}
 
 
 

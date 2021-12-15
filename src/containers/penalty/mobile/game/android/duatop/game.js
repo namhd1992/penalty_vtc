@@ -23,6 +23,9 @@ import ball_collision_keeper_json from '../../../../assert/ball/ball_sprite.json
 import k_idle from '../../../../assert/keep_goal/keep_goal_idle.png';
 import k_idle_json from '../../../../assert/keep_goal/keep_goal_idle.json';
 
+// import k_idle from '../../../../assert/keep_goal/aa.png';
+// import k_idle_json from '../../../../assert/keep_goal/aa.json';
+
 import center_down from '../../../../assert/keep_goal/center_down.png';
 import center_down_json from '../../../../assert/keep_goal/center_down.json';
 import center_up from '../../../../assert/keep_goal/center_up.png';

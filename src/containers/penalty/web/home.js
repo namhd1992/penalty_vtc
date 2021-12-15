@@ -471,7 +471,6 @@ class Lucky_Rotation extends React.Component {
 										break;
 									case 3:
 										this.checkBetting(3, 'LOẠI TRỰC TIẾP');
-										// window.location.replace('/loaitructiep')
 										break;
 								
 									default:
@@ -560,25 +559,6 @@ class Lucky_Rotation extends React.Component {
 				return;
 			}
 			if(type===3){
-				// if(user_data.points > info_seesion.minBet){
-				// 	if(user_data.betKnockout > 0){
-				// 		this.setState({message_error:'Bạn đã quá số lần cược của phiên.'},()=>{
-				// 			let myModal = new Modal(document.getElementById('tb_err'));
-				// 			myModal.show();
-				// 		})
-				// 	}else{
-				// 		this.setState({points:user_data.points},()=>{
-				// 			let myModal = new Modal(document.getElementById('datcuoc'));
-				// 			myModal.show();
-				// 		})
-				// 	}
-					
-				// }else{
-				// 	this.setState({message_error:'Số điểm của bạn không đủ để cược.'},()=>{
-				// 		let myModal = new Modal(document.getElementById('tb_err'));
-				// 		myModal.show();
-				// 	})
-				// }
 				if (user !== null) {
 					var data= {...info}
 					data.gameId=1;
@@ -778,31 +758,17 @@ class Lucky_Rotation extends React.Component {
 		return time;
 	}
 
-
-	showModalTuDo=()=>{
-		var user = JSON.parse(localStorage.getItem("user"));
-		if (user !== null) {
-			this.getDataTuDo(user);
-		}else {
-			let myModal = new Modal(document.getElementById('tb_web'));
-			myModal.show();
-		}
+	showModalHuongDan=()=>{
+		let myModal = new Modal(document.getElementById('huongdan_web'));
+		myModal.show();
+		this.getContentGuide();
 	}
 
 
-
-	// showModalHuongDan=()=>{
-	// 	let myModal = new Modal(document.getElementById('huongdan_web'));
-	// 	myModal.show();
-
-	// 	getContentGuide
-	// }
-
-
-	showModalHuongDan=(catalogId)=>{
+	getContentGuide=(catalogId)=>{
 		const {limit}=this.state;
 		var data= {...info}
-		data.siteId=1;
+		data.siteId=285779539;
 		data.catalogId=catalogId;
 		data.type=-1;
 
@@ -867,10 +833,7 @@ class Lucky_Rotation extends React.Component {
 				var d=this.props.dataTuDo;
 				if(d!==undefined){
 					if(d.code>0){
-						this.setState({listTuDo:d.data.items, countTuDo:d.data.totalItems, noti_tudo:false}, ()=>{
-							let myModal = new Modal(document.getElementById('td_web'));
-							myModal.show();
-						})
+						this.setState({listTuDo:d.data.items, countTuDo:d.data.totalItems, noti_tudo:false})
 					}else{
 					
 						this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'}, ()=>{
@@ -893,28 +856,58 @@ class Lucky_Rotation extends React.Component {
 		
 	}
 
+  
 	getHistory=(user)=>{
+		
 		const {limit, activeHistory}=this.state;
-		var offsetHistory=(activeHistory-1)*limit;
-		// $('#Loading').modal('show');
-		this.setState({tab_tudo: false})
-		// this.props.getHistoryTuDo(user.access_token, limit, offsetHistory).then(()=>{
-		// 	// $('#Loading').modal('hide');
-		// 	var data=this.props.dataHistoryTuDo;
-		// 	if(data!==undefined){
-		// 		if(data.Status===0){
-		// 			this.setState({listHistory:data.Data, countHistory:data.Totals})
-		// 		}else if(data.Status===3){
-		// 			this.logoutAction();
-		// 		}else{
-		// 			$('#myModal11').modal('show');
-		// 			this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'})
-		// 		}
-		// 	}else{
-		// 		$('#myModal12').modal('show');
-		// 		this.setState({server_err:true})
-		// 	}
-		// });
+		if(user!==null){
+			var data= {...info}
+			data.transactionType=-1;
+			data.serviceId=1;
+			data.paymentMethod=-1;
+			data.userId= user.uid;
+			data.source=-1;
+			data.fromDate=-1;
+			data.toDate=-1;
+			data.pageIndex=activeHistory;
+			data.pageSize=limit;
+			this.setState({tab_tudo: false})
+			this.props.getHistoryTuDo(user.access_token, data).then(()=>{
+				var d=this.props.dataHistoryTuDo;
+				if(d!==undefined){
+					if(d.code>0){
+						this.setState({listHistory:d.data.items, countTuDo:d.data.totalItems, noti_tudo:false})
+					}else{
+					
+						this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'}, ()=>{
+							let myModal = new Modal(document.getElementById('tb_err'));
+							myModal.show();
+						})
+					}
+				}else{
+					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau.'},()=>{
+						let myModal = new Modal(document.getElementById('tb_err'));
+						myModal.show();
+					})
+				}
+				
+			});
+		}else {
+			let myModal = new Modal(document.getElementById('tb_web'));
+			myModal.show();
+		}
+	}
+
+	showModalTuDo=()=>{
+		var user = JSON.parse(localStorage.getItem("user"));
+		if (user !== null) {
+			this.getDataTuDo(user);
+			let myModal = new Modal(document.getElementById('td_web'));
+			myModal.show();
+		}else {
+			let myModal = new Modal(document.getElementById('tb_web'));
+			myModal.show();
+		}
 	}
 
 	getItem=(user, item)=>{
@@ -1174,34 +1167,34 @@ class Lucky_Rotation extends React.Component {
 
 	}
 
-	comfirmDonate=()=>{
-		var code=document.getElementById('code').value;
-		var username=document.getElementById('username').value;
-		var numberDart=document.getElementById('numberDart').value;
+	// comfirmDonate=()=>{
+	// 	var code=document.getElementById('code').value;
+	// 	var username=document.getElementById('username').value;
+	// 	var numberDart=document.getElementById('numberDart').value;
 
-		var user = JSON.parse(localStorage.getItem("user"));
-		if (user !== null) {
-			this.props.getDonate(user.access_token, username, numberDart, code).then(()=>{
-				var data=this.props.dataDonate;
-				console.log(data)
-				if(data!==undefined){
-					if(data.Status===0){
-						this.setState({rollup:true, message_rollup: data.Message, type_action:'Chuyển tiêu'}, ()=>{
-							$('#Modalchuyenphitieu').modal('hide');
-							$('#Modalddthanhcong').modal('show');
-						})
-					}else{
-						this.setState({rollup:false, message_rollup: data.Message}, ()=>{
-							$('#Modalchuyenphitieu').modal('hide');
-							$('#Modalddthanhcong').modal('show');
-						})
-					}
-				}
-			})
-		}else {
-			$('#tb').modal('show');
-		}
-	}
+	// 	var user = JSON.parse(localStorage.getItem("user"));
+	// 	if (user !== null) {
+	// 		this.props.getDonate(user.access_token, username, numberDart, code).then(()=>{
+	// 			var data=this.props.dataDonate;
+	// 			console.log(data)
+	// 			if(data!==undefined){
+	// 				if(data.Status===0){
+	// 					this.setState({rollup:true, message_rollup: data.Message, type_action:'Chuyển tiêu'}, ()=>{
+	// 						$('#Modalchuyenphitieu').modal('hide');
+	// 						$('#Modalddthanhcong').modal('show');
+	// 					})
+	// 				}else{
+	// 					this.setState({rollup:false, message_rollup: data.Message}, ()=>{
+	// 						$('#Modalchuyenphitieu').modal('hide');
+	// 						$('#Modalddthanhcong').modal('show');
+	// 					})
+	// 				}
+	// 			}
+	// 		})
+	// 	}else {
+	// 		$('#tb').modal('show');
+	// 	}
+	// }
 
 
 	getListSanQua=()=>{
@@ -1345,7 +1338,7 @@ class Lucky_Rotation extends React.Component {
 												))}
 											</tbody>
 										</table>
-										{(countVinhDanh > 10)?(<div className="pagination justify-content-center pag-custom">
+										{(countVinhDanh > 11)?(<div className="pagination justify-content-center pag-custom">
 											<Pagination
 												activePage={activeVinhDanh}
 												itemsCountPerPage={10}
@@ -1407,19 +1400,19 @@ class Lucky_Rotation extends React.Component {
 									<div class="tab-hd_web w-100">
 										<ul class="nav justify-content-center">
 										<li class="nav-item" style={{width: "17%"}}>
-											<a class={tab_1 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Tham gia" onClick={()=>this.showModalHuongDan(18)}>&nbsp;</a>
+											<a class={tab_1 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Tham gia" onClick={()=>this.getContentGuide(18)}>&nbsp;</a>
 										</li>
 										<li class="nav-item" style={{width: "17%"}}>
-											<a class={tab_2 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Đua TOP" onClick={()=>this.showModalHuongDan(19)}>&nbsp;</a>
+											<a class={tab_2 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Đua TOP" onClick={()=>this.getContentGuide(19)}>&nbsp;</a>
 										</li>
 										<li class="nav-item" style={{width: "18%"}}>
-											<a class={tab_3 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Loại Trực Tiếp" onClick={()=>this.showModalHuongDan(20)}>&nbsp;</a>
+											<a class={tab_3 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Loại Trực Tiếp" onClick={()=>this.getContentGuide(20)}>&nbsp;</a>
 										</li>
 										<li class="nav-item" style={{width: "18%"}}>
-											<a class={tab_4 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Giật Hũ Vàng" onClick={()=>this.showModalHuongDan(21)}>&nbsp;</a>
+											<a class={tab_4 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Giật Hũ Vàng" onClick={()=>this.getContentGuide(21)}>&nbsp;</a>
 										</li>
 										<li class="nav-item" style={{width: "17%"}}>
-											<a class={tab_5 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Sử Dụng Giải Thưởng" onClick={()=>this.showModalHuongDan(22)}>&nbsp;</a>
+											<a class={tab_5 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}} title="Sử Dụng Giải Thưởng" onClick={()=>this.getContentGuide(22)}>&nbsp;</a>
 										</li>
 										</ul> 
 									</div>
@@ -1501,16 +1494,16 @@ class Lucky_Rotation extends React.Component {
 								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-td_web-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
 									<button type="button" class="btn-close-white btn-close float-end m-0" data-bs-dismiss="modal" style={{marginRight: "3%"}}></button>
-									{/* <div class="tab-hd w-100">
+									<div class="tab-hd_web w-100">
 										<ul class="nav justify-content-center">
 										<li class="nav-item" style={{width: "43%"}}>
-											<a class={tab_tudo ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45}}  title="Phần Thưởng" onClick={()=>this.getDataTuDo(user)}>&nbsp;</a>
+											<a class={tab_tudo ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: 45, cursor:'pointer'}}  title="Phần Thưởng" onClick={()=>this.getDataTuDo(user)}>&nbsp;</a>
 										</li>
 										<li class="nav-item" style={{width: "43%"}}>
-											<a class={tab_tudo ? "nav-link text-white font-3vw px-0 py-1" : "nav-link text-white font-3vw px-0 py-1 active"} style={{height: 45}} title="Lịch Sử" onClick={()=>this.getHistory(user)}>&nbsp;</a>
+											<a class={tab_tudo ? "nav-link text-white font-3vw px-0 py-1" : "nav-link text-white font-3vw px-0 py-1 active"} style={{height: 45, cursor:'pointer'}} title="Lịch Sử" onClick={()=>this.getHistory(user)}>&nbsp;</a>
 										</li>
 										</ul> 
-									</div> */}
+									</div>
 								</div>
 								
 
@@ -1519,7 +1512,8 @@ class Lucky_Rotation extends React.Component {
 									{/* <!-- Tab panes --> */}
 									<div class="tab-content">
 										<div class="tab-pane container active" id="pt">
-											<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0">
+											{(tab_tudo)?(<div>
+												<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0">
 												<thead>
 												<tr class="border-top-0 p-0">
 													<th class="border-start-0 border-top-0">PHẦN THƯỞNG</th>
@@ -1541,7 +1535,7 @@ class Lucky_Rotation extends React.Component {
 												
 												</tbody>
 											</table>
-											{(countTuDo > 10) ? (<div className="pagination justify-content-center pag-custom mt-1">
+											{(countTuDo > 11) ? (<div className="pagination justify-content-center pag-custom mt-1">
 												<Pagination
 													activePage={activeTuDo}
 													itemsCountPerPage={limit}
@@ -1554,6 +1548,41 @@ class Lucky_Rotation extends React.Component {
 													onChange={(v) => this.handlePageChangeTuDo(v)}
 												/>
 											</div> ):(<div></div>)}
+											</div>):(<div>
+												<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0">
+												<thead>
+												<tr class="border-top-0 p-0">
+													<th class="border-start-0 border-top-0">PHẦN THƯỞNG</th>
+													<th class="border-top-0 ps-1">NỘI DUNG</th>
+													<th class="border-top-0 ps-1">THỜI GIAN</th>
+												</tr>
+												</thead>
+												<tbody>
+													{listHistory.map((obj, key) => (
+														<tr key={key} class="bg-border-bottom">
+															<td class="border-start-0 py-1">{obj.title}</td>
+															<td class="ps-1 py-1">{obj.description}</td>
+															<td className="ps-1 py-1">{this.timeConverter(obj.createdTime)}</td>	
+														</tr>
+													))}		
+												
+												</tbody>
+											</table>
+											{(countHistory > 11) ? (<div className="pagination justify-content-center pag-custom mt-1">
+												<Pagination
+													activePage={activeHistory}
+													itemsCountPerPage={limit}
+													totalItemsCount={countHistory}
+													pageRangeDisplayed={numberPage}
+													lastPageText={'Trang cuối'}
+													firstPageText={'Trang đầu'}
+													itemClass={"page-item"}
+													linkClass={"page-link"}
+													onChange={(v) => this.handlePageChangeHistory(v)}
+												/>
+											</div> ):(<div></div>)}
+											</div>)}
+											
 											
 										</div>
 									</div>
@@ -1780,29 +1809,28 @@ class Lucky_Rotation extends React.Component {
 								<button type="button" class="btn-close-white btn-close float-end m-0" data-bs-dismiss="modal"></button>
 							</div>
 							
-
 							{/* <!-- Modal body --> */}
 							<div class="modal-body bg-pop-datcuoc-body p-2rem py-1 font-3vw text-white">
 								<div class="tab-content">
-								<div class="container p-4 font-UTMFacebookKT">
-									<div class="d-flex justify-content-center pt-0 pb-3">
-										<img src={avatar} alt={user.nick_name} class="flex-shrink-0 me-3 rounded-circle" style={{height: 60}} />
-										<div>
-											<h5>Tài khoản: {user.nick_name}</h5>
-											<p>Số điểm: {points}</p>
+									<div class="container p-4 font-UTMFacebookKT">
+										<div class="d-flex justify-content-center pt-0 pb-3">
+											<img src={avatar} alt={user.nick_name} class="flex-shrink-0 me-3 rounded-circle" style={{width: 70}} />
+											<div>
+												<h5>Tài khoản: {user.nick_name}</h5>
+												<p>Số điểm đang có: <span class="text-warning h5">{points}</span></p>
+											</div>
+										</div>
+										<div class="text-center pb-4">
+											<p class="text-white">Để tham gia GIẬT HŨ VÀNG bạn cần phải đặt cược điểm.</p>                
+											<div class="btn btn-warning mb-2 w-75 p-3"><h4>ĐIỂM CƯỢC</h4><span class=" mt-2 badge rounded-pill bg-danger" style={{fontSize: "20px"}}>{info_seesion.minBet} Điểm</span></div>
+											<p class="fst-italic text-danger">**Lưu ý: Khi đã đặt cược số điểm sẽ không được hoàn lại.</p>
+										</div>
+										<div class="text-center">
+											<button type="button" class="btn btn-danger w-25 me-2" onClick={()=>this.onBest(type_modeId)}>Đặt cược</button>
+											<button type="button" class="btn btn-light w-25 ms-2" onClick={this.closeDatCuoc}>Thoát</button>
 										</div>
 									</div>
-									<div class="text-center pb-4">
-										<p class="mb-2">Để tham gia {title_module} bạn cần đặt cược số điểm: <span class="text-warning h4">{info_seesion.minBet} Điểm</span></p>
-										<p>Khi đã đặt cược số điểm sẽ không được hoàn lại.</p>
-									</div>
-									<div class="text-center">
-										<button type="button" class="btn btn-danger w-25" style={{marginRight:10}} onClick={()=>this.onBest(type_modeId)}>Đồng ý</button>
-										<button type="button" class="btn btn-light w-25" style={{marginLeft:10}} onClick={this.closeDatCuoc}>Thoát</button>
-									</div>
 								</div>
-								</div>
-								
 							</div>
 							{/* <!-- Modal footer --> */}
 							<div class="modal-footer bg-pop-datcuoc-bottom border-0">
