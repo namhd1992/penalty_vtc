@@ -90,7 +90,7 @@ class MenuAppBar extends React.Component {
 					"deviceName": mobileModel,
 					"osVersion": osVersion,
 					"appVersion": "1.0",
-					"requestId": 365603310,
+					// "requestId": 365603310,
 					"client_id": "SANBOX",
 					// "client_id": "PENALTY_WEB",
 					"client_secret": "123456abcdef",

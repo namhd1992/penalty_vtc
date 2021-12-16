@@ -1155,6 +1155,7 @@ export default class Game extends Phaser.Scene{
                         var data=response.data.data;
                         _rankings=data.rankings;
                         _user=data.user;
+                        _estimateJackpot=data.estimateJackpot;
                        
                     }else{
                         window.location.replace('/')

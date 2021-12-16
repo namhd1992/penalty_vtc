@@ -544,10 +544,10 @@ export default class Game extends Phaser.Scene{
         this.txt_acc = this.add.text(975*delta_x,  15*delta_y, `Chào: ${user.nick_name.substring(0, 10)}...`, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center' });
         this.txt_thoat = this.add.text(1130*delta_x,  15*delta_y, '(Thoát)', { font: `${18*delta_x}px Arial`, fill: "#ffc107", align:'center' });
         this.txt_points = this.add.text(975*delta_x,  45*delta_y, `Điểm: 00`, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center' });
-        this.txt_titleRanking = this.add.text(30*delta_x,  290*delta_y, 'TÀI KHOẢN                BÀN THẮNG', { font: `${13*delta_x}px Arial bold`, fill: "#ffffff" });
+        this.txt_titleRanking = this.add.text(30*delta_x,  290*delta_y, 'TÀI KHOẢN            BÀN THẮNG', { font: `${15*delta_x}px Arial bold`, fill: "#ffffff" });
       
-        this.txt_ranking_acc = this.add.text(30*delta_x,  315*delta_y, '', { font: `${15*delta_x}px Tahoma`, color: "#ffffff" });
-        this.txt_ranking_point = this.add.text(180*delta_x,  315*delta_y, '', { font: `${15*delta_x}px Tahoma`, color: "#ffffff" });
+        this.txt_ranking_acc = this.add.text(30*delta_x,  315*delta_y, '', { font: `${18*delta_x}px Tahoma`, color: "#ffffff" });
+        this.txt_ranking_point = this.add.text(180*delta_x,  315*delta_y, '', { font: `${18*delta_x}px Tahoma`, color: "#ffffff" });
 
 
 
@@ -1079,7 +1079,7 @@ export default class Game extends Phaser.Scene{
             data.serverId=1;
             data.modeId=1;
             data.roomId=info_seesion.id;
-            data.rakingLimit=10
+            data.rakingLimit=5
             var header = {
                 headers: {
                     "Content-Type": "application/json",
@@ -1129,7 +1129,7 @@ export default class Game extends Phaser.Scene{
             data.serverId=1;
             data.modeId=1;
             data.roomId=info_seesion.id;
-            data.rakingLimit=10
+            data.rakingLimit=5
             var header = {
                 headers: {
                     "Content-Type": "application/json",

@@ -765,7 +765,7 @@ class Lucky_Rotation extends React.Component {
 	getContentGuide=(catalogId)=>{
 		const {limit}=this.state;
 		var data= {...info}
-		data.siteId=285779539;
+		data.siteId=2;
 		data.catalogId=catalogId;
 		data.type=-1;
 
@@ -1058,8 +1058,7 @@ class Lucky_Rotation extends React.Component {
 	}
 	
 	timeModalGiaiThuong=(time)=>{
-		var start=time.substring(time.indexOf("(") +1,time.indexOf(")"));
-		var times=(start-this.state.timeServer)/1000;
+		var times=(time-this.state.timeServer)/1000;
 		var s='0h : 0m :0s';
 		if(times>0){
 			var day=Math.floor(times/86400) > 9 ? Math.floor(times/86400) : `0${Math.floor(times/86400)}`;
@@ -1072,8 +1071,7 @@ class Lucky_Rotation extends React.Component {
 	}
 
 	timeEnd=(time)=>{
-		var start=time.substring(time.indexOf("(") +1,time.indexOf(")"));
-		var a = new Date(+start);
+		var a = new Date(time);
 		// var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 		var year = a.getFullYear();
 		var m=a.getMonth()+1
@@ -1421,7 +1419,7 @@ class Lucky_Rotation extends React.Component {
 							{/* <!-- Tab panes --> */}
 							<div class="tab-content">
 								<div class="tab-pane container active" id="tg">
-									<div class="text-red font-size-18" dangerouslySetInnerHTML={{__html: 'contentGuide'}}></div>
+									<div class="text-red font-size-18" dangerouslySetInnerHTML={{__html: contentGuide}}></div>
 								</div>
 							</div>
 							
@@ -1730,7 +1728,7 @@ class Lucky_Rotation extends React.Component {
 				</div>
 
 				{/* <!-- The Modal Thông báo --> */}
-				<div class="modal fade" id="tb_err_m">
+				<div class="modal fade" id="tb_err_m" style={{zIndex:999999}}>
 						<div class="modal-dialog modal-dialog-scrollable">
 							<div class="modal-content modal-tb_err_m bg-transparent border-0">
 
