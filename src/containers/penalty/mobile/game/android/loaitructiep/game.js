@@ -583,7 +583,7 @@ export default class Game extends Phaser.Scene{
         });
 
         setTimeout(()=>{ 
-            self.showThoat("Bạn đã bị loại, chờ phiên tiếp theo nhé.")
+            self.showThoat("Rất tiếc, bạn đã bị loại. Hãy quay lại vào phiên tiếp theo nhé.")
         }, 1000);
 
 

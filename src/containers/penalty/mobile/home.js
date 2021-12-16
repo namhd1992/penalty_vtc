@@ -387,41 +387,44 @@ class Lucky_Rotation extends React.Component {
 		data.serverId=1;
 		data.limit=10
 		// data.modeId=type;
-		if (user !== null) {
-			this.props.sessionUpcomming(user.access_token, data).then(()=>{
-				var data=this.props.dataSessionUpcomming;
-				var room=data.data.room;
-				var new_room=[];
-				var awards=data.data.rewards;
-				for (let i = 0; i < room.length; i++) {
-					var award=awards.filter(v=>v.id===room[i].id)
-					room[i].award=award;
-					new_room.push(room[i])
-				}
-				console.log(data)
-				if(data!==undefined){
-					if(data.code > 0){
+		this.props.sessionUpcomming(user.access_token, data).then(()=>{
+			var data=this.props.dataSessionUpcomming;
+			if(data!==undefined){
+				if(data.code > 0){
+					var room=data.data.room;
+					var new_room=[];
+					var awards=data.data.rewards;
+					if(room!==null){
+						for (let i = 0; i < room.length; i++) {
+							var award=awards.filter(v=>v.id===room[i].id)
+							room[i].award=award;
+							new_room.push(room[i])
+						}
 						this.setState({listSesstions: new_room, timeServer:data.data.timeServer},()=>{
 							let myModal = new Modal(document.getElementById('gt'));
 							myModal.show();
 						})
 					}else{
-						this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
+						this.setState({message_error:'Hiện tại chưa có phiên nào. Bạn quay lại vào lúc khác nhé.'},()=>{
 							let myModal = new Modal(document.getElementById('tb_err_m'));
 							myModal.show();
 						})
 					}
+					
 				}else{
-					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau'},()=>{
+					this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
 						let myModal = new Modal(document.getElementById('tb_err_m'));
 						myModal.show();
 					})
 				}
-			});
-		}else {
-			let myModal = new Modal(document.getElementById('tb'));
-			myModal.show();
-		}
+			}else{
+				this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau'},()=>{
+					let myModal = new Modal(document.getElementById('tb_err_m'));
+					myModal.show();
+				})
+			}
+		});
+		
 	}
   
 	getSessionInPlay=(type)=>{
@@ -439,26 +442,31 @@ class Lucky_Rotation extends React.Component {
 				if(data!==undefined){
 					if(data.code > 0){
 						if(data.data!==null){
-							var info_seesion=data.data.room;
-							this.setState({info_seesion:info_seesion, user_data: data.data.user, timeServer: data.data.timeServer})
-							localStorage.setItem("info_seesion", JSON.stringify(info_seesion));
-							switch (type) {
-								case 1:
-									this.checkBetting(1, '');
-									break;
-								case 2:
-									this.checkBetting(2, 'GIẬT HŨ VÀNG');
-									break;
-								case 3:
-									this.checkBetting(3, 'LOẠI TRỰC TIẾP');
-									// window.location.replace('/loaitructiep')
-									break;
-							
-								default:
-									this.checkBetting(1, '');
-									break;
+							if(data.data.room!==null){
+								var info_seesion=data.data.room;
+								this.setState({info_seesion:info_seesion, user_data: data.data.user, timeServer: data.data.timeServer})
+								localStorage.setItem("info_seesion", JSON.stringify(info_seesion));
+								switch (type) {
+									case 1:
+										this.checkBetting(1, '');
+										break;
+									case 2:
+										this.checkBetting(2, 'GIẬT HŨ VÀNG');
+										break;
+									case 3:
+										this.checkBetting(3, 'LOẠI TRỰC TIẾP');
+										break;
+								
+									default:
+										this.checkBetting(1, '');
+										break;
+								}
+							}else{
+								this.setState({message_error:"Hiện chưa có phiên nào."}, ()=>{
+									let myModal = new Modal(document.getElementById('tb_err_m'));
+									myModal.show();
+								})
 							}
-							
 						}else{
 							this.setState({message_error:"Hiện chưa có phiên nào."}, ()=>{
 								let myModal = new Modal(document.getElementById('tb_err_m'));
@@ -502,7 +510,7 @@ class Lucky_Rotation extends React.Component {
 			}
 			
 			if(time > info_seesion.endTime){
-				this.setState({message_error:'Phiên chơi đã kết thúc.'},()=>{
+				this.setState({message_error:'Phiên đã kết thúc. Hãy quay lại vào phiên tiếp theo nhé'},()=>{
 					let myModal = new Modal(document.getElementById('tb_err_m'));
 					myModal.show();
 				})
@@ -876,7 +884,7 @@ class Lucky_Rotation extends React.Component {
 				var d=this.props.dataHistoryTuDo;
 				if(d!==undefined){
 					if(d.code>0){
-						this.setState({listHistory:d.data.items, countTuDo:d.data.totalItems, noti_tudo:false})
+						this.setState({listHistory:d.data.items, countHistory:d.data.totalItems, noti_tudo:false})
 					}else{
 						this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'}, ()=>{
 							let myModal = new Modal(document.getElementById('tb_err_m'));
@@ -1607,7 +1615,7 @@ class Lucky_Rotation extends React.Component {
 							<div class="tab-content">
 							<div class="container text-center p-3">
 								<h4 class="pt-1 pb-3 font-UTMFacebookKT">Bạn vẫn chưa đăng nhập</h4>
-								<a href="#" title="Đăng nhập"><img src={btn_dangnhap} alt="" width="160" /></a>
+								<a href="#" title="Đăng nhập" onClick={this.loginAction}><img src={btn_dangnhap} alt="" width="160" /></a>
 							</div>
 							</div>
 							

@@ -403,41 +403,45 @@ class Lucky_Rotation extends React.Component {
 		data.serverId=1;
 		data.limit=10
 		// data.modeId=type;
-		if (user !== null) {
-			this.props.sessionUpcomming(user.access_token, data).then(()=>{
-				var data=this.props.dataSessionUpcomming;
-				var room=data.data.room;
-				var new_room=[];
-				var awards=data.data.rewards;
-				for (let i = 0; i < room.length; i++) {
-					var award=awards.filter(v=>v.id===room[i].id)
-					room[i].award=award;
-					new_room.push(room[i])
-				}
-				console.log(new_room)
-				if(data!==undefined){
-					if(data.code > 0){
+		this.props.sessionUpcomming(user.access_token, data).then(()=>{
+			var data=this.props.dataSessionUpcomming;
+			if(data!==undefined){
+				if(data.code > 0){
+					
+					var room=data.data.room;
+					var new_room=[];
+					var awards=data.data.rewards;
+			
+					if(room!==null){
+						for (let i = 0; i < room.length; i++) {
+							var award=awards.filter(v=>v.id===room[i].id)
+							room[i].award=award;
+							new_room.push(room[i])
+						}
 						this.setState({listSesstions: new_room, timeServer:data.data.timeServer},()=>{
 							let myModal = new Modal(document.getElementById('gt_web'));
 							myModal.show();
 						})
 					}else{
-						this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
+						this.setState({message_error:'Hiện tại chưa có phiên nào. Bạn quay lại vào lúc khác nhé.'},()=>{
 							let myModal = new Modal(document.getElementById('tb_err'));
 							myModal.show();
 						})
 					}
 				}else{
-					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau.'},()=>{
+					this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
 						let myModal = new Modal(document.getElementById('tb_err'));
 						myModal.show();
 					})
 				}
-			});
-		}else {
-			let myModal = new Modal(document.getElementById('tb_web'));
-			myModal.show();
-		}
+			}else{
+				this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau.'},()=>{
+					let myModal = new Modal(document.getElementById('tb_err'));
+					myModal.show();
+				})
+			}
+		});
+	
 	}
   
 	getSessionInPlay=(type)=>{
@@ -454,13 +458,9 @@ class Lucky_Rotation extends React.Component {
 				if(data!==undefined){
 					if(data.code > 0){
 						if(data.data!==null){
-							
-							var info_seesion=data.data.room;
-							if(info_seesion!==null){
-								this.setState({info_seesion:info_seesion, user_data: data.data.user})
-							}
-
 							if(data.data.room!==null){
+								var info_seesion=data.data.room;
+								this.setState({info_seesion:info_seesion, user_data: data.data.user})
 								localStorage.setItem("info_seesion", JSON.stringify(info_seesion));
 								switch (type) {
 									case 1:
@@ -583,7 +583,7 @@ class Lucky_Rotation extends React.Component {
 											window.location.href=window.location.href+'loaitructiep';
 										}else{
 											this.setState({points:user_data.points},()=>{
-												let myModal = new Modal(document.getElementById('datcuoc'));
+												let myModal = new Modal(document.getElementById('datcuoc_web'));
 												myModal.show();
 											})
 										}
@@ -616,7 +616,7 @@ class Lucky_Rotation extends React.Component {
 			}else{
 				if(user_data.points > info_seesion.minBet){
 					this.setState({points:user_data.points},()=>{
-						let myModal = new Modal(document.getElementById('datcuoc'));
+						let myModal = new Modal(document.getElementById('datcuoc_web'));
 						myModal.show();
 					})
 				}else{
@@ -1792,7 +1792,7 @@ class Lucky_Rotation extends React.Component {
 					{/* <!-- End The Modal --> */}
 
 					{/* <!-- The Modal Đặt cược --> */}
-					<div class="modal fade" id="datcuoc">
+					<div class="modal fade" id="datcuoc_web">
 						<div class="modal-dialog modal-dialog-scrollable">
 							<div class="modal-content border-0 modal-datcuoc_web bg-transparent border-0">
 
