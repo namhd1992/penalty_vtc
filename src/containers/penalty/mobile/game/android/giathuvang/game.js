@@ -81,6 +81,7 @@ import bg_title_giathuvang from '../../../../assert/huvang/bg-title-giathuvang.p
 import bg_pop_ingame from '../../../../assert/1.png';
 import btn_dongy from '../../../../assert/btn-dongy.png';
 import btn_thoat from '../../../../assert/btn-thoat.png';
+import icon_home from '../../../../assert/icon-home.png';
 
 const list_keep=[]
 const list_goal=[]
@@ -188,6 +189,7 @@ export default class Game extends Phaser.Scene{
         this.load.image('bg_pop_ingame', bg_pop_ingame);
         this.load.image('btn_dongy', btn_dongy);
         this.load.image('btn_thoat', btn_thoat);
+        this.load.image('icon_home', icon_home);
     }
 
     create(){
@@ -542,8 +544,10 @@ export default class Game extends Phaser.Scene{
         this.txt_time = this.add.text(530*delta_x,  75*delta_y, "Còn: 00h00p00", { font: `${16*delta_x}px Arial`, fill: "#ffffff", align:'center' });
         this.txt_giaithuong = this.add.text(440*delta_x,  115*delta_y, `Tổng điểm Hũ Vàng`, { font: `${17*delta_x}px Arial`, fill: "#ffffff", align:"center", fixedWidth: 200*delta_x });
         this.txt_giaithuong_value = this.add.text(660*delta_x,  115*delta_y, '00', { font: `${17*delta_x}px Arial`, fill: "#ffffff", align:"center", fixedWidth: 100*delta_x });
-        this.txt_acc = this.add.text(975*delta_x,  15*delta_y, `Chào: ${user.nick_name.substring(0, 10)}...`, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center' });
-        this.txt_thoat = this.add.text(1130*delta_x,  15*delta_y, '(Thoát)', { font: `${18*delta_x}px Arial`, fill: "#ffc107", align:'center' });
+        this.txt_acc = this.add.text(975*delta_x,  15*delta_y, `Chào: ${this.userName(user.nick_name)}`, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center' });
+        // this.txt_thoat = this.add.text(1130*delta_x,  15*delta_y, '(Thoát)', { font: `${18*delta_x}px Arial`, fill: "#ffc107", align:'center' });
+        this.icon_home=this.add.image(1165*delta_x,40*delta_y,'icon_home');
+        this.icon_home.setScale(delta_x,delta_x)
         this.txt_points = this.add.text(975*delta_x,  45*delta_y, `Lượt: 00`, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center' });
         this.txt_titleRanking = this.add.text(30*delta_x,  290*delta_y, 'TÀI KHOẢN            BÀN THẮNG', { font: `${15*delta_x}px Arial bold`, fill: "#ffffff" });
       
@@ -568,7 +572,7 @@ export default class Game extends Phaser.Scene{
             self.opt_suttudong_checked.visible=false;
         })
 
-        this.txt_thoat.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
+        this.icon_home.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
             window.location.replace('/')
         })
 
@@ -753,12 +757,13 @@ export default class Game extends Phaser.Scene{
         }
     }
 
-    footballOut(){
-
-    }
-
-    setSizeBall(positionY){
-        
+    userName=(name)=>{
+        var len=name.length;
+        if(len>12){
+          return name.substring(0,10)+'...'
+        }else{
+          return name;
+        }
     }
 
     play(p1,p2){

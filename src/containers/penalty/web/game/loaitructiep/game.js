@@ -81,6 +81,7 @@ import bg_title_loaitructiep from '../../../assert/loaitructiep/bg-title-loaitru
 import bg_pop_ingame from '../../../assert/1.png';
 import btn_dongy from '../../../assert/btn-dongy.png';
 import btn_thoat from '../../../assert/btn-thoat.png';
+import icon_home from '../../../assert/icon-home.png';
 
 
 
@@ -187,6 +188,7 @@ export default class Game extends Phaser.Scene{
         this.load.image('bg_pop_ingame', bg_pop_ingame);
         this.load.image('btn_dongy', btn_dongy);
         this.load.image('btn_thoat', btn_thoat);
+        this.load.image('icon_home', icon_home);
     }
 
     create(){
@@ -512,7 +514,8 @@ export default class Game extends Phaser.Scene{
         this.txt_time = this.add.text(530,  75, 'Còn: 00h00p00', { font: "16px Arial", fill: "#ffffff", align:'center' });
         this.txt_giaithuong = this.add.text(440,  115, `Giải thưởng:`, { font: "17px Arial", fill: "#ffffff", align:"center", fixedWidth: 333 });
         this.txt_acc = this.add.text(980,  15, `Chào: ${user.nick_name.substring(0, 10)}`, { font: "18px Arial", fill: "#ffffff", align:'center' });
-        this.txt_thoat = this.add.text(1125,  15, '(Thoát)', { font: `18px Arial`, fill: "#ffc107", align:'center' });
+        // this.txt_thoat = this.add.text(1125,  15, '(Thoát)', { font: `18px Arial`, fill: "#ffc107", align:'center' });
+        this.icon_home=this.add.image(1165,40,'icon_home');
         this.txt_points = this.add.text(980,  45, `Lượt: 00`, { font: "18px Arial", fill: "#ffffff", align:'center' });
         this.txt_titleRanking = this.add.text(30,  290, 'TÀI KHOẢN                BÀN THẮNG', { font: "13px Arial bold", fill: "#ffffff" });
       
@@ -546,7 +549,7 @@ export default class Game extends Phaser.Scene{
             self.opt_suttudong_checked.visible=false;
         })
 
-        this.txt_thoat.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
+        this.icon_home.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
             window.location.replace('/')
         })
 
@@ -561,9 +564,11 @@ export default class Game extends Phaser.Scene{
             }
         });
 
-        setTimeout(()=>{ 
-            self.showThoat("Bạn đã bị loại, chờ phiên tiếp theo nhé.")
-        }, 500);
+        if(isPopup){
+            setTimeout(()=>{ 
+                self.showThoat("Rất tiếc, bạn đã bị loại. Hãy quay lại vào phiên tiếp theo nhé.")
+            }, 1000);
+        }
 
         // starsIcon.on('pointerup', function () {
         //     this.cre
@@ -754,7 +759,7 @@ export default class Game extends Phaser.Scene{
                 this.timeRemain(data_game.room.endTime)
                 this.time_update -= 1000;
             }
-        }
+        } 
     }
 
     play(p1,p2){
@@ -901,16 +906,13 @@ export default class Game extends Phaser.Scene{
     }
 
 
-    getDataConnect(){
-       
-    }
-
-    footballOut(){
-
-    }
-
-    setSizeBall(positionY){
-        
+    userName=(name)=>{
+        var len=name.length;
+        if(len>12){
+          return name.substring(0,10)+'...'
+        }else{
+          return name;
+        }
     }
 
     setBallLine(p1,p2){

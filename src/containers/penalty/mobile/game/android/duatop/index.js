@@ -108,7 +108,7 @@ export default class duatop extends React.Component {
                     {(horizontal)?(
                         <div>
                             {(fullScreen)?(<IonPhaser game={game} initialize={initialize} style={{backgroundColor:"#092b2f", marginTop:"0px"}}/>):(
-                                <div>
+                                <div style={{backgroundColor:"#092b2f", marginTop:"0px"}}>
                                     <img src={btn_fullscreen} width="30%" alt="" onClick={this.openFullScreen} style={{marginTop:height/2-100, marginLeft:width/2-100}}/>
                                 </div>
                             )}

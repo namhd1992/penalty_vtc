@@ -1262,7 +1262,7 @@ class Lucky_Rotation extends React.Component {
 	}
 
 	closeDatCuoc=()=>{
-		let myModal = new Modal(document.getElementById('datcuoc'));
+		let myModal = new Modal(document.getElementById('datcuoc_web'));
 		myModal.hide();
 	}
 
