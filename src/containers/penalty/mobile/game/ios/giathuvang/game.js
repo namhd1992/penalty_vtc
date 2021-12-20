@@ -858,7 +858,7 @@ export default class Game extends Phaser.Scene{
                     console.log("Vuốt lên để chơi")
                 }
             }else{
-                _this.showMessageBox('Bạn đã hết lượt chơi.')
+                _this.showMessageBox('Bạn đã hết lượt chơi.\n Hãy quay lại vào phiên tiếp theo nhé.')
                 isPlay=true;
             }
         }
