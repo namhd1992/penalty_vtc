@@ -80,7 +80,7 @@ import bg_taikhoan from '../../../../assert/duatop/bg-taikhoan.png';
 import bg_title_duatop from '../../../../assert/duatop/bg-title-duatop.png';
 
 import bg_pop_ingame from '../../../../assert/1.png';
-import btn_dongy from '../../../../assert/btn-dongy.png';
+import btn_dongy from '../../../../assert/btn-popup-napgame.png';
 import btn_thoat from '../../../../assert/btn-thoat.png';
 import icon_home from '../../../../assert/icon-home.png';
 
@@ -761,6 +761,7 @@ export default class Game extends Phaser.Scene{
     play(p1,p2){
         var _this=this;
         if(isPlay){
+            isPlay=false;
             var user = JSON.parse(localStorage.getItem("user"));
             var points=data_game.user.points;
             var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
@@ -852,18 +853,13 @@ export default class Game extends Phaser.Scene{
                     console.log("Vuốt lên để chơi")
                 }
             }else{
-                _this.showMessageBox('Bạn đã hết lượt chơi.')
+                _this.showMessageBox('Bạn đã hết lượt chơi.\n Hãy Nạp thêm scoin để nhận thêm\n lượt chơi nhé.')
                 isPlay=true;
             }
-        }
-        if(p1[1] > p2[1]){
-            isPlay=false;
         }
     }
 
     showMessageBox(text) {
-        //just in case the message box already exists
-        //destroy it
         var _this=this;
         this.back = this.add.sprite(600*delta_x, (675/2)*delta_y, "bg_pop_ingame");
         this.back.setScale(delta_x,delta_y)
@@ -885,6 +881,7 @@ export default class Game extends Phaser.Scene{
         this.closeButton.destroy();
         this.thoatButton.destroy();
         this.text1.destroy();
+        window.open("https://scoin.vn/nap-game");
     }
     
     userName=(name)=>{

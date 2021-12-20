@@ -81,7 +81,7 @@ import bg_taikhoan from '../../../assert/duatop/bg-taikhoan.png';
 import bg_title_duatop from '../../../assert/duatop/bg-title-duatop.png';
 
 import bg_pop_ingame from '../../../assert/1.png';
-import btn_dongy from '../../../assert/btn-dongy.png';
+import btn_dongy from '../../../assert/btn-popup-napgame.png';
 import btn_thoat from '../../../assert/btn-thoat.png';
 import icon_home from '../../../assert/icon-home.png';
 
@@ -558,7 +558,10 @@ export default class Game extends Phaser.Scene{
         this.input.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, function (pointer) {
             var p1=[pointer.downX, pointer.downY];
             var p2=[pointer.upX, pointer.upY];
-            self.play(p1,p2)
+            if(pointer.downY > pointer.upY){
+                self.play(p1,p2)
+            }
+            
             
         });
 
@@ -757,6 +760,8 @@ export default class Game extends Phaser.Scene{
     play(p1,p2){
         var _this=this;
         if(isPlay){
+           
+            isPlay=false;
             var user = JSON.parse(localStorage.getItem("user"));
             var points=data_game.user.points;
             var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
@@ -852,20 +857,16 @@ export default class Game extends Phaser.Scene{
                     console.log("Vuốt lên để chơi")
                 }
             }else{
-                _this.showMessageBox('Bạn đã hết lượt chơi.')
-                isPlay=true;
+                _this.showMessageBox('Bạn đã hết lượt chơi.\n Hãy Nạp thêm scoin để nhận thêm lượt chơi nhé')
             }
         }
-        if(p1[1] > p2[1]){
-            isPlay=false;
-        }
-        
     }
 
     showMessageBox(text) {
         //just in case the message box already exists
         //destroy it
         var _this=this;
+        isPlay=true;
         this.back = this.add.sprite(600, 675/2, "bg_pop_ingame");
         this.closeButton = this.add.sprite(470, 480, "btn_dongy");
         this.thoatButton = this.add.sprite(730, 480, "btn_thoat");
@@ -883,6 +884,7 @@ export default class Game extends Phaser.Scene{
         this.closeButton.destroy();
         this.thoatButton.destroy();
         this.text1.destroy();
+        window.open("https://scoin.vn/nap-game");
     }
     
     userName=(name)=>{

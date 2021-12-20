@@ -769,6 +769,7 @@ export default class Game extends Phaser.Scene{
     play(p1,p2){
         var _this=this;
         if(isPlay){
+            isPlay=false;
             var user = JSON.parse(localStorage.getItem("user"));
             var points=data_game.user.points;
             var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
@@ -861,9 +862,6 @@ export default class Game extends Phaser.Scene{
                 _this.showMessageBox('Bạn đã hết lượt chơi.')
                 isPlay=true;
             }
-        }
-        if(p1[1] > p2[1]){
-            isPlay=false;
         }
     }
 

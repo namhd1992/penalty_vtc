@@ -380,7 +380,7 @@ class Lucky_Rotation extends React.Component {
 						this.setState({listVinhDanh:data.data.items, countVinhDanh:data.data.totalItems})
 					}else{
 						
-						this.setState({message_error:'Không lấy được dữ liệu bảng vinh danh.'}, ()=>{
+						this.setState({message_error:data.message}, ()=>{
 							let myModal = new Modal(document.getElementById('tb_err'));
 							myModal.show();
 						})
@@ -429,7 +429,7 @@ class Lucky_Rotation extends React.Component {
 						})
 					}
 				}else{
-					this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
+					this.setState({message_error:data.message},()=>{
 						let myModal = new Modal(document.getElementById('tb_err'));
 						myModal.show();
 					})
@@ -491,7 +491,7 @@ class Lucky_Rotation extends React.Component {
 						}
 					
 					}else{
-						this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
+						this.setState({message_error:data.message},()=>{
 							let myModal = new Modal(document.getElementById('tb_err'));
 							myModal.show();
 						})
@@ -579,25 +579,18 @@ class Lucky_Rotation extends React.Component {
 											myModal.show();
 										})
 									}else{
-										if(data.data.isBets){
-											window.location.href=window.location.href+'loaitructiep';
-										}else{
-											this.setState({points:user_data.points},()=>{
-												let myModal = new Modal(document.getElementById('datcuoc_web'));
-												myModal.show();
-											})
-										}
+										window.location.href=window.location.href+'loaitructiep';
 									}
 									// window.location.href=window.location.href+'loaitructiep';
 								}else{
-									this.setState({message_error:'Phiên đấu chưa diễn ra hoặc đã kết thúc.'},()=>{
-										let myModal = new Modal(document.getElementById('tb_err'));
+									this.setState({points:user_data.points},()=>{
+										let myModal = new Modal(document.getElementById('datcuoc_web'));
 										myModal.show();
 									})
 								}
 								
 							}else{
-								this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
+								this.setState({message_error:data.message},()=>{
 									let myModal = new Modal(document.getElementById('tb_err'));
 									myModal.show();
 								})
@@ -659,7 +652,7 @@ class Lucky_Rotation extends React.Component {
 						}
 						
 					}else{
-						this.setState({message_error:'Không lấy được dữ liệu.'},()=>{
+						this.setState({message_error:data.message},()=>{
 							let myModal = new Modal(document.getElementById('tb_err'));
 							myModal.show();
 						})
@@ -799,7 +792,7 @@ class Lucky_Rotation extends React.Component {
 					if(data.code > 0){
 						this.setState({contentGuide: data.data.content})
 					}else{
-						this.setState({message_error:'Không lấy được dữ liệu.'}, ()=>{
+						this.setState({message_error:data.message}, ()=>{
 							let myModal = new Modal(document.getElementById('tb_err'));
 							myModal.show();
 						})

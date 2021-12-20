@@ -778,6 +778,7 @@ export default class Game extends Phaser.Scene{
     play(p1,p2){
         var _this=this;
         if(isPlay){
+            isPlay=false;
             var user = JSON.parse(localStorage.getItem("user"));
             var points=data_game.user.points;
             var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
@@ -834,8 +835,10 @@ export default class Game extends Phaser.Scene{
 
                                 setTimeout(()=>{ 
                                     if(result===2){
-                                       number_goal+=1;
-                                    }
+                                        number_goal+=1;
+                                     }else{
+                                         _this.showThoat("Rất tiếc, bạn đã bị loại. Hãy quay lại vào phiên tiếp theo nhé")
+                                     }
                                     _this.updateData()
                                 }, 2000);
 
@@ -870,12 +873,9 @@ export default class Game extends Phaser.Scene{
                     console.log("Vuốt lên để chơi")
                 }
             }else{
-                _this.showMessageBox('Bạn đã hết lượt chơi.')
+                _this.showMessageBox('Bạn đã hết lượt chơi.\n Hãy Nạp thêm scoin để nhận thêm\n lượt chơi nhé.')
                 isPlay=true;
             }
-        }
-        if(p1[1] > p2[1]){
-            isPlay=false;
         }
     }
 
