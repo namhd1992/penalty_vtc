@@ -655,7 +655,7 @@ class Lucky_Rotation extends React.Component {
 					if(data.code > 0){
 						if(type_modeId===2){
 							if(data.data.timeServer < info_seesion.startTime){
-								var ms=`Phiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverter(info_seesion.startTime)}`
+								var ms=`Bạn đã đặt cược thành công.\nPhiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverter(info_seesion.startTime)}`
 								this.setState({message_error:ms},()=>{
 									modal_datcuoc.hide();
 									modal_tb_err.show();
@@ -672,7 +672,7 @@ class Lucky_Rotation extends React.Component {
 							
 							window.location.href=window.location.href+'giathuvang';
 						}else{
-							var ms=`Phiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverter(info_seesion.startTime)}`
+							var ms=`Bạn đã đặt cược thành công.\nPhiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverter(info_seesion.startTime)}`
 							this.setState({message_error:ms},()=>{
 								modal_datcuoc.hide();
 								modal_tb_err.show();
@@ -818,11 +818,13 @@ class Lucky_Rotation extends React.Component {
 						this.setState({contentGuide: data.data.content})
 					}else{
 						this.setState({message_error:data.message}, ()=>{
+							modal_huongdan.hide();
 							modal_tb_err.show();
 						})
 					}
 				}else{
 					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau.'},()=>{
+						modal_huongdan.hide();
 						modal_tb_err.show();
 					})
 				}
@@ -836,10 +838,10 @@ class Lucky_Rotation extends React.Component {
 		if(user!==null){
 			var data= {...info}
 			data.gameId=1;
-			data.serverId=1;
-			data.modeId=1;
+			data.serverId=-1;
+			data.modeId=-1;
 			data.userId= user.uid;
-			data.type=5;
+			data.type=-1;
 			data.fromDate=-1;
 			data.toDate=-1;
 			data.pageIndex=activeTuDo;
@@ -853,11 +855,13 @@ class Lucky_Rotation extends React.Component {
 					}else{
 					
 						this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'}, ()=>{
+							modal_tudo.hide();
 							modal_tb_err.show();
 						})
 					}
 				}else{
 					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau.'},()=>{
+						modal_tudo.hide();
 						modal_tb_err.show();
 					})
 				}

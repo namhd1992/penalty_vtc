@@ -819,11 +819,13 @@ class Lucky_Rotation extends React.Component {
 						this.setState({contentGuide: data.data.content})
 					}else{
 						this.setState({message_error:'Không lấy được dữ liệu.'}, ()=>{
+							modal_huongdan.hide();
 							modal_tb_err.show();
 						})
 					}
 				}else{
 					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau.'},()=>{
+						modal_huongdan.hide();
 						modal_tb_err.show();
 					})
 				}
@@ -839,10 +841,10 @@ class Lucky_Rotation extends React.Component {
 		if(user!==null){
 			var data= {...info}
 			data.gameId=1;
-			data.serverId=1;
-			data.modeId=1;
+			data.serverId=-1;
+			data.modeId=-1;
 			data.userId= user.uid;
-			data.type=5;
+			data.type=-1;
 			data.fromDate=-1;
 			data.toDate=-1;
 			data.pageIndex=activeTuDo;
@@ -860,11 +862,13 @@ class Lucky_Rotation extends React.Component {
 					}else{
 					
 						this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'}, ()=>{
+							modal_tudo.hide();
 							modal_tb_err.show();
 						})
 					}
 				}else{
 					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau'},()=>{
+						modal_tudo.hide();
 						modal_tb_err.show();
 					})
 				}
