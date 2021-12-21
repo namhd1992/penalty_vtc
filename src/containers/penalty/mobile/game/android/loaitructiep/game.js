@@ -78,7 +78,7 @@ import bg_giaithuong from '../../../../assert/loaitructiep/bg-giaithuong.png';
 import bg_taikhoan from '../../../../assert/loaitructiep/bg-taikhoan.png';
 import bg_title_loaitructiep from '../../../../assert/loaitructiep/bg-title-loaitructiep.png';
 
-import bg_pop_ingame from '../../../../assert/1.png';
+import bg_pop_ingame from '../../../../assert/bg-pop-ingame.png';
 import btn_dongy from '../../../../assert/btn-dongy.png';
 import btn_thoat from '../../../../assert/btn-thoat.png';
 import icon_home from '../../../../assert/icon-home.png';
@@ -861,7 +861,6 @@ export default class Game extends Phaser.Scene{
                                 }, 4000);
                             }else{
                                 _this.showMessageBox(response.data.message)
-                                isPlay=true;
                             }
                         })
     
@@ -873,8 +872,7 @@ export default class Game extends Phaser.Scene{
                     console.log("Vuốt lên để chơi")
                 }
             }else{
-                _this.showMessageBox('Bạn đã hết lượt chơi.\n Hãy Nạp thêm scoin để nhận thêm\n lượt chơi nhé.')
-                isPlay=true;
+                _this.showMessageBox('Bạn đã hết lượt chơi.\n Hãy Nạp thêm scoin để nhận thêm lượt chơi nhé.')
             }
         }
     }
@@ -899,6 +897,7 @@ export default class Game extends Phaser.Scene{
     }
 
     hideBox() {
+        isPlay=true;
         this.back.destroy();
         this.closeButton.destroy();
         this.thoatButton.destroy();

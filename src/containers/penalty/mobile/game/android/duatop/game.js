@@ -82,7 +82,7 @@ import bg_giaithuong_duatop from '../../../../assert/duatop/bg-giaithuong-duatop
 import bg_taikhoan from '../../../../assert/duatop/bg-taikhoan.png';
 import bg_title_duatop from '../../../../assert/duatop/bg-title-duatop.png';
 
-import bg_pop_ingame from '../../../../assert/1.png';
+import bg_pop_ingame from '../../../../assert/bg-pop-ingame.png';
 import btn_dongy from '../../../../assert/btn-dongy.png';
 import btn_thoat from '../../../../assert/btn-thoat.png';
 import icon_home from '../../../../assert/icon-home.png';
@@ -844,7 +844,6 @@ export default class Game extends Phaser.Scene{
                                 }, 4000);
                             }else{
                                 _this.showMessageBox(response.data.message)
-                                isPlay=true;
                             }
                         })
     
@@ -856,8 +855,7 @@ export default class Game extends Phaser.Scene{
                     console.log("Vuốt lên để chơi")
                 }
             }else{
-                _this.showMessageBox('Bạn đã hết lượt chơi.')
-                isPlay=true;
+                _this.showMessageBox('Bạn đã hết lượt chơi.\n Hãy Nạp thêm scoin để nhận thêm lượt chơi nhé.')
             }
         }
     }
@@ -872,7 +870,7 @@ export default class Game extends Phaser.Scene{
         this.closeButton.setScale(delta_x,delta_y)
         this.thoatButton = this.add.sprite(730*delta_x, 480*delta_y, "btn_thoat");
         this.thoatButton.setScale(delta_x,delta_y)
-        this.text1 = this.add.text(400*delta_x, 300*delta_y, text, { font: `${18*delta_x}px Arial`, fill: "#000000", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
+        this.text1 = this.add.text(400*delta_x, 300*delta_y, text, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
         this.closeButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             _this.hideBox()
         })
@@ -882,6 +880,7 @@ export default class Game extends Phaser.Scene{
     }
 
     hideBox() {
+        isPlay=true;
         this.back.destroy();
         this.closeButton.destroy();
         this.thoatButton.destroy();
