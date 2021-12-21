@@ -858,7 +858,7 @@ export default class Game extends Phaser.Scene{
         this.back = this.add.sprite(600, 675/2, "bg_pop_ingame");
         this.closeButton = this.add.sprite(470, 480, "btn_dongy");
         this.thoatButton = this.add.sprite(730, 480, "btn_thoat");
-        this.text1 = this.add.text(400, 300, text, { font: "18px Arial", fill: "#000000", align:'center', fixedWidth: 400, wordWrap:true});
+        this.text1 = this.add.text(400, 300, text, { font: "18px Arial", fill: "#ffffff", align:'center', fixedWidth: 400, wordWrap:true});
         this.closeButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             _this.hideBox()
         })
@@ -1121,7 +1121,7 @@ export default class Game extends Phaser.Scene{
                     window.location.replace('/')
                 }
             }).catch(function (error) {
-                window.location.replace('/')
+                // window.location.replace('/')
             })
         }else{
             window.location.replace('/')

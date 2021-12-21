@@ -872,7 +872,7 @@ export default class Game extends Phaser.Scene{
         this.closeButton.setScale(delta_x,delta_y)
         this.thoatButton = this.add.sprite(730*delta_x, 480*delta_y, "btn_thoat");
         this.thoatButton.setScale(delta_x,delta_y)
-        this.text1 = this.add.text(400*delta_x, 300*delta_y, text, { font: `${18*delta_x}px Arial`, fill: "#000000", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
+        this.text1 = this.add.text(400*delta_x, 300*delta_y, text, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
         this.closeButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             _this.hideBox()
         })

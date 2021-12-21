@@ -128,6 +128,16 @@ const info={
 	"requestId": 365603310,
 }
 
+let modal_datcuoc={};
+let modal_huongdan={};
+let modal_tudo={};
+let modal_giaithuong={};
+let modal_tb_err={};
+let modal_tb={};
+let modal_moqua={};
+let modal_moqua_bank={};
+
+
 
 
 
@@ -148,7 +158,7 @@ class Lucky_Rotation extends React.Component {
 			isLogin:false,
 			activeVinhDanh:0,
 			activeTuDo:0,
-			activeHistory:1,
+			activeHistory:0,
 			countVinhDanh:0,
 			countHistory:0,
 			countTuDo:0,
@@ -253,8 +263,16 @@ class Lucky_Rotation extends React.Component {
 		// 	})
 		// }else {
 		// 	this.setState({showRollup: true})
+
 		// }
-		
+		modal_datcuoc = new Modal(document.getElementById('datcuoc_web'));
+		modal_giaithuong = new Modal(document.getElementById('gt_web'));
+		modal_huongdan = new Modal(document.getElementById('huongdan_web'));
+		modal_moqua = new Modal(document.getElementById('mq_web'));
+		modal_moqua_bank = new Modal(document.getElementById('mq_bank_web'));
+		modal_tb = new Modal(document.getElementById('tb_web'));
+		modal_tb_err = new Modal(document.getElementById('tb_err'));
+		modal_tudo = new Modal(document.getElementById('td_web'));
 		window.addEventListener('scroll', this.handleScroll);
 	}
 
@@ -278,26 +296,26 @@ class Lucky_Rotation extends React.Component {
 	}
 
 
-	showModalChuyenTieu=()=>{
-		var user = JSON.parse(localStorage.getItem("user"));
-		document.getElementById("code").value="";
-		document.getElementById("username").value="";
-		document.getElementById("numberDart").value="";
-		if (user !== null) {
-			this.props.getInfoDonate(user.access_token).then(()=>{
-				var data=this.props.dataInfoDonate;
-				if(data!==undefined){
-					if(data.Status===0){
-						this.setState({dataInfoDonate:data.Data}, ()=>{
-							$('#Modalchuyenphitieu').modal('show');
-						})
-					}
-				}
-			})
-		}else {
-			$('#tb').modal('show');
-		}
-	}
+	// showModalChuyenTieu=()=>{
+	// 	var user = JSON.parse(localStorage.getItem("user"));
+	// 	document.getElementById("code").value="";
+	// 	document.getElementById("username").value="";
+	// 	document.getElementById("numberDart").value="";
+	// 	if (user !== null) {
+	// 		this.props.getInfoDonate(user.access_token).then(()=>{
+	// 			var data=this.props.dataInfoDonate;
+	// 			if(data!==undefined){
+	// 				if(data.Status===0){
+	// 					this.setState({dataInfoDonate:data.Data}, ()=>{
+	// 						$('#Modalchuyenphitieu').modal('show');
+	// 					})
+	// 				}
+	// 			}
+	// 		})
+	// 	}else {
+	// 		$('#tb').modal('show');
+	// 	}
+	// }
 
 	onResize=()=>{
 		if (window.innerWidth <= 320) {
@@ -379,16 +397,13 @@ class Lucky_Rotation extends React.Component {
 					if(data.code > 0){
 						this.setState({listVinhDanh:data.data.items, countVinhDanh:data.data.totalItems})
 					}else{
-						
 						this.setState({message_error:data.message}, ()=>{
-							let myModal = new Modal(document.getElementById('tb_err'));
-							myModal.show();
+							modal_tb_err.show();
 						})
 					}
 				}else{
 					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau.'},()=>{
-						let myModal = new Modal(document.getElementById('tb_err'));
-						myModal.show();
+						modal_tb_err.show();
 					})
 				}
 			});
@@ -414,30 +429,26 @@ class Lucky_Rotation extends React.Component {
 			
 					if(room!==null){
 						for (let i = 0; i < room.length; i++) {
-							var award=awards.filter(v=>v.id===room[i].id)
+							var award=awards.filter(v=>v.gameRoomId===room[i].id)
 							room[i].award=award;
 							new_room.push(room[i])
 						}
 						this.setState({listSesstions: new_room, timeServer:data.data.timeServer},()=>{
-							let myModal = new Modal(document.getElementById('gt_web'));
-							myModal.show();
+							modal_giaithuong.show();
 						})
 					}else{
 						this.setState({message_error:'Hiện tại chưa có phiên nào. Bạn quay lại vào lúc khác nhé.'},()=>{
-							let myModal = new Modal(document.getElementById('tb_err'));
-							myModal.show();
+							modal_tb_err.show();
 						})
 					}
 				}else{
 					this.setState({message_error:data.message},()=>{
-						let myModal = new Modal(document.getElementById('tb_err'));
-						myModal.show();
+						modal_tb_err.show();
 					})
 				}
 			}else{
 				this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau.'},()=>{
-					let myModal = new Modal(document.getElementById('tb_err'));
-					myModal.show();
+					modal_tb_err.show();
 				})
 			}
 		});
@@ -460,7 +471,7 @@ class Lucky_Rotation extends React.Component {
 						if(data.data!==null){
 							if(data.data.room!==null){
 								var info_seesion=data.data.room;
-								this.setState({info_seesion:info_seesion, user_data: data.data.user})
+								this.setState({info_seesion:info_seesion, user_data: data.data.user, timeServer:data.data.timeServer})
 								localStorage.setItem("info_seesion", JSON.stringify(info_seesion));
 								switch (type) {
 									case 1:
@@ -479,56 +490,49 @@ class Lucky_Rotation extends React.Component {
 								}
 							}else{
 								this.setState({message_error:"Hiện chưa có phiên nào."}, ()=>{
-									let myModal = new Modal(document.getElementById('tb_err'));
-									myModal.show();
+									modal_tb_err.show();
 								})
 							}
 						}else{
 							this.setState({message_error:"Hiện chưa có phiên nào."}, ()=>{
-								let myModal = new Modal(document.getElementById('tb_err'));
-								myModal.show();
+								modal_tb_err.show();
 							})
 						}
 					
 					}else{
 						this.setState({message_error:data.message},()=>{
-							let myModal = new Modal(document.getElementById('tb_err'));
-							myModal.show();
+							modal_tb_err.show();
 						})
 					}
 				}else{
 					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau.'},()=>{
-						let myModal = new Modal(document.getElementById('tb_err'));
-						myModal.show();
+						modal_tb_err.show();
 					})
 				}
 			});
 		}else {
-			let myModal = new Modal(document.getElementById('tb_web'));
-			myModal.show();
+			modal_tb.show();
 		}
 	}
 
 
 	checkBetting=(type, title_module)=>{
-		const {info_seesion, user_data, user}=this.state;
-		var time=Date.now();
+		const {info_seesion, user_data, user, timeServer}=this.state;
+		var time=timeServer;
 		this.setState({type_modeId: type, title_module:title_module})
 		
 		
 		if(type===1){
 			if(time < info_seesion.startTime){
 				this.setState({message_error:'Phiên mới chưa bắt đầu.'},()=>{
-					let myModal = new Modal(document.getElementById('tb_err'));
-					myModal.show();
+					modal_tb_err.show();
 				})
 				return;
 			}
 			
 			if(time > info_seesion.endTime){
 				this.setState({message_error:'Phiên chơi đã kết thúc.'},()=>{
-					let myModal = new Modal(document.getElementById('tb_err'));
-					myModal.show();
+					modal_tb_err.show();
 				})
 				return;
 			}
@@ -537,24 +541,21 @@ class Lucky_Rotation extends React.Component {
 				window.location.href=window.location.href+'duatop';
 			}else{
 				this.setState({message_error:'Bạn không còn điểm để chơi.'},()=>{
-					let myModal = new Modal(document.getElementById('tb_err'));
-					myModal.show();
+					modal_tb_err.show();
 				})
 			}
 			
 		}else{
 			if(time < info_seesion.betsStartTime){
 				this.setState({message_error:'Chưa tới thời gian đặt cược .'},()=>{
-					let myModal = new Modal(document.getElementById('tb_err'));
-					myModal.show();
+					modal_tb_err.show();
 				})
 				return;
 			}
 			
 			if(time > info_seesion.betsEndTime){
 				this.setState({message_error:'Thời gian đặt cược đã hết.'},()=>{
-					let myModal = new Modal(document.getElementById('tb_err'));
-					myModal.show();
+					modal_tb_err.show();
 				})
 				return;
 			}
@@ -573,10 +574,23 @@ class Lucky_Rotation extends React.Component {
 						if(data!==undefined){
 							if(data.code > 0){
 								if(data.data.isBets){
+									if(time < info_seesion.startTime){
+										var ms=`Phiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverter(info_seesion.startTime)}`
+										this.setState({message_error:ms},()=>{
+											modal_tb_err.show();
+										})
+										return;
+									}
+									
+									if(time > info_seesion.endTime){
+										this.setState({message_error:'Phiên chơi đã kết thúc.'},()=>{
+											modal_tb_err.show();
+										})
+										return;
+									}
 									if(data.data.isKnockout){
 										this.setState({message_error:'Bạn đã bị loại khỏi phiên đấu hiện tại'},()=>{
-											let myModal = new Modal(document.getElementById('tb_err'));
-											myModal.show();
+											modal_tb_err.show();
 										})
 									}else{
 										window.location.href=window.location.href+'loaitructiep';
@@ -584,38 +598,32 @@ class Lucky_Rotation extends React.Component {
 									// window.location.href=window.location.href+'loaitructiep';
 								}else{
 									this.setState({points:user_data.points},()=>{
-										let myModal = new Modal(document.getElementById('datcuoc_web'));
-										myModal.show();
+										modal_datcuoc.show();
 									})
 								}
 								
 							}else{
 								this.setState({message_error:data.message},()=>{
-									let myModal = new Modal(document.getElementById('tb_err'));
-									myModal.show();
+									modal_tb_err.show();
 								})
 							}
 						}else{
 							this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau.'},()=>{
-								let myModal = new Modal(document.getElementById('tb_err'));
-								myModal.show();
+								modal_tb_err.show();
 							})
 						}
 					});
 				}else {
-					let myModal = new Modal(document.getElementById('tb_web'));
-					myModal.show();
+					modal_tb.show();
 				}
 			}else{
 				if(user_data.points > info_seesion.minBet){
 					this.setState({points:user_data.points},()=>{
-						let myModal = new Modal(document.getElementById('datcuoc_web'));
-						myModal.show();
+						modal_datcuoc.show();
 					})
 				}else{
 					this.setState({message_error:'Số điểm của bạn không đủ để cược.'},()=>{
-						let myModal = new Modal(document.getElementById('tb_err'));
-						myModal.show();
+						modal_tb_err.show();
 					})
 				}
 			}
@@ -646,27 +654,45 @@ class Lucky_Rotation extends React.Component {
 				if(data!==undefined){
 					if(data.code > 0){
 						if(type_modeId===2){
+							if(data.data.timeServer < info_seesion.startTime){
+								var ms=`Phiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverter(info_seesion.startTime)}`
+								this.setState({message_error:ms},()=>{
+									modal_datcuoc.hide();
+									modal_tb_err.show();
+								})
+								return;
+							}
+							
+							if(data.data.timeServer > info_seesion.endTime){
+								this.setState({message_error:'Phiên chơi đã kết thúc.'},()=>{
+									modal_tb_err.show();
+								})
+								return;
+							}
+							
 							window.location.href=window.location.href+'giathuvang';
 						}else{
-							window.location.href=window.location.href+'loaitructiep';
+							var ms=`Phiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverter(info_seesion.startTime)}`
+							this.setState({message_error:ms},()=>{
+								modal_datcuoc.hide();
+								modal_tb_err.show();
+							})
+							// window.location.href=window.location.href+'loaitructiep';
 						}
 						
 					}else{
 						this.setState({message_error:data.message},()=>{
-							let myModal = new Modal(document.getElementById('tb_err'));
-							myModal.show();
+							modal_tb_err.show();
 						})
 					}
 				}else{
 					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau.'},()=>{
-						let myModal = new Modal(document.getElementById('tb_err'));
-						myModal.show();
+						modal_tb_err.show();
 					})
 				}
 			});
 		}else {
-			let myModal = new Modal(document.getElementById('tb_web'));
-			myModal.show();
+			modal_tb.show();
 		}
 	}
 
@@ -752,8 +778,7 @@ class Lucky_Rotation extends React.Component {
 	}
 
 	showModalHuongDan=()=>{
-		let myModal = new Modal(document.getElementById('huongdan_web'));
-		myModal.show();
+		modal_huongdan.show();
 		this.getContentGuide();
 	}
 
@@ -793,14 +818,12 @@ class Lucky_Rotation extends React.Component {
 						this.setState({contentGuide: data.data.content})
 					}else{
 						this.setState({message_error:data.message}, ()=>{
-							let myModal = new Modal(document.getElementById('tb_err'));
-							myModal.show();
+							modal_tb_err.show();
 						})
 					}
 				}else{
 					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau.'},()=>{
-						let myModal = new Modal(document.getElementById('tb_err'));
-						myModal.show();
+						modal_tb_err.show();
 					})
 				}
 			});
@@ -830,21 +853,18 @@ class Lucky_Rotation extends React.Component {
 					}else{
 					
 						this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'}, ()=>{
-							let myModal = new Modal(document.getElementById('tb_err'));
-							myModal.show();
+							modal_tb_err.show();
 						})
 					}
 				}else{
 					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau.'},()=>{
-						let myModal = new Modal(document.getElementById('tb_err'));
-						myModal.show();
+						modal_tb_err.show();
 					})
 				}
 				
 			});
 		}else {
-			let myModal = new Modal(document.getElementById('tb_web'));
-			myModal.show();
+			modal_tb.show();
 		}
 		
 	}
@@ -873,21 +893,18 @@ class Lucky_Rotation extends React.Component {
 					}else{
 					
 						this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'}, ()=>{
-							let myModal = new Modal(document.getElementById('tb_err'));
-							myModal.show();
+							modal_tb_err.show();
 						})
 					}
 				}else{
 					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau.'},()=>{
-						let myModal = new Modal(document.getElementById('tb_err'));
-						myModal.show();
+						modal_tb_err.show();
 					})
 				}
 				
 			});
 		}else {
-			let myModal = new Modal(document.getElementById('tb_web'));
-			myModal.show();
+			modal_tb.show();
 		}
 	}
 
@@ -895,11 +912,9 @@ class Lucky_Rotation extends React.Component {
 		var user = JSON.parse(localStorage.getItem("user"));
 		if (user !== null) {
 			this.getDataTuDo(user);
-			let myModal = new Modal(document.getElementById('td_web'));
-			myModal.show();
+			modal_tudo.show();
 		}else {
-			let myModal = new Modal(document.getElementById('tb_web'));
-			myModal.show();
+			modal_tb.show();
 		}
 	}
 
@@ -914,31 +929,25 @@ class Lucky_Rotation extends React.Component {
 					if(d.code>0){
 						this.setState({dataItem:data.data}, ()=>{
 							if(data.data.rewardType===31){
-								let myModal = new Modal(document.getElementById('mq_bank_web'));
-								myModal.show();
+								modal_moqua_bank.show();
 							}else{
-								let myModal = new Modal(document.getElementById('mq_web'));
-								myModal.show();
+								modal_moqua.show();
 							}
 						})
 					}else{
-					
 						this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'}, ()=>{
-							let myModal = new Modal(document.getElementById('tb_err'));
-							myModal.show();
+							modal_tb_err.show();
 						})
 					}
 				}else{
 					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau.'},()=>{
-						let myModal = new Modal(document.getElementById('tb_err'));
-						myModal.show();
+						modal_tb_err.show();
 					})
 				}
 				
 			});
 		}else {
-			let myModal = new Modal(document.getElementById('tb_web'));
-			myModal.show();
+			modal_tb.show();
 		}
 	}
 
@@ -1140,20 +1149,17 @@ class Lucky_Rotation extends React.Component {
 				if(data!==undefined){
 					if(data.code >0){
 						this.setState({rollup:true, message_error: data.message, type_action:'Điểm danh', showRollup:false}, ()=>{
-							let myModal = new Modal(document.getElementById('tb_err'));
-							myModal.show();
+							modal_tb_err.show();
 						})
 					}else{
 						this.setState({rollup:false, message_error: data.message}, ()=>{
-							let myModal = new Modal(document.getElementById('tb_err'));
-							myModal.show();
+							modal_tb_err.show();
 						})
 					}
 				}
 			})
 		}else {
-			let myModal = new Modal(document.getElementById('tb_web'));
-			myModal.show();
+			modal_tb.show();
 		}
 
 	}
@@ -1188,27 +1194,27 @@ class Lucky_Rotation extends React.Component {
 	// }
 
 
-	getListSanQua=()=>{
-		var user = JSON.parse(localStorage.getItem("user"));
-		if (user !== null) {
-			this.props.getListSanQua(user.access_token).then(()=>{
-				var data=this.props.dataSanqua;
-				if(data!==undefined){
-					if(data.Status===0){
-						this.setState({listSanqua:data.Data}, ()=>{
-							$('#Modalchonroom').modal('show');
-						})
-					}else{
-						this.setState({message_sanqua_empty:data.Message}, ()=>{
-							$('#ModalListEmpty').modal('show');
-						})
-					}
-				}
-			})
-		}else {
-			$('#tb').modal('show');
-		}
-	}
+	// getListSanQua=()=>{
+	// 	var user = JSON.parse(localStorage.getItem("user"));
+	// 	if (user !== null) {
+	// 		this.props.getListSanQua(user.access_token).then(()=>{
+	// 			var data=this.props.dataSanqua;
+	// 			if(data!==undefined){
+	// 				if(data.Status===0){
+	// 					this.setState({listSanqua:data.Data}, ()=>{
+	// 						$('#Modalchonroom').modal('show');
+	// 					})
+	// 				}else{
+	// 					this.setState({message_sanqua_empty:data.Message}, ()=>{
+	// 						$('#ModalListEmpty').modal('show');
+	// 					})
+	// 				}
+	// 			}
+	// 		})
+	// 	}else {
+	// 		$('#tb').modal('show');
+	// 	}
+	// }
 
 	showGiaithuong=(data)=>{
 		var n=data.length;
@@ -1230,33 +1236,27 @@ class Lucky_Rotation extends React.Component {
 	}
 
 	closeHD=()=>{
-		let myModal = new Modal(document.getElementById('huongdan_web'));
-		myModal.hide();
+		modal_huongdan.hide();;
 	}
 
 	closeGT=()=>{
-		let myModal = new Modal(document.getElementById('gt_web'));
-		myModal.hide();
+		modal_giaithuong.hide();
 	}
 
 	closeTD=()=>{
-		let myModal = new Modal(document.getElementById('td_web'));
-		myModal.hide();
+		modal_tudo.hide();
 	}
 
 	closeTb=()=>{
-		let myModal = new Modal(document.getElementById('tb_web'));
-		myModal.hide();
+		modal_tb.hide();
 	}
 
 	closeTbErr=()=>{
-		let myModal = new Modal(document.getElementById('tb_err'));
-		myModal.hide();
+		modal_tb_err.hide();
 	}
 
 	closeDatCuoc=()=>{
-		let myModal = new Modal(document.getElementById('datcuoc_web'));
-		myModal.hide();
+		modal_datcuoc.hide();
 	}
 
 

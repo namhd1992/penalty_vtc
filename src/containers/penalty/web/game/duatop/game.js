@@ -117,6 +117,7 @@ var _rewards=[];
 var _user={};
 var _room={};
 var _timeServer=0;
+var _deltaTime=0
 
 export default class Game extends Phaser.Scene{
     constructor() {
@@ -194,6 +195,7 @@ export default class Game extends Phaser.Scene{
     }
 
     create(){
+        
         var user = JSON.parse(localStorage.getItem("user"));
         this.timer=0;
         this.time_update=0;
@@ -751,6 +753,7 @@ export default class Game extends Phaser.Scene{
             this.txt_points.setText(`Điểm: ${_user.points}`)
 
             while (this.time_update > 1000) {
+                // console.log(Date.now())
                 this.timeRemain(_room.endTime)
                 this.time_update -= 1000;
             }
@@ -1064,9 +1067,9 @@ export default class Game extends Phaser.Scene{
     }
 
     timeRemain=(times)=>{
-        
-        var time=(times - _timeServer)/1000;
-        if(time>0){
+        var t=Date.now() + _deltaTime
+        var time=(times - t)/1000;
+        if(time>=0){
             var day=Math.floor(time/86400) > 9 ? Math.floor(time/86400) : `0${Math.floor(time/86400)}`;
             var hour=Math.floor((time%86400)/3600) > 9 ? Math.floor((time%86400)/3600) : `0${Math.floor((time%86400)/3600)}`;
             var minute=Math.floor(((time%86400)%3600)/60) > 9 ? Math.floor(((time%86400)%3600)/60) : `0${Math.floor(((time%86400)%3600)/60)}`;
@@ -1120,7 +1123,10 @@ export default class Game extends Phaser.Scene{
                             _user=response.data.data.user;
                             _room=response.data.data.room;
                             _timeServer=response.data.data.timeServer;
+                            
+                            _deltaTime=Date.now() -_timeServer
                             _this.timeRemain(data_game.room.endTime)
+
                         }else{
                             window.location.replace('/')
                         }

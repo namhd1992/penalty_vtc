@@ -886,7 +886,7 @@ export default class Game extends Phaser.Scene{
         this.closeButton.setScale(delta_x,delta_y)
         this.thoatButton = this.add.sprite(730*delta_x, 480*delta_y, "btn_thoat");
         this.thoatButton.setScale(delta_x,delta_y)
-        this.text1 = this.add.text(400*delta_x, 300*delta_y, text, { font: `${18*delta_x}px Arial`, fill: "#000000", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
+        this.text1 = this.add.text(400*delta_x, 300*delta_y, text, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
         this.closeButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             _this.hideBox()
         })
@@ -911,7 +911,7 @@ export default class Game extends Phaser.Scene{
         this.back.setScale(delta_x,delta_y)
         this.thoatButton = this.add.sprite(width/2, 480*delta_y, "btn_thoat");
         this.thoatButton.setScale(delta_x,delta_y)
-        this.text1 = this.add.text(400*delta_x, 300*delta_y, text, { font: `${18*delta_x}px Arial`, fill: "#000000", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
+        this.text1 = this.add.text(400*delta_x, 300*delta_y, text, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
         this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             window.location.replace('/')
         })
@@ -1133,12 +1133,24 @@ export default class Game extends Phaser.Scene{
                     if(response.data.code>=0){
                         isPopup=response.data.data.isKnockout;
                         if(_this.checkTimeSession(response.data.data.room.startTime, response.data.data.room.endTime, response.data.data)){
-                            data_game=response.data.data
+                            data_game=response.data.data;
+                            _rankings=response.data.data.rankings;
+                            _rewards=response.data.data.rewards;
+                            number_goal=response.data.data.summary.winCount;
+                            _user=response.data.data.user;
+                            _room=response.data.data.room;
+                            _timeServer=response.data.data.timeServer;
                             _this.timeRemain(data_game.room.endTime)
                             round=1;
                            
                         }else if(_this.checkTimeSession(response.data.data.room.startBonusTime, response.data.data.room.endBonusTime, response.data.data)){
-                            data_game=response.data.data
+                            data_game=response.data.data;
+                            _rankings=response.data.data.rankings;
+                            _rewards=response.data.data.rewards;
+                            number_goal=response.data.data.summary.winCount;
+                            _user=response.data.data.user;
+                            _room=response.data.data.room;
+                            _timeServer=response.data.data.timeServer;
                             _this.timeRemain(data_game.room.endBonusTime)
                             round=2;
                         }else{
@@ -1186,11 +1198,15 @@ export default class Game extends Phaser.Scene{
                         isPopup=response.data.data.isKnockout;
                         if(_this.checkTimeSession(response.data.data.room.startTime, response.data.data.room.endTime)){
                             data_game=response.data.data
+                            _rankings=data.rankings;
+                            _user=data.user;
                             _this.timeRemain(data_game.room.endTime)
                             round=1;
                            
                         }else if(_this.checkTimeSession(response.data.data.room.startBonusTime, response.data.data.room.endBonusTime)){
                             data_game=response.data.data
+                            _rankings=data.rankings;
+                            _user=data.user;
                             _this.timeRemain(data_game.room.endBonusTime)
                             round=2;
                         }else{
