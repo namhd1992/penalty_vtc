@@ -117,7 +117,7 @@ var _rewards=[];
 var _user={};
 var _room={};
 var _timeServer=0;
-var _deltaTime=0
+var _deltaTime=0;
 
 export default class Game extends Phaser.Scene{
     constructor() {
@@ -758,6 +758,10 @@ export default class Game extends Phaser.Scene{
                 this.time_update -= 1000;
             }
         }
+        var t=Date.now() + _deltaTime
+        if(t > _room.endTime){
+            this.showThoat('Phiên đã kết thúc')
+        }
 
     }
 
@@ -889,6 +893,18 @@ export default class Game extends Phaser.Scene{
         this.thoatButton.destroy();
         this.text1.destroy();
         window.open("https://scoin.vn/nap-game");
+    }
+
+    showThoat(text) {
+        //just in case the message box already exists
+        //destroy it
+        var _this=this;
+        this.back = this.add.sprite(600, 675/2, "bg_pop_ingame");
+        this.thoatButton = this.add.sprite(600, 480, "btn_thoat");
+        this.text1 = this.add.text(400, 300, text, { font: "18px Arial", fill: "#ffffff", align:'center', fixedWidth: 400, wordWrap:true});
+        this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+            window.location.replace('/')
+        })
     }
     
     userName=(name)=>{
@@ -1138,7 +1154,7 @@ export default class Game extends Phaser.Scene{
                     window.location.replace('/')
                 }
             }).catch(function (error) {
-                window.location.replace('/')
+                // window.location.replace('/')
             })
         }else{
             window.location.replace('/')
