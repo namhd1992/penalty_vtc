@@ -118,7 +118,7 @@ var _user={};
 var _room={};
 var _timeServer=0;
 var _deltaTime=0;
-
+var isFinish=false;
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -758,10 +758,14 @@ export default class Game extends Phaser.Scene{
                 this.time_update -= 1000;
             }
         }
-        var t=Date.now() + _deltaTime
-        if(t > _room.endTime){
-            this.showThoat('Phiên đã kết thúc')
+        var t=Date.now() + _deltaTime;
+        if(!isFinish){
+            if(t > _room.endTime){
+                this.showThoat('Phiên đã kết thúc')
+                isFinish=true;
+            }
         }
+        
 
     }
 
@@ -1114,51 +1118,56 @@ export default class Game extends Phaser.Scene{
         var _this=this;
         var user = JSON.parse(localStorage.getItem("user"));
         var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
-        if(user!==null){
-            var data= {...info}
-            data.userId= user.uid;
-            data.gameId=1;
-            data.serverId=1;
-            data.modeId=1;
-            data.roomId=info_seesion.id;
-            data.rakingLimit=10
-            var header = {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${user.access_token}`,
-                    "dataType":"json"
+        if(info_seesion!==null){
+            if(user!==null){
+                var data= {...info}
+                data.userId= user.uid;
+                data.gameId=1;
+                data.serverId=1;
+                data.modeId=1;
+                data.roomId=info_seesion.id;
+                data.rakingLimit=10
+                var header = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${user.access_token}`,
+                        "dataType":"json"
+                    }
                 }
-            }
-            axios.post(Ultilities.base_url() +'/lobby/api/v1/race/connect', data, header).then(function (response) {
-                if(response.data !==undefined){
-                    if(response.data.code>=0){
-                        if(_this.checkTimeSession(response.data.data)){
-                            data_game=response.data.data
-                            _rankings=response.data.data.rankings;
-                            _rewards=response.data.data.rewards;
-                            number_goal=response.data.data.summary.winCount;
-                            _user=response.data.data.user;
-                            _room=response.data.data.room;
-                            _timeServer=response.data.data.timeServer;
-                            
-                            _deltaTime=Date.now() -_timeServer
-                            _this.timeRemain(data_game.room.endTime)
-
+                axios.post(Ultilities.base_url() +'/lobby/api/v1/race/connect', data, header).then(function (response) {
+                    if(response.data !==undefined){
+                        if(response.data.code>=0){
+                            if(_this.checkTimeSession(response.data.data)){
+                                data_game=response.data.data
+                                _rankings=response.data.data.rankings;
+                                _rewards=response.data.data.rewards;
+                                number_goal=response.data.data.summary.winCount;
+                                _user=response.data.data.user;
+                                _room=response.data.data.room;
+                                _timeServer=response.data.data.timeServer;
+                                
+                                _deltaTime=Date.now() -_timeServer
+                                _this.timeRemain(data_game.room.endTime)
+    
+                            }else{
+                                window.location.replace('/')
+                            }
                         }else{
                             window.location.replace('/')
                         }
                     }else{
                         window.location.replace('/')
                     }
-                }else{
+                }).catch(function (error) {
                     window.location.replace('/')
-                }
-            }).catch(function (error) {
-                // window.location.replace('/')
-            })
+                })
+            }else{
+                window.location.replace('/')
+            }
         }else{
             window.location.replace('/')
         }
+        
     }
 
 

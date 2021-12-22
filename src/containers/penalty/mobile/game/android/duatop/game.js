@@ -122,6 +122,8 @@ var _rewards=[];
 var _user={};
 var _room={};
 var _timeServer=0;
+var _deltaTime=0;
+var isFinish=false;
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -757,6 +759,13 @@ export default class Game extends Phaser.Scene{
                 this.time_update -= 1000;
             }
         }
+        var t=Date.now() + _deltaTime;
+        if(!isFinish){
+            if(t > _room.endTime){
+                this.showThoat('Phiên đã kết thúc')
+                isFinish=true;
+            }
+        }
     }
 
 
@@ -886,6 +895,20 @@ export default class Game extends Phaser.Scene{
         this.closeButton.destroy();
         this.thoatButton.destroy();
         this.text1.destroy();
+    }
+
+    showThoat(text) {
+        //just in case the message box already exists
+        //destroy it
+        var _this=this;
+        this.back = this.add.sprite(600*delta_x, (675/2)*delta_y, "bg_pop_ingame");
+        this.back.setScale(delta_x,delta_y)
+        this.thoatButton = this.add.sprite(width/2, 480*delta_y, "btn_thoat");
+        this.thoatButton.setScale(delta_x,delta_y)
+        this.text1 = this.add.text(400*delta_x, 300*delta_y, text, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
+        this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+            window.location.replace('/')
+        })
     }
     
     userName=(name)=>{
@@ -1056,7 +1079,8 @@ export default class Game extends Phaser.Scene{
 
     timeRemain=(times)=>{
         
-        var time=(times - _timeServer)/1000;
+        var t=Date.now() + _deltaTime
+        var time=(times - t)/1000;
         if(time>0){
             var day=Math.floor(time/86400) > 9 ? Math.floor(time/86400) : `0${Math.floor(time/86400)}`;
             var hour=Math.floor((time%86400)/3600) > 9 ? Math.floor((time%86400)/3600) : `0${Math.floor((time%86400)/3600)}`;
@@ -1085,48 +1109,54 @@ export default class Game extends Phaser.Scene{
         var _this=this;
         var user = JSON.parse(localStorage.getItem("user"));
         var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
-        if(user!==null){
-            var data= {...info}
-            data.userId= user.uid;
-            data.gameId=1;
-            data.serverId=1;
-            data.modeId=1;
-            data.roomId=info_seesion.id;
-            data.rakingLimit=5
-            var header = {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${user.access_token}`,
-                    "dataType":"json"
+        if(info_seesion!==null){
+            if(user!==null){
+                var data= {...info}
+                data.userId= user.uid;
+                data.gameId=1;
+                data.serverId=1;
+                data.modeId=1;
+                data.roomId=info_seesion.id;
+                data.rakingLimit=5
+                var header = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${user.access_token}`,
+                        "dataType":"json"
+                    }
                 }
-            }
-            axios.post(Ultilities.base_url() +'/lobby/api/v1/race/connect', data, header).then(function (response) {
-                if(response.data !==undefined){
-                    if(response.data.code>=0){
-                        if(_this.checkTimeSession(response.data.data)){
-                            data_game=response.data.data
-                            _rankings=response.data.data.rankings;
-                            _rewards=response.data.data.rewards;
-                            number_goal=response.data.data.summary.winCount;
-                            _user=response.data.data.user;
-                            _room=response.data.data.room;
-                            _timeServer=response.data.data.timeServer;
-                            _this.timeRemain(data_game.room.endTime)
+                axios.post(Ultilities.base_url() +'/lobby/api/v1/race/connect', data, header).then(function (response) {
+                    if(response.data !==undefined){
+                        if(response.data.code>=0){
+                            if(_this.checkTimeSession(response.data.data)){
+                                data_game=response.data.data
+                                _rankings=response.data.data.rankings;
+                                _rewards=response.data.data.rewards;
+                                number_goal=response.data.data.summary.winCount;
+                                _user=response.data.data.user;
+                                _room=response.data.data.room;
+                                _timeServer=response.data.data.timeServer;
+                                _deltaTime=Date.now() -_timeServer
+                                _this.timeRemain(data_game.room.endTime)
+                            }else{
+                                window.location.replace('/')
+                            }
                         }else{
                             window.location.replace('/')
                         }
                     }else{
                         window.location.replace('/')
                     }
-                }else{
+                }).catch(function (error) {
                     window.location.replace('/')
-                }
-            }).catch(function (error) {
+                })
+            }else{
                 window.location.replace('/')
-            })
+            }
         }else{
             window.location.replace('/')
         }
+        
     }
 
 

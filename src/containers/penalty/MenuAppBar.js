@@ -79,7 +79,6 @@ class MenuAppBar extends React.Component {
 		} else {
 			this.setState({ auth: false });
 			var code = Ultilities.parse_query_string("code", window.location.href);
-			console.log('code:', code)
 			var fb_mess = Ultilities.parse_query_string("fbmessid", window.location.href);
 			var currentPath=localStorage.getItem("currentPath");
 			if (code != null) {
@@ -99,19 +98,19 @@ class MenuAppBar extends React.Component {
 					"code": code,
 					"code_verifier": ""
 				}
-
-				console.log(data)
 				  
 				var url = Ultilities.base_url() + "/users/api/v1/account/oauthtoken";
 
 				axios.post(url, data).then(function (response) {
-					console.log(response)
 					var user_save = response.data.data;
 					user_save.expired = new Date();
 					localStorage.setItem("user", JSON.stringify(user_save));
 					_this.setState({ user: response.data.data });
 					window.location.replace(`${window.location.protocol}//${window.location.host}${currentPath}`);
 				}).catch(function (error) {
+					if(error.response.data.code ===-403){
+						window.location.replace(`${window.location.protocol}//${window.location.host}/error`);
+					}
 					_this.props.setStatusServer();
 					localStorage.removeItem("user");
 					localStorage.removeItem("userInfo");

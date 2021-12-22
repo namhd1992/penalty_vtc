@@ -17,6 +17,7 @@ import GiatHuVang_IOS from '../penalty/mobile/game/ios/giathuvang'
 import LoaiTrucTiep_IOS from '../penalty/mobile/game/ios/loaitructiep'
 
 import Login from '../login/login'
+import Login_Failed from '../login_failed/login'
 
 // import SanQua_Mobile_Android from '../penalty/mobile/android/sanqua'
 // import DuaTop_Mobile_Android from '../penalty/mobile/android/duatop'
@@ -55,6 +56,7 @@ class App extends React.Component {
 			<div style={{ backgroundColor: this.state.backgroundColor }}>
 				{/* <div style={{maxWidth:"1200px", margin:"auto", background: this.state.backgroundColor }}> */}
 				<Route exact path="/login" component={Login} />
+				<Route exact path="/error" component={Login_Failed} />
 				{(isMobile)?(<div>
 					{(isAndroid)?(<div><MenuAppBar pathname={document.location.pathname} compact={this.state.compact} scrolling={this.state.scrolling}
 						data={[{ url: "home", label: "home" }, { url: "about", label: "about" }]}></MenuAppBar>
