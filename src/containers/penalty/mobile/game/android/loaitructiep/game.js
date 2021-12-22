@@ -122,6 +122,8 @@ var round=1;
 var isPopup=false;
 var _deltaTime=0;
 var isFinish=false;
+var _endTime=0;
+var _points=0;
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -590,7 +592,7 @@ export default class Game extends Phaser.Scene{
         
         if(isPopup){
             setTimeout(()=>{ 
-                self.showThoat("Rất tiếc, bạn đã bị loại. Hãy quay lại vào phiên tiếp theo nhé.")
+                self.showThoat("Rất tiếc, bạn đã bị loại.\n Hãy quay lại vào phiên tiếp theo nhé.")
             }, 1000);
         }
 
@@ -760,10 +762,10 @@ export default class Game extends Phaser.Scene{
             this.txt_ranking_point.setText(p);
             this.txt_banthang.setText(number_goal)
             this.txt_giaithuong.setText(`Giải thưởng: ${_rewards[0].name}`)
-            this.txt_points.setText(`Lượt: ${_user.betAmount}`)
+            this.txt_points.setText(`Lượt: ${_points}`)
 
             while (this.time_update > 1000) {
-                this.timeRemain(data_game.room.endTime)
+                this.timeRemain(_endTime)
                 this.time_update -= 1000;
             }
         }
@@ -790,10 +792,10 @@ export default class Game extends Phaser.Scene{
         if(isPlay){
             isPlay=false;
             var user = JSON.parse(localStorage.getItem("user"));
-            var points=data_game.user.points;
             var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
-            if(points>0){
-                if(p1[1]-p2[1] > 0){
+           
+            if(p1[1]-p2[1] > 0){
+                if(_points>0){
                     var positionBall=this.getPositionBall(p1,p2);
                     var keeper=this.setPositionKeeper(positionBall[0],positionBall[1])
                     if(user!==null){
@@ -842,16 +844,16 @@ export default class Game extends Phaser.Scene{
                                         _this.k_idle_sprite.visible=false;
                                     }
                                 }, 700);
-
+    
                                 setTimeout(()=>{ 
                                     if(result===2){
                                         number_goal+=1;
                                      }else{
-                                         _this.showThoat("Rất tiếc, bạn đã bị loại. Hãy quay lại vào phiên tiếp theo nhé")
+                                         _this.showThoat("Rất tiếc, bạn đã bị loại.\n Hãy quay lại vào phiên tiếp theo nhé")
                                      }
                                     _this.updateData()
                                 }, 2000);
-
+    
                                 _this.soccer_kick_left_sprite.visible=true;
                                 _this.soccer_kick_left_sprite.play("kick_left")
                                 
@@ -879,11 +881,11 @@ export default class Game extends Phaser.Scene{
                         window.location.replace('/')
                     }
                 }else{
-                    isPlay=true;
-                    console.log("Vuốt lên để chơi")
+                    _this.showMessageBox('Bạn đã hết lượt chơi.\n Hãy Nạp thêm scoin để nhận thêm lượt chơi nhé.')
                 }
             }else{
-                _this.showMessageBox('Bạn đã hết lượt chơi.\n Hãy Nạp thêm scoin để nhận thêm lượt chơi nhé.')
+                isPlay=true;
+                console.log("Vuốt lên để chơi")
             }
         }
     }
@@ -1156,8 +1158,10 @@ export default class Game extends Phaser.Scene{
                                 _user=response.data.data.user;
                                 _room=response.data.data.room;
                                 _timeServer=response.data.data.timeServer;
+                                _endTime=data_game.room.endTime;
                                 _deltaTime=Date.now() -_timeServer
-                                _this.timeRemain(data_game.room.endTime)
+                                _points=data.user.betAmount;
+                                _this.timeRemain(_endTime)
                                 round=1;
                                
                             }else if(_this.checkTimeSession(response.data.data.room.startBonusTime, response.data.data.room.endBonusTime, response.data.data)){
@@ -1168,8 +1172,10 @@ export default class Game extends Phaser.Scene{
                                 _user=response.data.data.user;
                                 _room=response.data.data.room;
                                 _timeServer=response.data.data.timeServer;
+                                _endTime=data_game.room.endBonusTime
                                 _deltaTime=Date.now() -_timeServer
-                                _this.timeRemain(data_game.room.endBonusTime)
+                                _points=data.user.betAmount;
+                                _this.timeRemain(_endTime)
                                 round=2;
                             }else{
                                 window.location.replace('/')
@@ -1222,14 +1228,18 @@ export default class Game extends Phaser.Scene{
                             data_game=response.data.data;
                             _rankings=data.rankings;
                             _user=data.user;
-                            _this.timeRemain(data_game.room.endTime)
+                            _points=data.user.betAmount;
+                            _endTime=data_game.room.endTime;
+                            _this.timeRemain(_endTime)
                             round=1;
                            
                         }else if(_this.checkTimeSession(response.data.data.room.startBonusTime, response.data.data.room.endBonusTime)){
                             data_game=response.data.data;
                             _rankings=data.rankings;
                             _user=data.user;
-                            _this.timeRemain(data_game.room.endBonusTime)
+                            _points=data.user.betAmount;
+                            _endTime=data_game.room.endBonusTime;
+                            _this.timeRemain(_endTime)
                             round=2;
                         }else{
                             window.location.replace('/')

@@ -765,7 +765,7 @@ export default class Game extends Phaser.Scene{
         if(isPlay){
             isPlay=false;
             var user = JSON.parse(localStorage.getItem("user"));
-            var points=data_game.user.points;
+            var points=data_game.user.betAmount;
             var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
             if(points>0){
                 if(p1[1]-p2[1] > 0){
