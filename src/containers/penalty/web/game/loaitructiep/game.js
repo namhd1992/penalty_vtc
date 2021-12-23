@@ -1262,7 +1262,6 @@ export default class Game extends Phaser.Scene{
                         window.location.replace('/')
                     }
                 }).catch(function (error) {
-                    console.log('AAAAAAAAAAAA')
                     if(error.response.data.code ===-401){
                         _this.showThoat('Phiên đã kết thúc.')
                         isFinish=true;
