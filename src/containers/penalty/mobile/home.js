@@ -127,9 +127,9 @@ class Lucky_Rotation extends React.Component {
 			itemOfSpin:[],
 			luckySpin:{},
 			isLogin:false,
-			activeVinhDanh:0,
-			activeTuDo:0,
-			activeHistory:0,
+			activeVinhDanh:1,
+			activeTuDo:1,
+			activeHistory:1,
 			countVinhDanh:0,
 			countHistory:0,
 			countTuDo:0,
@@ -207,7 +207,7 @@ class Lucky_Rotation extends React.Component {
 		// localStorage.setItem("update29", true);
 		// $('#Modalbanner').modal('show');
 		
-		this.getVinhDanh(1,0);
+		this.getVinhDanh(1,1);
 
 
 		if (user !== null) {
@@ -354,7 +354,7 @@ class Lucky_Rotation extends React.Component {
 		data.type=5;
 		data.fromDate=-1;
 		data.toDate=-1;
-		data.pageIndex=pageNumber;
+		data.pageIndex=pageNumber-1;
 		data.pageSize=10;
 		switch (type) {
 			case 1:
@@ -409,14 +409,21 @@ class Lucky_Rotation extends React.Component {
 					var new_room=[];
 					var awards=data.data.rewards;
 					if(room!==null){
-						for (let i = 0; i < room.length; i++) {
-							var award=awards.filter(v=>v.gameRoomId===room[i].id)
-							room[i].award=award;
-							new_room.push(room[i])
+						if(room.length>0){
+							for (let i = 0; i < room.length; i++) {
+								var award=awards.filter(v=>v.gameRoomId===room[i].id)
+								room[i].award=award;
+								new_room.push(room[i])
+							}
+							this.setState({listSesstions: new_room, timeServer:data.data.timeServer},()=>{
+								modal_giaithuong.show();
+							})
+						}else{
+							this.setState({message_error:'Hiện tại chưa có phiên nào. Bạn quay lại vào lúc khác nhé.'},()=>{
+								modal_tb_err.show();
+							})
 						}
-						this.setState({listSesstions: new_room, timeServer:data.data.timeServer},()=>{
-							modal_giaithuong.show();
-						})
+						
 					}else{
 						this.setState({message_error:'Hiện tại chưa có phiên nào. Bạn quay lại vào lúc khác nhé.'},()=>{
 							modal_tb_err.show();
@@ -535,12 +542,7 @@ class Lucky_Rotation extends React.Component {
 				return;
 			}
 			
-			if(time > info_seesion.betsEndTime){
-				this.setState({message_error:'Thời gian đặt cược đã hết.'},()=>{
-					modal_tb_err.show();
-				})
-				return;
-			}
+			
 			if(type===3){
 				if (user !== null) {
 					var data= {...info}
@@ -579,9 +581,17 @@ class Lucky_Rotation extends React.Component {
 									}
 									// window.location.href=window.location.href+'loaitructiep';
 								}else{
-									this.setState({points:user_data.points},()=>{
-										modal_datcuoc.show();
-									})
+									if(time > info_seesion.betsEndTime){
+										this.setState({message_error:'Thời gian đặt cược đã hết.'},()=>{
+											modal_tb_err.show();
+										})
+										return;
+									}else{
+										this.setState({points:user_data.points},()=>{
+											modal_datcuoc.show();
+										})
+									}
+									
 								}
 								
 							}else{
@@ -600,7 +610,12 @@ class Lucky_Rotation extends React.Component {
 					myModal.show();
 				}
 			}else{
-				if(user_data.points > info_seesion.minBet){
+				if(time > info_seesion.betsEndTime){
+					this.setState({message_error:'Thời gian đặt cược đã hết.'},()=>{
+						modal_tb_err.show();
+					})
+					return;
+				}else if(user_data.points > info_seesion.minBet){
 					this.setState({points:user_data.points},()=>{
 						modal_datcuoc.show();
 					})
@@ -767,7 +782,7 @@ class Lucky_Rotation extends React.Component {
 	showModalTuDo=()=>{
 		var user = JSON.parse(localStorage.getItem("user"));
 		if (user !== null) {
-			this.getDataTuDo(user);
+			this.getDataTuDo(user,1);
 			modal_tudo.show();
 		}else {
 			modal_tb.show();
@@ -833,7 +848,7 @@ class Lucky_Rotation extends React.Component {
 		})
 	}
 
-	getDataTuDo=(user)=>{
+	getDataTuDo=(user, pageNumber)=>{
 		const {limit, activeTuDo}=this.state;
 		
 		// $('#Loading').modal('show');
@@ -847,7 +862,7 @@ class Lucky_Rotation extends React.Component {
 			data.type=-1;
 			data.fromDate=-1;
 			data.toDate=-1;
-			data.pageIndex=activeTuDo;
+			data.pageIndex=pageNumber-1;
 			data.pageSize=limit;
 			this.setState({tab_tudo: true})
 			this.props.getTuDo(user.access_token, data).then(()=>{
@@ -879,7 +894,7 @@ class Lucky_Rotation extends React.Component {
 	}
 
 
-	getHistory=(user)=>{
+	getHistory=(user, pageNumber)=>{
 		
 		const {limit, activeHistory}=this.state;
 		if(user!==null){
@@ -891,7 +906,7 @@ class Lucky_Rotation extends React.Component {
 			data.source=-1;
 			data.fromDate=-1;
 			data.toDate=-1;
-			data.pageIndex=activeHistory;
+			data.pageIndex=pageNumber-1;
 			data.pageSize=limit;
 			this.setState({tab_tudo: false})
 			this.props.getHistoryTuDo(user.access_token, data).then(()=>{
@@ -952,8 +967,52 @@ class Lucky_Rotation extends React.Component {
 		}
 	}
 
-	viewItem=()=>{
-		
+	viewItem=(user, item)=>{
+		if(user!==null){
+			var data= {...info}
+			data.userId= user.uid;
+			data.id=item.id;
+			this.props.viewItemAward(user.access_token, data).then(()=>{
+				var d=this.props.dataItemAward;
+				if(d!==undefined){
+					if(d.code>0){
+						var dataItem={};
+						dataItem.createdTime=d.data.value.createdTime;
+						dataItem.transactionId=d.data.value.transactionId;
+						dataItem.rewardType=d.data.gift.rewardType;
+						dataItem.price=d.data.value.price;
+						dataItem.cardCode=d.data.value.cardCode;
+						dataItem.cardSerial=d.data.value.cardSerial;
+						dataItem.cardStartDate=d.data.value.cardStartDate;
+						dataItem.cardEndDate=d.data.value.cardEndDate;
+						dataItem.responseMesage=d.data.value.responseMesage;
+
+						this.setState({dataItem:dataItem}, ()=>{
+							if(dataItem.rewardType===31){
+								modal_tudo.hide();
+								modal_moqua_bank.show();
+							}else{
+								modal_tudo.hide();
+								modal_moqua.show();
+							}
+						})
+					}else{
+						this.setState({message_error:'Chưa tải được dữ liệu. Vui lòng thử lại'}, ()=>{
+							modal_tudo.hide();
+							modal_tb_err.show();
+						})
+					}
+				}else{
+					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau.'},()=>{
+						modal_tudo.hide();
+						modal_tb_err.show();
+					})
+				}
+				
+			});
+		}else {
+			modal_tb.show();
+		}
 	}
 
 	closePopupAuto=()=>{
@@ -978,14 +1037,14 @@ class Lucky_Rotation extends React.Component {
 	handlePageChangeTuDo=(pageNumber)=> {
 		var user = JSON.parse(localStorage.getItem("user"));
 		this.setState({activeTuDo: pageNumber},()=>{
-			this.getDataTuDo(user)
+			this.getDataTuDo(user, pageNumber)
 		})
 	}
 
 	handlePageChangeHistory=(pageNumber)=> {
 		var user = JSON.parse(localStorage.getItem("user"));
 		this.setState({activeHistory: pageNumber},()=>{
-			this.getHistory(user)
+			this.getHistory(user, pageNumber)
 		})
 	}
 
@@ -1317,13 +1376,13 @@ class Lucky_Rotation extends React.Component {
 						<div class="s-bvd position-relative">
 							<ul class="nav justify-content-center flex-nowrap font-3vw">
 								<li class="nav-item text-nowrap" style={{width: "30%"}}>
-									<a class={bxh_tab_1 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} title="Đua TOP" onClick={()=>this.getVinhDanh(1,0)}>ĐUA TOP</a>
+									<a class={bxh_tab_1 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} title="Đua TOP" onClick={()=>this.getVinhDanh(1,1)}>ĐUA TOP</a>
 								</li>
 								<li class="nav-item text-nowrap" style={{width: "30%"}}>
-									<a class={bxh_tab_2 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} title="Giật Hũ Vàng" onClick={()=>this.getVinhDanh(2,0)}>GIẬT HŨ VÀNG</a>
+									<a class={bxh_tab_2 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} title="Giật Hũ Vàng" onClick={()=>this.getVinhDanh(2,1)}>GIẬT HŨ VÀNG</a>
 								</li>
 								<li class="nav-item text-nowrap" style={{width: "30%"}}>
-									<a class={bxh_tab_3 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} title="Loại Trực Tiếp" onClick={()=>this.getVinhDanh(3,0)}>LOẠI TRỰC TIẾP</a>
+									<a class={bxh_tab_3 ? "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT active" : "nav-link p-0 text-center text-white pt-1 font-UTMFacebookKT"} title="Loại Trực Tiếp" onClick={()=>this.getVinhDanh(3,1)}>LOẠI TRỰC TIẾP</a>
 								</li>
 							</ul>
 							<div class="tab-content">
@@ -1505,10 +1564,10 @@ class Lucky_Rotation extends React.Component {
 							<div class="tab-hd w-100">
 								<ul class="nav justify-content-center">
 								<li class="nav-item" style={{width: "43%"}}>
-									<a class={tab_tudo ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: "100%"}} title="Phần Thưởng" onClick={()=>this.getDataTuDo(user)}>&nbsp;</a>
+									<a class={tab_tudo ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: "100%"}} title="Phần Thưởng" onClick={()=>this.getDataTuDo(user, 1)}>&nbsp;</a>
 								</li>
 								<li class="nav-item" style={{width: "43%"}}>
-									<a class={tab_tudo ? "nav-link text-white font-3vw px-0 py-1" : "nav-link text-white font-3vw px-0 py-1 active"} style={{height: "100%"}} title="Lịch Sử" onClick={()=>this.getHistory(user)}>&nbsp;</a>
+									<a class={tab_tudo ? "nav-link text-white font-3vw px-0 py-1" : "nav-link text-white font-3vw px-0 py-1 active"} style={{height: "100%"}} title="Lịch Sử" onClick={()=>this.getHistory(user,1)}>&nbsp;</a>
 								</li>
 								</ul> 
 							</div>

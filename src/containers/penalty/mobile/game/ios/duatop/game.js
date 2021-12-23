@@ -103,6 +103,8 @@ var increase_y=0;
 
 var width = window.innerWidth;
 var height = window.innerHeight;
+// var width = window.screen.height-100;
+// var height = window.screen.width-100;
 var delta_x=width/1200;
 var delta_y=height/675;
 var is_ball_lasted=false;

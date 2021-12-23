@@ -522,7 +522,7 @@ export default class Game extends Phaser.Scene{
         this.txt_title = this.add.text(445,  10, "LOẠI TRỰC TIẾP", { font: "40px Arial", fill: "#ffffff", align:'center' });
         this.txt_time = this.add.text(530,  75, 'Còn: 00h00p00', { font: "16px Arial", fill: "#ffffff", align:'center' });
         this.txt_giaithuong = this.add.text(440,  115, `Giải thưởng:`, { font: "17px Arial", fill: "#ffffff", align:"center", fixedWidth: 333 });
-        this.txt_acc = this.add.text(980,  15, `Chào: ${user.nick_name.substring(0, 10)}`, { font: "18px Arial", fill: "#ffffff", align:'center' });
+        this.txt_acc = this.add.text(980,  15, `Chào: ${this.userName(user.nick_name)}`, { font: "18px Arial", fill: "#ffffff", align:'center' });
         // this.txt_thoat = this.add.text(1125,  15, '(Thoát)', { font: `18px Arial`, fill: "#ffc107", align:'center' });
         this.icon_home=this.add.image(1165,40,'icon_home');
         this.txt_points = this.add.text(980,  45, `Lượt: 00`, { font: "18px Arial", fill: "#ffffff", align:'center' });
@@ -794,7 +794,6 @@ export default class Game extends Phaser.Scene{
             isPlay=false;
             var user = JSON.parse(localStorage.getItem("user"));
             var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
-           
             if(p1[1]-p2[1] > 0){
                 if(_points>0){
                     var positionBall=this.getPositionBall(p1,p2);
@@ -1125,7 +1124,7 @@ export default class Game extends Phaser.Scene{
 	}
 
     checkTimeSession=(start, end, data)=>{
-        var time=data.timeServer;
+        var time=Date.now() + _deltaTime
         if(time < start){
             return false;
         }
@@ -1161,10 +1160,8 @@ export default class Game extends Phaser.Scene{
                         if(response.data.code>=0){
                             isKnockout=response.data.data.isKnockout;
                             var t=Date.now() + _deltaTime;
-                            data_game=response.data.data
-                            
-                            if(_this.checkTimeSession(data_game.room.startTime, data_game.room.endTime, data_game)){
-                                
+                            data_game=response.data.data;
+                            if(_this.checkTimeSession(data_game.room.startTime, data_game.room.endTime)){;
                                 _rankings=data_game.rankings;
                                 _rewards=data_game.rewards;
                                 number_goal=data_game.summary.winCount;
@@ -1180,8 +1177,8 @@ export default class Game extends Phaser.Scene{
                                 // _this.timeRemain(_endTimeShow)
                                 round=1;
                                
-                            }else if(_this.checkTimeSession(data_game.room.startBonusTime, data_game.room.endBonusTime, data_game)){
-                                _rankings=data_game.rankings;
+                            }else if(_this.checkTimeSession(data_game.room.startBonusTime, data_game.room.endBonusTime)){
+                                _rankings=data_game.rankings;;
                                 _rewards=data_game.rewards;
                                 number_goal=data_game.summary.winCount;
                                 _user=data_game.user;
@@ -1205,7 +1202,7 @@ export default class Game extends Phaser.Scene{
                         window.location.replace('/')
                     }
                 }).catch(function (error) {
-                    // window.location.replace('/')
+                    window.location.replace('/')
                 })
             }else{
                 window.location.replace('/')
@@ -1222,67 +1219,73 @@ export default class Game extends Phaser.Scene{
         var _this=this;
         var user = JSON.parse(localStorage.getItem("user"));
         var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
-        if(user!==null){
-            var data= {...info}
-            data.userId= user.uid;
-            data.gameId=1;
-            data.serverId=1;
-            data.modeId=3;
-            data.roomId=info_seesion.id;
-            data.rakingLimit=10
-            var header = {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${user.access_token}`,
-                    "dataType":"json"
+        if(info_seesion!==null){
+            if(user!==null){
+                var data= {...info}
+                data.userId= user.uid;
+                data.gameId=1;
+                data.serverId=1;
+                data.modeId=3;
+                data.roomId=info_seesion.id;
+                data.rakingLimit=10
+                var header = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${user.access_token}`,
+                        "dataType":"json"
+                    }
                 }
-            }
-            axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/state', data, header).then(function (response) {
-                if(response.data !==undefined){
-                    if(response.data.code>=0){
-                        console.log("PPPPPPPPPPPP")
-                        data_game=response.data.data
-                        isKnockout=data_game.isKnockout;
-                        if(_this.checkTimeSession(data_game.room.startTime, data_game.room.endTime, data_game)){
-                            console.log("AAAAAAAAAAAAA")
-                            
-                            _rankings=data_game.rankings;
-                            _user=data_game.user;
-                            _points=data_game.user.betAmount;
-                            console.log(data_game.user.betAmount,_points)
-                            _endTime=data_game.room.endTime;
-                            _endTimeBonus=data_game.room.endBonusTime;
-                            _endTimeShow=data_game.room.endTime;
-                            _this.timeRemain(_endTimeShow)
-                            round=1;
+                axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/state', data, header).then(function (response) {
+                    if(response.data !==undefined){
+                        if(response.data.code>=0){
+                            data_game=response.data.data
+                            isKnockout=data_game.isKnockout;
+                            if(_this.checkTimeSession(_room.startTime, _room.endTime)){;
+                                _rankings=data_game.rankings;
+                                _user=data_game.user;
+                                _points=data_game.user.betAmount;
+                                round=1;
+                               
+                            }else if(_this.checkTimeSession(_room.startBonusTime, _room.endBonusTime)){;
+                                _rankings=data_game.rankings;
+                                _user=data_game.user;
+                                _points=data_game.user.betAmount;
+                                round=2;
+                            }else{
+                                window.location.replace('/');
+                            }
                            
-                        }else if(_this.checkTimeSession(data_game.room.startBonusTime, data_game.room.endBonusTime, data_game)){
-                            console.log("BBBBBBBBBBBBBB")
-                            _rankings=data_game.rankings;
-                            _user=data_game.user;
-                            _points=data_game.user.betAmount;
-                            _endTime=data_game.room.endTime;
-                            _endTimeBonus=data_game.room.endBonusTime;
-                            _endTimeShow=data_game.room.endBonusTime;
-                            _this.timeRemain(_endTimeShow)
-                            round=2;
                         }else{
-                            console.log("CCCCCCCCCCCCCCC")
                             window.location.replace('/')
                         }
-                       
                     }else{
                         window.location.replace('/')
                     }
-                }else{
-                    window.location.replace('/')
-                }
-            }).catch(function (error) {
-                // window.location.replace('/')
-            })
+                }).catch(function (error) {
+                    console.log('AAAAAAAAAAAA')
+                    if(error.response.data.code ===-401){
+                        _this.showThoat('Phiên đã kết thúc.')
+                        isFinish=true;
+                        return;
+                    }
+                    if(error.response.data.code ===-404){
+                        _this.showThoat('Phiên chưa sẵn sàng hoặc chưa diễn ra.')
+                        isFinish=true;
+                        return;
+                    }
+                    if(error.response.data.code ===-101){
+                        _this.showThoat('Hệ thống đang bận.')
+                        isFinish=true;
+                        return;
+                    }
+                })
+            }else{
+                window.location.replace('/')
+            }
         }else{
             window.location.replace('/')
         }
+        
     }
 
     updateDataFinishMain=()=>{
@@ -1312,20 +1315,20 @@ export default class Game extends Phaser.Scene{
                         isKnockout=response.data.data.isKnockout;
                         isNextRound=response.data.data.isNextRound;
                         if(isKnockout){
-                            _this.showThoat('Phiên đã kết thúc')
+                            _this.showThoat('Phiên đã kết thúc.')
                             isFinish=true;
                             return;
                         }
                         if(isNextRound){
                             round=2;
-                            _endTimeBonus=data_game.room.endBonusTime;
-                            _endTimeShow= data_game.room.endBonusTime;
+                            _endTimeBonus=_room.endBonusTime;
+                            _endTimeShow= _room.endBonusTime;
                             _rankings=data_game.rankings;
                             _user=data_game.user;
                             _points=data_game.user.betAmount;
                             _this.timeRemain(_endTimeShow)
                         }else{
-                            _this.showThoat('Phiên đã kết thúc')
+                            _this.showThoat('Phiên đã kết thúc.')
                             isFinish=true;
                             return;
                         }
@@ -1336,11 +1339,33 @@ export default class Game extends Phaser.Scene{
                     window.location.replace('/')
                 }
             }).catch(function (error) {
+                if(error.response.data.code ===-401){
+                    _this.showThoat('Phiên đã kết thúc.')
+                    isFinish=true;
+                    return;
+                }
+                if(error.response.data.code ===-404){
+                    _this.showThoat('Phiên chưa sẵn sàng hoặc chưa diễn ra.')
+                    isFinish=true;
+                    return;
+                }
+                if(error.response.data.code ===-101){
+                    _this.showThoat('Hệ thống đang bận. Vui lòng thử lại sau')
+                    isFinish=true;
+                    return;
+                }
+
+                if(error.response.data.code ===-602){
+                    _this.showThoat('Chờ hiệp phụ bắt đầu.')
+                    isFinish=true;
+                    return;
+                }
                 // window.location.replace('/')
             })
         }else{
             window.location.replace('/')
         }
+        
     }
 
     // updateDataFinishExtra=()=>{

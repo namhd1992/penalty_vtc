@@ -849,7 +849,7 @@ export const checkPlace = (token, data) => {
 				data: response.data
 			})
 		}).catch(function (error) {
-			console.log(error)
+			console.log(error.response)
 			dispatch({
 				type: SERVER_ERROR
 			})

@@ -6,6 +6,8 @@ import rotate from '../../../../assert/rotate.png';
 
 var width = window.innerWidth;
 var height = window.innerHeight;
+// var width = window.screen.height-100;
+// var height = window.screen.width-100;
 
 export default class duatop extends React.Component {
 
