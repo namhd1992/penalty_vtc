@@ -1127,14 +1127,14 @@ export default class Game extends Phaser.Scene{
                 axios.post(Ultilities.base_url() +'/lobby/api/v1/race/connect', data, header).then(function (response) {
                     if(response.data !==undefined){
                         if(response.data.code>=0){
-                            if(_this.checkTimeSession(response.data.data)){
-                                data_game=response.data.data
-                                _rankings=response.data.data.rankings;
-                                _rewards=response.data.data.rewards;
-                                number_goal=response.data.data.summary.winCount;
-                                _user=response.data.data.user;
-                                _room=response.data.data.room;
-                                _timeServer=response.data.data.timeServer;
+                            data_game=response.data.data;
+                            if(_this.checkTimeSession(data_game)){
+                                _rankings=data_game.rankings;
+                                _rewards=data_game.rewards;
+                                number_goal=data_game.summary.winCount;
+                                _user=data_game.user;
+                                _room=data_game.room;
+                                _timeServer=data_game.timeServer;
                                 _deltaTime=Date.now() -_timeServer
                                 _this.timeRemain(data_game.room.endTime)
                             }else{
