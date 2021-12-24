@@ -296,21 +296,14 @@ export const checkRollup = (token, data) => {
 	}
 }
 
-export const sessionUpcomming = (token, data) => {
+export const sessionUpcomming = (data) => {
 
-
-	var header = {
-		headers: {
-			"Content-Type": "application/json",
-			"Authorization": `Bearer ${token}`
-		}
-	}
 	return dispatch => {
 		dispatch({
 			type: LUCKY_REQUEST
 		})
 		var url = Ultilities.base_url() + "/catalog/api/v1/rooms/upcoming-eachroom"
-		return axios.post(url, data, header).then(function (response) {
+		return axios.post(url, data).then(function (response) {
 			console.log(response)
 			dispatch({
 				type: SESSION_UPCOMMING,

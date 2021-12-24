@@ -401,7 +401,7 @@ class Lucky_Rotation extends React.Component {
 		data.serverId=1;
 		data.limit=10
 		// data.modeId=type;
-		this.props.sessionUpcomming(user.access_token, data).then(()=>{
+		this.props.sessionUpcomming(data).then(()=>{
 			var data=this.props.dataSessionUpcomming;
 			if(data!==undefined){
 				if(data.code > 0){
