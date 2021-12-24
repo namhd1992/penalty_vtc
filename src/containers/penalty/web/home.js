@@ -1225,7 +1225,6 @@ class Lucky_Rotation extends React.Component {
 			obj.type=1
 			this.props.checkRollup(user.access_token, obj).then(()=>{
 				var data=this.props.dataRollup;
-				console.log(data.message)
 				if(data!==undefined){
 					if(data.code >0){
 						this.setState({rollup:true, message_error: data.message, type_action:'Điểm danh', showRollup:false}, ()=>{

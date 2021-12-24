@@ -69,6 +69,7 @@ import goal_left_json from '../../../../assert/goal_anims/goal_left.json';
 import goal_right from '../../../../assert/goal_anims/goal_right.png';
 import goal_right_json from '../../../../assert/goal_anims/goal_right.json';
 
+import btn_std from '../../../../assert/btn-std.png';
 import opt_suttudong_checked from '../../../../assert/duatop/opt-suttudong-checked.png';
 import opt_suttudong from '../../../../assert/duatop/opt-suttudong.png';
 import bg_banthang from '../../../../assert/loaitructiep/bg-banthang.png';
@@ -185,7 +186,7 @@ export default class Game extends Phaser.Scene{
         this.load.atlas('side_right_up',side_right_up,side_right_up_json);
         this.load.atlas('side_right',side_right,side_right_json);
 
-        
+        this.load.image('btn_std', btn_std);
         this.load.image('opt_suttudong', opt_suttudong);
         this.load.image('opt_suttudong_checked', opt_suttudong_checked);
         this.load.image('bg_banthang', bg_banthang);
@@ -527,40 +528,45 @@ export default class Game extends Phaser.Scene{
         this.bg_banthang = this.add.image(121*delta_x,75*delta_y,'bg_banthang');
         this.bg_banthang.setScale(delta_x, delta_y);
         this.btn_suttudong = this.add.image(135*delta_x,620*delta_y,'btn_suttudong')
-        this.btn_suttudong.setScale(0.33*delta_x,0.33*delta_y)
+        this.btn_suttudong.setScale(delta_x,delta_y)
         this.bg_bangxephang = this.add.image(132*delta_x,360*delta_y,'bg_bangxephang')
         this.bg_bangxephang.setScale(delta_x, delta_y);
         this.bg_giaithuong = this.add.image(600*delta_x,125*delta_y,'bg_giaithuong')
-        this.bg_giaithuong.setScale(0.325*delta_x,0.325*delta_y)
+        this.bg_giaithuong.setScale(delta_x,delta_y)
         this.bg_taikhoan = this.add.image(1078*delta_x,42*delta_y,'bg_taikhoan')
-        this.bg_taikhoan.setScale(0.33*delta_x,0.33*delta_y)
+        this.bg_taikhoan.setScale(delta_x,delta_y)
         this.bg_title_loaitructiep = this.add.image(600*delta_x,34*delta_y,'bg_title_loaitructiep');
-        this.bg_title_loaitructiep.setScale(0.325*delta_x,0.325*delta_y)
+        this.bg_title_loaitructiep.setScale(delta_x,delta_y)
         this.opt_suttudong = this.add.image(60*delta_x,620*delta_y,'opt_suttudong');
-        this.opt_suttudong.setScale(0.3*delta_x,0.3*delta_y)
+        this.opt_suttudong.setScale(delta_x,delta_y)
         this.opt_suttudong_checked = this.add.image(60*delta_x,620*delta_y,'opt_suttudong_checked');
-        this.opt_suttudong_checked.setScale(0.3*delta_x,0.3*delta_y)
+        this.opt_suttudong_checked.setScale(delta_x,delta_y)
         this.opt_suttudong_checked.visible=false;
 
-        this.txt_goal = this.add.text(500*delta_x,  270*delta_y, 'GOAL', { font: "600 80px Arial", fill: "#ffffff" });
+        this.txt_goal = this.add.text(Math.round(500*delta_x),  Math.round(270*delta_y), 'GOAL', { font: "600 80px Arial", fill: "#ffffff" });
         this.txt_goal.visible=false;
-        this.txt_miss = this.add.text(500*delta_x,  270*delta_y, 'MISS', { font: "600 80px Arial", fill: "#bf0606" });
+        this.txt_miss = this.add.text(Math.round(500*delta_x),  Math.round(270*delta_y), 'MISS', { font: "600 80px Arial", fill: "#bf0606" });
         this.txt_miss.visible=false;
 
-        this.txt_banthang = this.add.text(120*delta_x,  90*delta_y, '00', { font: `${40*delta_x}px Arial`, fill: "#ffffff" });
-        this.txt_suttudong = this.add.text(85*delta_x,  605*delta_y, "Sút tự động", { font: `${27*delta_x}px Arial`, fill: "#ffffff" });
-        this.txt_title = this.add.text(450*delta_x,  10*delta_y, "LOẠI TRỰC TIẾP", { font: `${40*delta_x}px Arial`, fill: "#ffffff", align:'center' });
-        this.txt_time = this.add.text(530*delta_x,  75*delta_y, "Còn: 00h00p00", { font: `${16*delta_x}px Arial`, fill: "#ffffff", align:'center' });
-        this.txt_giaithuong = this.add.text(440*delta_x,  115*delta_y, `Giải thưởng:`, { font: `${17*delta_x}px Arial`, fill: "#ffffff", align:"center", fixedWidth: 333*delta_x });
-        this.txt_acc = this.add.text(975*delta_x,  15*delta_y, `Chào: ${this.userName(user.nick_name)}`, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center' });
+        this.txt_banthang = this.add.text(Math.round(120*delta_x),  Math.round(90*delta_y), '00', { font: `${Math.round(40*delta_x)}px Arial`, fill: "#ffffff" });
+        this.txt_suttudong = this.add.text(Math.round(85*delta_x),  Math.round(605*delta_y), "Sút tự động", { font: `${Math.round(27*delta_x)}px Arial`, fill: "#ffffff" });
+        this.txt_title = this.add.text(Math.round(450*delta_x),  Math.round(10*delta_y), "LOẠI TRỰC TIẾP", { font: `${Math.round(40*delta_x)}px Arial`, fill: "#ffffff", align:'center' });
+        this.txt_time = this.add.text(Math.round(530*delta_x),  Math.round(75*delta_y), "Còn: 00h00p00", { font: `${Math.round(16*delta_x)}px Arial`, fill: "#ffffff", align:'center' });
+        this.txt_giaithuong = this.add.text(Math.round(440*delta_x),  Math.round(115*delta_y), `Giải thưởng:`, { font: `${Math.round(17*delta_x)}px Arial`, fill: "#ffffff", align:"center", fixedWidth: Math.round(333*delta_x)});
+        this.txt_acc = this.add.text(Math.round(975*delta_x),  Math.round(15*delta_y), `Chào: ${this.userName(user.nick_name)}`, { font: `${Math.round(18*delta_x)}px Arial`, fill: "#ffffff", align:'center' });
         // this.txt_thoat = this.add.text(1130*delta_x,  15*delta_y, '(Thoát)', { font: `${18*delta_x}px Arial`, fill: "#ffc107", align:'center' });
         this.icon_home=this.add.image(1165*delta_x,40*delta_y,'icon_home');
         this.icon_home.setScale(delta_x,delta_x)
-        this.txt_points = this.add.text(975*delta_x,  45*delta_y, `Lượt: 00`, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center' });
-        this.txt_titleRanking = this.add.text(30*delta_x,  290*delta_y, 'TÀI KHOẢN            BÀN THẮNG', { font: `${15*delta_x}px Arial bold`, fill: "#ffffff" });
+        this.txt_points = this.add.text(Math.round(975*delta_x),  Math.round(45*delta_y), `Lượt: 00`, { font: `${Math.round(18*delta_x)}px Arial`, fill: "#ffffff", align:'center' });
+        this.txt_titleRanking = this.add.text(Math.round(30*delta_x),  Math.round(290*delta_y), 'TÀI KHOẢN            BÀN THẮNG', { font: `${Math.round(15*delta_x)}px Arial bold`, fill: "#ffffff" });
       
-        this.txt_ranking_acc = this.add.text(30*delta_x,  315*delta_y, '', { font: `${18*delta_x}px Tahoma`, fill: "#ffffff" });
-        this.txt_ranking_point = this.add.text(180*delta_x,  315*delta_y, '', { font: `${18*delta_x}px Tahoma`, fill: "#ffffff" });
+        this.txt_ranking_acc = this.add.text(Math.round(30*delta_x),  Math.round(315*delta_y), '', { font: `${Math.round(18*delta_x)}px Tahoma`, color: "#ffffff" });
+        this.txt_ranking_point = this.add.text(Math.round(180*delta_x),  Math.round(315*delta_y), '', { font: `${Math.round(18*delta_x)}px Tahoma`, color: "#ffffff" });
+        this.btn_std = this.add.image(135,620,'btn_std')
+        this.btn_std.setScale(delta_x,delta_y)
+        this.btn_std1 = this.add.image(135,620,'btn_std')
+        this.btn_std1.setScale(delta_x,delta_y)
+        this.btn_std1.visible=false;
 
 
 
@@ -568,17 +574,22 @@ export default class Game extends Phaser.Scene{
         // var a= Phaser.Math.Distance.BetweenPoints
         const self = this;
 
-        this.opt_suttudong.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
+        this.btn_std.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
+            self.btn_std.visible=false;
             self.opt_suttudong.visible=false;
             auto_play=true;
             self.opt_suttudong_checked.visible=true;
+            self.btn_std1.visible=true
         })
 
-        this.opt_suttudong_checked.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
+        this.btn_std1.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
+            self.btn_std.visible=true;
             self.opt_suttudong.visible=true;
             auto_play=false;
             self.opt_suttudong_checked.visible=false;
+            self.btn_std1.visible=false;
         })
+
 
         this.icon_home.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
             window.location.replace('/')
