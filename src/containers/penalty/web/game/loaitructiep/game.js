@@ -1161,7 +1161,7 @@ export default class Game extends Phaser.Scene{
                             isKnockout=response.data.data.isKnockout;
                             var t=Date.now() + _deltaTime;
                             data_game=response.data.data;
-                            if(_this.checkTimeSession(data_game.room.startTime, data_game.room.endTime)){;
+                            if(_this.checkTimeSession(data_game.room.startTime, data_game.room.endTime, data_game)){;
                                 _rankings=data_game.rankings;
                                 _rewards=data_game.rewards;
                                 number_goal=data_game.summary.winCount;
@@ -1177,7 +1177,7 @@ export default class Game extends Phaser.Scene{
                                 // _this.timeRemain(_endTimeShow)
                                 round=1;
                                
-                            }else if(_this.checkTimeSession(data_game.room.startBonusTime, data_game.room.endBonusTime)){
+                            }else if(_this.checkTimeSession(data_game.room.startBonusTime, data_game.room.endBonusTime, data_game)){
                                 _rankings=data_game.rankings;;
                                 _rewards=data_game.rewards;
                                 number_goal=data_game.summary.winCount;
@@ -1240,13 +1240,13 @@ export default class Game extends Phaser.Scene{
                         if(response.data.code>=0){
                             data_game=response.data.data
                             isKnockout=data_game.isKnockout;
-                            if(_this.checkTimeSession(_room.startTime, _room.endTime)){;
+                            if(_this.checkTimeSession(_room.startTime, _room.endTime, data_game)){;
                                 _rankings=data_game.rankings;
                                 _user=data_game.user;
                                 _points=data_game.user.betAmount;
                                 round=1;
                                
-                            }else if(_this.checkTimeSession(_room.startBonusTime, _room.endBonusTime)){;
+                            }else if(_this.checkTimeSession(_room.startBonusTime, _room.endBonusTime, data_game)){;
                                 _rankings=data_game.rankings;
                                 _user=data_game.user;
                                 _points=data_game.user.betAmount;
