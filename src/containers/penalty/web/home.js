@@ -1261,21 +1261,6 @@ class Lucky_Rotation extends React.Component {
 						</div>;
 			}
 		}
-
-		console.log(props)
-		// var obj=props.obj;
-		// var t=this.state.timeServer;
-		// var startTime=obj.startTime;
-		// var endTime=obj.endTime;
-		// if(startTime > t){
-		// 	return <p class="font-3vw mb-0">Còn: {this.timeModalGiaiThuong(obj.startTime)}</p>;
-		// }
-		// if(t > endTime){
-		// 	return <p class="font-3vw mb-0 text-danger">Đã kết thúc {this.timeEnd(obj.endTime)}</p>;
-		// }
-		// if(t > startTime && t < endTime){
-		// 	return <p class="font-3vw mb-0 text-yellow text-blink"><span class="spinner-grow text-yellow" style={{width: ".8rem", height: ".8rem"}}></span> Đang diễn ra ... </p>;
-		// }
 		return <div></div>;
 	}
 
