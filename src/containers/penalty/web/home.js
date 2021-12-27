@@ -208,7 +208,8 @@ class Lucky_Rotation extends React.Component {
 			type_modeId:0,
 			user_data:{},
 			contentGuide:'',
-			timeServer:0
+			timeServer:0,
+			txt_type:''
 		};
 	}
 	componentWillMount(){
@@ -577,7 +578,7 @@ class Lucky_Rotation extends React.Component {
 							if(data.code > 0){
 								if(data.data.isBets){
 									if(time < info_seesion.startTime){
-										var ms=`Phiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverter(info_seesion.startTime)}`
+										var ms=`Phiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverterPopup(info_seesion.startTime)}`
 										this.setState({message_error:ms},()=>{
 											modal_tb_err.show();
 										})
@@ -605,7 +606,7 @@ class Lucky_Rotation extends React.Component {
 										})
 										return;
 									}else{
-										this.setState({points:user_data.points},()=>{
+										this.setState({points:user_data.points, txt_type:'LOẠI TRỰC TIẾP'},()=>{
 											modal_datcuoc.show();
 										})
 									}
@@ -633,7 +634,7 @@ class Lucky_Rotation extends React.Component {
 					})
 					return;
 				}else if(user_data.points > info_seesion.minBet){
-					this.setState({points:user_data.points},()=>{
+					this.setState({points:user_data.points, txt_type:'GIẬT HŨ VÀNG'},()=>{
 						modal_datcuoc.show();
 					})
 				}else{
@@ -670,7 +671,7 @@ class Lucky_Rotation extends React.Component {
 					if(data.code > 0){
 						if(type_modeId===2){
 							if(data.data.timeServer < info_seesion.startTime){
-								var ms=`Bạn đã đặt cược thành công.\nPhiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverter(info_seesion.startTime)}`
+								var ms=`Bạn đã đặt cược thành công.\nPhiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverterPopup(info_seesion.startTime)}`
 								this.setState({message_error:ms},()=>{
 									modal_datcuoc.hide();
 									modal_tb_err.show();
@@ -687,7 +688,7 @@ class Lucky_Rotation extends React.Component {
 							
 							window.location.href=window.location.href+'giathuvang';
 						}else{
-							var ms=`Bạn đã đặt cược thành công.\nPhiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverter(info_seesion.startTime)}`
+							var ms=`Bạn đã đặt cược thành công.\nPhiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverterPopup(info_seesion.startTime)}`
 							this.setState({message_error:ms},()=>{
 								modal_datcuoc.hide();
 								modal_tb_err.show();
@@ -789,6 +790,19 @@ class Lucky_Rotation extends React.Component {
 		var min = a.getMinutes() > 9 ? a.getMinutes() : `0${a.getMinutes()}`;
 		var sec = a.getSeconds() > 9 ? a.getSeconds() : `0${a.getSeconds()}`;
 		var time = date + '/' + month + '/' + year + ' ' + hour + ':' + min + ':' + sec ;
+		return time;
+	}
+
+	timeConverterPopup=(time)=>{
+		var a = new Date(time);
+		var year = a.getFullYear();
+		var m=a.getMonth()+1
+		var month =m > 9 ? m : `0${m}`;
+		var date = a.getDate();
+		var hour = a.getHours() > 9 ? a.getHours() : `0${a.getHours()}`;
+		var min = a.getMinutes() > 9 ? a.getMinutes() : `0${a.getMinutes()}`;
+		var sec = a.getSeconds() > 9 ? a.getSeconds() : `0${a.getSeconds()}`;
+		var time = hour + ':' + min + ':' + sec + ' ' + date + '/' + month + '/' + year;
 		return time;
 	}
 
@@ -1340,7 +1354,7 @@ class Lucky_Rotation extends React.Component {
 
 
 	render() {
-		const {contentGuide, type_modeId, title_module,points,info_seesion, bxh_tab_1, bxh_tab_2, bxh_tab_3, message_sanqua_empty, listSanqua, showRollup,type_action, dataInfoDonate, rollup, message_rollup, content, warning_tudo,tab_1, tab_2, tab_3, tab_4,tab_5, tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
+		const {txt_type, contentGuide, type_modeId, title_module,points,info_seesion, bxh_tab_1, bxh_tab_2, bxh_tab_3, message_sanqua_empty, listSanqua, showRollup,type_action, dataInfoDonate, rollup, message_rollup, content, warning_tudo,tab_1, tab_2, tab_3, tab_4,tab_5, tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
 			waiting, activeTuDo, activeHistory, activeVinhDanh, limit, countTuDo, countHistory, countVinhDanh, listHistory, listTuDo, listVinhDanh, user}=this.state;
 		return (<div>	
 					<div class="page-fluid_web">
@@ -1885,7 +1899,7 @@ class Lucky_Rotation extends React.Component {
 											</div>
 										</div>
 										<div class="text-center pb-4">
-											<p class="text-white">Để tham gia GIẬT HŨ VÀNG bạn cần phải đặt cược điểm.</p>                
+											<p class="text-white">Để tham gia {txt_type} bạn cần phải đặt cược điểm.</p>                
 											<div class="btn btn-warning mb-2 w-75 p-3"><h4>ĐIỂM CƯỢC</h4><span class=" mt-2 badge rounded-pill bg-danger" style={{fontSize: "20px"}}>{info_seesion.minBet} Điểm</span></div>
 											<p class="fst-italic text-danger">**Lưu ý: Khi đã đặt cược số điểm sẽ không được hoàn lại.</p>
 										</div>
