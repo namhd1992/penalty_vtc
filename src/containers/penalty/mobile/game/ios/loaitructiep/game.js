@@ -562,11 +562,12 @@ export default class Game extends Phaser.Scene{
       
         this.txt_ranking_acc = this.add.text(Math.round(30*delta_x),  Math.round(315*delta_y), '', { font: `${Math.round(18*delta_x)}px Tahoma`, color: "#ffffff" });
         this.txt_ranking_point = this.add.text(Math.round(180*delta_x),  Math.round(315*delta_y), '', { font: `${Math.round(18*delta_x)}px Tahoma`, color: "#ffffff" });
-        this.btn_std = this.add.image(135,620,'btn_std')
+        this.btn_std = this.add.image(135*delta_x,620*delta_y,'btn_std')
         this.btn_std.setScale(delta_x,delta_y)
-        this.btn_std1 = this.add.image(135,620,'btn_std')
+        this.btn_std1 = this.add.image(135*delta_x,620*delta_y,'btn_std')
         this.btn_std1.setScale(delta_x,delta_y)
         this.btn_std1.visible=false;
+
 
 
 
