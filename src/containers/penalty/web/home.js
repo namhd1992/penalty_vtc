@@ -478,6 +478,7 @@ class Lucky_Rotation extends React.Component {
 					if(data.code > 0){
 						if(data.data!==null){
 							if(data.data.room!==null){
+								modal_giaithuong.hide();
 								var info_seesion=data.data.room;
 								this.setState({info_seesion:info_seesion, user_data: data.data.user, timeServer:data.data.timeServer})
 								localStorage.setItem("info_seesion", JSON.stringify(info_seesion));
@@ -1219,6 +1220,67 @@ class Lucky_Rotation extends React.Component {
 	}
 
 
+	setButtonGiaiThuong=(props)=>{
+		var obj=props.obj;
+		var t=this.state.timeServer;
+		var startTime=obj.startTime;
+		var endTime=obj.endTime;
+		var betsStartTime=obj.betsStartTime;
+
+		if(obj.gameModeId===1){
+			if(t > startTime && t < endTime){
+				return <div class="d-grid" style={{padding:0}}>
+							<button type="button" class="btn btn-danger-dark btn-block text-uppercase btn-sm" onClick={()=>this.getSessionInPlay(1)}>Chơi ngay</button>
+						</div>;
+			}
+		}
+
+		if(obj.gameModeId===2){
+			if(t > startTime && t < endTime){
+				return <div class="d-grid" style={{padding:0}}>
+							<button type="button" class="btn btn-danger-dark btn-block text-uppercase btn-sm" onClick={()=>this.getSessionInPlay(2)}>Chơi ngay</button>
+						</div>;
+			}
+			if(t > betsStartTime){
+				return <div class="d-grid" style={{padding:0}}>
+							<button type="button" class="btn btn-danger-dark btn-block text-uppercase btn-sm" onClick={()=>this.getSessionInPlay(2)}>Cược</button>
+						</div>;
+			}
+
+		}
+
+		if(obj.gameModeId===3){
+			if(t > startTime && t < endTime){
+				return <div class="d-grid" style={{padding:0}}>
+							<button type="button" class="btn btn-danger-dark btn-block text-uppercase btn-sm" onClick={()=>this.getSessionInPlay(3)}>Chơi ngay</button>
+						</div>;
+			}
+			if(t > betsStartTime){
+				return <div class="d-grid" style={{padding:0}}>
+							<button type="button" class="btn btn-danger-dark btn-block text-uppercase btn-sm" onClick={()=>this.getSessionInPlay(3)}>Cược</button>
+						</div>;
+			}
+		}
+
+		console.log(props)
+		// var obj=props.obj;
+		// var t=this.state.timeServer;
+		// var startTime=obj.startTime;
+		// var endTime=obj.endTime;
+		// if(startTime > t){
+		// 	return <p class="font-3vw mb-0">Còn: {this.timeModalGiaiThuong(obj.startTime)}</p>;
+		// }
+		// if(t > endTime){
+		// 	return <p class="font-3vw mb-0 text-danger">Đã kết thúc {this.timeEnd(obj.endTime)}</p>;
+		// }
+		// if(t > startTime && t < endTime){
+		// 	return <p class="font-3vw mb-0 text-yellow text-blink"><span class="spinner-grow text-yellow" style={{width: ".8rem", height: ".8rem"}}></span> Đang diễn ra ... </p>;
+		// }
+		return <div></div>;
+	}
+
+
+
 	numberWithCommas=(x)=> {
 		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
@@ -1552,7 +1614,15 @@ class Lucky_Rotation extends React.Component {
 															<p class="font-3vw_web text-yellow">{v.name}</p>
 														</div>
 													))}
-													<this.HetGio obj={obj} />
+													<this.setButtonGiaiThuong obj={obj} />
+													
+													{/* <div class="d-grid" style={{padding:0}}>
+														<button type="button" class="btn btn-danger-dark btn-block text-uppercase btn-sm">Chơi ngay</button>
+													</div>
+
+													<div class="d-grid" style={{padding:0}}>
+														<button type="button" class="btn btn-danger-dark btn-block text-uppercase btn-sm">Cược</button>
+													</div> */}
 													
 												</div>
 											))}
