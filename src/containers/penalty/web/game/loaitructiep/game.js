@@ -770,19 +770,19 @@ export default class Game extends Phaser.Scene{
                 this.time_update -= 1000;
             }
         } 
-        var t=Date.now() + _deltaTime;
+        var t=Date.now() - _deltaTime;
         if(!isFinish){
             // console.log('AAAAAAAAAAAA', _endTime)
-            if(t > _endTime){
+            if(t > _endTime && _endTime>0){
                 if(_isCheckMain){
                     this.updateDataFinishMain();
+                    // this.finishGame(0)
                 }
    
             }
 
-            if(t>_endTimeBonus){
-                this.showThoat('Phiên đã kết thúc')
-                isFinish=true;
+            if(t>_endTimeBonus && _endTimeBonus>0){
+                this.finishGame(1)
             }
         }
     }
@@ -1109,7 +1109,7 @@ export default class Game extends Phaser.Scene{
 
 
     timeRemain=(times)=>{
-        var t=Date.now() + _deltaTime
+        var t=Date.now() - _deltaTime
         var time=(times - t)/1000;
         if(time>0){
             var day=Math.floor(time/86400) > 9 ? Math.floor(time/86400) : `0${Math.floor(time/86400)}`;
@@ -1123,8 +1123,8 @@ export default class Game extends Phaser.Scene{
         }
 	}
 
-    checkTimeSession=(start, end, data)=>{
-        var time=Date.now() + _deltaTime
+    checkTimeSession=(start, end, data_game)=>{
+        var time=data_game.timeServer
         if(time < start){
             return false;
         }
@@ -1159,7 +1159,6 @@ export default class Game extends Phaser.Scene{
                     if(response.data !==undefined){
                         if(response.data.code>=0){
                             isKnockout=response.data.data.isKnockout;
-                            var t=Date.now() + _deltaTime;
                             data_game=response.data.data;
                             if(_this.checkTimeSession(data_game.room.startTime, data_game.room.endTime, data_game)){;
                                 _rankings=data_game.rankings;
@@ -1192,6 +1191,7 @@ export default class Game extends Phaser.Scene{
                                 // _this.timeRemain(_endTimeShow)
                                 round=2;
                             }else{
+                                console.log("AAAAAAAAA")
                                 window.location.replace('/')
                             }
                            
@@ -1202,7 +1202,7 @@ export default class Game extends Phaser.Scene{
                         window.location.replace('/')
                     }
                 }).catch(function (error) {
-                    window.location.replace('/')
+                    // window.location.replace('/')
                 })
             }else{
                 window.location.replace('/')
@@ -1367,57 +1367,74 @@ export default class Game extends Phaser.Scene{
         
     }
 
-    // updateDataFinishExtra=()=>{
-    //     var _this=this;
-    //     var user = JSON.parse(localStorage.getItem("user"));
-    //     var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
-    //     if(user!==null){
-    //         var data= {...info}
-    //         data.userId= user.uid;
-    //         data.gameId=1;
-    //         data.serverId=1;
-    //         data.modeId=3;
-    //         data.roomId=info_seesion.id;
-    //         data.rakingLimit=10
-    //         var header = {
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 "Authorization": `Bearer ${user.access_token}`,
-    //                 "dataType":"json"
-    //             }
-    //         }
-    //         axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/state', data, header).then(function (response) {
-    //             if(response.data !==undefined){
-    //                 if(response.data.code>=0){
-    //                     isKnockout=response.data.data.isKnockout;
-    //                     isNextRound=response.data.data.isNextRound;
-    //                     _isCheckExtra=false;
-    //                     if(isKnockout){
-    //                         _this.showThoat('Phiên đã kết thúc')
-    //                         isFinish=true;
-    //                         return;
-    //                     }
-    //                     if(isNextRound){
-    //                         round=2;
-    //                         _endTimeShow= data_game.room.endBonusTime;
-    //                         _rankings=data.rankings;
-    //                         _user=data.user;
-    //                         _points=data.user.betAmount;
-    //                         _this.timeRemain(_endTimeShow)
-    //                     }
-    //                 }else{
-    //                     window.location.replace('/')
-    //                 }
-    //             }else{
-    //                 window.location.replace('/')
-    //             }
-    //         }).catch(function (error) {
-    //             // window.location.replace('/')
-    //         })
-    //     }else{
-    //         window.location.replace('/')
-    //     }
-    // }
+    finishGame=(type)=>{
+        var _this=this;
+        isFinish=true;
+        var user = JSON.parse(localStorage.getItem("user"));
+        var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
+        if(user!==null){
+            var data= {...info}
+            data.userId= user.uid;
+            data.gameId=1;
+            data.serverId=1;
+            data.modeId=3;
+            data.roomId=info_seesion.id;
+            data.rakingLimit=10
+            var header = { 
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${user.access_token}`,
+                    "dataType":"json"
+                }
+            }
+            axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/summary', data, header).then(function (response) {
+                if(response.data !==undefined){
+                    if(response.data.code>=0){
+                        var res=response.data.data;
+                        console.log(type)
+                        if(type===0){
+                            var rankings=res.rankings;
+                            if(rankings.length>1){
+                                // setTimeout(()=>{ 
+                                   
+                                // }, 2000);
+                                _this.updateDataFinishMain();
+                            }else{
+                                var pos = rankings.map(function(e) { return e.userName; }).indexOf(user.nick_name);
+                                if(pos!==-1){
+                                    _this.showThoat('Phiên đã kết thúc. Chúc mừng bạn đã chiến thắng!\n Giải thưởng đã được chuyển vào Tủ đồ của bạn,\n truy cập và nhận thưởng ngay nhé.')
+                                    return;
+                                }else{
+                                    _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
+                                    return;
+                                }
+                                
+                            }
+                        }else{
+                            if(res.summary.winAmount===1){
+                                _this.showThoat('Phiên đã kết thúc. Chúc mừng bạn đã chiến thắng!\n Giải thưởng đã được chuyển vào Tủ đồ của bạn,\n truy cập và nhận thưởng ngay nhé.')
+                                return;
+                            }else{
+                                _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
+                                return;
+                            }
+                           
+                        }
+                       
+                       
+                    }else{
+                        window.location.replace('/')
+                    }
+                }else{
+                    window.location.replace('/')
+                }
+            }).catch(function (error) {
+                // window.location.replace('/')
+            })
+        }else{
+            window.location.replace('/')
+        }
+    }
 
 
 }

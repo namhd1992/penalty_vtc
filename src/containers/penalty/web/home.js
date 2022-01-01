@@ -209,7 +209,6 @@ class Lucky_Rotation extends React.Component {
 			user_data:{},
 			contentGuide:'',
 			timeServer:0,
-			txt_type:''
 		};
 	}
 	componentWillMount(){
@@ -561,37 +560,36 @@ class Lucky_Rotation extends React.Component {
 				})
 				return;
 			}
-			
-		
-			if(type===3){
-				if (user !== null) {
-					var data= {...info}
-					data.gameId=1;
-					data.serverId=1;
-					data.modeId=type;
-					data.roomId=info_seesion.id;
-					data.userId=user.uid;
-		
-					this.props.checkPlace(user.access_token, data).then(()=>{
-						var data=this.props.dataCheckPlace;
-						console.log(data)
-						if(data!==undefined){
-							if(data.code > 0){
-								if(data.data.isBets){
-									if(time < info_seesion.startTime){
-										var ms=`Phiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverterPopup(info_seesion.startTime)}`
-										this.setState({message_error:ms},()=>{
-											modal_tb_err.show();
-										})
-										return;
-									}
-									
-									if(time > info_seesion.endTime){
-										this.setState({message_error:'Phiên chơi đã kết thúc.'},()=>{
-											modal_tb_err.show();
-										})
-										return;
-									}
+
+			if (user !== null) {
+				var data= {...info}
+				data.gameId=1;
+				data.serverId=1;
+				data.modeId=type;
+				data.roomId=info_seesion.id;
+				data.userId=user.uid;
+	
+				this.props.checkPlace(user.access_token, data).then(()=>{
+					var data=this.props.dataCheckPlace;
+					console.log(data)
+					if(data!==undefined){
+						if(data.code > 0){
+							if(data.data.isBets){
+								if(time < info_seesion.startTime){
+									var ms=`Phiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverterPopup(info_seesion.startTime)}`
+									this.setState({message_error:ms},()=>{
+										modal_tb_err.show();
+									})
+									return;
+								}
+								
+								if(time > info_seesion.endTime){
+									this.setState({message_error:'Phiên chơi đã kết thúc.'},()=>{
+										modal_tb_err.show();
+									})
+									return;
+								}
+								if(type===3){
 									if(data.data.isKnockout){
 										this.setState({message_error:'Bạn đã bị loại khỏi phiên đấu hiện tại'},()=>{
 											modal_tb_err.show();
@@ -599,51 +597,74 @@ class Lucky_Rotation extends React.Component {
 									}else{
 										window.location.href=window.location.href+'loaitructiep';
 									}
-									// window.location.href=window.location.href+'loaitructiep';
 								}else{
-									if(time > info_seesion.betsEndTime){
-										this.setState({message_error:'Thời gian đặt cược đã hết.'},()=>{
-											modal_tb_err.show();
-										})
-										return;
+									if(data.data.isPlay){
+										if(time > info_seesion.betsEndTime){
+											this.setState({message_error:'Thời gian đặt cược đã hết.'},()=>{
+												modal_tb_err.show();
+											})
+											return;
+										}else if(user_data.points > info_seesion.minBet){
+											this.setState({points:user_data.points},()=>{
+												modal_datcuoc.show();
+											})
+										}else{
+											this.setState({message_error:'Số điểm của bạn không đủ để cược.'},()=>{
+												modal_tb_err.show();
+											})
+										}
 									}else{
-										this.setState({points:user_data.points, txt_type:'LOẠI TRỰC TIẾP'},()=>{
-											modal_datcuoc.show();
-										})
+										window.location.href=window.location.href+'giathuvang';
 									}
-									
+								}
+							}else{
+								if(time > info_seesion.betsEndTime){
+									this.setState({message_error:'Thời gian đặt cược đã hết.'},()=>{
+										modal_tb_err.show();
+									})
+									return;
+								}else{
+									this.setState({points:user_data.points},()=>{
+										modal_datcuoc.show();
+									})
 								}
 								
-							}else{
-								this.setState({message_error:data.message},()=>{
-									modal_tb_err.show();
-								})
 							}
+							
 						}else{
-							this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau.'},()=>{
+							this.setState({message_error:data.message},()=>{
 								modal_tb_err.show();
 							})
 						}
-					});
-				}else {
-					modal_tb.show();
-				}
-			}else{
-				if(time > info_seesion.betsEndTime){
-					this.setState({message_error:'Thời gian đặt cược đã hết.'},()=>{
-						modal_tb_err.show();
-					})
-					return;
-				}else if(user_data.points > info_seesion.minBet){
-					this.setState({points:user_data.points, txt_type:'GIẬT HŨ VÀNG'},()=>{
-						modal_datcuoc.show();
-					})
-				}else{
-					this.setState({message_error:'Số điểm của bạn không đủ để cược.'},()=>{
-						modal_tb_err.show();
-					})
-				}
+					}else{
+						this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau.'},()=>{
+							modal_tb_err.show();
+						})
+					}
+				});
+			}else {
+				modal_tb.show();
 			}
+			
+		
+			// if(type===3){
+				
+			// }else{
+			// 	if(time > info_seesion.betsEndTime){
+			// 		this.setState({message_error:'Thời gian đặt cược đã hết.'},()=>{
+			// 			modal_tb_err.show();
+			// 		})
+			// 		return;
+			// 	}else if(user_data.points > info_seesion.minBet){
+			// 		this.setState({points:user_data.points, txt_type:'GIẬT HŨ VÀNG'},()=>{
+			// 			modal_datcuoc.show();
+			// 		})
+			// 	}else{
+			// 		this.setState({message_error:'Số điểm của bạn không đủ để cược.'},()=>{
+			// 			modal_tb_err.show();
+			// 		})
+			// 	}
+			// }
 			
 		}	
 	
@@ -1401,7 +1422,7 @@ class Lucky_Rotation extends React.Component {
 
 
 	render() {
-		const {txt_type, contentGuide, type_modeId, title_module,points,info_seesion, bxh_tab_1, bxh_tab_2, bxh_tab_3, message_sanqua_empty, listSanqua, showRollup,type_action, dataInfoDonate, rollup, message_rollup, content, warning_tudo,tab_1, tab_2, tab_3, tab_4,tab_5, tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
+		const {contentGuide, type_modeId, title_module,points,info_seesion, bxh_tab_1, bxh_tab_2, bxh_tab_3, message_sanqua_empty, listSanqua, showRollup,type_action, dataInfoDonate, rollup, message_rollup, content, warning_tudo,tab_1, tab_2, tab_3, tab_4,tab_5, tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
 			waiting, activeTuDo, activeHistory, activeVinhDanh, limit, countTuDo, countHistory, countVinhDanh, listHistory, listTuDo, listVinhDanh, user}=this.state;
 		return (<div>	
 					<div class="page-fluid_web">
@@ -1954,7 +1975,7 @@ class Lucky_Rotation extends React.Component {
 											</div>
 										</div>
 										<div class="text-center pb-4">
-											<p class="text-white">Để tham gia {txt_type} bạn cần phải đặt cược điểm.</p>                
+											<p class="text-white">Để tham gia {title_module} bạn cần phải đặt cược điểm.</p>                
 											<div class="btn btn-warning mb-2 w-75 p-3"><h4>ĐIỂM CƯỢC</h4><span class=" mt-2 badge rounded-pill bg-danger" style={{fontSize: "20px"}}>{info_seesion.minBet} Điểm</span></div>
 											<p class="fst-italic text-danger">**Lưu ý: Khi đã đặt cược số điểm sẽ không được hoàn lại.</p>
 										</div>

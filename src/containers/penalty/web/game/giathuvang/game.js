@@ -83,6 +83,8 @@ import bg_pop_ingame from '../../../assert/bg-pop-ingame.png';
 import btn_dongy from '../../../assert/btn-dongy.png';
 import btn_thoat from '../../../assert/btn-thoat.png';
 import icon_home from '../../../assert/icon-home.png';
+import btn_popup_datcuoc from '../../../assert/btn-popup-datcuoc.png';
+
 
 
 
@@ -190,6 +192,7 @@ export default class Game extends Phaser.Scene{
         this.load.image('btn_dongy', btn_dongy);
         this.load.image('btn_thoat', btn_thoat);
         this.load.image('icon_home', icon_home);
+        this.load.image('btn_popup_datcuoc', btn_popup_datcuoc);
     }
 
     create(){
@@ -751,11 +754,10 @@ export default class Game extends Phaser.Scene{
                 this.time_update -= 1000;
             }
         }
-        var t=Date.now() + _deltaTime;
+        var t=Date.now() - _deltaTime;
         if(!isFinish){
             if(t > _room.endTime){
-                this.showThoat('Phiên đã kết thúc')
-                isFinish=true;
+                this.finishGame();
             }
         }
     }
@@ -845,6 +847,8 @@ export default class Game extends Phaser.Scene{
                                     _this.events.off();
                                     _this.scene.restart();
                                 }, 4000);
+                            }else if(response.data.code===-302){
+                                _this.popupCuoc()
                             }else{
                                 _this.showMessageBox(response.data.message)
                             }
@@ -859,7 +863,7 @@ export default class Game extends Phaser.Scene{
                     console.log("Vuốt lên để chơi")
                 }
             }else{
-                _this.showMessageBox('Bạn đã hết lượt chơi.\n Hãy quay lại vào phiên tiếp theo nhé.')
+                _this.popupCuoc()
             }
         }  
     }
@@ -888,13 +892,66 @@ export default class Game extends Phaser.Scene{
         this.text1.destroy();
     }
 
+    popupCuoc() {
+        //just in case the message box already exists
+        //destroy it
+        console.log("AAAAA")
+        var _this=this;
+        var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
+        this.back = this.add.sprite(600, 675/2, "bg_pop_ingame");
+        var t=Date.now() - _deltaTime;
+        if(t > _room.betsEndTime){
+            this.btn_dongy = this.add.sprite(470, 480, "btn_dongy");
+            this.thoatButton = this.add.sprite(730, 480, "btn_thoat");
+            this.text1 = this.add.text(400, 300, 'Thời gian đặt cược đã hết.', { font: "18px Arial", fill: "#ffffff", align:'center', fixedWidth: 400, wordWrap:true});
+            this.btn_dongy.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+                _this.hidePopup()
+            })
+            this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+                window.location.replace('/')
+            })
+        }else{
+            this.btn_popup_datcuoc = this.add.sprite(470, 480, "btn_popup_datcuoc");
+            this.btn_popup_datcuoc.setScale(0.5,0.5)
+            this.thoatButton = this.add.sprite(730, 480, "btn_thoat");
+            this.text1 = this.add.text(370, 270, 'Bạn đã hết lượt chơi. Để chơi tiếp bạn cần cược thêm.', { font: "18px Arial", fill: "#ffffff", align:'left', fixedWidth: 450, wordWrap:true});
+            this.text2 = this.add.text(400, 320, `${info_seesion.minBet} Điểm`, {fontStyle: 'bold italic', font: "22px Arial", fill: "#ffffff", align:'center', fixedWidth: 400, wordWrap:true});
+            this.text3 = this.add.text(370, 370, 'Lưu ý: Khi đã đặt cược số điểm sẽ không được hoàn lại.', { font: "15px Arial", fill: "#ffffff", align:'left', fixedWidth: 450, wordWrap:true});
+            this.btn_popup_datcuoc.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+                _this.onBest()
+            })
+            this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+                window.location.replace('/')
+            })
+        }
+        
+    }
+
+    hidePopup() {
+        isPlay=true;
+        this.back.destroy();
+        this.btn_dongy.destroy();
+        this.thoatButton.destroy();
+        this.text1.destroy();
+    }
+
+    hidePopupCuoc() {
+        isPlay=true;
+        this.back.destroy();
+        this.btn_popup_datcuoc.destroy();
+        this.thoatButton.destroy();
+        this.text1.destroy();
+        this.text2.destroy();
+        this.text3.destroy();
+    }
+
     showThoat(text) {
         //just in case the message box already exists
         //destroy it
         var _this=this;
         this.back = this.add.sprite(600, 675/2, "bg_pop_ingame");
         this.thoatButton = this.add.sprite(600, 480, "btn_thoat");
-        this.text1 = this.add.text(400, 300, text, { font: "18px Arial", fill: "#ffffff", align:'center', fixedWidth: 400, wordWrap:true});
+        this.text1 = this.add.text(390, 300, text, { font: "18px Arial", fill: "#ffffff", align:'center', fixedWidth: 420, wordWrap:true});
         this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             window.location.replace('/')
         })
@@ -1078,7 +1135,7 @@ export default class Game extends Phaser.Scene{
 
     timeRemain=(times)=>{
         
-        var t=Date.now() + _deltaTime
+        var t=Date.now() - _deltaTime
         var time=(times - t)/1000;
         if(time>0){
             var day=Math.floor(time/86400) > 9 ? Math.floor(time/86400) : `0${Math.floor(time/86400)}`;
@@ -1202,6 +1259,97 @@ export default class Game extends Phaser.Scene{
         }
     }
 
+    onBest=()=>{
+        var _this=this;
+        var user = JSON.parse(localStorage.getItem("user"));
+        var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
+        if(user!==null){
+            var data= {...info}
+            data.userId= user.uid;
+
+            data.gameId=1;
+            data.serverId=1;
+            data.modeId=2;
+            data.roomId=info_seesion.id;
+            data.price=info_seesion.minBet;
+            data.source=21;
+            var header = {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${user.access_token}`,
+                    "dataType":"json"
+                }
+            }
+            axios.post(Ultilities.base_url() +'/pay/api/v1/bets/place', data, header).then(function (response) {
+                if(response.data !==undefined){
+                    if(response.data.code>=0){
+                        var data=response.data.data;
+                        if(data.status==2){
+                            _this.loadInitData();
+                            // _this.scene.restart();
+                            _this.hidePopupCuoc();
+                        }
+                        
+                       
+                    }else{
+                        window.location.replace('/')
+                    }
+                }else{
+                    window.location.replace('/')
+                }
+            }).catch(function (error) {
+                // window.location.replace('/')
+            })
+        }else{
+            window.location.replace('/')
+        }
+    }
+
+    finishGame=()=>{
+        var _this=this;
+        isFinish=true;
+        var user = JSON.parse(localStorage.getItem("user"));
+        var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
+        if(user!==null){
+            var data= {...info}
+            data.userId= user.uid;
+            data.gameId=1;
+            data.serverId=1;
+            data.modeId=2;
+            data.roomId=info_seesion.id;
+            data.rakingLimit=10
+            var header = { 
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${user.access_token}`,
+                    "dataType":"json"
+                }
+            }
+            axios.post(Ultilities.base_url() +'/lobby/api/v1/jackpot/summary', data, header).then(function (response) {
+                if(response.data !==undefined){
+                    if(response.data.code>=0){
+                        var res=response.data.data;
+                        if(res.summary.winAmount===1){
+                            _this.showThoat('Phiên đã kết thúc. Chúc mừng bạn đã chiến thắng!\n Giải thưởng đã được chuyển vào Tủ đồ của bạn,\n truy cập và nhận thưởng ngay nhé.')
+                            return;
+                        }else{
+                            _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
+                            return;
+                        }
+                       
+                    }else{
+                        window.location.replace('/')
+                    }
+                }else{
+                    window.location.replace('/')
+                }
+            }).catch(function (error) {
+                // window.location.replace('/')
+            })
+        }else{
+            window.location.replace('/')
+        }
+    }
 
 }
 

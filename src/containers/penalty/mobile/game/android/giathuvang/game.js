@@ -83,6 +83,7 @@ import bg_pop_ingame from '../../../../assert/bg-pop-ingame.png';
 import btn_dongy from '../../../../assert/btn-dongy.png';
 import btn_thoat from '../../../../assert/btn-thoat.png';
 import icon_home from '../../../../assert/icon-home.png';
+import btn_popup_datcuoc from '../../../../assert/btn-popup-datcuoc.png';
 
 const list_keep=[]
 const list_goal=[]
@@ -193,6 +194,7 @@ export default class Game extends Phaser.Scene{
         this.load.image('btn_dongy', btn_dongy);
         this.load.image('btn_thoat', btn_thoat);
         this.load.image('icon_home', icon_home);
+        this.load.image('btn_popup_datcuoc', btn_popup_datcuoc);
     }
 
     create(){
@@ -767,11 +769,10 @@ export default class Game extends Phaser.Scene{
             }
         }
 
-        var t=Date.now() + _deltaTime;
+        var t=Date.now() - _deltaTime;
         if(!isFinish){
             if(t > _room.endTime){
-                this.showThoat('Phiên đã kết thúc')
-                isFinish=true;
+                this.finishGame();
             }
         }
     }
@@ -864,6 +865,8 @@ export default class Game extends Phaser.Scene{
                                     _this.events.off();
                                     _this.scene.restart();
                                 }, 4000);
+                            }else if(response.data.code===-302){
+                                _this.popupCuoc()
                             }else{
                                 _this.showMessageBox(response.data.message)
                             }
@@ -878,7 +881,7 @@ export default class Game extends Phaser.Scene{
                     console.log("Vuốt lên để chơi")
                 }
             }else{
-                _this.showMessageBox('Bạn đã hết lượt chơi.\n Hãy quay lại vào phiên tiếp theo nhé.')
+                _this.popupCuoc()
             }
         }
     }
@@ -887,13 +890,13 @@ export default class Game extends Phaser.Scene{
         //just in case the message box already exists
         //destroy it
         var _this=this;
-        this.back = this.add.sprite(600*delta_x, (675/2)*delta_y, "bg_pop_ingame");
+        this.back = this.add.sprite(Math.round(600*delta_x), Math.round((675/2)*delta_y), "bg_pop_ingame");
         this.back.setScale(delta_x,delta_y)
-        this.closeButton = this.add.sprite(470*delta_x, 480*delta_y, "btn_dongy");
+        this.closeButton = this.add.sprite(Math.round(470*delta_x), Math.round(480*delta_y), "btn_dongy");
         this.closeButton.setScale(delta_x,delta_y)
-        this.thoatButton = this.add.sprite(730*delta_x, 480*delta_y, "btn_thoat");
+        this.thoatButton = this.add.sprite(Math.round(730*delta_x), Math.round(480*delta_y), "btn_thoat");
         this.thoatButton.setScale(delta_x,delta_y)
-        this.text1 = this.add.text(400*delta_x, 300*delta_y, text, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
+        this.text1 = this.add.text(Math.round(400*delta_x), Math.round(300*delta_y), text, { font: '12px Arial', fill: "#ffffff", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
         this.closeButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             _this.hideBox()
         })
@@ -910,6 +913,63 @@ export default class Game extends Phaser.Scene{
         this.text1.destroy();
     }
 
+    popupCuoc() {
+        //just in case the message box already exists
+        //destroy it
+        console.log("AAAAA")
+        var _this=this;
+        var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
+        this.back = this.add.sprite(600, 675/2, "bg_pop_ingame");
+        this.back.setScale(delta_x,delta_y)
+        var t=Date.now() - _deltaTime;
+        if(t > _room.betsEndTime){
+            this.btn_dongy = this.add.sprite(Math.round(470*delta_x), Math.round(480*delta_y), "btn_dongy");
+            this.btn_dongy.setScale(delta_x,delta_y)
+            this.thoatButton = this.add.sprite(Math.round(730*delta_x), Math.round(480*delta_y), "btn_thoat");
+            this.thoatButton.setScale(delta_x,delta_y)
+            this.text1 = this.add.text(Math.round(400*delta_x), Math.round(300*delta_y), 'Thời gian đặt cược đã hết.', { font: "12px Arial", fill: "#ffffff", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
+            this.btn_dongy.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+                _this.hidePopup()
+            })
+            this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+                window.location.replace('/')
+            })
+        }else{
+            this.btn_popup_datcuoc = this.add.sprite(Math.round(470*delta_x), Math.round(480*delta_y), "btn_popup_datcuoc");
+            this.btn_popup_datcuoc.setScale(delta_x*0.5,delta_y*0.5)
+            this.thoatButton = this.add.sprite(Math.round(730*delta_x), Math.round(480*delta_y), "btn_thoat");
+            this.thoatButton.setScale(delta_x,delta_y)
+            this.text1 = this.add.text(Math.round(370*delta_x), Math.round(270*delta_y), 'Bạn đã hết lượt chơi. Để chơi tiếp bạn cần cược thêm.', { font: "12px Arial", fill: "#ffffff", align:'left', fixedWidth: 450*delta_x, wordWrap:true});
+            this.text2 = this.add.text(Math.round(400*delta_x), Math.round(320*delta_y), `${info_seesion.minBet} Điểm`, {fontStyle: 'bold italic', font: "15px Arial", fill: "#ffffff", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
+            this.text3 = this.add.text(Math.round(370*delta_x), Math.round(370*delta_y), 'Lưu ý: Khi đã đặt cược số điểm sẽ không được hoàn lại.', { font: "10px Arial", fill: "#ffffff", align:'left', fixedWidth: 450*delta_x, wordWrap:true});
+            this.btn_popup_datcuoc.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+                _this.onBest()
+            })
+            this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+                window.location.replace('/')
+            })
+        }
+        
+    }
+
+    hidePopup() {
+        isPlay=true;
+        this.back.destroy();
+        this.btn_dongy.destroy();
+        this.thoatButton.destroy();
+        this.text1.destroy();
+    }
+
+    hidePopupCuoc() {
+        isPlay=true;
+        this.back.destroy();
+        this.btn_popup_datcuoc.destroy();
+        this.thoatButton.destroy();
+        this.text1.destroy();
+        this.text2.destroy();
+        this.text3.destroy();
+    }
+
     showThoat(text) {
         //just in case the message box already exists
         //destroy it
@@ -918,7 +978,7 @@ export default class Game extends Phaser.Scene{
         this.back.setScale(delta_x,delta_y)
         this.thoatButton = this.add.sprite(width/2, 480*delta_y, "btn_thoat");
         this.thoatButton.setScale(delta_x,delta_y)
-        this.text1 = this.add.text(400*delta_x, 300*delta_y, text, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
+        this.text1 = this.add.text(390*delta_x, 300*delta_y, text, { font: `${18*delta_x}px Arial`, fill: "#ffffff", align:'center', fixedWidth: 410*delta_x, wordWrap:true});
         this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             window.location.replace('/')
         })
@@ -1086,7 +1146,7 @@ export default class Game extends Phaser.Scene{
 
     timeRemain=(times)=>{
         
-        var t=Date.now() + _deltaTime
+        var t=Date.now() - _deltaTime
         var time=(times - t)/1000;
         if(time>0){
             var day=Math.floor(time/86400) > 9 ? Math.floor(time/86400) : `0${Math.floor(time/86400)}`;
@@ -1195,6 +1255,98 @@ export default class Game extends Phaser.Scene{
                         _rankings=data.rankings;
                         _user=data.user;
                         _estimateJackpot=data.estimateJackpot;
+                       
+                    }else{
+                        window.location.replace('/')
+                    }
+                }else{
+                    window.location.replace('/')
+                }
+            }).catch(function (error) {
+                // window.location.replace('/')
+            })
+        }else{
+            window.location.replace('/')
+        }
+    }
+
+    onBest=()=>{
+        var _this=this;
+        var user = JSON.parse(localStorage.getItem("user"));
+        var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
+        if(user!==null){
+            var data= {...info}
+            data.userId= user.uid;
+
+            data.gameId=1;
+            data.serverId=1;
+            data.modeId=2;
+            data.roomId=info_seesion.id;
+            data.price=info_seesion.minBet;
+            data.source=21;
+            var header = {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${user.access_token}`,
+                    "dataType":"json"
+                }
+            }
+            axios.post(Ultilities.base_url() +'/pay/api/v1/bets/place', data, header).then(function (response) {
+                if(response.data !==undefined){
+                    if(response.data.code>=0){
+                        var data=response.data.data;
+                        if(data.status==2){
+                            _this.loadInitData();
+                            // _this.scene.restart();
+                            _this.hidePopupCuoc();
+                        }
+                        
+                       
+                    }else{
+                        window.location.replace('/')
+                    }
+                }else{
+                    window.location.replace('/')
+                }
+            }).catch(function (error) {
+                // window.location.replace('/')
+            })
+        }else{
+            window.location.replace('/')
+        }
+    }
+
+    finishGame=()=>{
+        var _this=this;
+        isFinish=true;
+        var user = JSON.parse(localStorage.getItem("user"));
+        var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
+        if(user!==null){
+            var data= {...info}
+            data.userId= user.uid;
+            data.gameId=1;
+            data.serverId=1;
+            data.modeId=2;
+            data.roomId=info_seesion.id;
+            data.rakingLimit=10
+            var header = { 
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${user.access_token}`,
+                    "dataType":"json"
+                }
+            }
+            axios.post(Ultilities.base_url() +'/lobby/api/v1/jackpot/summary', data, header).then(function (response) {
+                if(response.data !==undefined){
+                    if(response.data.code>=0){
+                        var res=response.data.data;
+                        if(res.summary.winAmount===1){
+                            _this.showThoat('Phiên đã kết thúc. Chúc mừng bạn đã chiến thắng!\n Giải thưởng đã được chuyển vào Tủ đồ của bạn,\n truy cập và nhận thưởng ngay nhé.')
+                            return;
+                        }else{
+                            _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
+                            return;
+                        }
                        
                     }else{
                         window.location.replace('/')

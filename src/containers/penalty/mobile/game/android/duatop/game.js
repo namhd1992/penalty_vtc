@@ -756,11 +756,10 @@ export default class Game extends Phaser.Scene{
                 this.time_update -= 1000;
             }
         }
-        var t=Date.now() + _deltaTime;
+        var t=Date.now() - _deltaTime;
         if(!isFinish){
             if(t > _room.endTime){
-                this.showThoat('Phiên đã kết thúc')
-                isFinish=true;
+                this.finishGame();
             }
         }
     }
@@ -1076,7 +1075,7 @@ export default class Game extends Phaser.Scene{
 
     timeRemain=(times)=>{
         
-        var t=Date.now() + _deltaTime
+        var t=Date.now() - _deltaTime
         var time=(times - t)/1000;
         if(time>0){
             var day=Math.floor(time/86400) > 9 ? Math.floor(time/86400) : `0${Math.floor(time/86400)}`;
@@ -1184,6 +1183,52 @@ export default class Game extends Phaser.Scene{
                         var data=response.data.data;
                         _rankings=data.rankings;
                         _user=data.user;
+                       
+                    }else{
+                        window.location.replace('/')
+                    }
+                }else{
+                    window.location.replace('/')
+                }
+            }).catch(function (error) {
+                // window.location.replace('/')
+            })
+        }else{
+            window.location.replace('/')
+        }
+    }
+
+    finishGame=()=>{
+        var _this=this;
+        isFinish=true;
+        var user = JSON.parse(localStorage.getItem("user"));
+        var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
+        if(user!==null){
+            var data= {...info}
+            data.userId= user.uid;
+            data.gameId=1;
+            data.serverId=1;
+            data.modeId=1;
+            data.roomId=info_seesion.id;
+            data.rakingLimit=10
+            var header = { 
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${user.access_token}`,
+                    "dataType":"json"
+                }
+            }
+            axios.post(Ultilities.base_url() +'/lobby/api/v1/race/summary', data, header).then(function (response) {
+                if(response.data !==undefined){
+                    if(response.data.code>=0){
+                        var res=response.data.data;
+                        if(res.summary.winAmount===1){
+                            _this.showThoat('Phiên đã kết thúc. Chúc mừng bạn đã chiến thắng!\n Giải thưởng đã được chuyển vào Tủ đồ của bạn,\n truy cập và nhận thưởng ngay nhé.')
+                            return;
+                        }else{
+                            _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
+                            return;
+                        }
                        
                     }else{
                         window.location.replace('/')
