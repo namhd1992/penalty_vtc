@@ -129,6 +129,7 @@ var _endTimeBonus=0;
 var _endTimeShow=0;
 var _points=0;
 var _isCheckMain=true;
+var interval_fi={};
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -1211,7 +1212,7 @@ export default class Game extends Phaser.Scene{
                         window.location.replace('/')
                     }
                 }).catch(function (error) {
-                    // window.location.replace('/')
+                    window.location.replace('/')
                 })
             }else{
                 window.location.replace('/')
@@ -1308,7 +1309,7 @@ export default class Game extends Phaser.Scene{
             data.serverId=1;
             data.modeId=3;
             data.roomId=info_seesion.id;
-            data.rakingLimit=5
+            data.rakingLimit=10
             var header = {
                 headers: {
                     "Content-Type": "application/json",
@@ -1319,11 +1320,11 @@ export default class Game extends Phaser.Scene{
             axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/state', data, header).then(function (response) {
                 if(response.data !==undefined){
                     if(response.data.code>=0){
-                        
+                        var data=response.data.data;
                         isKnockout=response.data.data.isKnockout;
                         isNextRound=response.data.data.isNextRound;
                         if(isKnockout){
-                            _this.showThoat('Phiên đã kết thúc.')
+                            _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
                             isFinish=true;
                             return;
                         }
@@ -1331,15 +1332,17 @@ export default class Game extends Phaser.Scene{
                             round=2;
                             _endTimeBonus=_room.endBonusTime;
                             _endTimeShow= _room.endBonusTime;
-                            _rankings=data_game.rankings;
-                            _user=data_game.user;
-                            _points=data_game.user.betAmount;
-                            _this.timeRemain(_endTimeShow)
+                            _rankings=data.rankings;
+                            _user=data.user;
+                            _points=data.user.betAmount;
+                            _this.timeRemain(_endTimeShow);
+                            isFinish=false;
                         }else{
                             _this.showThoat('Phiên đã kết thúc.')
                             isFinish=true;
                             return;
                         }
+                        clearInterval(interval_fi);
                     }else{
                         window.location.replace('/')
                     }
@@ -1352,22 +1355,22 @@ export default class Game extends Phaser.Scene{
                     isFinish=true;
                     return;
                 }
-                if(error.response.data.code ===-404){
-                    _this.showThoat('Phiên chưa sẵn sàng hoặc chưa diễn ra.')
-                    isFinish=true;
-                    return;
-                }
+                // if(error.response.data.code ===-404){
+                //     _this.showThoat('Phiên chưa sẵn sàng hoặc chưa diễn ra.')
+                //     isFinish=true;
+                //     return;
+                // }
                 if(error.response.data.code ===-101){
                     _this.showThoat('Hệ thống đang bận. Vui lòng thử lại sau')
                     isFinish=true;
                     return;
                 }
 
-                if(error.response.data.code ===-602){
-                    _this.showThoat('Chờ hiệp phụ bắt đầu.')
-                    isFinish=true;
-                    return;
-                }
+                // if(error.response.data.code ===-602){
+                //     _this.showThoat('Chờ hiệp phụ bắt đầu.')
+                //     isFinish=true;
+                //     return;
+                // }
                 // window.location.replace('/')
             })
         }else{
@@ -1404,9 +1407,13 @@ export default class Game extends Phaser.Scene{
                         if(type===0){
                             var rankings=res.rankings;
                             if(rankings.length>1){
-                                setTimeout(()=>{ 
+                                // setTimeout(()=>{ 
+                                   
+                                // }, 2000);
+                                interval_fi=setInterval(()=>{	
                                     _this.updateDataFinishMain();
                                 }, 2000);
+                                
                             }else{
                                 var pos = rankings.map(function(e) { return e.userName; }).indexOf(user.nick_name);
                                 if(pos!==-1){
