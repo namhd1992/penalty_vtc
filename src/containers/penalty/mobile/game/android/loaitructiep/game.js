@@ -895,6 +895,11 @@ export default class Game extends Phaser.Scene{
                             }else{
                                 _this.showMessageBox(response.data.message)
                             }
+                        }).catch(function (error) {
+                            if(error.response.data.code ===-206){
+                                _this.logout()
+                            }
+                            
                         })
     
                        
@@ -1211,7 +1216,11 @@ export default class Game extends Phaser.Scene{
                         window.location.replace('/')
                     }
                 }).catch(function (error) {
-                    window.location.replace('/')
+                    if(error.response.data.code ===-206){
+                        _this.logout()
+                    }else{
+                        window.location.replace('/')
+                    }
                 })
             }else{
                 window.location.replace('/')
@@ -1271,16 +1280,19 @@ export default class Game extends Phaser.Scene{
                         window.location.replace('/')
                     }
                 }).catch(function (error) {
+                    if(error.response.data.code ===-206){
+                        _this.logout()
+                    }
                     if(error.response.data.code ===-401){
                         _this.showThoat('Phiên đã kết thúc.')
                         isFinish=true;
                         return;
                     }
-                    if(error.response.data.code ===-404){
-                        _this.showThoat('Phiên chưa sẵn sàng hoặc chưa diễn ra.')
-                        isFinish=true;
-                        return;
-                    }
+                    // if(error.response.data.code ===-404){
+                    //     _this.showThoat('Phiên chưa sẵn sàng hoặc chưa diễn ra.')
+                    //     isFinish=true;
+                    //     return;
+                    // }
                     if(error.response.data.code ===-101){
                         _this.showThoat('Hệ thống đang bận.')
                         isFinish=true;
@@ -1349,6 +1361,10 @@ export default class Game extends Phaser.Scene{
                     window.location.replace('/')
                 }
             }).catch(function (error) {
+                if(error.response.data.code ===-206){
+                    _this.logout()
+                }
+
                 if(error.response.data.code ===-401){
                     _this.showThoat('Phiên đã kết thúc.')
                     isFinish=true;
@@ -1443,11 +1459,40 @@ export default class Game extends Phaser.Scene{
                     window.location.replace('/')
                 }
             }).catch(function (error) {
+                if(error.response.data.code ===-206){
+                    _this.logout()
+                }
                 // window.location.replace('/')
             })
         }else{
             window.location.replace('/')
         }
+    }
+
+    logout=()=>{
+        var user = JSON.parse(localStorage.getItem("user"));
+        
+        if(user!==null){
+            var data= {...info}
+            data.userId= user.uid;
+            var header = {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${user.access_token}`,
+                    "dataType":"json"
+                }
+            }
+            axios.post(Ultilities.base_url() +'/users/api/v1/account/logout', data, header).then(function (response) {
+    
+                if(response.data.code>=0){
+                    localStorage.removeItem("user");
+                    window.location.replace(
+                        `https://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}&action=logout&agencyid=0`,
+                    );
+                }
+            })
+        }
+        
     }
 
 }

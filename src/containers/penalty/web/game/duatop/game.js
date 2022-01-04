@@ -587,7 +587,6 @@ export default class Game extends Phaser.Scene{
             this.opt_suttudong_checked.visible=false;
         }
         if(play){
-            // console.log(result)
            
             this.ball_1.visible=false;
             if(!is_ball_lasted){
@@ -606,8 +605,6 @@ export default class Game extends Phaser.Scene{
             }else{
                 m=2
             }
-            // console.log(h)
-           
             var k=h > 100 ? h/100 : 1;
             if(h>0 && h<110){
                 ball_with_time=0.0125;
@@ -620,9 +617,6 @@ export default class Game extends Phaser.Scene{
                 ball_with_time=0.02;
                 k=5
             }
-            // console.log(increase_x)
-
-            // this.sprite.play('walk');
             if(h<250){
                 if(this.ball_rotation_sprite.y<power){
                    
@@ -701,7 +695,6 @@ export default class Game extends Phaser.Scene{
                         }
                     }
                     if(result===3){
-                        // console.log('AAAAAAAAAA')
                         if(this.ball_collision_keeper_sprite.y < 445){
                             this.ball_collision_keeper_sprite.y +=2*k;
                             this.ball_collision_keeper_sprite.x +=1*increase_x;
@@ -782,8 +775,8 @@ export default class Game extends Phaser.Scene{
                 if(p1[1]-p2[1] > 0){
                     var positionBall=this.getPositionBall(p1,p2);
                     var keeper=this.setPositionKeeper(positionBall[0],positionBall[1])
-                    console.log(positionBall)
-                    console.log('keeper',keeper)
+                    // console.log(positionBall)
+                    // console.log('keeper',keeper)
                     if(user!==null){
                         var data= {...info}
                         data.userId= user.uid;
@@ -856,18 +849,22 @@ export default class Game extends Phaser.Scene{
                                     _this.events.off();
                                     _this.scene.restart();
                                 }, 4000);
+                            }else if(response.data.code===-302){
+                                _this.showMessageBox('Bạn đã hết lượt chơi.\n Hãy Nạp thêm scoin để nhận thêm lượt chơi nhé.')
                             }else{
                                 _this.showMessageBox(response.data.message)
                             }
+                        }).catch(function (error) {
+                            if(error.response.data.code ===-206){
+                                _this.logout()
+                            }
+                            
                         })
-    
-                       
                     }else{
                         window.location.replace('/')
                     }
                 }else{
                     isPlay=true;
-                    console.log("Vuốt lên để chơi")
                 }
             }else{
                 _this.showMessageBox('Bạn đã hết lượt chơi.\n Hãy Nạp thêm scoin để nhận thêm lượt chơi nhé')
@@ -1036,7 +1033,7 @@ export default class Game extends Phaser.Scene{
         var n=(530-power)/(2*k)
         var y=power;
         var x=605+n*increase_x*m;
-        console.log(x,y)
+        // console.log(x,y)
         return [x,y];
     }
 
@@ -1148,7 +1145,7 @@ export default class Game extends Phaser.Scene{
                                 _timeServer=data_game.timeServer;
                                 
                                 _deltaTime=Date.now() -_timeServer;
-                                console.log("_deltaTime", _deltaTime)
+                                // console.log("_timeServer", _timeServer)
                                 _this.timeRemain(data_game.room.endTime)
     
                             }else{
@@ -1161,7 +1158,12 @@ export default class Game extends Phaser.Scene{
                         window.location.replace('/')
                     }
                 }).catch(function (error) {
-                    window.location.replace('/')
+                    if(error.response.data.code ===-206){
+                        _this.logout()
+                    }else{
+                        window.location.replace('/')
+                    }
+                    
                 })
             }else{
                 window.location.replace('/')
@@ -1207,6 +1209,9 @@ export default class Game extends Phaser.Scene{
                     window.location.replace('/')
                 }
             }).catch(function (error) {
+                if(error.response.data.code ===-206){
+                    _this.logout()
+                }
                 // window.location.replace('/')
             })
         }else{
@@ -1253,11 +1258,40 @@ export default class Game extends Phaser.Scene{
                     window.location.replace('/')
                 }
             }).catch(function (error) {
+                if(error.response.data.code ===-206){
+                    _this.logout()
+                }
                 // window.location.replace('/')
             })
         }else{
             window.location.replace('/')
         }
+    }
+
+    logout=()=>{
+        var user = JSON.parse(localStorage.getItem("user"));
+        
+        if(user!==null){
+            var data= {...info}
+            data.userId= user.uid;
+            var header = {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${user.access_token}`,
+                    "dataType":"json"
+                }
+            }
+            axios.post(Ultilities.base_url() +'/users/api/v1/account/logout', data, header).then(function (response) {
+    
+                if(response.data.code>=0){
+                    localStorage.removeItem("user");
+                    window.location.replace(
+                        `https://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}&action=logout&agencyid=0`,
+                    );
+                }
+            })
+        }
+        
     }
 }
 

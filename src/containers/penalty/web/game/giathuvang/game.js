@@ -84,7 +84,7 @@ import btn_dongy from '../../../assert/btn-dongy.png';
 import btn_thoat from '../../../assert/btn-thoat.png';
 import icon_home from '../../../assert/icon-home.png';
 import btn_popup_datcuoc from '../../../assert/btn-popup-datcuoc.png';
-
+import btn_popup_napgame from '../../../assert/btn-popup-napgame.png';
 
 
 
@@ -193,6 +193,7 @@ export default class Game extends Phaser.Scene{
         this.load.image('btn_thoat', btn_thoat);
         this.load.image('icon_home', icon_home);
         this.load.image('btn_popup_datcuoc', btn_popup_datcuoc);
+        this.load.image('btn_popup_napgame', btn_popup_napgame);
     }
 
     create(){
@@ -852,6 +853,11 @@ export default class Game extends Phaser.Scene{
                             }else{
                                 _this.showMessageBox(response.data.message)
                             }
+                        }).catch(function (error) {
+                            if(error.response.data.code ===-206){
+                                _this.logout()
+                            }
+                            
                         })
     
                        
@@ -890,6 +896,34 @@ export default class Game extends Phaser.Scene{
         this.closeButton.destroy();
         this.thoatButton.destroy();
         this.text1.destroy();
+    }
+
+    napgame() {
+        console.log("AAAAAAAAAAAA")
+        //just in case the message box already exists
+        //destroy it
+        var _this=this;
+        this.back_napgame = this.add.sprite(600, 675/2, "bg_pop_ingame");
+        this.btn_napgame = this.add.sprite(470, 480, "btn_popup_napgame");
+        this.btn_thoat_napgame = this.add.sprite(730, 480, "btn_thoat");
+        this.txt1_napgame = this.add.text(400, 270, 'Số điểm của bạn không đủ để đặt cược.', { font: "18px Arial", fill: "#ffffff", align:'center', fixedWidth: 400, wordWrap:true});
+        this.txt2_napgame = this.add.text(370, 320, 'Hãy Nạp game bằng thẻ Scoin hoặc Chuyển khoản\n để nhận thêm điểm và thử lại nhé.', { font: "18px Arial", fill: "#ffffff", align:'center', fixedWidth: 450, wordWrap:true});
+        this.btn_napgame.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+            _this.hideNapGame()
+        })
+        this.btn_thoat_napgame.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+            window.location.replace('/')
+        })
+    }
+
+    hideNapGame() {
+        isPlay=true;
+        this.back_napgame.destroy();
+        this.btn_napgame.destroy();
+        this.btn_thoat_napgame.destroy();
+        this.txt1_napgame.destroy();
+        this.txt2_napgame.destroy();
+        window.open("https://scoin.vn/nap-game");
     }
 
     popupCuoc() {
@@ -1205,7 +1239,11 @@ export default class Game extends Phaser.Scene{
                         window.location.replace('/')
                     }
                 }).catch(function (error) {
-                    window.location.replace('/')
+                    if(error.response.data.code ===-206){
+                        _this.logout()
+                    }else{
+                        window.location.replace('/')
+                    }
                 })
             }else{
                 window.location.replace('/')
@@ -1252,6 +1290,9 @@ export default class Game extends Phaser.Scene{
                     window.location.replace('/')
                 }
             }).catch(function (error) {
+                if(error.response.data.code ===-206){
+                    _this.logout()
+                }
                 // window.location.replace('/')
             })
         }else{
@@ -1288,9 +1329,13 @@ export default class Game extends Phaser.Scene{
                             _this.loadInitData();
                             // _this.scene.restart();
                             _this.hidePopupCuoc();
+                            
                         }
                         
                        
+                    }else if(response.data.code===-302){
+                        _this.hidePopupCuoc();
+                        _this.napgame();
                     }else{
                         window.location.replace('/')
                     }
@@ -1298,6 +1343,9 @@ export default class Game extends Phaser.Scene{
                     window.location.replace('/')
                 }
             }).catch(function (error) {
+                if(error.response.data.code ===-206){
+                    _this.logout()
+                }
                 // window.location.replace('/')
             })
         }else{
@@ -1344,11 +1392,40 @@ export default class Game extends Phaser.Scene{
                     window.location.replace('/')
                 }
             }).catch(function (error) {
+                if(error.response.data.code ===-206){
+                    _this.logout()
+                }
                 // window.location.replace('/')
             })
         }else{
             window.location.replace('/')
         }
+    }
+
+    logout=()=>{
+        var user = JSON.parse(localStorage.getItem("user"));
+        
+        if(user!==null){
+            var data= {...info}
+            data.userId= user.uid;
+            var header = {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${user.access_token}`,
+                    "dataType":"json"
+                }
+            }
+            axios.post(Ultilities.base_url() +'/users/api/v1/account/logout', data, header).then(function (response) {
+    
+                if(response.data.code>=0){
+                    localStorage.removeItem("user");
+                    window.location.replace(
+                        `https://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}&action=logout&agencyid=0`,
+                    );
+                }
+            })
+        }
+        
     }
 
 }

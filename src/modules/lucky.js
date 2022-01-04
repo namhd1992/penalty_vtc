@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {osVersion,osName,mobileModel} from "react-device-detect";
 import Ultilities from '../Ultilities/global'
 // import crypto from './crypto'
 import {SERVER_ERROR} from './server'
@@ -42,6 +43,19 @@ export const CHECK_PLACE="lucky/CHECK_PLACE";
 export const BALANCES="lucky/BALANCES";
 export const CONTENT_GUIDE ="lucky/CONTENT_GUIDE";
 
+
+
+
+
+const info={
+	"lang": "vi",
+	"osType": osName.toLocaleUpperCase(),
+	"deviceId": "00000000-0000-0000-0000-000000000000",
+	"deviceName": mobileModel,
+	"osVersion": osVersion,
+	"appVersion": "1.0",
+	"requestId": 365603310,
+}
 
 
 
@@ -270,6 +284,7 @@ export default (state = initialState, action) => {
 
 
 export const checkRollup = (token, data) => {
+	var _this=this;
 	var header = {
 		headers: {
 			"Content-Type": "application/json",
@@ -289,6 +304,9 @@ export const checkRollup = (token, data) => {
 				data: response.data
 			})
 		}).catch(function (error) {
+			if(error.response.data.code ===-206){
+				logout()
+			}
 			dispatch({
 				type: SERVER_ERROR
 			})
@@ -337,7 +355,9 @@ export const sessionInPlay = (token, data) => {
 				data: response.data
 			})
 		}).catch(function (error) {
-			console.log(error.info)
+			if(error.response.data.code ===-206){
+				logout()
+			}
 			dispatch({
 				type: SERVER_ERROR
 			})
@@ -386,6 +406,9 @@ export const getTuDo = (token, data) => {
 				data: response.data
 			})
 		}).catch(function (error) {
+			if(error.response.data.code ===-206){
+				logout()
+			}
 			dispatch({
 				type: SERVER_ERROR
 			})
@@ -412,6 +435,9 @@ export const getHistoryTuDo = (token, data) => {
 				data: response.data
 			})
 		}).catch(function (error) {
+			if(error.response.data.code ===-206){
+				logout()
+			}
 			dispatch({
 				type: SERVER_ERROR
 			})
@@ -440,6 +466,9 @@ export const getItemAward = (token, data) => {
 				data: response.data
 			})
 		}).catch(function (error) {
+			if(error.response.data.code ===-206){
+				logout()
+			}
 			dispatch({
 				type: SERVER_ERROR
 			})
@@ -466,16 +495,15 @@ export const viewItemAward = (token, data) => {
 				data: response.data
 			})
 		}).catch(function (error) {
+			if(error.response.data.code ===-206){
+				logout()
+			}
 			dispatch({
 				type: SERVER_ERROR
 			})
 		})
 	}
 }
-
-
-
-
 
 
 
@@ -815,7 +843,9 @@ export const betting = (token, data) => {
 				data: response.data
 			})
 		}).catch(function (error) {
-			console.log(error)
+			if(error.response.data.code ===-206){
+				logout()
+			}
 			dispatch({
 				type: SERVER_ERROR
 			})
@@ -842,7 +872,9 @@ export const checkPlace = (token, data) => {
 				data: response.data
 			})
 		}).catch(function (error) {
-			console.log(error.response)
+			if(error.response.data.code ===-206){
+				logout()
+			}
 			dispatch({
 				type: SERVER_ERROR
 			})
@@ -870,7 +902,9 @@ export const getBalances = (token, data) => {
 				data: response.data
 			})
 		}).catch(function (error) {
-			console.log(error)
+			if(error.response.data.code ===-206){
+				logout()
+			}
 			dispatch({
 				type: SERVER_ERROR
 			})
@@ -1168,6 +1202,32 @@ export const getInfoUser = (token) => {
 	}
 }
 
+
+function logout(){
+	var user = JSON.parse(localStorage.getItem("user"));
+	
+	if(user!==null){
+		var data= {...info}
+		data.userId= user.uid;
+		var header = {
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": `Bearer ${user.access_token}`,
+				"dataType":"json"
+			}
+		}
+		axios.post(Ultilities.base_url() +'/users/api/v1/account/logout', data, header).then(function (response) {
+
+			if(response.data.code>=0){
+				localStorage.removeItem("user");
+				window.location.replace(
+					`https://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}&action=logout&agencyid=0`,
+				);
+			}
+		})
+	}
+	
+}
 
 
 // function encrypt(msg, pass) {

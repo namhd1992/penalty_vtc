@@ -32,6 +32,9 @@ import {
 	getData
 } from '../../../modules/profile'
 
+import btn_popup_napgame from './images/btn-popup-napgame.png';
+import btn_thoat from './images/btn-thoat.png';
+
 import loading from './images/loading.gif';
 import btn_nap_scoin from './images/btn-nap-scoin.png';
 
@@ -209,6 +212,7 @@ class Lucky_Rotation extends React.Component {
 			user_data:{},
 			contentGuide:'',
 			timeServer:0,
+			napgame:false
 		};
 	}
 	componentWillMount(){
@@ -532,7 +536,7 @@ class Lucky_Rotation extends React.Component {
 		
 		if(type===1){
 			if(time < info_seesion.startTime){
-				this.setState({message_error:'Phiên mới chưa bắt đầu.'},()=>{
+				this.setState({message_error:`Phiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverterPopup(info_seesion.startTime)}`},()=>{
 					modal_tb_err.show();
 				})
 				return;
@@ -583,13 +587,24 @@ class Lucky_Rotation extends React.Component {
 									return;
 								}
 								
-								if(time > info_seesion.endTime){
-									this.setState({message_error:'Phiên chơi đã kết thúc.'},()=>{
-										modal_tb_err.show();
-									})
-									return;
-								}
+								
 								if(type===3){
+									if(data.data.round===1){
+										if(time > info_seesion.endTime){
+											this.setState({message_error:'Phiên chơi đã kết thúc.'},()=>{
+												modal_tb_err.show();
+											})
+											return;
+										}
+									}else{
+										if(time > info_seesion.endBonusTime){
+											this.setState({message_error:'Phiên chơi đã kết thúc.'},()=>{
+												modal_tb_err.show();
+											})
+											return;
+										}
+									}
+
 									if(data.data.isKnockout){
 										this.setState({message_error:'Bạn đã bị loại khỏi phiên đấu hiện tại'},()=>{
 											modal_tb_err.show();
@@ -598,6 +613,12 @@ class Lucky_Rotation extends React.Component {
 										window.location.href=window.location.href+'loaitructiep';
 									}
 								}else{
+									if(time > info_seesion.endTime){
+										this.setState({message_error:'Phiên chơi đã kết thúc.'},()=>{
+											modal_tb_err.show();
+										})
+										return;
+									}
 									if(data.data.isPlay){
 										if(time > info_seesion.betsEndTime){
 											this.setState({message_error:'Thời gian đặt cược đã hết.'},()=>{
@@ -719,17 +740,27 @@ class Lucky_Rotation extends React.Component {
 						}
 						
 					}else{
-						this.setState({message_error:data.message},()=>{
-							modal_tb_err.show();
-						})
+						if(data.code===-302){
+							this.setState({napgame:true},()=>{
+								modal_datcuoc.hide();
+								modal_tb_err.show();
+							})
+						}else{
+							this.setState({message_error:data.message},()=>{
+								modal_datcuoc.hide();
+								modal_tb_err.show();
+							})
+						}
 					}
 				}else{
 					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau.'},()=>{
+						modal_datcuoc.hide();
 						modal_tb_err.show();
 					})
 				}
 			});
 		}else {
+			modal_datcuoc.hide();
 			modal_tb.show();
 		}
 	}
@@ -1413,6 +1444,7 @@ class Lucky_Rotation extends React.Component {
 	}
 
 	closeTbErr=()=>{
+		this.setState({napgame:false})
 		modal_tb_err.hide();
 	}
 
@@ -1420,9 +1452,15 @@ class Lucky_Rotation extends React.Component {
 		modal_datcuoc.hide();
 	}
 
+	napgame=()=>{
+		this.setState({napgame:false},()=>{
+			modal_tb_err.hide();
+			window.open("https://scoin.vn/nap-game");
+		})
+	}
 
 	render() {
-		const {contentGuide, type_modeId, title_module,points,info_seesion, bxh_tab_1, bxh_tab_2, bxh_tab_3, message_sanqua_empty, listSanqua, showRollup,type_action, dataInfoDonate, rollup, message_rollup, content, warning_tudo,tab_1, tab_2, tab_3, tab_4,tab_5, tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
+		const {napgame, contentGuide, type_modeId, title_module,points,info_seesion, bxh_tab_1, bxh_tab_2, bxh_tab_3, message_sanqua_empty, listSanqua, showRollup,type_action, dataInfoDonate, rollup, message_rollup, content, warning_tudo,tab_1, tab_2, tab_3, tab_4,tab_5, tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
 			waiting, activeTuDo, activeHistory, activeVinhDanh, limit, countTuDo, countHistory, countVinhDanh, listHistory, listTuDo, listVinhDanh, user}=this.state;
 		return (<div>	
 					<div class="page-fluid_web">
@@ -1907,9 +1945,15 @@ class Lucky_Rotation extends React.Component {
 								{/* <!-- Modal body --> */}
 								<div class="modal-body bg-pop-tb_err-body p-2rem py-1 font-3vw text-white">
 									<div class="tab-content">
-									<div class="container text-center p-5">
-										<h4 class="pt-1 pb-3 font-UTMFacebookKT">{message_error}</h4>
-									</div>
+										<div class="container text-center p-5">
+											{(napgame)?(<div>
+												<h4 class="pt-1 pb-3 font-UTMFacebookKT" style={{fontSize:20}}>Số điểm của bạn không đủ để đặt cược.</h4>
+												<h5 class="pt-1 pb-3 font-UTMFacebookKT" style={{fontSize:18}}>Hãy Nạp game bằng thẻ Scoin hoặc Chuyển khoản để nhận thêm điểm và thử lại nhé.</h5>
+												<a title="Đăng nhập" onClick={this.napgame}><img src={btn_popup_napgame} alt="" width="110" style={{marginRight:10}}/></a>
+												<a title="Đăng nhập" onClick={this.closeTbErr}><img src={btn_thoat} alt="" width="110" style={{marginLeft:10}}/></a>
+											</div>):(<h4 class="pt-1 pb-3 font-UTMFacebookKT">{message_error}</h4>)}
+											
+										</div>
 									</div>
 									
 								</div>
