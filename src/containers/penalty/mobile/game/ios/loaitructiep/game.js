@@ -1132,7 +1132,7 @@ export default class Game extends Phaser.Scene{
             var day=Math.floor(time/86400) > 9 ? Math.floor(time/86400) : `0${Math.floor(time/86400)}`;
             var hour=Math.floor((time%86400)/3600) > 9 ? Math.floor((time%86400)/3600) : `0${Math.floor((time%86400)/3600)}`;
             var minute=Math.floor(((time%86400)%3600)/60) > 9 ? Math.floor(((time%86400)%3600)/60) : `0${Math.floor(((time%86400)%3600)/60)}`;
-            var second=Math.ceil(((time%86400)%3600)%60) > 9 ? Math.ceil(((time%86400)%3600)%60) : `0${Math.ceil(((time%86400)%3600)%60)}`;
+            var second=Math.floor(((time%86400)%3600)%60) > 9 ? Math.floor(((time%86400)%3600)%60) : `0${Math.floor(((time%86400)%3600)%60)}`;
             _timeServer +=1000
             if(this.txt_time!==undefined)
             this.txt_time.setText(`Còn: ${hour}h${minute}p${second}`);
@@ -1492,6 +1492,9 @@ export default class Game extends Phaser.Scene{
                         `https://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}&action=logout&agencyid=0`,
                     );
                 }
+            }).catch(function (error) {
+                localStorage.removeItem("user");
+                window.location.replace('/')
             })
         }
         

@@ -406,6 +406,7 @@ export const getTuDo = (token, data) => {
 				data: response.data
 			})
 		}).catch(function (error) {
+			console.log(error.response.data)
 			if(error.response.data.code ===-206){
 				logout()
 			}
@@ -1224,6 +1225,8 @@ function logout(){
 					`https://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}&action=logout&agencyid=0`,
 				);
 			}
+		}).catch(function (error) {
+			localStorage.removeItem("user");
 		})
 	}
 	

@@ -135,6 +135,7 @@ export default class Game extends Phaser.Scene{
     
     preload(){
         var seft=this;
+        var begin=Date.now();
         if(first_play){
             var progress = this.add.graphics();
 
@@ -146,6 +147,9 @@ export default class Game extends Phaser.Scene{
                 progress.destroy();
             });
         }
+        var end=Date.now();
+
+        console.log(end-begin)
 
         
         this.load.image('background', backgound);
@@ -1085,18 +1089,17 @@ export default class Game extends Phaser.Scene{
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    timeRemain=(times)=>{
-        var t=Date.now() - _deltaTime
+    timeRemain=(times)=>{  
+        var t=Date.now() - _deltaTime;
         var time=(times - t)/1000;
         if(time>=0){
             var day=Math.floor(time/86400) > 9 ? Math.floor(time/86400) : `0${Math.floor(time/86400)}`;
             var hour=Math.floor((time%86400)/3600) > 9 ? Math.floor((time%86400)/3600) : `0${Math.floor((time%86400)/3600)}`;
             var minute=Math.floor(((time%86400)%3600)/60) > 9 ? Math.floor(((time%86400)%3600)/60) : `0${Math.floor(((time%86400)%3600)/60)}`;
-            var second=Math.ceil(((time%86400)%3600)%60) > 9 ? Math.ceil(((time%86400)%3600)%60) : `0${Math.ceil(((time%86400)%3600)%60)}`;
+            var second=Math.floor(((time%86400)%3600)%60) > 9 ? Math.floor(((time%86400)%3600)%60) : `0${Math.floor(((time%86400)%3600)%60)}`;
             _timeServer +=1000
             if(this.txt_time!==undefined)
             this.txt_time.setText(`Còn: ${hour}h${minute}p${second}`);
-           
         }
 	}
 
@@ -1145,7 +1148,6 @@ export default class Game extends Phaser.Scene{
                                 _timeServer=data_game.timeServer;
                                 
                                 _deltaTime=Date.now() -_timeServer;
-                                // console.log("_timeServer", _timeServer)
                                 _this.timeRemain(data_game.room.endTime)
     
                             }else{
@@ -1289,6 +1291,9 @@ export default class Game extends Phaser.Scene{
                         `https://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}&action=logout&agencyid=0`,
                     );
                 }
+            }).catch(function (error) {
+                localStorage.removeItem("user");
+                window.location.replace('/')
             })
         }
         

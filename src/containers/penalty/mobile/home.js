@@ -510,7 +510,6 @@ class Lucky_Rotation extends React.Component {
 
 
 	checkBetting=(type, title_module)=>{
-		window.location.href=window.location.href+'giathuvang';
 		const {info_seesion, user_data, user}=this.state;
 		var time=this.state.timeServer;
 		this.setState({type_modeId: type, title_module:title_module})
@@ -533,7 +532,10 @@ class Lucky_Rotation extends React.Component {
 			if(user_data.points > 0){
 				window.location.href=window.location.href+'duatop';
 			}else{
-				this.setState({message_error:'Bạn không còn điểm để chơi.'},()=>{
+				// this.setState({message_error:'Bạn không còn điểm để chơi.'},()=>{
+				// 	modal_tb_err.show();
+				// })
+				this.setState({napgame:true},()=>{
 					modal_tb_err.show();
 				})
 			}
@@ -609,7 +611,10 @@ class Lucky_Rotation extends React.Component {
 												modal_datcuoc.show();
 											})
 										}else{
-											this.setState({message_error:'Số điểm của bạn không đủ để cược.'},()=>{
+											// this.setState({message_error:'Số điểm của bạn không đủ để cược.'},()=>{
+											// 	modal_tb_err.show();
+											// })
+											this.setState({napgame:true},()=>{
 												modal_tb_err.show();
 											})
 										}
@@ -783,6 +788,9 @@ class Lucky_Rotation extends React.Component {
 					`https://graph.vtcmobile.vn/oauth/authorize?client_id=92d34808c813f4cd89578c92896651ca&redirect_uri=${window.location.protocol}//${window.location.host}&action=logout&agencyid=0`,
 				);
 			}
+		}).catch(function (error) {
+			localStorage.removeItem("user");
+			window.location.replace('/')
 		})
 	}
 
@@ -1489,7 +1497,7 @@ class Lucky_Rotation extends React.Component {
 											lastPageText={'Trang cuối'}
 											firstPageText={'Trang đầu'}
 											itemClass={"page-item"}
-											linkClass={"page-link"}
+											linkClass={"page-link bg-transparent text-white border-0"}
 											onChange={(v) => this.handlePageChangeVinhDanh(type,v)}
 										/>
 									</div> ):(<div></div>)}
@@ -1684,7 +1692,7 @@ class Lucky_Rotation extends React.Component {
 											lastPageText={'Trang cuối'}
 											firstPageText={'Trang đầu'}
 											itemClass={"page-item"}
-											linkClass={"page-link"}
+											linkClass={"page-link bg-transparent text-white border-0"}
 											onChange={(v) => this.handlePageChangeTuDo(v)}
 										/>
 									</div> ):(<div></div>)}
@@ -1716,7 +1724,7 @@ class Lucky_Rotation extends React.Component {
 											lastPageText={'Trang cuối'}
 											firstPageText={'Trang đầu'}
 											itemClass={"page-item"}
-											linkClass={"page-link"}
+											linkClass={"page-link bg-transparent text-white border-0"}
 											onChange={(v) => this.handlePageChangeHistory(v)}
 										/>
 									</div> ):(<div></div>)}
@@ -1880,7 +1888,7 @@ class Lucky_Rotation extends React.Component {
 
 								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-tb_err_m-top border-0 d-block pb-0 position-relative" style={{height: "18vw", maxHeight: 95}}>
-									<button type="button" class="btn-close-white btn-close float-end m-0" data-bs-dismiss="modal"></button>
+									<button type="button" class="btn-close-white btn-close float-end m-0" onClick={this.closeTbErr}></button>
 								</div>
 								
 
@@ -1889,8 +1897,8 @@ class Lucky_Rotation extends React.Component {
 									<div class="tab-content">
 									<div class="container text-center p-5">
 										{(napgame)?(<div>
-											<h4 class="pt-1 pb-3 font-UTMFacebookKT" style={{fontSize:16}}>Số điểm của bạn không đủ để đặt cược.</h4>
-											<h5 class="pt-1 pb-3 font-UTMFacebookKT" style={{fontSize:13}}>Hãy Nạp game bằng thẻ Scoin hoặc Chuyển khoản để nhận thêm điểm và thử lại nhé.</h5>
+											<h4 class="pt-1 pb-3 font-UTMFacebookKT" style={{fontSize:16}}>Số điểm của bạn không đủ để tham gia chơi.</h4>
+											<h5 class="pt-1 pb-3 font-UTMFacebookKT" style={{fontSize:13}}>Hãy Nạp game bằng thẻ Scoin hoặc Chuyển khoản để nhận thêm lượt chơi nhé.</h5>
 											<a title="Đăng nhập" onClick={this.napgame}><img src={btn_popup_napgame} alt="" width="70" style={{marginRight:10}}/></a>
 											<a title="Đăng nhập" onClick={this.closeTbErr}><img src={btn_thoat} alt="" width="70" style={{marginLeft:10}}/></a>
 										</div>):(<h4 class="pt-1 pb-3 font-UTMFacebookKT">{message_error}</h4>)}
