@@ -926,7 +926,7 @@ export default class Game extends Phaser.Scene{
     popupCuoc() {
         //just in case the message box already exists
         //destroy it
-        console.log("AAAAA")
+        // console.log("AAAAA")
         var _this=this;
         var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
         this.back = this.add.sprite(600, 675/2, "bg_pop_ingame");
@@ -1112,7 +1112,7 @@ export default class Game extends Phaser.Scene{
         var n=(530-power)/(2*k)
         var y=power;
         var x=605+n*increase_x*m;
-        console.log(x,y)
+        // console.log(x,y)
         return [x,y];
     }
 
