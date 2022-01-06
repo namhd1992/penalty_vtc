@@ -779,7 +779,6 @@ export default class Game extends Phaser.Scene{
                     // this.updateDataFinishMain();
                     this.finishGame(0)
                 }
-   
             }
 
             if(t>_endTimeBonus && _endTimeBonus>0){
@@ -1325,7 +1324,7 @@ export default class Game extends Phaser.Scene{
                         isKnockout=response.data.data.isKnockout;
                         isNextRound=response.data.data.isNextRound;
                         if(isKnockout){
-                            _this.showThoat('Phiên đã kết thúc.')
+                            _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
                             isFinish=true;
                             return;
                         }
@@ -1408,7 +1407,6 @@ export default class Game extends Phaser.Scene{
                 if(response.data !==undefined){
                     if(response.data.code>=0){
                         var res=response.data.data;
-                        // console.log(type)
                         if(type===0){
                             var rankings=res.rankings;
                             if(rankings.length>1){
