@@ -763,7 +763,7 @@ export default class Game extends Phaser.Scene{
             this.txt_ranking_point.setText(p);
             this.txt_banthang.setText(number_goal)
             this.txt_giaithuong.setText(`Giải thưởng: ${_rewards[0].name}`)
-            console.log(_points)
+            // console.log(_points)
             this.txt_points.setText(`Lượt: ${_points}`)
 
             while (this.time_update > 1000) {
@@ -790,7 +790,7 @@ export default class Game extends Phaser.Scene{
 
     play(p1,p2){
         var _this=this;
-        console.log(_points)
+        // console.log(_points)
         if(isPlay){
             isPlay=false;
             var user = JSON.parse(localStorage.getItem("user"));
@@ -799,8 +799,8 @@ export default class Game extends Phaser.Scene{
                 if(_points>0){
                     var positionBall=this.getPositionBall(p1,p2);
                     var keeper=this.setPositionKeeper(positionBall[0],positionBall[1])
-                    console.log(positionBall)
-                    console.log('keeper',keeper)
+                    // console.log(positionBall)
+                    // console.log('keeper',keeper)
                     if(user!==null){
                         var data= {...info}
                         data.userId= user.uid;
@@ -822,7 +822,7 @@ export default class Game extends Phaser.Scene{
                             }
                         }
                         axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/playing', data, header).then(function (response) {
-                            console.log(response.data)
+                            // console.log(response.data)
                             if(response.data.code>=0){
                                 isPlay=false;
                                 first_play=false;
@@ -895,7 +895,6 @@ export default class Game extends Phaser.Scene{
                 }
             }else{
                 isPlay=true;
-                console.log("Vuốt lên để chơi")
             }
         }  
     }
@@ -1060,7 +1059,7 @@ export default class Game extends Phaser.Scene{
         var n=(530-power)/(2*k)
         var y=power;
         var x=605+n*increase_x*m;
-        console.log(x,y)
+        // console.log(x,y)
         return [x,y];
     }
 
@@ -1196,7 +1195,6 @@ export default class Game extends Phaser.Scene{
                                 // _this.timeRemain(_endTimeShow)
                                 round=2;
                             }else{
-                                console.log("AAAAAAAAA")
                                 window.location.replace('/')
                             }
                            
@@ -1410,7 +1408,7 @@ export default class Game extends Phaser.Scene{
                 if(response.data !==undefined){
                     if(response.data.code>=0){
                         var res=response.data.data;
-                        console.log(type)
+                        // console.log(type)
                         if(type===0){
                             var rankings=res.rankings;
                             if(rankings.length>1){

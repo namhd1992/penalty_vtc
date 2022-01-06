@@ -885,7 +885,6 @@ export default class Game extends Phaser.Scene{
                     }
                 }else{
                     isPlay=true;
-                    console.log("Vuốt lên để chơi")
                 }
             }else{
                 _this.popupCuoc()
@@ -956,7 +955,6 @@ export default class Game extends Phaser.Scene{
     popupCuoc() {
         //just in case the message box already exists
         //destroy it
-        console.log("AAAAA")
         var _this=this;
         var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
         this.back = this.add.sprite(600, 675/2, "bg_pop_ingame");

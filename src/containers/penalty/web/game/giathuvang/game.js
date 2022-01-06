@@ -765,7 +765,6 @@ export default class Game extends Phaser.Scene{
 
     play(p1,p2){
         var _this=this;
-        console.log(isPlay)
         if(isPlay){
             isPlay=false;
             var user = JSON.parse(localStorage.getItem("user"));
@@ -775,8 +774,8 @@ export default class Game extends Phaser.Scene{
                 if(p1[1]-p2[1] > 0){
                     var positionBall=this.getPositionBall(p1,p2);
                     var keeper=this.setPositionKeeper(positionBall[0],positionBall[1])
-                    console.log(positionBall)
-                    console.log('keeper',keeper)
+                    // console.log(positionBall)
+                    // console.log('keeper',keeper)
                     if(user!==null){
                         var data= {...info}
                         data.userId= user.uid;
@@ -866,7 +865,6 @@ export default class Game extends Phaser.Scene{
                     }
                 }else{
                     isPlay=true;
-                    console.log("Vuốt lên để chơi")
                 }
             }else{
                 _this.popupCuoc()
@@ -899,7 +897,6 @@ export default class Game extends Phaser.Scene{
     }
 
     napgame() {
-        console.log("AAAAAAAAAAAA")
         //just in case the message box already exists
         //destroy it
         var _this=this;

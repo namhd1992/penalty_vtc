@@ -135,7 +135,6 @@ export default class Game extends Phaser.Scene{
     
     preload(){
         var seft=this;
-        var begin=Date.now();
         if(first_play){
             var progress = this.add.graphics();
 
@@ -147,9 +146,6 @@ export default class Game extends Phaser.Scene{
                 progress.destroy();
             });
         }
-        var end=Date.now();
-
-        console.log(end-begin)
 
         
         this.load.image('background', backgound);

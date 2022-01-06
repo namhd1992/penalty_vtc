@@ -377,7 +377,7 @@ class Lucky_Rotation extends React.Component {
 			this.props.getVinhDanh(data).then(()=>{
 				
 				var data=this.props.dataVinhDanh;
-				console.log(data)
+				// console.log(data)
 				if(data!==undefined){
 					if(data.code > 0){
 						this.setState({listVinhDanh:data.data.items, countVinhDanh:data.data.totalItems})
@@ -558,7 +558,7 @@ class Lucky_Rotation extends React.Component {
 	
 				this.props.checkPlace(user.access_token, data).then(()=>{
 					var data=this.props.dataCheckPlace;
-					console.log(data)
+					// console.log(data)
 					if(data!==undefined){
 						if(data.code > 0){
 							if(data.data.isBets){
@@ -691,7 +691,7 @@ class Lucky_Rotation extends React.Component {
 		if (user !== null) {
 			this.props.betting(user.access_token, data).then(()=>{
 				var data=this.props.dataBetting;
-				console.log(data)
+				// console.log(data)
 				if(data!==undefined){
 					if(data.code > 0){
 						if(type_modeId===2){
@@ -772,7 +772,7 @@ class Lucky_Rotation extends React.Component {
 		var user = JSON.parse(localStorage.getItem("user"));
 		var data= {...info}
 		data.userId= user.uid;
-		console.log(data)
+		// console.log(data)
 		var header = {
 			headers: {
 				"Content-Type": "application/json",
@@ -937,7 +937,7 @@ class Lucky_Rotation extends React.Component {
 			this.props.getTuDo(user.access_token, data).then(()=>{
 				// $('#Loading').modal('hide');
 				var d=this.props.dataTuDo;
-				console.log(d)
+				// console.log(d)
 				if(d!==undefined){
 					if(d.code>0){
 						this.setState({listTuDo:d.data.items, countTuDo:d.data.totalItems, noti_tudo:false})

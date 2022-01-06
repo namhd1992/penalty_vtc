@@ -578,7 +578,7 @@ class Lucky_Rotation extends React.Component {
 	
 				this.props.checkPlace(user.access_token, data).then(()=>{
 					var data=this.props.dataCheckPlace;
-					console.log(data)
+					// console.log(data)
 					if(data!==undefined){
 						if(data.code > 0){
 							if(data.data.isBets){
@@ -715,7 +715,7 @@ class Lucky_Rotation extends React.Component {
 
 			this.props.betting(user.access_token, data).then(()=>{
 				var data=this.props.dataBetting;
-				console.log(data)
+				// console.log(data)
 				if(data!==undefined){
 					if(data.code > 0){
 						if(type_modeId===2){
@@ -1139,7 +1139,7 @@ class Lucky_Rotation extends React.Component {
 
 
 	handlePageChangeVinhDanh=(type, pageNumber)=> {
-		console.log('AAAAAA', pageNumber)
+		// console.log('AAAAAA', pageNumber)
 		this.setState({activeVinhDanh: pageNumber},()=>{
 			this.getVinhDanh(type, pageNumber)
 		})

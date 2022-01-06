@@ -529,7 +529,6 @@ export default class Info extends Phaser.Scene{
           font: "9px Arial", 
           fill: "#ffffff" 
         });
-        console.log(delta_x)
 
         this.txt_suttudong1 = this.add.text(35*2,  100*2, "Worlddddd", { 
           font: "9px Arial", 

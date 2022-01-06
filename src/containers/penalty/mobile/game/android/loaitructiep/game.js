@@ -911,7 +911,6 @@ export default class Game extends Phaser.Scene{
                 }
             }else{
                 isPlay=true;
-                console.log("Vuốt lên để chơi")
             }
         }
     }
@@ -1418,7 +1417,6 @@ export default class Game extends Phaser.Scene{
                 if(response.data !==undefined){
                     if(response.data.code>=0){
                         var res=response.data.data;
-                        console.log(type)
                         if(type===0){
                             var rankings=res.rankings;
                             if(rankings.length>1){

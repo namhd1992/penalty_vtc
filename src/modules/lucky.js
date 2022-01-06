@@ -298,7 +298,6 @@ export const checkRollup = (token, data) => {
 		})
 		var url = Ultilities.base_url() + "/pay/api/v1/bonus/rollup"
 		return axios.post(url, data, header).then(function (response) {
-			console.log(response)
 			dispatch({
 				type: CHECK_ROLLUP,
 				data: response.data
@@ -322,7 +321,6 @@ export const sessionUpcomming = (data) => {
 		})
 		var url = Ultilities.base_url() + "/catalog/api/v1/rooms/upcoming-eachroom"
 		return axios.post(url, data).then(function (response) {
-			console.log(response)
 			dispatch({
 				type: SESSION_UPCOMMING,
 				data: response.data
@@ -349,7 +347,6 @@ export const sessionInPlay = (token, data) => {
 		})
 		var url = Ultilities.base_url() + "/catalog/api/v1/rooms/inplay"
 		return axios.post(url, data, header).then(function (response) {
-			console.log(response)
 			dispatch({
 				type: SESSION_INPLAY,
 				data: response.data
@@ -374,7 +371,6 @@ export const getVinhDanh = (data) => {
 		})
 		var url = Ultilities.base_url() + "/catalog/api/v1/rewards/winners"
 		return axios.post(url, data).then(function (response) {
-			console.log(response)
 			dispatch({
 				type: LUCKY_VINH_DANH,
 				data: response.data
@@ -400,13 +396,12 @@ export const getTuDo = (token, data) => {
 		})
 		var url = Ultilities.base_url() + "/users/api/v1/giftbox/history"
 		return axios.post(url, data, header).then(function (response) {
-			console.log(response)
 			dispatch({
 				type: LUCKY_TU_DO,
 				data: response.data
 			})
 		}).catch(function (error) {
-			console.log(error.response.data)
+			// console.log(error.response.data)
 			if(error.response.data.code ===-206){
 				logout()
 			}
@@ -430,7 +425,6 @@ export const getHistoryTuDo = (token, data) => {
 		})
 		var url = Ultilities.base_url() + "/pay/api/v1/transaction/history"
 		return axios.post(url, data, header).then(function (response) {
-			console.log(response)
 			dispatch({
 				type: LUCKY_HISTORY_TU_DO,
 				data: response.data
@@ -461,7 +455,6 @@ export const getItemAward = (token, data) => {
 		})
 		var url = Ultilities.base_url() + "/users/api/v1/giftbox/open"
 		return axios.post(url, data, header).then(function (response) {
-			console.log(response)
 			dispatch({
 				type: ITEM_AWARD,
 				data: response.data
@@ -490,7 +483,6 @@ export const viewItemAward = (token, data) => {
 		})
 		var url = Ultilities.base_url() + "/users/api/v1/giftbox/view"
 		return axios.post(url, data, header).then(function (response) {
-			console.log(response)
 			dispatch({
 				type: VIEW_ITEM_AWARD,
 				data: response.data
@@ -523,7 +515,6 @@ export const raceConnect = (token, data) => {
 		})
 		var url = Ultilities.base_url() + "/lobby/api/v1/race/connect"
 		return axios.post(url, data, header).then(function (response) {
-			console.log(response)
 			dispatch({
 				type: RACE_CONNECT,
 				data: response.data
@@ -549,7 +540,6 @@ export const racePlaying = (token, data) => {
 		})
 		var url = Ultilities.base_url() + "/lobby/api/v1/race/playing"
 		return axios.post(url, data, header).then(function (response) {
-			console.log(response)
 			dispatch({
 				type: RACE_PLAYING,
 				data: response.data
@@ -575,7 +565,6 @@ export const raceState = (token, data) => {
 		})
 		var url = Ultilities.base_url() + "/lobby/api/v1/race/state"
 		return axios.post(url, data, header).then(function (response) {
-			console.log(response)
 			dispatch({
 				type: RACE_STATE,
 				data: response.data
@@ -601,7 +590,6 @@ export const raceSummary = (token, data) => {
 		})
 		var url = Ultilities.base_url() + "/lobby/api/v1/race/summary"
 		return axios.post(url, data, header).then(function (response) {
-			console.log(response)
 			dispatch({
 				type: RACE_SUMMARY,
 				data: response.data
@@ -838,7 +826,6 @@ export const betting = (token, data) => {
 		})
 		var url = Ultilities.base_url() + "/pay/api/v1/bets/place"
 		return axios.post(url, data, header).then(function (response) {
-			console.log(response)
 			dispatch({
 				type: BETTING,
 				data: response.data
@@ -867,7 +854,6 @@ export const checkPlace = (token, data) => {
 		})
 		var url = Ultilities.base_url() + "/pay/api/v1/bets/check-place"
 		return axios.post(url, data, header).then(function (response) {
-			console.log(response)
 			dispatch({
 				type: CHECK_PLACE,
 				data: response.data
@@ -897,7 +883,6 @@ export const getBalances = (token, data) => {
 		})
 		var url = Ultilities.base_url() + "/pay/api/v1/wallet/getbalances"
 		return axios.post(url, data, header).then(function (response) {
-			console.log(response)
 			dispatch({
 				type: BALANCES,
 				data: response.data
@@ -964,7 +949,6 @@ export const getListSanQua = (token) => {
 		})
 		var url =Ultilities.base_url() + "darts/user-get-current-gift-hunter-sessions/"
 		return axios.get(url, header).then(function (response) {
-			console.log(response)
 			dispatch({
 				type: LIST_SANQUA,
 				data: response.data
@@ -992,7 +976,6 @@ export const getInfoDonate = (token) => {
 		})
 		var url = Ultilities.base_url() + "darts/user-request-darts-giving/"
 		return axios.get(url, header).then(function (response) {
-			console.log(response)
 			dispatch({
 				type: INFO_DONATE,
 				data: response.data
@@ -1023,7 +1006,6 @@ export const getDonate = (token, receiver, darts, confirmCode) => {
 		})
 		var url = Ultilities.base_url() + "darts/user-give-darts/"
 		return axios.get(url, header).then(function (response) {
-			console.log(response)
 			dispatch({
 				type: DONATE,
 				data: response.data
@@ -1051,7 +1033,6 @@ export const getLuckyInfo = (type, token) => {
 		})
 		var url = Ultilities.base_url() + "darts/user-get-current-session/?type="+type
 		return axios.get(url, header).then(function (response) {
-			console.log(response)
 			dispatch({
 				type: LUCKY_INFO,
 				data: response.data
@@ -1072,7 +1053,6 @@ export const getMoreSessions= () => {
 		})
 		var url = Ultilities.base_url() + "darts/current-sessions"
 		return axios.get(url).then(function (response) {
-			console.log(response)
 			dispatch({
 				type: LUCKY_SESSIONS,
 				data: response.data
@@ -1168,8 +1148,7 @@ export const userLogout = (token) => {
 		}
 	}
 	var url = Ultilities.base_url() + "darts/user-signout";
-	return axios.get(url, header).then(function (response) {
-		console.log(response)
+	return axios.get(url, header).then(function (response){
 	}).catch(function (error) {
 		console.log(error)
 	})

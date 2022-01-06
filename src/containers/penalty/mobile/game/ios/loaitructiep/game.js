@@ -777,7 +777,7 @@ export default class Game extends Phaser.Scene{
             this.txt_ranking_acc.setText(tk);
             this.txt_ranking_point.setText(p);
             this.txt_banthang.setText(number_goal)
-            console.log(_rewards[0])
+            // console.log(_rewards[0])
             this.txt_giaithuong.setText(`Giải thưởng: ${_rewards[0].name}`)
             this.txt_points.setText(`Lượt: ${_points}`)
 
@@ -912,7 +912,6 @@ export default class Game extends Phaser.Scene{
                 }
             }else{
                 isPlay=true;
-                console.log("Vuốt lên để chơi")
             }
             
         }
@@ -1177,7 +1176,7 @@ export default class Game extends Phaser.Scene{
                         if(response.data.code>=0){
                             isKnockout=response.data.data.isKnockout;
                             data_game=response.data.data;
-                            console.log(data_game)
+                            // console.log(data_game)
                             if(_this.checkTimeSession(data_game.room.startTime, data_game.room.endTime, data_game)){;
                                 _rankings=data_game.rankings;
                                 _rewards=data_game.rewards;
@@ -1420,7 +1419,6 @@ export default class Game extends Phaser.Scene{
                 if(response.data !==undefined){
                     if(response.data.code>=0){
                         var res=response.data.data;
-                        console.log(type)
                         if(type===0){
                             var rankings=res.rankings;
                             if(rankings.length>1){

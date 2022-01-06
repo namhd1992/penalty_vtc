@@ -888,7 +888,6 @@ export default class Game extends Phaser.Scene{
                     }
                 }else{
                     isPlay=true;
-                    console.log("Vuốt lên để chơi")
                 }
             }else{
                 _this.popupCuoc()
