@@ -994,7 +994,7 @@ export default class Game extends Phaser.Scene{
     }
 
     hidePopup() {
-        isPlay=true;
+        // isPlay=true;
         this.back.destroy();
         this.btn_dongy.destroy();
         this.thoatButton.destroy();
