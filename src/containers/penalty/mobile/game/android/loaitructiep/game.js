@@ -130,6 +130,7 @@ var _endTimeShow=0;
 var _points=0;
 var _isCheckMain=true;
 var interval_fi={};
+var interval_checkwin={};
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -790,13 +791,13 @@ export default class Game extends Phaser.Scene{
             if(t > _endTime && _endTime>0){
                 if(_isCheckMain){
                     // this.updateDataFinishMain();
-                    this.finishGame(0)
+                    this.waitFinish(0)
                 }
    
             }
 
             if(t>_endTimeBonus && _endTimeBonus>0){
-                this.finishGame(1)
+                this.waitFinish(1)
             }
         }
     }
@@ -908,7 +909,7 @@ export default class Game extends Phaser.Scene{
                         window.location.replace('/')
                     }
                 }else{
-                    _this.showMessageBox('Bạn đã hết lượt chơi.\n Hãy Nạp thêm scoin để nhận thêm lượt chơi nhé.')
+                    _this.showMessageBox('Bạn đã sút hết lượt chờ phiên đấu kết thúc.')
                 }
             }else{
                 isPlay=true;
@@ -1348,12 +1349,13 @@ export default class Game extends Phaser.Scene{
                             _points=data.user.betAmount;
                             _this.timeRemain(_endTimeShow);
                             isFinish=false;
-                        }else{
-                            _this.showThoat('Phiên đã kết thúc.')
-                            isFinish=true;
-                            return;
+                            clearInterval(interval_fi);
                         }
-                        clearInterval(interval_fi);
+                        // else{
+                        //     _this.showThoat('Phiên đã kết thúc.')
+                        //     isFinish=true;
+                        //     return;
+                        // }
                     }else{
                         window.location.replace('/')
                     }
@@ -1394,9 +1396,20 @@ export default class Game extends Phaser.Scene{
         
     }
 
-    finishGame=(type)=>{
+    waitFinish=(type)=>{
         var _this=this;
         isFinish=true;
+        if(type===1){
+            interval_checkwin=setInterval(()=>{	
+                _this.finishGame(type)
+            }, 2000);
+        }else{
+            _this.finishGame(type)
+        }
+    }
+
+    finishGame=(type)=>{
+        var _this=this;
         var user = JSON.parse(localStorage.getItem("user"));
         var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
         if(user!==null){
@@ -1418,6 +1431,7 @@ export default class Game extends Phaser.Scene{
                 if(response.data !==undefined){
                     if(response.data.code>=0){
                         var res=response.data.data;
+                        console.log('TYPE',type)
                         if(type===0){
                             var rankings=res.rankings;
                             if(rankings.length>1){
@@ -1440,10 +1454,13 @@ export default class Game extends Phaser.Scene{
                                 
                             }
                         }else{
-                            if(res.summary.winAmount===1){
+                            if(res.summary.winResult===2){
+                                clearInterval(interval_checkwin);
                                 _this.showThoat('Phiên đã kết thúc. Chúc mừng bạn đã chiến thắng!\n Giải thưởng đã được chuyển vào Tủ đồ của bạn,\n truy cập và nhận thưởng ngay nhé.')
                                 return;
-                            }else{
+                            }
+                            if(res.summary.winResult===3){
+                                clearInterval(interval_checkwin);
                                 _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
                                 return;
                             }

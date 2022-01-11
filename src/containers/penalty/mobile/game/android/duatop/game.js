@@ -121,6 +121,7 @@ var _room={};
 var _timeServer=0;
 var _deltaTime=0;
 var isFinish=false;
+var interval_checkwin={};
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -759,7 +760,7 @@ export default class Game extends Phaser.Scene{
         var t=Date.now() - _deltaTime;
         if(!isFinish){
             if(t > _room.endTime){
-                this.finishGame();
+                this.waitFinish();
             }
         }
     }
@@ -1212,9 +1213,16 @@ export default class Game extends Phaser.Scene{
         }
     }
 
-    finishGame=()=>{
+    waitFinish=()=>{
         var _this=this;
         isFinish=true;
+        interval_checkwin=setInterval(()=>{	
+            _this.finishGame()
+        }, 2000);
+    }
+
+    finishGame=()=>{
+        var _this=this;
         var user = JSON.parse(localStorage.getItem("user"));
         var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
         if(user!==null){
@@ -1236,10 +1244,13 @@ export default class Game extends Phaser.Scene{
                 if(response.data !==undefined){
                     if(response.data.code>=0){
                         var res=response.data.data;
-                        if(res.summary.winAmount===1){
+                        if(res.summary.winResult===2){
+                            clearInterval(interval_checkwin);
                             _this.showThoat('Phiên đã kết thúc. Chúc mừng bạn đã chiến thắng!\n Giải thưởng đã được chuyển vào Tủ đồ của bạn,\n truy cập và nhận thưởng ngay nhé.')
                             return;
-                        }else{
+                        }
+                        if(res.summary.winResult===3){
+                            clearInterval(interval_checkwin);
                             _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
                             return;
                         }

@@ -1254,6 +1254,50 @@ class Lucky_Rotation extends React.Component {
 		return <div></div>;
 	}
 
+	setButtonGiaiThuong=(props)=>{
+		var obj=props.obj;
+		var t=this.state.timeServer;
+		var startTime=obj.startTime;
+		var endTime=obj.endTime;
+		var betsStartTime=obj.betsStartTime;
+
+		if(obj.gameModeId===1){
+			if(t > startTime && t < endTime){
+				return <div class="d-grid" style={{padding:0}}>
+							<button type="button" class="btn btn-danger-dark btn-block text-uppercase btn-sm" onClick={()=>this.getSessionInPlay(1)}>Chơi ngay</button>
+						</div>;
+			}
+		}
+
+		if(obj.gameModeId===2){
+			if(t > startTime && t < endTime){
+				return <div class="d-grid" style={{padding:0}}>
+							<button type="button" class="btn btn-danger-dark btn-block text-uppercase btn-sm" onClick={()=>this.getSessionInPlay(2)}>Chơi ngay</button>
+						</div>;
+			}
+			if(t > betsStartTime){
+				return <div class="d-grid" style={{padding:0}}>
+							<button type="button" class="btn btn-danger-dark btn-block text-uppercase btn-sm" onClick={()=>this.getSessionInPlay(2)}>Cược</button>
+						</div>;
+			}
+
+		}
+
+		if(obj.gameModeId===3){
+			if(t > startTime && t < endTime){
+				return <div class="d-grid" style={{padding:0}}>
+							<button type="button" class="btn btn-danger-dark btn-block text-uppercase btn-sm" onClick={()=>this.getSessionInPlay(3)}>Chơi ngay</button>
+						</div>;
+			}
+			if(t > betsStartTime){
+				return <div class="d-grid" style={{padding:0}}>
+							<button type="button" class="btn btn-danger-dark btn-block text-uppercase btn-sm" onClick={()=>this.getSessionInPlay(3)}>Cược</button>
+						</div>;
+			}
+		}
+		return <div></div>;
+	}
+
 	tab1=()=>{
 		this.setState({tab_1:true, tab_2:false, tab_3:false, tab_4:false, tab_5:false})
 	}
@@ -1615,7 +1659,7 @@ class Lucky_Rotation extends React.Component {
 													<p class="font-3vw text-yellow">{v.name}</p>
 												</div>
 											))}
-											<this.HetGio obj={obj} />
+											<this.setButtonGiaiThuong obj={obj} />
 
 											{/* {(obj.Status===2)?(<img class="img-dacochu" src={img_dacochu} alt="" width="30%" />):(<div></div>)} */}
 											
