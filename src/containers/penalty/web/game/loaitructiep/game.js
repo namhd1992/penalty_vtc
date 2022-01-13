@@ -130,6 +130,8 @@ var _isCheckMain=true;
 var _isCheckExtra=true;
 var interval_fi={};
 var interval_checkwin={};
+var auto_update=0;
+
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -934,6 +936,22 @@ export default class Game extends Phaser.Scene{
         })
     }
 
+    startExtraTime() {
+        var _this=this;
+        this.back = this.add.sprite(600, 675/2, "bg_pop_ingame");
+        this.closeExtraTime = this.add.sprite(600, 480, "btn_dongy");
+        this.txtExtraTime = this.add.text(400, 300, 'Hiệp phụ bắt đầu.', { font: "18px Arial", fill: "#ffffff", align:'center', fixedWidth: 400, wordWrap:true});
+        this.closeExtraTime.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+            _this.hideExtraTime()
+        })
+    }
+
+    hideExtraTime() {
+        this.back.destroy();
+        this.closeExtraTime.destroy();
+        this.txtExtraTime.destroy();
+    }
+
 
     userName=(name)=>{
         var len=name.length;
@@ -1113,6 +1131,7 @@ export default class Game extends Phaser.Scene{
 
 
     timeRemain=(times)=>{
+        auto_update +=1;
         var t=Date.now() - _deltaTime
         var time=(times - t)/1000;
         if(time>0){
@@ -1123,7 +1142,9 @@ export default class Game extends Phaser.Scene{
             _timeServer +=1000
             if(this.txt_time!==undefined)
             this.txt_time.setText(`Còn: ${hour}h${minute}p${second}`);
-           
+            if(auto_update>30){
+                this.updateData()
+            }  
         }
 	}
 
@@ -1251,12 +1272,14 @@ export default class Game extends Phaser.Scene{
                                 _rankings=data_game.rankings;
                                 _user=data_game.user;
                                 _points=data_game.user.betAmount;
+                                auto_update=0;
                                 round=1;
                                
                             }else if(_this.checkTimeSession(_room.startBonusTime, _room.endBonusTime, data_game)){;
                                 _rankings=data_game.rankings;
                                 _user=data_game.user;
                                 _points=data_game.user.betAmount;
+                                auto_update=0;
                                 round=2;
                             }else{
                                 window.location.replace('/');
@@ -1327,6 +1350,7 @@ export default class Game extends Phaser.Scene{
                         if(isKnockout){
                             _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
                             isFinish=true;
+                            clearInterval(interval_fi);
                             return;
                         }
                         if(isNextRound){
@@ -1338,6 +1362,7 @@ export default class Game extends Phaser.Scene{
                             _points=data.user.betAmount;
                             _this.timeRemain(_endTimeShow);
                             isFinish=false;
+                            _this.startExtraTime()
                             clearInterval(interval_fi);
                         }
                         // else{
@@ -1421,6 +1446,7 @@ export default class Game extends Phaser.Scene{
                 if(response.data !==undefined){
                     if(response.data.code>=0){
                         var res=response.data.data;
+                        _rankings=res.rankings;
                         if(type===0){
                             var rankings=res.rankings;
                             if(rankings.length>1){
@@ -1435,22 +1461,25 @@ export default class Game extends Phaser.Scene{
                                 var pos = rankings.map(function(e) { return e.userName; }).indexOf(user.nick_name);
                                 if(pos!==-1){
                                     _this.showThoat('Phiên đã kết thúc. Chúc mừng bạn đã chiến thắng!\n Giải thưởng đã được chuyển vào Tủ đồ của bạn,\n truy cập và nhận thưởng ngay nhé.')
+                                    isFinish=true;
                                     return;
                                 }else{
                                     _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
+                                    isFinish=true;
                                     return;
                                 }
-                                
                             }
                         }else{
                             if(res.summary.winResult===2){
                                 clearInterval(interval_checkwin);
                                 _this.showThoat('Phiên đã kết thúc. Chúc mừng bạn đã chiến thắng!\n Giải thưởng đã được chuyển vào Tủ đồ của bạn,\n truy cập và nhận thưởng ngay nhé.')
+                                isFinish=true;
                                 return;
                             }
                             if(res.summary.winResult===3){
                                 clearInterval(interval_checkwin);
                                 _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
+                                isFinish=true;
                                 return;
                             }
                            

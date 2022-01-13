@@ -121,6 +121,7 @@ var _timeServer=0;
 var _deltaTime=0;
 var isFinish=false;
 var interval_checkwin={};
+var auto_update=0;
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -760,6 +761,8 @@ export default class Game extends Phaser.Scene{
                 this.waitFinish();
             }
         }
+
+
         
 
     }
@@ -1086,7 +1089,8 @@ export default class Game extends Phaser.Scene{
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    timeRemain=(times)=>{  
+    timeRemain=(times)=>{
+        auto_update +=1;
         var t=Date.now() - _deltaTime;
         var time=(times - t)/1000;
         if(time>=0){
@@ -1097,6 +1101,9 @@ export default class Game extends Phaser.Scene{
             _timeServer +=1000
             if(this.txt_time!==undefined)
             this.txt_time.setText(`Còn: ${hour}h${minute}p${second}`);
+            if(auto_update>30){
+                this.updateData()
+            }  
         }
 	}
 
@@ -1200,7 +1207,7 @@ export default class Game extends Phaser.Scene{
                         var data=response.data.data;
                         _rankings=data.rankings;
                         _user=data.user;
-                       
+                        auto_update=0;
                     }else{
                         window.location.replace('/')
                     }
@@ -1249,6 +1256,7 @@ export default class Game extends Phaser.Scene{
                 if(response.data !==undefined){
                     if(response.data.code>=0){
                         var res=response.data.data;
+                        _rankings=res.rankings;
                         if(res.summary.winResult===2){
                             clearInterval(interval_checkwin);
                             _this.showThoat('Phiên đã kết thúc. Chúc mừng bạn đã chiến thắng!\n Giải thưởng đã được chuyển vào Tủ đồ của bạn,\n truy cập và nhận thưởng ngay nhé.')
