@@ -159,53 +159,54 @@ export default class Game extends Phaser.Scene{
             this.load.on('complete', function () {
                 progress.destroy();
             });
+        
+
+            this.load.image('background', backgound);
+            this.load.image('goal_center', goal_center);
+            this.load.image('ball', ball);
+            // this.load.image('bg_bangxephang', opt_suttudong);
+
+            this.load.atlas('ball_rotation', ball_rotation, ball_rotation_json);
+            this.load.atlas('ball_collision_goal', ball_collision_goal, ball_collision_goal_json);
+            this.load.atlas('ball_collision_keeper', ball_collision_keeper, ball_collision_keeper_json);
+            this.load.atlas('keep_goal_left_1', keep_goal_left_1, keep_goal_left_1_json);
+            this.load.atlas('keep_goal_left_2', keep_goal_left_2, keep_goal_left_2_json);
+            this.load.atlas('keep_goal_left_3', keep_goal_left_3, keep_goal_left_3_json);
+            this.load.atlas('keep_goal_left_4', keep_goal_left_4, keep_goal_left_4_json);
+            this.load.atlas('keep_goal_punch', keep_goal_punch, keep_goal_punch_json);
+            this.load.atlas('keep_goal_right_1', keep_goal_right_1, keep_goal_right_1_json);
+            this.load.atlas('keep_goal_right_2', keep_goal_right_2, keep_goal_right_2_json);
+            this.load.atlas('keep_goal_right_3', keep_goal_right_3, keep_goal_right_3_json);
+            this.load.atlas('keep_goal_right_4', keep_goal_right_4, keep_goal_right_4_json);
+            this.load.atlas('soccer_kick_left', soccer_kick_left, soccer_kick_left_json);
+            this.load.atlas('soccer_kick_right', soccer_kick_right, soccer_kick_right_json);
+            this.load.atlas('goal_center_anims', goal_center_anims, goal_center_anims_json);
+            this.load.atlas('goal_left', goal_left, goal_left_json);
+            this.load.atlas('goal_right', goal_right, goal_right_json);  
+            this.load.atlas('k_idle',k_idle,k_idle_json);
+
+            this.load.atlas('center_down',center_down,center_down_json);
+            this.load.atlas('center_up',center_up,center_up_json);
+            this.load.atlas('side_left_up',side_left_up,side_left_up_json);
+            this.load.atlas('side_left',side_left,side_left_json);
+            this.load.atlas('side_right_up',side_right_up,side_right_up_json);
+            this.load.atlas('side_right',side_right,side_right_json);
+
+            this.load.image('btn_std', btn_std);
+            this.load.image('opt_suttudong', opt_suttudong);
+            this.load.image('opt_suttudong_checked', opt_suttudong_checked);
+            this.load.image('bg_banthang', bg_banthang);
+            this.load.image('btn_suttudong', btn_suttudong);
+            this.load.image('bg_bangxephang', bg_bangxephang);
+            this.load.image('bg_giaithuong', bg_giaithuong);
+            this.load.image('bg_taikhoan', bg_taikhoan);
+            this.load.image('bg_title_loaitructiep', bg_title_loaitructiep);
+
+            this.load.image('bg_pop_ingame', bg_pop_ingame);
+            this.load.image('btn_dongy', btn_dongy);
+            this.load.image('btn_thoat', btn_thoat);
+            this.load.image('icon_home', icon_home);
         }
-
-        this.load.image('background', backgound);
-        this.load.image('goal_center', goal_center);
-        this.load.image('ball', ball);
-        // this.load.image('bg_bangxephang', opt_suttudong);
-
-        this.load.atlas('ball_rotation', ball_rotation, ball_rotation_json);
-        this.load.atlas('ball_collision_goal', ball_collision_goal, ball_collision_goal_json);
-        this.load.atlas('ball_collision_keeper', ball_collision_keeper, ball_collision_keeper_json);
-        this.load.atlas('keep_goal_left_1', keep_goal_left_1, keep_goal_left_1_json);
-        this.load.atlas('keep_goal_left_2', keep_goal_left_2, keep_goal_left_2_json);
-        this.load.atlas('keep_goal_left_3', keep_goal_left_3, keep_goal_left_3_json);
-        this.load.atlas('keep_goal_left_4', keep_goal_left_4, keep_goal_left_4_json);
-        this.load.atlas('keep_goal_punch', keep_goal_punch, keep_goal_punch_json);
-        this.load.atlas('keep_goal_right_1', keep_goal_right_1, keep_goal_right_1_json);
-        this.load.atlas('keep_goal_right_2', keep_goal_right_2, keep_goal_right_2_json);
-        this.load.atlas('keep_goal_right_3', keep_goal_right_3, keep_goal_right_3_json);
-        this.load.atlas('keep_goal_right_4', keep_goal_right_4, keep_goal_right_4_json);
-        this.load.atlas('soccer_kick_left', soccer_kick_left, soccer_kick_left_json);
-        this.load.atlas('soccer_kick_right', soccer_kick_right, soccer_kick_right_json);
-        this.load.atlas('goal_center_anims', goal_center_anims, goal_center_anims_json);
-        this.load.atlas('goal_left', goal_left, goal_left_json);
-        this.load.atlas('goal_right', goal_right, goal_right_json);  
-        this.load.atlas('k_idle',k_idle,k_idle_json);
-
-        this.load.atlas('center_down',center_down,center_down_json);
-        this.load.atlas('center_up',center_up,center_up_json);
-        this.load.atlas('side_left_up',side_left_up,side_left_up_json);
-        this.load.atlas('side_left',side_left,side_left_json);
-        this.load.atlas('side_right_up',side_right_up,side_right_up_json);
-        this.load.atlas('side_right',side_right,side_right_json);
-
-        this.load.image('btn_std', btn_std);
-        this.load.image('opt_suttudong', opt_suttudong);
-        this.load.image('opt_suttudong_checked', opt_suttudong_checked);
-        this.load.image('bg_banthang', bg_banthang);
-        this.load.image('btn_suttudong', btn_suttudong);
-        this.load.image('bg_bangxephang', bg_bangxephang);
-        this.load.image('bg_giaithuong', bg_giaithuong);
-        this.load.image('bg_taikhoan', bg_taikhoan);
-        this.load.image('bg_title_loaitructiep', bg_title_loaitructiep);
-
-        this.load.image('bg_pop_ingame', bg_pop_ingame);
-        this.load.image('btn_dongy', btn_dongy);
-        this.load.image('btn_thoat', btn_thoat);
-        this.load.image('icon_home', icon_home);
     }
 
     create(){

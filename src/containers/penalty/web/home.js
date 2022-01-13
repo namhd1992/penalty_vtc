@@ -104,6 +104,87 @@ import img_dacochu from './images/img-dacochu.png';
 
 
 
+
+import backgound from '../assert/background.png';
+import ball from '../assert/ball.png';
+import goal_center from '../assert/goal_center.png';
+import ball_rotation from '../assert/ball/ball_sprite.png';
+import ball_rotation_json from '../assert/ball/ball_sprite.json';
+
+import ball_collision_goal from '../assert/ball/ball_sprite.png';
+import ball_collision_goal_json from '../assert/ball/ball_sprite.json';
+
+import ball_collision_keeper from '../assert/ball/ball_sprite.png';
+import ball_collision_keeper_json from '../assert/ball/ball_sprite.json';
+
+import k_idle from '../assert/keep_goal/keep_goal_idle.png';
+import k_idle_json from '../assert/keep_goal/keep_goal_idle.json';
+
+import center_down from '../assert/keep_goal/center_down.png';
+import center_down_json from '../assert/keep_goal/center_down.json';
+import center_up from '../assert/keep_goal/center_up.png';
+import center_up_json from '../assert/keep_goal/center_up.json';
+import side_left_up from '../assert/keep_goal/side_left_up.png';
+import side_left_up_json from '../assert/keep_goal/side_left_up.json';
+import side_left from '../assert/keep_goal/side_left.png';
+import side_left_json from '../assert/keep_goal/side_left.json';
+import side_right_up from '../assert/keep_goal/side_right_up.png';
+import side_right_up_json from '../assert/keep_goal/side_right_up.json';
+import side_right from '../assert/keep_goal/side_right.png';
+import side_right_json from '../assert/keep_goal/side_right.json';
+
+import keep_goal_left_1 from '../assert/keep_goal/keep_goal_left_1.png';
+import keep_goal_left_1_json from '../assert/keep_goal/keep_goal_left_1.json';
+import keep_goal_left_2 from '../assert/keep_goal/keep_goal_left_2.png';
+import keep_goal_left_2_json from '../assert/keep_goal/keep_goal_left_2.json';
+import keep_goal_left_3 from '../assert/keep_goal/keep_goal_left_3.png';
+import keep_goal_left_3_json from '../assert/keep_goal/keep_goal_left_3.json';
+import keep_goal_left_4 from '../assert/keep_goal/keep_goal_left_4.png';
+import keep_goal_left_4_json from '../assert/keep_goal/keep_goal_left_4.json';
+
+
+import keep_goal_punch from '../assert/keep_goal/keep_goal_punch.png';
+import keep_goal_punch_json from '../assert//keep_goal/keep_goal_punch.json';
+
+import keep_goal_right_1 from '../assert/keep_goal/keep_goal_right_1.png';
+import keep_goal_right_1_json from '../assert/keep_goal/keep_goal_right_1.json';
+import keep_goal_right_2 from '../assert/keep_goal/keep_goal_right_2.png';
+import keep_goal_right_2_json from '../assert/keep_goal/keep_goal_right_2.json';
+import keep_goal_right_3 from '../assert/keep_goal/keep_goal_right_3.png';
+import keep_goal_right_3_json from '../assert/keep_goal/keep_goal_right_3.json';
+import keep_goal_right_4 from '../assert/keep_goal/keep_goal_right_4.png';
+import keep_goal_right_4_json from '../assert/keep_goal/keep_goal_right_4.json';
+
+
+import soccer_kick_left from '../assert/keep_goal/soccer_kick_left.png';
+import soccer_kick_left_json from '../assert/keep_goal/soccer_kick_left.json';
+import soccer_kick_right from '../assert/keep_goal/soccer_kick_right.png';
+import soccer_kick_right_json from '../assert/keep_goal/soccer_kick_right.json';
+
+import goal_center_anims from '../assert/goal_anims/goal_center_anims.png';
+import goal_center_anims_json from '../assert/goal_anims/goal_center_anims.json';
+import goal_left from '../assert/goal_anims/goal_left.png';
+import goal_left_json from '../assert/goal_anims/goal_left.json';
+import goal_right from '../assert/goal_anims/goal_right.png';
+import goal_right_json from '../assert/goal_anims/goal_right.json';
+
+import btn_std from '../assert/btn-std.png';
+import opt_suttudong_checked from '../assert/duatop/opt-suttudong-checked.png';
+import opt_suttudong from '../assert/duatop/opt-suttudong.png';
+import bg_giaithuong_duatop from '../assert/duatop/bg-giaithuong-duatop.png';
+import bg_title_duatop from '../assert/duatop/bg-title-duatop.png';
+
+import bg_pop_ingame from '../assert/bg-pop-ingame.png';
+import btn_dongy from '../assert/btn-popup-napgame.png';
+import icon_home from '../assert/icon-home.png';
+
+
+
+
+
+
+
+
 // import muiten from './images/muiten.png';
 import ReactResizeDetector from 'react-resize-detector'
 // import spin from './images/spin.gif';
@@ -278,6 +359,48 @@ class Lucky_Rotation extends React.Component {
 		modal_tb_err = new Modal(document.getElementById('tb_err'));
 		modal_tudo = new Modal(document.getElementById('td_web'));
 		window.addEventListener('scroll', this.handleScroll);
+		
+		caches.open('v1').then((v)=>{
+            return v.addAll([
+                backgound,
+                goal_center,
+                ball_rotation,
+                keep_goal_left_1,
+                keep_goal_left_2,
+                keep_goal_left_3,
+                keep_goal_left_4,
+                keep_goal_punch,
+                keep_goal_right_1,
+                keep_goal_right_2,
+                keep_goal_right_3,
+                keep_goal_right_4,
+                soccer_kick_left,
+                soccer_kick_right,
+                goal_center_anims,
+                goal_left,
+                goal_right,
+                k_idle,
+                center_down,
+                center_up,
+                side_left_up,
+                side_left,
+                side_right_up,
+                side_right,
+                btn_std,
+                opt_suttudong,
+                opt_suttudong_checked,
+                // bg_banthang,
+                // btn_suttudong,
+                // bg_bangxephang,
+                // bg_giaithuong_duatop,
+                // bg_taikhoan,
+                bg_title_duatop,
+                bg_pop_ingame,
+                btn_dongy,
+                btn_thoat,
+                icon_home
+            ])
+        })
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -463,6 +586,8 @@ class Lucky_Rotation extends React.Component {
 				})
 			}
 		});
+
+		
 	
 	}
   
