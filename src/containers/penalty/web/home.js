@@ -220,7 +220,7 @@ let modal_tb_err={};
 let modal_tb={};
 let modal_moqua={};
 let modal_moqua_bank={};
-
+let auto_redirect={};
 
 
 
@@ -661,6 +661,7 @@ class Lucky_Rotation extends React.Component {
 		
 		if(type===1){
 			if(time < info_seesion.startTime){
+				auto_redirect = setInterval(this.redirectGame, 1000);
 				this.setState({message_error:`Phiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverterPopup(info_seesion.startTime)}`},()=>{
 					modal_tb_err.show();
 				})
@@ -894,6 +895,26 @@ class Lucky_Rotation extends React.Component {
 			modal_datcuoc.hide();
 			modal_tb.show();
 		}
+	}
+
+	redirectGame=(type)=>{
+		const {info_seesion, user_data, user, timeServer}=this.state;
+		var time=timeServer;
+		
+		switch (type) {
+			case 1:
+				window.location.href=window.location.href+'duatop';
+				break;
+			case 2:
+				window.location.href=window.location.href+'giathuvang';
+				break;
+			case 3:
+				window.location.href=window.location.href+'loaitructiep';
+				break;
+			default:
+				break;
+		}
+
 	}
 
 	handleScroll = (event) => {
