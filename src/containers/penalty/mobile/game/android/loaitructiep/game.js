@@ -142,6 +142,7 @@ export default class Game extends Phaser.Scene{
         if(first_play){
             this.loadInitData();
         }
+        window.addEventListener("visibilitychange", this.visibilityChange);
     }
     
     preload(){
@@ -1544,6 +1545,13 @@ export default class Game extends Phaser.Scene{
         }
         
     }
+
+    visibilityChange=()=>{
+		if (!document.hidden){
+			window.location.reload();
+		} 
+		
+	}
 
 }
 

@@ -36,7 +36,6 @@ export default class loaitructiep extends React.Component {
     componentWillMount(){
         var user = JSON.parse(localStorage.getItem("user"));
         window.addEventListener("resize", this.setScreenOrientation);
-		window.addEventListener("visibilitychange", this.visibilityChange);
         if(user===null){
 			window.location.replace("/")
 		}
@@ -46,15 +45,6 @@ export default class loaitructiep extends React.Component {
 			this.setState({horizontal: true})
 		}
         this.setState({innerWidth:window.innerWidth})
-	}
-
-    visibilityChange=()=>{
-		if (document.hidden){
-			this.setState({isChangetab:true})
-		} else {
-			this.setState({isChangetab:false})
-		}
-		
 	}
 
 	setScreenOrientation=()=>{

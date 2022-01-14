@@ -143,11 +143,10 @@ export default class Game extends Phaser.Scene{
         if(first_play){
             this.loadInitData();
         }
-        console.log('AAAAAAAAAAA')
+        window.addEventListener("visibilitychange", this.visibilityChange);
     }
     
     preload(){
-        console.log('AAAAAAAAAAA')
         var seft=this;
         if(first_play){
             var progress = this.add.graphics();
@@ -1545,6 +1544,11 @@ export default class Game extends Phaser.Scene{
         }
         
     }
+    visibilityChange=()=>{
+		if (!document.hidden){
+			window.location.reload();
+		} 
+	}
 
 }
 
