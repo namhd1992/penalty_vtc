@@ -308,7 +308,7 @@ export default class Game extends Phaser.Scene{
         const side_left_up_Config = {
             key: 'side_left_up',
             frames: 'side_left_up',
-            frameRate: 24,
+            frameRate: 30,
             repeat: -2
         };
         this.anims.create(side_left_up_Config);
@@ -318,7 +318,7 @@ export default class Game extends Phaser.Scene{
         const side_left_Config = {
             key: 'side_left',
             frames: 'side_left',
-            frameRate: 24,
+            frameRate: 30,
             repeat: -2
         };
         this.anims.create(side_left_Config);
@@ -329,7 +329,7 @@ export default class Game extends Phaser.Scene{
         const side_right_up_Config = {
             key: 'side_right_up',
             frames: 'side_right_up',
-            frameRate: 24,
+            frameRate: 30,
             repeat: -2
         };
         this.anims.create(side_right_up_Config);
@@ -340,7 +340,7 @@ export default class Game extends Phaser.Scene{
         const side_right_Config = {
             key: 'side_right',
             frames: 'side_right',
-            frameRate: 24,
+            frameRate: 30,
             repeat: -2
         };
         this.anims.create(side_right_Config);
@@ -1086,31 +1086,31 @@ export default class Game extends Phaser.Scene{
 
 
     setPositionKeeper(x,y){
-        if(x >= 335 && x < 458 && y >= 228 && y < 330)
+        if(x >= 335 && x < 480 && y >= 228 && y < 330)
             return [1, 11];
-        if(x >= 335 && x < 458 && y >= 300 && y < 430)
+        if(x >= 335 && x < 480 && y >= 300 && y < 430)
             return [2, 21];
-        if(x >= 458 && x < 560 && y >= 228 && y < 280)
+        if(x >= 480 && x < 560 && y >= 228 && y < 280)
             return [3, 12];
-        if(x >= 458 && x < 560 && y >= 280 && y < 340)
+        if(x >= 480 && x < 560 && y >= 280 && y < 340)
             return [4, 12];
-        if(x >= 458 && x < 560 && y >= 340 && y < 385)
+        if(x >= 480 && x < 560 && y >= 340 && y < 370)
             return [5,22];
-        if(x >= 458 && x < 560 && y >= 385 && y < 430)
+        if(x >= 480 && x < 560 && y >= 370 && y < 430)
             return [6, 22];
-        if(x >= 560 && x < 640 && y >= 228 && y < 280)
+        if(x >= 560 && x < 620 && y >= 228 && y < 280)
             return [7,13];
-        if(x >= 560 && x < 640 && y >= 280 && y < 385)
+        if(x >= 560 && x < 620 && y >= 280 && y < 370)
             return [8, 13];
-        if(x >= 560 && x < 640 && y >= 385 && y < 430)
+        if(x >= 560 && x < 620 && y >= 370 && y < 430)
             return [9,23];
-        if(x >= 640 && x < 750 && y >= 228 && y < 280)
+        if(x >= 620 && x < 750 && y >= 228 && y < 280)
             return [10,14];
-        if(x >= 640 && x < 750 && y >= 280 && y < 340)
+        if(x >= 620 && x < 750 && y >= 280 && y < 340)
             return [11,14];
-        if(x >= 640 && x < 750 && y >= 340 && y < 385)
+        if(x >= 620 && x < 750 && y >= 340 && y < 370)
             return [12,24];
-        if(x >= 640 && x < 750 && y >= 385 && y < 430)
+        if(x >= 620 && x < 750 && y >= 370 && y < 430)
             return [13,24];
         if(x >= 750 && x < 870 && y >= 228 && y < 330)
             return [14,15];
@@ -1121,6 +1121,7 @@ export default class Game extends Phaser.Scene{
         if(x > 870 || x < 338)
             return [this.getRandomInt(1,15),0]
     }
+
 
 
 

@@ -315,7 +315,7 @@ export default class Game extends Phaser.Scene{
         const side_left_up_Config = {
             key: 'side_left_up',
             frames: 'side_left_up',
-            frameRate: 24,
+            frameRate: 30,
             repeat: -2
         };
         this.anims.create(side_left_up_Config);
@@ -326,7 +326,7 @@ export default class Game extends Phaser.Scene{
         const side_left_Config = {
             key: 'side_left',
             frames: 'side_left',
-            frameRate: 24,
+            frameRate: 30,
             repeat: -2
         };
         this.anims.create(side_left_Config);
@@ -338,7 +338,7 @@ export default class Game extends Phaser.Scene{
         const side_right_up_Config = {
             key: 'side_right_up',
             frames: 'side_right_up',
-            frameRate: 24,
+            frameRate: 30,
             repeat: -2
         };
         this.anims.create(side_right_up_Config);
@@ -350,7 +350,7 @@ export default class Game extends Phaser.Scene{
         const side_right_Config = {
             key: 'side_right',
             frames: 'side_right',
-            frameRate: 24,
+            frameRate: 30,
             repeat: -2
         };
         this.anims.create(side_right_Config);
@@ -1140,31 +1140,31 @@ export default class Game extends Phaser.Scene{
     }
 
     setPositionKeeper(x,y){
-        if(x >= 335*delta_x && x < 458*delta_x && y >= 228*delta_y && y < 330*delta_y)
+        if(x >= 335*delta_x && x < 480*delta_x && y >= 228*delta_y && y < 330*delta_y)
             return [1, 11];
-        if(x >= 335*delta_x && x < 458*delta_x && y >= 300*delta_y && y < 430*delta_y)
+        if(x >= 335*delta_x && x < 480*delta_x && y >= 300*delta_y && y < 430*delta_y)
             return [2, 21];
-        if(x >= 458*delta_x && x < 560*delta_x && y >= 228*delta_y && y < 280*delta_y)
+        if(x >= 480*delta_x && x < 560*delta_x && y >= 228*delta_y && y < 280*delta_y)
             return [3, 12];
-        if(x >= 458*delta_x && x < 560*delta_x && y >= 280*delta_y && y < 340*delta_y)
+        if(x >= 480*delta_x && x < 560*delta_x && y >= 280*delta_y && y < 340*delta_y)
             return [4, 12];
-        if(x >= 458*delta_x && x < 560*delta_x && y >= 340*delta_y && y < 385*delta_y)
+        if(x >= 480*delta_x && x < 560*delta_x && y >= 340*delta_y && y < 370*delta_y)
             return [5,22];
-        if(x >= 458*delta_x && x < 560*delta_x && y >= 385*delta_y && y < 430*delta_y)
+        if(x >= 480*delta_x && x < 560*delta_x && y >= 370*delta_y && y < 430*delta_y)
             return [6, 22];
-        if(x >= 560*delta_x && x < 640*delta_x && y >= 228*delta_y && y < 280*delta_y)
+        if(x >= 560*delta_x && x < 620*delta_x && y >= 228*delta_y && y < 280*delta_y)
             return [7,13];
-        if(x >= 560*delta_x && x < 640*delta_x && y >= 280*delta_y && y < 385*delta_y)
+        if(x >= 560*delta_x && x < 620*delta_x && y >= 280*delta_y && y < 370*delta_y)
             return [8, 13];
-        if(x >= 560*delta_x && x < 640*delta_x && y >= 385*delta_y && y < 430*delta_y)
+        if(x >= 560*delta_x && x < 620*delta_x && y >= 370*delta_y && y < 430*delta_y)
             return [9,23];
-        if(x >= 640*delta_x && x < 750*delta_x && y >= 228*delta_y && y < 280*delta_y)
+        if(x >= 620*delta_x && x < 750*delta_x && y >= 228*delta_y && y < 280*delta_y)
             return [10,14];
-        if(x >= 640*delta_x && x < 750*delta_x && y >= 280*delta_y && y < 340*delta_y)
+        if(x >= 620*delta_x && x < 750*delta_x && y >= 280*delta_y && y < 340*delta_y)
             return [11,14];
-        if(x >= 640*delta_x && x < 750*delta_x && y >= 340*delta_y && y < 385*delta_y)
+        if(x >= 620*delta_x && x < 750*delta_x && y >= 340*delta_y && y < 370*delta_y)
             return [12,24];
-        if(x >= 640*delta_x && x < 750*delta_x && y >= 385*delta_y && y < 430*delta_y)
+        if(x >= 620*delta_x && x < 750*delta_x && y >= 370*delta_y && y < 430*delta_y)
             return [13,24];
         if(x >= 750*delta_x && x < 870*delta_x && y >= 228*delta_y && y < 330*delta_y)
             return [14,15];

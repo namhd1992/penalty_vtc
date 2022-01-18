@@ -661,7 +661,7 @@ class Lucky_Rotation extends React.Component {
 		
 		if(type===1){
 			if(time < info_seesion.startTime){
-				auto_redirect = setInterval(this.redirectGame, 1000);
+				auto_redirect = setInterval(()=>this.redirectGame(type), 1000);
 				this.setState({message_error:`Phiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverterPopup(info_seesion.startTime)}`},()=>{
 					modal_tb_err.show();
 				})
@@ -709,6 +709,7 @@ class Lucky_Rotation extends React.Component {
 						if(data.code > 0){
 							if(data.data.isBets){
 								if(time < info_seesion.startTime){
+									auto_redirect = setInterval(this.redirectGame(type), 1000);
 									var ms=`Phiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverterPopup(info_seesion.startTime)}`
 									this.setState({message_error:ms},()=>{
 										modal_tb_err.show();
@@ -899,22 +900,25 @@ class Lucky_Rotation extends React.Component {
 
 	redirectGame=(type)=>{
 		const {info_seesion, user_data, user, timeServer}=this.state;
-		var time=timeServer;
-		
-		switch (type) {
-			case 1:
-				window.location.href=window.location.href+'duatop';
-				break;
-			case 2:
-				window.location.href=window.location.href+'giathuvang';
-				break;
-			case 3:
-				window.location.href=window.location.href+'loaitructiep';
-				break;
-			default:
-				break;
-		}
-
+		var time=timeServer+1000;
+		this.setState({timeServer:time},()=>{
+			if(this.state.timeServer > info_seesion.startTime){
+				clearInterval(auto_redirect);
+				switch (type) {
+					case 1:
+						window.location.href=window.location.href+'duatop';
+						break;
+					case 2:
+						window.location.href=window.location.href+'giathuvang';
+						break;
+					case 3:
+						window.location.href=window.location.href+'loaitructiep';
+						break;
+					default:
+						break;
+				}
+			}
+		})
 	}
 
 	handleScroll = (event) => {
@@ -1599,6 +1603,7 @@ class Lucky_Rotation extends React.Component {
 	}
 
 	closeTbErr=()=>{
+		clearInterval(auto_redirect);
 		this.setState({napgame:false})
 		modal_tb_err.hide();
 	}
