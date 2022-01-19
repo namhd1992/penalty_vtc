@@ -901,24 +901,24 @@ class Lucky_Rotation extends React.Component {
 	redirectGame=(type)=>{
 		const {info_seesion, user_data, user, timeServer}=this.state;
 		var time=timeServer+1000;
-		this.setState({timeServer:time},()=>{
-			if(this.state.timeServer > info_seesion.startTime){
-				clearInterval(auto_redirect);
-				switch (type) {
-					case 1:
-						window.location.href=window.location.href+'duatop';
-						break;
-					case 2:
-						window.location.href=window.location.href+'giathuvang';
-						break;
-					case 3:
-						window.location.href=window.location.href+'loaitructiep';
-						break;
-					default:
-						break;
-				}
+		this.setState({timeServer:time})
+		if(time > info_seesion.startTime){
+			clearInterval(auto_redirect);
+			modal_tb_err.hide();
+			switch (type) {
+				case 1:
+					window.location.href=window.location.href+'duatop';
+					break;
+				case 2:
+					window.location.href=window.location.href+'giathuvang';
+					break;
+				case 3:
+					window.location.href=window.location.href+'loaitructiep';
+					break;
+				default:
+					break;
 			}
-		})
+		}
 	}
 
 	handleScroll = (event) => {

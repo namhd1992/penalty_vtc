@@ -47,7 +47,7 @@ import keep_goal_left_4_json from '../../../assert/keep_goal/keep_goal_left_4.js
 
 
 import keep_goal_punch from '../../../assert/keep_goal/keep_goal_punch.png';
-import keep_goal_punch_json from '../../../assert/keep_goal/keep_goal_punch.json';
+import keep_goal_punch_json from '../../../assert//keep_goal/keep_goal_punch.json';
 
 import keep_goal_right_1 from '../../../assert/keep_goal/keep_goal_right_1.png';
 import keep_goal_right_1_json from '../../../assert/keep_goal/keep_goal_right_1.json';
@@ -133,19 +133,11 @@ export default class Game extends Phaser.Scene{
         if(first_play){
             this.loadInitData();
         }
+        window.addEventListener("visibilitychange", this.visibilityChange);
     }
     
-    async preload(){
+    preload(){
         var seft=this;
-        this.findImages().then((v)=>{
-            for (let i = 0; i < v.length; i++) {
-                console.log(v[i].url)
-                this.load.image('background', v[0].url);
-                this.load.image('goal_center', v[1].url);
-                this.load.image('ball', v[2].url);
-            }
-            
-        })
         if(first_play){
             var progress = this.add.graphics();
 
@@ -156,124 +148,57 @@ export default class Game extends Phaser.Scene{
             this.load.on('complete', function () {
                 progress.destroy();
             });
-        
 
         
             this.load.image('background', backgound);
-            this.load.image('goal_center', goal_center);
-            this.load.image('ball', ball);
-            this.load.image('bg_bangxephang', opt_suttudong);
+            // this.load.image('goal_center', goal_center);
+            // this.load.image('ball', ball);
+            // this.load.image('bg_bangxephang', opt_suttudong);
 
-            this.load.atlas('ball_rotation', ball_rotation, ball_rotation_json);
-            this.load.atlas('ball_collision_goal', ball_collision_goal, ball_collision_goal_json);
-            this.load.atlas('ball_collision_keeper', ball_collision_keeper, ball_collision_keeper_json);
-            this.load.atlas('keep_goal_left_1', keep_goal_left_1, keep_goal_left_1_json);
-            this.load.atlas('keep_goal_left_2', keep_goal_left_2, keep_goal_left_2_json);
-            this.load.atlas('keep_goal_left_3', keep_goal_left_3, keep_goal_left_3_json);
-            this.load.atlas('keep_goal_left_4', keep_goal_left_4, keep_goal_left_4_json);
-            this.load.atlas('keep_goal_punch', keep_goal_punch, keep_goal_punch_json);
-            this.load.atlas('keep_goal_right_1', keep_goal_right_1, keep_goal_right_1_json);
-            this.load.atlas('keep_goal_right_2', keep_goal_right_2, keep_goal_right_2_json);
-            this.load.atlas('keep_goal_right_3', keep_goal_right_3, keep_goal_right_3_json);
-            this.load.atlas('keep_goal_right_4', keep_goal_right_4, keep_goal_right_4_json);
-            this.load.atlas('soccer_kick_left', soccer_kick_left, soccer_kick_left_json);
-            this.load.atlas('soccer_kick_right', soccer_kick_right, soccer_kick_right_json);
-            this.load.atlas('goal_center_anims', goal_center_anims, goal_center_anims_json);
-            this.load.atlas('goal_left', goal_left, goal_left_json);
-            this.load.atlas('goal_right', goal_right, goal_right_json);  
-            this.load.atlas('k_idle',k_idle,k_idle_json);
+            // this.load.atlas('ball_rotation', ball_rotation, ball_rotation_json);
+            // this.load.atlas('ball_collision_goal', ball_collision_goal, ball_collision_goal_json);
+            // this.load.atlas('ball_collision_keeper', ball_collision_keeper, ball_collision_keeper_json);
+            // this.load.atlas('keep_goal_left_1', keep_goal_left_1, keep_goal_left_1_json);
+            // this.load.atlas('keep_goal_left_2', keep_goal_left_2, keep_goal_left_2_json);
+            // this.load.atlas('keep_goal_left_3', keep_goal_left_3, keep_goal_left_3_json);
+            // this.load.atlas('keep_goal_left_4', keep_goal_left_4, keep_goal_left_4_json);
+            // this.load.atlas('keep_goal_punch', keep_goal_punch, keep_goal_punch_json);
+            // this.load.atlas('keep_goal_right_1', keep_goal_right_1, keep_goal_right_1_json);
+            // this.load.atlas('keep_goal_right_2', keep_goal_right_2, keep_goal_right_2_json);
+            // this.load.atlas('keep_goal_right_3', keep_goal_right_3, keep_goal_right_3_json);
+            // this.load.atlas('keep_goal_right_4', keep_goal_right_4, keep_goal_right_4_json);
+            // this.load.atlas('soccer_kick_left', soccer_kick_left, soccer_kick_left_json);
+            // this.load.atlas('soccer_kick_right', soccer_kick_right, soccer_kick_right_json);
+            // this.load.atlas('goal_center_anims', goal_center_anims, goal_center_anims_json);
+            // this.load.atlas('goal_left', goal_left, goal_left_json);
+            // this.load.atlas('goal_right', goal_right, goal_right_json);  
+            // this.load.atlas('k_idle',k_idle,k_idle_json);
 
-            this.load.atlas('center_down',center_down,center_down_json);
-            this.load.atlas('center_up',center_up,center_up_json);
-            this.load.atlas('side_left_up',side_left_up,side_left_up_json);
-            this.load.atlas('side_left',side_left,side_left_json);
-            this.load.atlas('side_right_up',side_right_up,side_right_up_json);
-            this.load.atlas('side_right',side_right,side_right_json);
+            // this.load.atlas('center_down',center_down,center_down_json);
+            // this.load.atlas('center_up',center_up,center_up_json);
+            // this.load.atlas('side_left_up',side_left_up,side_left_up_json);
+            // this.load.atlas('side_left',side_left,side_left_json);
+            // this.load.atlas('side_right_up',side_right_up,side_right_up_json);
+            // this.load.atlas('side_right',side_right,side_right_json);
 
-            this.load.image('btn_std', btn_std);
-            this.load.image('opt_suttudong', opt_suttudong);
-            this.load.image('opt_suttudong_checked', opt_suttudong_checked);
-            this.load.image('bg_banthang', bg_banthang);
-            this.load.image('btn_suttudong', btn_suttudong);
-            this.load.image('bg_bangxephang', bg_bangxephang);
-            this.load.image('bg_giaithuong_duatop', bg_giaithuong_duatop);
-            this.load.image('bg_taikhoan', bg_taikhoan);
-            this.load.image('bg_title_duatop', bg_title_duatop);
+            // this.load.image('btn_std', btn_std);
+            // this.load.image('opt_suttudong', opt_suttudong);
+            // this.load.image('opt_suttudong_checked', opt_suttudong_checked);
+            // this.load.image('bg_banthang', bg_banthang);
+            // this.load.image('btn_suttudong', btn_suttudong);
+            // this.load.image('bg_bangxephang', bg_bangxephang);
+            // this.load.image('bg_giaithuong_duatop', bg_giaithuong_duatop);
+            // this.load.image('bg_taikhoan', bg_taikhoan);
+            // this.load.image('bg_title_duatop', bg_title_duatop);
 
-            this.load.image('bg_pop_ingame', bg_pop_ingame);
-            this.load.image('btn_dongy', btn_dongy);
-            this.load.image('btn_thoat', btn_thoat);
-            this.load.image('icon_home', icon_home);
-
-            
-            
-            // console.log('AAA',this.findImages())
+            // this.load.image('bg_pop_ingame', bg_pop_ingame);
+            // this.load.image('btn_dongy', btn_dongy);
+            // this.load.image('btn_thoat', btn_thoat);
+            // this.load.image('icon_home', icon_home);
+            this.load.once('filecomplete', seft.addfile, this);
         }
 
-        // caches.open('v5').then((v)=>{
-        //     return v.addAll([
-        //         backgound,
-        //         goal_center,
-        //         ball_rotation,
-        //         // ball_collision_goal,
-        //         // ball_collision_keeper,
-        //         keep_goal_left_1,
-        //         keep_goal_left_2,
-        //         keep_goal_left_3,
-        //         keep_goal_left_4,
-        //         keep_goal_punch,
-        //         keep_goal_right_1,
-        //         keep_goal_right_2,
-        //         keep_goal_right_3,
-        //         keep_goal_right_4,
-        //         soccer_kick_left,
-        //         soccer_kick_right,
-        //         goal_center_anims,
-        //         goal_left,
-        //         goal_right,
-        //         k_idle,
-        //         center_down,
-        //         center_up,
-        //         side_left_up,
-        //         side_left,
-        //         side_right_up,
-        //         side_right,
-        //         btn_std,
-        //         opt_suttudong,
-        //         opt_suttudong_checked,
-        //         bg_banthang,
-        //         btn_suttudong,
-        //         bg_bangxephang,
-        //         bg_giaithuong_duatop,
-        //         bg_taikhoan,
-        //         bg_title_duatop,
-        //         bg_pop_ingame,
-        //         btn_dongy,
-        //         btn_thoat,
-        //         icon_home,
-        //     ])
-        // })
-    }
-
-    async findImages() {
-        // Get a list of all of the caches for this origin
-        const cacheNames = await caches.keys();
-        const result = [];
-      
-        for (const name of cacheNames) {
-          // Open the cache
-          const cache = await caches.open(name);
-      
-          // Get a list of entries. Each item is a Request object
-          for (const request of await cache.keys()) {
-            // If the request URL matches, add the response to the result
-            if (request.url.endsWith('.png')) {
-              result.push(await cache.match(request));
-            }
-          }
-        }
-      
-        return result;
+        
     }
 
     create(){
@@ -379,7 +304,7 @@ export default class Game extends Phaser.Scene{
         const side_left_up_Config = {
             key: 'side_left_up',
             frames: 'side_left_up',
-            frameRate: 24,
+            frameRate: 30,
             repeat: -2
         };
         this.anims.create(side_left_up_Config);
@@ -389,7 +314,7 @@ export default class Game extends Phaser.Scene{
         const side_left_Config = {
             key: 'side_left',
             frames: 'side_left',
-            frameRate: 24,
+            frameRate: 30,
             repeat: -2
         };
         this.anims.create(side_left_Config);
@@ -400,7 +325,7 @@ export default class Game extends Phaser.Scene{
         const side_right_up_Config = {
             key: 'side_right_up',
             frames: 'side_right_up',
-            frameRate: 24,
+            frameRate: 30,
             repeat: -2
         };
         this.anims.create(side_right_up_Config);
@@ -411,7 +336,7 @@ export default class Game extends Phaser.Scene{
         const side_right_Config = {
             key: 'side_right',
             frames: 'side_right',
-            frameRate: 24,
+            frameRate: 30,
             repeat: -2
         };
         this.anims.create(side_right_Config);
@@ -1021,7 +946,7 @@ export default class Game extends Phaser.Scene{
     }
     
     setKeepGoal(n){
-        // console.log(n)
+        console.log(n)
         switch (n) {
             case 1:
                 this.keep_goal_right_2_sprite.visible=true;
@@ -1122,31 +1047,31 @@ export default class Game extends Phaser.Scene{
 
 
     setPositionKeeper(x,y){
-        if(x >= 335 && x < 458 && y >= 228 && y < 330)
+        if(x >= 335 && x < 480 && y >= 228 && y < 330)
             return [1, 11];
-        if(x >= 335 && x < 458 && y >= 300 && y < 430)
+        if(x >= 335 && x < 480 && y >= 300 && y < 430)
             return [2, 21];
-        if(x >= 458 && x < 560 && y >= 228 && y < 280)
+        if(x >= 480 && x < 560 && y >= 228 && y < 280)
             return [3, 12];
-        if(x >= 458 && x < 560 && y >= 280 && y < 340)
+        if(x >= 480 && x < 560 && y >= 280 && y < 340)
             return [4, 12];
-        if(x >= 458 && x < 560 && y >= 340 && y < 385)
+        if(x >= 480 && x < 560 && y >= 340 && y < 370)
             return [5,22];
-        if(x >= 458 && x < 560 && y >= 385 && y < 430)
+        if(x >= 480 && x < 560 && y >= 370 && y < 430)
             return [6, 22];
-        if(x >= 560 && x < 640 && y >= 228 && y < 280)
+        if(x >= 560 && x < 620 && y >= 228 && y < 280)
             return [7,13];
-        if(x >= 560 && x < 640 && y >= 280 && y < 385)
+        if(x >= 560 && x < 620 && y >= 280 && y < 370)
             return [8, 13];
-        if(x >= 560 && x < 640 && y >= 385 && y < 430)
+        if(x >= 560 && x < 620 && y >= 370 && y < 430)
             return [9,23];
-        if(x >= 640 && x < 750 && y >= 228 && y < 280)
+        if(x >= 620 && x < 750 && y >= 228 && y < 280)
             return [10,14];
-        if(x >= 640 && x < 750 && y >= 280 && y < 340)
+        if(x >= 620 && x < 750 && y >= 280 && y < 340)
             return [11,14];
-        if(x >= 640 && x < 750 && y >= 340 && y < 385)
+        if(x >= 620 && x < 750 && y >= 340 && y < 370)
             return [12,24];
-        if(x >= 640 && x < 750 && y >= 385 && y < 430)
+        if(x >= 620 && x < 750 && y >= 370 && y < 430)
             return [13,24];
         if(x >= 750 && x < 870 && y >= 228 && y < 330)
             return [14,15];
@@ -1392,21 +1317,72 @@ export default class Game extends Phaser.Scene{
         }
         
     }
+    visibilityChange=()=>{
+		if (!document.hidden){
+			window.location.reload();
+		} 
+		
+	}
+
+    addfile=()=>{
+        this.load.image('goal_center', goal_center);
+        this.load.image('ball', ball);
+        this.load.atlas('ball_rotation', ball_rotation, ball_rotation_json);
+        this.load.atlas('ball_collision_goal', ball_collision_goal, ball_collision_goal_json);
+        this.load.atlas('ball_collision_keeper', ball_collision_keeper, ball_collision_keeper_json);
+        this.load.atlas('keep_goal_left_1', keep_goal_left_1, keep_goal_left_1_json);
+        this.load.atlas('keep_goal_left_2', keep_goal_left_2, keep_goal_left_2_json);
+        this.load.atlas('keep_goal_left_3', keep_goal_left_3, keep_goal_left_3_json);
+        this.load.atlas('keep_goal_left_4', keep_goal_left_4, keep_goal_left_4_json);
+        this.load.atlas('keep_goal_punch', keep_goal_punch, keep_goal_punch_json);
+        this.load.atlas('keep_goal_right_1', keep_goal_right_1, keep_goal_right_1_json);
+        this.load.atlas('keep_goal_right_2', keep_goal_right_2, keep_goal_right_2_json);
+        this.load.atlas('keep_goal_right_3', keep_goal_right_3, keep_goal_right_3_json);
+        this.load.atlas('keep_goal_right_4', keep_goal_right_4, keep_goal_right_4_json);
+        this.load.atlas('soccer_kick_left', soccer_kick_left, soccer_kick_left_json);
+        this.load.atlas('soccer_kick_right', soccer_kick_right, soccer_kick_right_json);
+        this.load.atlas('goal_center_anims', goal_center_anims, goal_center_anims_json);
+        this.load.atlas('goal_left', goal_left, goal_left_json);
+        this.load.atlas('goal_right', goal_right, goal_right_json);  
+        this.load.atlas('k_idle',k_idle,k_idle_json);
+
+        this.load.atlas('center_down',center_down,center_down_json);
+        this.load.atlas('center_up',center_up,center_up_json);
+        this.load.atlas('side_left_up',side_left_up,side_left_up_json);
+        this.load.atlas('side_left',side_left,side_left_json);
+        this.load.atlas('side_right_up',side_right_up,side_right_up_json);
+        this.load.atlas('side_right',side_right,side_right_json);
+
+        this.load.image('btn_std', btn_std);
+        this.load.image('opt_suttudong', opt_suttudong);
+        this.load.image('opt_suttudong_checked', opt_suttudong_checked);
+        this.load.image('bg_banthang', bg_banthang);
+        this.load.image('btn_suttudong', btn_suttudong);
+        this.load.image('bg_bangxephang', bg_bangxephang);
+        this.load.image('bg_giaithuong_duatop', bg_giaithuong_duatop);
+        this.load.image('bg_taikhoan', bg_taikhoan);
+        this.load.image('bg_title_duatop', bg_title_duatop);
+
+        this.load.image('bg_pop_ingame', bg_pop_ingame);
+        this.load.image('btn_dongy', btn_dongy);
+        this.load.image('btn_thoat', btn_thoat);
+        this.load.image('icon_home', icon_home);
+    }
 }
 
-// điểm 1: 335 < x 458 , 228 < y < 330
-// điểm 2: 335 < x 458 , 300 < y < 430
-// điểm 3: 458 < x < 560 ,  228 < y < 280
-// điểm 4: 458 < x < 560 ,  280 < y < 330
-// điểm 5: 458 < x < 560 ,  330 < y < 385
-// điểm 6: 458 < x < 560 ,  385 < y < 430
-// điểm 7: 560 < x < 640 ,  228 < y < 280
-// điểm 8: 560 < x < 640 ,  280 < y < 385
-// điểm 9: 560 < x < 640 ,  385 < y < 430
-// điểm 10: 640 < x < 750 ,  228 < y < 280
-// điểm 11: 640 < x < 750 ,  280 < y < 330
-// điểm 12: 640 < x < 750 ,  330 < y < 385
-// điểm 13: 640 < x < 750 ,  385 < y < 430
+// điểm 1: 335 < x 480 , 228 < y < 330
+// điểm 2: 335 < x 480 , 300 < y < 430
+// điểm 3: 480 < x < 560 ,  228 < y < 280
+// điểm 4: 480 < x < 560 ,  280 < y < 330
+// điểm 5: 480 < x < 560 ,  330 < y < 370
+// điểm 6: 480 < x < 560 ,  370 < y < 430
+// điểm 7: 560 < x < 620 ,  228 < y < 280
+// điểm 8: 560 < x < 620 ,  280 < y < 370
+// điểm 9: 560 < x < 620 ,  370 < y < 430
+// điểm 10: 620 < x < 750 ,  228 < y < 280
+// điểm 11: 620 < x < 750 ,  280 < y < 330
+// điểm 12: 620 < x < 750 ,  330 < y < 370
+// điểm 13: 620 < x < 750 ,  370 < y < 430
 // điểm 14: 750 < x < 870 , 228 < y < 330
 // điểm 15: 750 < x < 870 , 300 < y < 430
 
