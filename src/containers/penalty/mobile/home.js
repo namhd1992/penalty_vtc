@@ -31,6 +31,17 @@ import {
 	getData
 } from '../../../modules/profile';
 
+import fb_a1 from './images/fb-a1.jpg';
+import fb_a2 from './images/fb-a2.jpg';
+import fb_a3_a4 from './images/fb-a3-a4.jpg';
+import fb_a5 from './images/fb-a5.png';
+
+import fb_i1 from './images/fb-i1.jpg';
+import fb_i2 from './images/fb-i2.png';
+import fb_i3_i4 from './images/fb-i3-i4.jpg';
+import fb_i5 from './images/fb-i5.jpg';
+
+
 import btn_popup_napgame from './images/btn-popup-napgame.png';
 import btn_thoat from './images/btn-thoat.png';
 import loading from './images/loading.gif';
@@ -112,6 +123,7 @@ let modal_tb_err={};
 let modal_tb={};
 let modal_moqua={};
 let modal_moqua_bank={};
+let fbview={};
 let auto_redirect={};
 
 class Lucky_Rotation extends React.Component {
@@ -232,12 +244,7 @@ class Lucky_Rotation extends React.Component {
 		// 	this.setState({showRollup: true})
 		// }
 
-		// var isfb=this.isFacebookApp();
-		// if (isfb) {
-		// 	$('#Modalfbview').modal('show');
-		// }else{
-		// 	$('#Modalbanner').modal('show');
-		// }
+		
 		modal_datcuoc = new Modal(document.getElementById('datcuoc'));
 		modal_giaithuong = new Modal(document.getElementById('gt'));
 		modal_huongdan = new Modal(document.getElementById('huongdan'));
@@ -246,7 +253,12 @@ class Lucky_Rotation extends React.Component {
 		modal_tb = new Modal(document.getElementById('tb'));
 		modal_tb_err = new Modal(document.getElementById('tb_err_m'));
 		modal_tudo = new Modal(document.getElementById('td'));
+		fbview = new Modal(document.getElementById('fbview'));
 		
+		var isfb=this.isFacebookApp();
+		if (isfb) {
+			fbview.show()
+		}
 		window.addEventListener('scroll', this.handleScroll);
 	}
 
@@ -2060,6 +2072,49 @@ class Lucky_Rotation extends React.Component {
 				</div>
 				{/* <!-- End The Modal Đặt cược --> */}
 					
+				{/* <!-- The Modal huong dan fb view --> */}
+				<div class="modal fade" id="fbview">
+					<div class="modal-dialog modal-dialog-scrollable">
+						<div class="modal-content border-0 modal-huongdan bg-transparent">
+
+						{/* <!-- Modal Header --> */}
+						<div class="modal-header bg-pop-hd-fb-top border-0 d-block pb-0 position-relative" style={{height: "18vw", maxHeight: 95}}>
+							<button type="button" class="btn-close-white btn-close float-end m-0" data-bs-dismiss="modal"></button>
+						</div>
+						
+
+						{/* <!-- Modal body --> */}
+						<div class="modal-body bg-pop-hd-body p-2rem py-1 font-3vw text-white">
+							<div class="container mt-2">
+								<h4 class="font-size-16 font-weight-bold">Hướng dẫn mở link game Sút Penalty từ app Facebook của điện thoại</h4>
+								<dl class="font-size-16">                
+									<dd> Khách hàng lưu ý sử dụng trình duyệt <strong>SAFARI</strong> (đối với điện thoại Iphone) hoặc <strong>CHROME</strong> (đối với điện thoại Android) để mở link game <a href="https://sutpenalty.splay.vn/" title="">https://sutpenalty.splay.vn/</a></dd>
+									<dt>1.	Đối với điện thoại Iphone: </dt>                
+									<dd><strong>Bước 1:</strong> Ấn vào dấu ba chấm tại góc phải</dd>
+									<dd> <img src={fb_i2} width="250" class="img-fluid d-block mx-auto" alt="" /></dd>
+									<dd><strong>Bước 2</strong>: Chọn <strong>MỞ TRONG TRÌNH DUYỆT</strong> hoặc <strong>OPEN IN SAFARI</strong> , link game sẽ được mở bằng trình duyệt SAFARI của Iphone</dd>
+									<dd> <img src={fb_i3_i4} width="250" class="img-fluid d-block mx-auto" alt="" /></dd>
+									<dd><strong>Bước 3</strong>: Mở khóa tự động xoay màn hình và trải nghiệm game</dd>
+									<dd> <img src={fb_i5} width="250" class="img-fluid d-block mx-auto" alt="" /></dd>
+									<dt>2. Đối với điện thoại Android: </dt>                
+									<dd><strong>Bước 1</strong>: Ấn vào dấu ba chấm tại góc phải</dd>
+									<dd> <img src={fb_a2} width="250" class="img-fluid d-block mx-auto" alt="" /></dd>
+									<dd><strong>Bước 2</strong>: Chọn <strong>MỞ TRONG TRÌNH DUYỆT</strong> hoặc <strong>OPEN IN BROWSER</strong>, link game sẽ được mở bằng trình duyệt mặc định của điện thoại</dd>
+									<dd> <img src={fb_a3_a4} width="250" class="img-fluid d-block mx-auto" alt="" /></dd>
+									<dd><strong>Bước 3</strong>: Mở khóa tự động xoay màn hình và trải nghiệm game</dd>
+									<dd> <img src={fb_a5} width="250" class="img-fluid d-block mx-auto" alt="" /></dd>
+									
+								</dl> 
+							</div>     
+						</div>
+						{/* <!-- Modal footer --> */}
+						<div class="modal-footer bg-pop-hd-bottom border-0">
+							
+						</div>
+
+						</div>
+					</div>
+				</div>
 					
 					{/* <!-- The Modal Loading--> */}
 				{(waiting)?(<div class="modal fade show modal-backdrop" style={{zIndex: 10015, display: "block", paddingRight: 4}} aria-modal="true" role="dialog">
