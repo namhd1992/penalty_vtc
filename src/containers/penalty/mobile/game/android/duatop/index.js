@@ -53,6 +53,10 @@ export default class duatop extends React.Component {
         this.setState({innerWidth:window.innerWidth})
 	}
 
+    componentWillUnmount(){
+        window.location.reload();
+    }
+
 	setScreenOrientation=()=>{
 		const {innerWidth}=this.state;
 		if(Math.abs(innerWidth - window.innerWidth) >100){
