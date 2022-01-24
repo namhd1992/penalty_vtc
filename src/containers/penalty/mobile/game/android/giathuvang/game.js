@@ -962,7 +962,7 @@ export default class Game extends Phaser.Scene{
         //destroy it
         var _this=this;
         var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
-        this.back = this.add.sprite(600, 675/2, "bg_pop_ingame");
+        this.back = this.add.sprite(Math.round(600*delta_x), Math.round(675/2*delta_y), "bg_pop_ingame");
         this.back.setScale(delta_x,delta_y)
         var t=Date.now() - _deltaTime;
         if(t > _room.betsEndTime){
@@ -996,7 +996,7 @@ export default class Game extends Phaser.Scene{
     }
 
     hidePopup() {
-        // isPlay=true;
+        isPlay=true;
         this.back.destroy();
         this.btn_dongy.destroy();
         this.thoatButton.destroy();

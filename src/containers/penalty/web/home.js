@@ -45,26 +45,6 @@ import img_toup_scoin from './images/img-toup-scoin.png';
 import img_thescoinvoucher from './images/img-thescoinvoucher.png';
 
 import avatar from './images/avatar.png';
-import bg_bangxephang from './images/bg-bangxephang.png';
-import bg_banthang from './images/bg-banthang.png';
-import bg_bottom from './images/bg-bottom.png';
-import bg_bvd from './images/bg-bvd.png';
-import bg_giaithuong from './images/bg-giaithuong.png';
-import bg_logo_group from './images/bg-logo-group.png';
-import bg_page from './images/bg-page.png';
-import bg_page_play from './images/bg-page-play.png';
-import bg_popup_gt_top from './images/bg-popup-gt-top.png';
-import bg_popup_hd from './images/bg-popup-hd.png';
-import bg_popup_hd_body from './images/bg-popup-hd-body.png';
-import bg_popup_hd_bottom from './images/bg-popup-hd-bottom.png';
-import bg_popup_hd_top from './images/bg-popup-hd-top.png';
-import bg_popup_mq_top from './images/bg-popup-mq-top.png';
-import bg_popup_tb_top from './images/bg-popup-tb-top.png';
-import bg_popup_td_top from './images/bg-popup-td-top.png';
-import bg_taikhoan from './images/bg-taikhoan.png';
-import bg_title_loaitructiep from './images/bg-title-loaitructiep.png';
-import bg_top from './images/bg-top.png';
-import bg_top_menu from './images/bg-top-menu.png';
 import btn_dangnhap from './images/btn-dangnhap.png';
 import btn_dang_nhap from './images/btn-dang-nhap.png';
 import btn_duatop from './images/btn-duatop.png';
@@ -74,12 +54,9 @@ import btn_hotline19001104 from './images/btn-hotline19001104.png';
 import btn_loaitructiep from './images/btn-loaitructiep.png';
 import btn_napgame from './images/btn-napgame.png';
 import btn_ntbsk from './images/btn-ntbsk.png';
-import btn_suttudong from './images/btn-suttudong.png';
 import logo_scoin from './images/logo_scoin.png';
 import logo_scoinvip from './images/logo_scoinvip.png';
 import logo_splay from './images/logo_splay.png';
-import p_bg_bottom from './images/p-bg-bottom.png';
-import p_bg_top from './images/p-bg-top.png';
 import vip_kimcuong from './images/vip-kimcuong.png';
 import vip_bachkim from './images/vip-bachkim.png';
 import vip_vang from './images/vip-vang.png';
@@ -98,85 +75,12 @@ import img_card1000k from './images/img-card1000k.png';
 import img_card2000k from './images/img-card2000k.png';
 import img_card5000k from './images/img-card5000k.png';
 
-
 import img_dacochu from './images/img-dacochu.png';
 
 
 
 
 
-import backgound from '../assert/background.png';
-import ball from '../assert/ball.png';
-import goal_center from '../assert/goal_center.png';
-import ball_rotation from '../assert/ball/ball_sprite.png';
-import ball_rotation_json from '../assert/ball/ball_sprite.json';
-
-import ball_collision_goal from '../assert/ball/ball_sprite.png';
-import ball_collision_goal_json from '../assert/ball/ball_sprite.json';
-
-import ball_collision_keeper from '../assert/ball/ball_sprite.png';
-import ball_collision_keeper_json from '../assert/ball/ball_sprite.json';
-
-import k_idle from '../assert/keep_goal/keep_goal_idle.png';
-import k_idle_json from '../assert/keep_goal/keep_goal_idle.json';
-
-import center_down from '../assert/keep_goal/center_down.png';
-import center_down_json from '../assert/keep_goal/center_down.json';
-import center_up from '../assert/keep_goal/center_up.png';
-import center_up_json from '../assert/keep_goal/center_up.json';
-import side_left_up from '../assert/keep_goal/side_left_up.png';
-import side_left_up_json from '../assert/keep_goal/side_left_up.json';
-import side_left from '../assert/keep_goal/side_left.png';
-import side_left_json from '../assert/keep_goal/side_left.json';
-import side_right_up from '../assert/keep_goal/side_right_up.png';
-import side_right_up_json from '../assert/keep_goal/side_right_up.json';
-import side_right from '../assert/keep_goal/side_right.png';
-import side_right_json from '../assert/keep_goal/side_right.json';
-
-import keep_goal_left_1 from '../assert/keep_goal/keep_goal_left_1.png';
-import keep_goal_left_1_json from '../assert/keep_goal/keep_goal_left_1.json';
-import keep_goal_left_2 from '../assert/keep_goal/keep_goal_left_2.png';
-import keep_goal_left_2_json from '../assert/keep_goal/keep_goal_left_2.json';
-import keep_goal_left_3 from '../assert/keep_goal/keep_goal_left_3.png';
-import keep_goal_left_3_json from '../assert/keep_goal/keep_goal_left_3.json';
-import keep_goal_left_4 from '../assert/keep_goal/keep_goal_left_4.png';
-import keep_goal_left_4_json from '../assert/keep_goal/keep_goal_left_4.json';
-
-
-import keep_goal_punch from '../assert/keep_goal/keep_goal_punch.png';
-import keep_goal_punch_json from '../assert//keep_goal/keep_goal_punch.json';
-
-import keep_goal_right_1 from '../assert/keep_goal/keep_goal_right_1.png';
-import keep_goal_right_1_json from '../assert/keep_goal/keep_goal_right_1.json';
-import keep_goal_right_2 from '../assert/keep_goal/keep_goal_right_2.png';
-import keep_goal_right_2_json from '../assert/keep_goal/keep_goal_right_2.json';
-import keep_goal_right_3 from '../assert/keep_goal/keep_goal_right_3.png';
-import keep_goal_right_3_json from '../assert/keep_goal/keep_goal_right_3.json';
-import keep_goal_right_4 from '../assert/keep_goal/keep_goal_right_4.png';
-import keep_goal_right_4_json from '../assert/keep_goal/keep_goal_right_4.json';
-
-
-import soccer_kick_left from '../assert/keep_goal/soccer_kick_left.png';
-import soccer_kick_left_json from '../assert/keep_goal/soccer_kick_left.json';
-import soccer_kick_right from '../assert/keep_goal/soccer_kick_right.png';
-import soccer_kick_right_json from '../assert/keep_goal/soccer_kick_right.json';
-
-import goal_center_anims from '../assert/goal_anims/goal_center_anims.png';
-import goal_center_anims_json from '../assert/goal_anims/goal_center_anims.json';
-import goal_left from '../assert/goal_anims/goal_left.png';
-import goal_left_json from '../assert/goal_anims/goal_left.json';
-import goal_right from '../assert/goal_anims/goal_right.png';
-import goal_right_json from '../assert/goal_anims/goal_right.json';
-
-import btn_std from '../assert/btn-std.png';
-import opt_suttudong_checked from '../assert/duatop/opt-suttudong-checked.png';
-import opt_suttudong from '../assert/duatop/opt-suttudong.png';
-import bg_giaithuong_duatop from '../assert/duatop/bg-giaithuong-duatop.png';
-import bg_title_duatop from '../assert/duatop/bg-title-duatop.png';
-
-import bg_pop_ingame from '../assert/bg-pop-ingame.png';
-import btn_dongy from '../assert/btn-popup-napgame.png';
-import icon_home from '../assert/icon-home.png';
 
 
 
@@ -360,47 +264,6 @@ class Lucky_Rotation extends React.Component {
 		modal_tudo = new Modal(document.getElementById('td_web'));
 		window.addEventListener('scroll', this.handleScroll);
 		
-		caches.open('v1').then((v)=>{
-            return v.addAll([
-                backgound,
-                goal_center,
-                ball_rotation,
-                keep_goal_left_1,
-                keep_goal_left_2,
-                keep_goal_left_3,
-                keep_goal_left_4,
-                keep_goal_punch,
-                keep_goal_right_1,
-                keep_goal_right_2,
-                keep_goal_right_3,
-                keep_goal_right_4,
-                soccer_kick_left,
-                soccer_kick_right,
-                goal_center_anims,
-                goal_left,
-                goal_right,
-                k_idle,
-                center_down,
-                center_up,
-                side_left_up,
-                side_left,
-                side_right_up,
-                side_right,
-                btn_std,
-                opt_suttudong,
-                opt_suttudong_checked,
-                // bg_banthang,
-                // btn_suttudong,
-                // bg_bangxephang,
-                // bg_giaithuong_duatop,
-                // bg_taikhoan,
-                bg_title_duatop,
-                bg_pop_ingame,
-                btn_dongy,
-                btn_thoat,
-                icon_home
-            ])
-        })
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -657,8 +520,6 @@ class Lucky_Rotation extends React.Component {
 		const {info_seesion, user_data, user, timeServer}=this.state;
 		var time=timeServer;
 		this.setState({type_modeId: type, title_module:title_module})
-		
-		
 		if(type===1){
 			if(time < info_seesion.startTime){
 				auto_redirect = setInterval(()=>this.redirectGame(type), 1000);
@@ -667,7 +528,6 @@ class Lucky_Rotation extends React.Component {
 				})
 				return;
 			}
-			
 			if(time > info_seesion.endTime){
 				this.setState({message_error:'Phiên chơi đã kết thúc.'},()=>{
 					modal_tb_err.show();
@@ -685,7 +545,6 @@ class Lucky_Rotation extends React.Component {
 					modal_tb_err.show();
 				})
 			}
-			
 		}else{
 			if(time < info_seesion.betsStartTime){
 				this.setState({message_error:'Chưa tới thời gian đặt cược .'},()=>{
@@ -693,7 +552,6 @@ class Lucky_Rotation extends React.Component {
 				})
 				return;
 			}
-
 			if (user !== null) {
 				var data= {...info}
 				data.gameId=1;
@@ -701,7 +559,7 @@ class Lucky_Rotation extends React.Component {
 				data.modeId=type;
 				data.roomId=info_seesion.id;
 				data.userId=user.uid;
-	
+				
 				this.props.checkPlace(user.access_token, data).then(()=>{
 					var data=this.props.dataCheckPlace;
 					// console.log(data)
@@ -709,15 +567,13 @@ class Lucky_Rotation extends React.Component {
 						if(data.code > 0){
 							if(data.data.isBets){
 								if(time < info_seesion.startTime){
-									auto_redirect = setInterval(this.redirectGame(type), 1000);
+									auto_redirect = setInterval(()=>this.redirectGame(type), 1000);
 									var ms=`Phiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverterPopup(info_seesion.startTime)}`
 									this.setState({message_error:ms},()=>{
 										modal_tb_err.show();
 									})
 									return;
 								}
-								
-								
 								if(type===3){
 									if(data.data.round===1){
 										if(time > info_seesion.endTime){
@@ -734,7 +590,6 @@ class Lucky_Rotation extends React.Component {
 											return;
 										}
 									}
-
 									if(data.data.isKnockout){
 										this.setState({message_error:'Bạn đã bị loại khỏi phiên đấu hiện tại'},()=>{
 											modal_tb_err.show();
@@ -782,9 +637,7 @@ class Lucky_Rotation extends React.Component {
 										modal_datcuoc.show();
 									})
 								}
-								
 							}
-							
 						}else{
 							this.setState({message_error:data.message},()=>{
 								modal_tb_err.show();
@@ -799,29 +652,7 @@ class Lucky_Rotation extends React.Component {
 			}else {
 				modal_tb.show();
 			}
-			
-		
-			// if(type===3){
-				
-			// }else{
-			// 	if(time > info_seesion.betsEndTime){
-			// 		this.setState({message_error:'Thời gian đặt cược đã hết.'},()=>{
-			// 			modal_tb_err.show();
-			// 		})
-			// 		return;
-			// 	}else if(user_data.points > info_seesion.minBet){
-			// 		this.setState({points:user_data.points, txt_type:'GIẬT HŨ VÀNG'},()=>{
-			// 			modal_datcuoc.show();
-			// 		})
-			// 	}else{
-			// 		this.setState({message_error:'Số điểm của bạn không đủ để cược.'},()=>{
-			// 			modal_tb_err.show();
-			// 		})
-			// 	}
-			// }
-			
 		}	
-	
 	}
 
 	onBest=(type_modeId)=>{
@@ -847,6 +678,7 @@ class Lucky_Rotation extends React.Component {
 					if(data.code > 0){
 						if(type_modeId===2){
 							if(data.data.timeServer < info_seesion.startTime){
+								auto_redirect = setInterval(()=>this.redirectGame(type_modeId), 1000);
 								var ms=`Bạn đã đặt cược thành công.\nPhiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverterPopup(info_seesion.startTime)}`
 								this.setState({message_error:ms},()=>{
 									modal_datcuoc.hide();
@@ -864,6 +696,7 @@ class Lucky_Rotation extends React.Component {
 							
 							window.location.href=window.location.href+'giathuvang';
 						}else{
+							auto_redirect = setInterval(()=>this.redirectGame(type_modeId), 1000);
 							var ms=`Bạn đã đặt cược thành công.\nPhiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverterPopup(info_seesion.startTime)}`
 							this.setState({message_error:ms},()=>{
 								modal_datcuoc.hide();
@@ -1172,8 +1005,8 @@ class Lucky_Rotation extends React.Component {
 				var d=this.props.dataItemAward;
 				if(d!==undefined){
 					if(d.code>0){
-						this.setState({dataItem:data.data}, ()=>{
-							if(data.data.rewardType===31){
+						this.setState({dataItem:d.data}, ()=>{
+							if(d.data.rewardType===31){
 								modal_tudo.hide();
 								modal_moqua_bank.show();
 							}else{
@@ -1218,7 +1051,8 @@ class Lucky_Rotation extends React.Component {
 			data.userId= user.uid;
 			data.id=item.id;
 			this.props.viewItemAward(user.access_token, data).then(()=>{
-				var d=this.props.dataItemAward;
+				var d=this.props.dataViewItemAward;
+				console.log(d)
 				if(d!==undefined){
 					if(d.code>0){
 						var dataItem={};
@@ -2001,7 +1835,7 @@ class Lucky_Rotation extends React.Component {
 								{/* <!-- Modal body --> */}
 								<div class="modal-body bg-pop-mq-body p-2rem py-1 font-3vw text-white">
 									<div class="container text-center p-3 font-UTMFacebookKT">
-										{(dataItem.rewardType===6 || dataItem.rewardType===22)?(<p style={{textAlign:'center', fontSize:20, color:'green'}}>{dataItem.responseMesage}</p>):(<div></div>)}
+										{(dataItem.rewardType===6 || dataItem.rewardType===22 || dataItem.rewardType===11)?(<p style={{textAlign:'center', fontSize:20}}>{dataItem.responseMesage}</p>):(<div></div>)}
 										{(dataItem.rewardType===21)?(<div class="card-body text-center">
 											<p class="card-text mb-4 h6 font-weight-bold text-shadow">Thẻ Scoin mệnh giá: <br /> {dataItem.price ? this.numberWithCommas(dataItem.price) : 0} vnđ</p>
 											<table class="table table-borderless text-white">

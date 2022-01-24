@@ -710,6 +710,7 @@ class Lucky_Rotation extends React.Component {
 					if(data.code > 0){
 						if(type_modeId===2){
 							if(data.data.timeServer < info_seesion.startTime){
+								auto_redirect = setInterval(()=>this.redirectGame(type_modeId), 1000);
 								var ms=`Phiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverterPopup(info_seesion.startTime)}`
 								this.setState({message_error:ms},()=>{
 									modal_datcuoc.hide();
@@ -726,6 +727,7 @@ class Lucky_Rotation extends React.Component {
 							}
 							window.location.href=window.location.href+'giathuvang';
 						}else{
+							auto_redirect = setInterval(()=>this.redirectGame(type_modeId), 1000);
 							var ms=`Phiên chưa diễn ra vui lòng quay lại lúc ${this.timeConverterPopup(info_seesion.startTime)}`
 							this.setState({message_error:ms},()=>{
 								modal_datcuoc.hide();
@@ -1047,8 +1049,8 @@ class Lucky_Rotation extends React.Component {
 				var d=this.props.dataItemAward;
 				if(d!==undefined){
 					if(d.code>0){
-						this.setState({dataItem:data.data}, ()=>{
-							if(data.data.rewardType===31){
+						this.setState({dataItem:d.data}, ()=>{
+							if(d.data.rewardType===31){
 								modal_moqua_bank.show();
 							}else{
 								modal_moqua.show();
@@ -1080,7 +1082,7 @@ class Lucky_Rotation extends React.Component {
 			data.userId= user.uid;
 			data.id=item.id;
 			this.props.viewItemAward(user.access_token, data).then(()=>{
-				var d=this.props.dataItemAward;
+				var d=this.props.dataViewItemAward;
 				if(d!==undefined){
 					if(d.code>0){
 						var dataItem={};
@@ -1632,19 +1634,19 @@ class Lucky_Rotation extends React.Component {
 							<div class="tab-hd w-100">
 								<ul class="nav justify-content-center">
 									<li class="nav-item" style={{width: "18%"}}>
-										<a class={tab_1 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: "100%"}} title="Tham gia" onClick={this.tab1}>&nbsp;</a>
+										<a class={tab_1 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: "100%"}} title="Tham gia" onClick={()=>this.getContentGuide(18)}>&nbsp;</a>
 									</li>
 									<li class="nav-item" style={{width: "18%"}}>
-										<a class={tab_2 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: "100%"}} title="Đua TOP" onClick={this.tab2}>&nbsp;</a>
+										<a class={tab_2 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: "100%"}} title="Đua TOP" onClick={()=>this.getContentGuide(19)}>&nbsp;</a>
 									</li>
 									<li class="nav-item" style={{width: "18%"}}>
-										<a class={tab_3 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: "100%"}} title="Loại Trực Tiếp" onClick={this.tab3}>&nbsp;</a>
+										<a class={tab_3 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: "100%"}} title="Loại Trực Tiếp" onClick={()=>this.getContentGuide(20)}>&nbsp;</a>
 									</li>
 									<li class="nav-item" style={{width: "18%"}}>
-										<a class={tab_4 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: "100%"}}  title="Giật Hũ Vàng" onClick={this.tab4}>&nbsp;</a>
+										<a class={tab_4 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: "100%"}}  title="Giật Hũ Vàng" onClick={()=>this.getContentGuide(21)}>&nbsp;</a>
 									</li>
 									<li class="nav-item" style={{width: "18%"}}>
-										<a class={tab_5 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: "100%"}} title="Sử Dụng Giải Thưởng" onClick={this.tab5}>&nbsp;</a>
+										<a class={tab_5 ? "nav-link text-white font-3vw px-0 py-1 active" : "nav-link text-white font-3vw px-0 py-1"} style={{height: "100%"}} title="Sử Dụng Giải Thưởng" onClick={()=>this.getContentGuide(22)}>&nbsp;</a>
 									</li>
 								</ul> 
 							</div>
@@ -1873,7 +1875,7 @@ class Lucky_Rotation extends React.Component {
 						{/* <!-- Modal body --> */}
 						<div class="modal-body bg-pop-mq-body p-2rem py-1 font-3vw text-white">
 							<div class="container text-center p-3 font-UTMFacebookKT">
-								{(dataItem.rewardType===6 || dataItem.rewardType===22)?(<p style={{textAlign:'center', fontSize:20, color:'green'}}>{dataItem.responseMesage}</p>):(<div></div>)}
+								{(dataItem.rewardType===6 || dataItem.rewardType===22 || dataItem.rewardType===11)?(<p style={{textAlign:'center', fontSize:20}}>{dataItem.responseMesage}</p>):(<div></div>)}
 								{(dataItem.rewardType===21)?(<div class="card-body text-center">
 									<p class="card-text mb-4 h6 font-weight-bold text-shadow">Thẻ Scoin mệnh giá: <br /> {dataItem.price ? this.numberWithCommas(dataItem.price) : 0} vnđ</p>
 									<table class="table table-borderless text-white">
