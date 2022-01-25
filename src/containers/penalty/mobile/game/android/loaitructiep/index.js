@@ -55,6 +55,7 @@ export default class duatop extends React.Component {
 
     componentWillUnmount(){
         window.location.reload();
+        localStorage.removeItem("_popuphiepphu");
     }
 
 

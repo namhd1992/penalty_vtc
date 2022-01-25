@@ -28,6 +28,11 @@ export default class Duatop extends React.Component {
           
         }
 	}
+
+    componentWillUnmount(){
+        localStorage.removeItem("_popuphiepphu");
+    }
+
     render() {
         const { initialize, game } = this.state;
         return (

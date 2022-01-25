@@ -596,6 +596,7 @@ class Lucky_Rotation extends React.Component {
 										})
 									}else{
 										window.location.href=window.location.href+'loaitructiep';
+										localStorage.setItem("_popuphiepphu", 0);
 									}
 								}else{
 									if(time > info_seesion.endTime){
@@ -746,6 +747,7 @@ class Lucky_Rotation extends React.Component {
 					window.location.href=window.location.href+'giathuvang';
 					break;
 				case 3:
+					localStorage.setItem("_popuphiepphu", 0);
 					window.location.href=window.location.href+'loaitructiep';
 					break;
 				default:

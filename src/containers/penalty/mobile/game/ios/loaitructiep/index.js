@@ -49,6 +49,7 @@ export default class loaitructiep extends React.Component {
 
     componentWillUnmount(){
         window.location.reload();
+        localStorage.removeItem("_popuphiepphu");
     }
 
 	setScreenOrientation=()=>{

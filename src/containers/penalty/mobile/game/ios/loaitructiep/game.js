@@ -132,7 +132,7 @@ var _isCheckMain=true;
 var interval_fi={};
 var interval_checkwin={};
 var auto_update=0;
-
+var _startBonusTime=0;
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -605,11 +605,19 @@ export default class Game extends Phaser.Scene{
 
 
         this.input.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, function (pointer) {
+            var t=Date.now() - _deltaTime;
             if(!isKnockout){
                 var p1=[pointer.downX, pointer.downY];
                 var p2=[pointer.upX, pointer.upY];
                 if(pointer.downY > pointer.upY){
-                    self.play(p1,p2)
+                    if(round===2){
+                        if(t >_startBonusTime){
+                            self.play(p1,p2)
+                        }
+                    }else{
+                        self.play(p1,p2)
+                    }
+                    
                 }
             }
            
@@ -968,13 +976,17 @@ export default class Game extends Phaser.Scene{
     }
 
     startExtraTime() {
-        var _this=this;
-        this.back = this.add.sprite(Math.round(600*delta_x), Math.round((675/2)*delta_y), "bg_pop_ingame");
-        this.closeExtraTime = this.add.sprite(Math.round(600*delta_x), Math.round(480*delta_y), "btn_dongy");
-        this.txtExtraTime = this.add.text(Math.round(400*delta_x), Math.round(300*delta_y), 'Hiệp phụ bắt đầu.', { font: `${Math.round(18*delta_x)}px Arial`, fill: "#ffffff", align:'center', fixedWidth: Math.round(400*delta_x), wordWrap:true});
-        this.closeExtraTime.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
-            _this.hideExtraTime()
-        })
+        var _popuphiepphu = JSON.parse(localStorage.getItem("_popuphiepphu"));
+        if(_popuphiepphu===0){
+            var _this=this;
+            this.back = this.add.sprite(Math.round(600*delta_x), Math.round((675/2)*delta_y), "bg_pop_ingame");
+            this.closeExtraTime = this.add.sprite(Math.round(600*delta_x), Math.round(480*delta_y), "btn_dongy");
+            this.txtExtraTime = this.add.text(Math.round(400*delta_x), Math.round(300*delta_y), 'Hiệp phụ bắt đầu.', { font: `${Math.round(18*delta_x)}px Arial`, fill: "#ffffff", align:'center', fixedWidth: Math.round(400*delta_x), wordWrap:true});
+            this.closeExtraTime.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+                _this.hideExtraTime()
+            })
+            localStorage.setItem("_popuphiepphu", 1);
+        }
     }
 
     hideExtraTime() {
@@ -1166,8 +1178,7 @@ export default class Game extends Phaser.Scene{
         }
 	}
 
-    checkTimeSession=(start, end, data)=>{
-        var time=data.timeServer;
+    checkTimeSession=(start, end, time)=>{
         if(time < start){
             return false;
         }
@@ -1203,8 +1214,7 @@ export default class Game extends Phaser.Scene{
                         if(response.data.code>=0){
                             isKnockout=response.data.data.isKnockout;
                             data_game=response.data.data;
-                            console.log(data_game)
-                            if(_this.checkTimeSession(data_game.room.startTime, data_game.room.endTime, data_game)){;
+                            if(_this.checkTimeSession(data_game.room.startTime, data_game.room.endTime, data_game.timeServer)){;
                                 _rankings=data_game.rankings;
                                 _rewards=data_game.rewards;
                                 number_goal=data_game.summary.winCount;
@@ -1219,7 +1229,7 @@ export default class Game extends Phaser.Scene{
                                 _points=data_game.user.betAmount;
                                 round=1;
                                
-                            }else if(_this.checkTimeSession(data_game.room.startBonusTime, data_game.room.endBonusTime, data_game)){
+                            }else if(_this.checkTimeSession(data_game.room.startBonusTime, data_game.room.endBonusTime, data_game.timeServer)){
                                 _rankings=data_game.rankings;;
                                 _rewards=data_game.rewards;
                                 number_goal=data_game.summary.winCount;
@@ -1285,14 +1295,14 @@ export default class Game extends Phaser.Scene{
                         if(response.data.code>=0){
                             data_game=response.data.data
                             isKnockout=data_game.isKnockout;
-                            if(_this.checkTimeSession(_room.startTime, _room.endTime, data_game)){;
+                            if(_this.checkTimeSession(_room.startTime, _room.endTime, data_game.timeServer)){;
                                 _rankings=data_game.rankings;
                                 _user=data_game.user;
                                 _points=data_game.user.betAmount;
                                 auto_update=0;
                                 round=1;
                                
-                            }else if(_this.checkTimeSession(_room.startBonusTime, _room.endBonusTime, data_game)){;
+                            }else if(_this.checkTimeSession(_startBonusTime, _endTimeBonus, data_game.timeServer)){;
                                 _rankings=data_game.rankings;
                                 _user=data_game.user;
                                 _points=data_game.user.betAmount;
@@ -1361,8 +1371,8 @@ export default class Game extends Phaser.Scene{
                 if(response.data !==undefined){
                     if(response.data.code>=0){
                         var data=response.data.data;
-                        isKnockout=response.data.data.isKnockout;
-                        isNextRound=response.data.data.isNextRound;
+                        isKnockout=data.isKnockout;
+                        isNextRound=data.isNextRound;
                         if(isKnockout){
                             _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
                             isFinish=true;
@@ -1371,8 +1381,9 @@ export default class Game extends Phaser.Scene{
                         }
                         if(isNextRound){
                             round=2;
-                            _endTimeBonus=_room.endBonusTime;
-                            _endTimeShow= _room.endBonusTime;
+                            _endTimeBonus=data.endBonusTime;
+                            _endTimeShow= data.endBonusTime;
+                            _startBonusTime=data.startBonusTime;
                             _rankings=data.rankings;
                             _user=data.user;
                             _points=data.user.betAmount;

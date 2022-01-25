@@ -605,6 +605,7 @@ class Lucky_Rotation extends React.Component {
 											modal_tb_err.show();
 										})
 									}else{
+										localStorage.setItem("_popuphiepphu", 0);
 										window.location.href=window.location.href+'loaitructiep';
 									}
 								}else{
@@ -775,6 +776,7 @@ class Lucky_Rotation extends React.Component {
 					window.location.href=window.location.href+'giathuvang';
 					break;
 				case 3:
+					localStorage.setItem("_popuphiepphu", 0);
 					window.location.href=window.location.href+'loaitructiep';
 					break;
 				default:
