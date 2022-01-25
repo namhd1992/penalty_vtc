@@ -1522,7 +1522,7 @@ class Lucky_Rotation extends React.Component {
 												))}
 											</tbody>
 										</table>
-										{(countVinhDanh > 11)?(<div className="pagination justify-content-center pag-custom">
+										{(countVinhDanh > 11)?(<div className="pagination justify-content-center pag-custom font-UTMFacebookKT">
 											<Pagination
 												activePage={activeVinhDanh}
 												itemsCountPerPage={10}
@@ -1705,7 +1705,7 @@ class Lucky_Rotation extends React.Component {
 									<div class="tab-content">
 										<div class="tab-pane container active" id="pt">
 											{(tab_tudo)?(<div>
-												<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0">
+												<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0 text-center" style={{border:'1px solid #fff'}}>
 												<thead>
 												<tr class="border-top-0 p-0">
 													<th class="border-start-0 border-top-0">PHẦN THƯỞNG</th>
@@ -1727,7 +1727,7 @@ class Lucky_Rotation extends React.Component {
 												
 												</tbody>
 											</table>
-											{(countTuDo > 11) ? (<div className="pagination justify-content-center pag-custom mt-1">
+											{(countTuDo > 11) ? (<div className="pagination justify-content-center pag-custom mt-1 font-UTMFacebookKT">
 												<Pagination
 													activePage={activeTuDo}
 													itemsCountPerPage={limit}
@@ -1741,7 +1741,7 @@ class Lucky_Rotation extends React.Component {
 												/>
 											</div> ):(<div></div>)}
 											</div>):(<div>
-												<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0">
+												<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0" style={{border:'1px solid #fff'}}>
 												<thead>
 												<tr class="border-top-0 p-0">
 													<th class="border-start-0 border-top-0">PHẦN THƯỞNG</th>
@@ -1760,7 +1760,7 @@ class Lucky_Rotation extends React.Component {
 												
 												</tbody>
 											</table>
-											{(countHistory > 11) ? (<div className="pagination justify-content-center pag-custom mt-1">
+											{(countHistory > 11) ? (<div className="pagination justify-content-center pag-custom mt-1 font-UTMFacebookKT">
 												<Pagination
 													activePage={activeHistory}
 													itemsCountPerPage={limit}
@@ -1837,38 +1837,38 @@ class Lucky_Rotation extends React.Component {
 									<div class="container text-center p-3 font-UTMFacebookKT">
 										{(dataItem.rewardType===6 || dataItem.rewardType===22 || dataItem.rewardType===11)?(<p style={{textAlign:'center', fontSize:20}}>{dataItem.responseMesage}</p>):(<div></div>)}
 										{(dataItem.rewardType===21)?(<div class="card-body text-center">
-											<p class="card-text mb-4 h6 font-weight-bold text-shadow">Thẻ Scoin mệnh giá: <br /> {dataItem.price ? this.numberWithCommas(dataItem.price) : 0} vnđ</p>
+											<p class="card-text mb-4 h6 font-weight-bold text-shadow">Thẻ Scoin mệnh giá: <br /> <span class="text-warning">{dataItem.price ? this.numberWithCommas(dataItem.price) : 0} vnđ</span></p>
 											<table class="table table-borderless text-white">
 												<tbody>
 												<tr class="border-bottom">
-													<td class="p-1">Mã code:</td>
+													<td class="p-1 text-end">Mã code:</td>
 													<td class="p-1">{dataItem.cardCode}</td>
 												</tr>
 												<tr class="border-bottom">
-													<td class="p-1">Serial:</td>
+													<td class="p-1 text-end">Serial:</td>
 													<td class="p-1">{dataItem.cardSerial}</td>
 												</tr>
 												</tbody>
 											</table>
-											<p class="card-text text-secondary">Hạn sử dụng: {this.timeConverter(dataItem.cardEndDate)} </p>
+											<p class="card-text text-white">Hạn sử dụng: {this.timeConverter(dataItem.cardEndDate)} </p>
 											<p class="card-text"></p>
 										</div>):(<div></div>)}
 
 										{(dataItem.rewardType===32)?(<div class="card-body text-center">
-											<p class="card-text mb-4 h6 font-weight-bold text-shadow">Thẻ ScoinVoucher mệnh giá: <br /> {dataItem.price ? this.numberWithCommas(dataItem.price) : 0} vnđ</p>
+											<p class="card-text mb-4 h6 font-weight-bold text-shadow">Thẻ ScoinVoucher mệnh giá: <br /> <span class="text-warning">{dataItem.price ? this.numberWithCommas(dataItem.price) : 0} vnđ</span></p>
 											<table class="table table-borderless text-white">
 												<tbody>
 												<tr class="border-bottom">
-													<td class="p-1">Mã code:</td>
+													<td class="p-1 text-end">Mã code:</td>
 													<td class="p-1">{dataItem.cardCode}</td>
 												</tr>
 												<tr class="border-bottom">
-													<td class="p-1">Serial:</td>
+													<td class="p-1 text-end">Serial:</td>
 													<td class="p-1">{dataItem.cardSerial}</td>
 												</tr>
 												</tbody>
 											</table>
-											<p class="card-text text-secondary">Ngày bắt đầu: {this.timeConverter(dataItem.cardStartDate)} <br />Ngày kết thúc: {this.timeConverter(dataItem.cardEndDate)}</p>
+											<p class="card-text text-white">Ngày bắt đầu: {this.timeConverter(dataItem.cardStartDate)} <br />Ngày kết thúc: {this.timeConverter(dataItem.cardEndDate)}</p>
 											<p class="card-text"></p>
 										</div>):(<div></div>)}
 									</div>
