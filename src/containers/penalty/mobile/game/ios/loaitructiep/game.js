@@ -608,7 +608,9 @@ export default class Game extends Phaser.Scene{
             if(!isKnockout){
                 var p1=[pointer.downX, pointer.downY];
                 var p2=[pointer.upX, pointer.upY];
-                self.play(p1,p2)
+                if(pointer.downY > pointer.upY){
+                    self.play(p1,p2)
+                }
             }
            
         });

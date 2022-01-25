@@ -586,7 +586,9 @@ export default class Game extends Phaser.Scene{
         this.input.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, function (pointer) {
             var p1=[pointer.downX, pointer.downY];
             var p2=[pointer.upX, pointer.upY];
-            self.play(p1,p2)
+            if(pointer.downY > pointer.upY){
+                self.play(p1,p2)
+            }
         });
 
         // starsIcon.on('pointerup', function () {
