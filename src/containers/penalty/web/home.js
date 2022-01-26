@@ -108,7 +108,7 @@ const styles = {
 
 const info={
 	"lang": "vi",
-	"osType": osName.toLocaleUpperCase(),
+	"osType": osName.toLocaleUpperCase().replace(' ',''),
 	"deviceId": "00000000-0000-0000-0000-000000000000",
 	"deviceName": mobileModel,
 	"osVersion": osVersion,
@@ -1506,7 +1506,7 @@ class Lucky_Rotation extends React.Component {
 								</ul>
 								<div class="tab-content">
 									<div class="tab-pane container active" id="duatop">
-										<table class="table table-bordered text-white font-3vw_web font-UTMFacebookKT mt-4 mx-auto mb-0" style={{width: "90%"}}>
+										<table class="table table-bordered text-white font-3vw_web font-UTMFacebookKT mt-4 mx-auto mb-0 text-center" style={{width: "90%"}}>
 											<thead>
 											<tr class="border-top-0 p-0">
 												<th class="border-start-0 border-top-0">TÀI KHOẢN</th>
@@ -1707,7 +1707,7 @@ class Lucky_Rotation extends React.Component {
 									<div class="tab-content">
 										<div class="tab-pane container active" id="pt">
 											{(tab_tudo)?(<div>
-												<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0 text-center" style={{border:'1px solid #fff'}}>
+												<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0 text-center text-nowrap" style={{border:'1px solid #fff'}}>
 												<thead>
 												<tr class="border-top-0 p-0">
 													<th class="border-start-0 border-top-0">PHẦN THƯỞNG</th>
@@ -1743,10 +1743,10 @@ class Lucky_Rotation extends React.Component {
 												/>
 											</div> ):(<div></div>)}
 											</div>):(<div>
-												<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0" style={{border:'1px solid #fff'}}>
+												<table class="table table-bordered text-white font-3vw font-UTMFacebookKT mt-2 mx-auto mb-0 text-center" style={{border:'1px solid #fff'}}>
 												<thead>
 												<tr class="border-top-0 p-0">
-													<th class="border-start-0 border-top-0">PHẦN THƯỞNG</th>
+													<th class="border-start-0 border-top-0 text-nowrap">PHẦN THƯỞNG</th>
 													<th class="border-top-0 ps-1">NỘI DUNG</th>
 													<th class="border-top-0 ps-1">THỜI GIAN</th>
 												</tr>
@@ -1898,21 +1898,21 @@ class Lucky_Rotation extends React.Component {
 								
 								{/* <!-- Modal body --> */}
 								<div class="modal-body bg-pop-mq-body p-2rem py-1 font-3vw text-white">
-									<div class="container text-center p-3 font-UTMFacebookKT">
-										<div class="card-body text-center">
-											<p class="card-text mb-4 font-size-18 font-weight-bold text-shadow">Tài khoản <span class="text-dark">{user.nick_name}</span> nhận được thẻ Scoin Voucher 20K khi nạp Scoin qua Chuyển khoản Ngân hàng. </p>
-											<table class="table table-borderless">
+									<div class="tab-content">
+										<div class="container text-center p-5 font-UTMFacebookKT">
+											<p class="h4 pb-3">Tài khoản <span class="text-warning">{user.nick_name}</span> nhận được thẻ Scoin Voucher 20K khi nạp Scoin qua Chuyển khoản Ngân hàng. </p>
+											<table class="table table-borderless font-3vw text-white">
 												<tbody>
 												<tr class="border-bottom">
-													<td class="p-1 font-size-18">Bạn hãy nạp Scoin để nhận khuyến mại nhé!</td>
+													<td class="p-1 h5 pb-3">Bạn hãy nạp Scoin để nhận khuyến mại nhé!</td>
 												</tr>
 												<tr class="border-bottom">
-													<td class="p-1 text-secondary">Hạn sử dụng: {dataItem.cardEndDate}</td>
+													<td class="p-1">Hạn sử dụng: {this.timeConverter(dataItem.cardEndDate)}</td>
 
 												</tr>
 												</tbody>
 											</table>
-											<p class="text-center"><a href="https://scoin.vn/nap-tien#9" title="Nạp Scoin" target="_blank"><img src={btn_nap_scoin} width="100" hspace="10" alt="" /></a></p>
+											<p class="text-center"><a href="https://scoin.vn/nap-tien#9" title="Nạp Scoin" target="_blank"><img src={btn_popup_napgame} width="100" hspace="10" alt="" /></a></p>
 										</div>
 									</div>
 									

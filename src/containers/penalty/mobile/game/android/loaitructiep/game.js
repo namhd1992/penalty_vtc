@@ -88,7 +88,7 @@ const list_keep=[]
 const list_goal=[]
 const info={
 	"lang": "vi",
-	"osType": osName.toLocaleUpperCase(),
+	"osType": osName.toLocaleUpperCase().replace(' ',''),
 	"deviceId": "00000000-0000-0000-0000-000000000000",
 	"deviceName": mobileModel,
 	"osVersion": osVersion,
@@ -803,6 +803,9 @@ export default class Game extends Phaser.Scene{
         var t=Date.now() - _deltaTime;
         if(!isFinish){
             if(t > _endTime && _endTime>0){
+                if(t> _startBonusTime){
+                    _isCheckMain=false;
+                }
                 if(_isCheckMain){
                     // this.updateDataFinishMain();
                     this.waitFinish(0)
@@ -1224,7 +1227,7 @@ export default class Game extends Phaser.Scene{
                                 _endTime=data_game.room.endTime;
                                 _endTimeBonus=data_game.room.endBonusTime;
                                 _endTimeShow=data_game.room.endTime;
-
+                                _startBonusTime=data_game.room.startBonusTime;
                                 _deltaTime=Date.now() -_timeServer;
                                 _points=data_game.user.betAmount;
                                 round=1;
@@ -1239,6 +1242,7 @@ export default class Game extends Phaser.Scene{
                                 _endTime=data_game.room.endTime;
                                 _endTimeBonus=data_game.room.endBonusTime;
                                 _endTimeShow=data_game.room.endBonusTime;
+                                _startBonusTime=data_game.room.startBonusTime;
                                 _deltaTime=Date.now() -_timeServer;
                                 _points=data_game.user.betAmount;
                                 round=2;
@@ -1373,6 +1377,7 @@ export default class Game extends Phaser.Scene{
                         var data=response.data.data;
                         isKnockout=data.isKnockout;
                         isNextRound=data.isNextRound;
+                        var isEndGame=data.isEndGame;
                         if(isKnockout){
                             _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
                             isFinish=true;
@@ -1388,10 +1393,17 @@ export default class Game extends Phaser.Scene{
                             _rankings=data.rankings;
                             _user=data.user;
                             _points=data.user.betAmount;
+                            number_goal=0;
                             _this.timeRemain(_endTimeShow);
                             isFinish=false;
                             _this.startExtraTime()
                             clearInterval(interval_fi);
+                        }
+                        if(isEndGame){
+                            _this.showThoat('Phiên đã kết thúc. Chúc mừng bạn đã chiến thắng!\n Giải thưởng đã được chuyển vào Tủ đồ của bạn,\n truy cập và nhận thưởng ngay nhé.')
+                            isFinish=true;
+                            clearInterval(interval_fi);
+                            return;
                         }
                         // else{
                         //     _this.showThoat('Phiên đã kết thúc.')
@@ -1406,11 +1418,13 @@ export default class Game extends Phaser.Scene{
                 }
             }).catch(function (error) {
                 if(error.response.data.code ===-206){
+                    clearInterval(interval_fi);
                     _this.logout()
                 }
 
                 if(error.response.data.code ===-401){
                     _this.showThoat('Phiên đã kết thúc.')
+                    clearInterval(interval_fi);
                     isFinish=true;
                     return;
                 }
@@ -1421,6 +1435,7 @@ export default class Game extends Phaser.Scene{
                 // }
                 if(error.response.data.code ===-101){
                     _this.showThoat('Hệ thống đang bận. Vui lòng thử lại sau')
+                    clearInterval(interval_fi);
                     isFinish=true;
                     return;
                 }
@@ -1475,29 +1490,10 @@ export default class Game extends Phaser.Scene{
                         var res=response.data.data;
                         console.log('TYPE',type)
                         if(type===0){
-                            var rankings=res.rankings;
                             _rankings=res.rankings;
-                            if(rankings.length>1){
-                                // setTimeout(()=>{ 
-                                   
-                                // }, 2000);
-                                interval_fi=setInterval(()=>{	
-                                    _this.updateDataFinishMain();
-                                }, 2000);
-                                
-                            }else{
-                                var pos = rankings.map(function(e) { return e.userName; }).indexOf(user.nick_name);
-                                if(pos!==-1){
-                                    _this.showThoat('Phiên đã kết thúc. Chúc mừng bạn đã chiến thắng!\n Giải thưởng đã được chuyển vào Tủ đồ của bạn,\n truy cập và nhận thưởng ngay nhé.')
-                                    isFinish=true;
-                                    return;
-                                }else{
-                                    _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
-                                    isFinish=true;
-                                    return;
-                                }
-                                
-                            }
+                            interval_fi=setInterval(()=>{	
+                                _this.updateDataFinishMain();
+                            }, 2000);
                         }else{
                             if(res.summary.winResult===2){
                                 clearInterval(interval_checkwin);

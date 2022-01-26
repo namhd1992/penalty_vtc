@@ -84,7 +84,7 @@ class MenuAppBar extends React.Component {
 			if (code != null) {
 				const data={
 					"lang": "vi",
-					"osType": osName.toLocaleUpperCase(),
+					"osType": osName.toLocaleUpperCase().replace(' ',''),
 					"deviceId": "00000000-0000-0000-0000-000000000000",
 					"deviceName": mobileModel,
 					"osVersion": osVersion,

@@ -90,7 +90,7 @@ import btn_popup_napgame from '../../../assert/btn-popup-napgame.png';
 
 const info={
 	"lang": "vi",
-	"osType": osName.toLocaleUpperCase(),
+	"osType": osName.toLocaleUpperCase().replace(' ',''),
 	"deviceId": "00000000-0000-0000-0000-000000000000",
 	"deviceName": mobileModel,
 	"osVersion": osVersion,
@@ -964,7 +964,7 @@ export default class Game extends Phaser.Scene{
     }
 
     hidePopup() {
-        // isPlay=true;
+        isPlay=true;
         this.back.destroy();
         this.btn_dongy.destroy();
         this.thoatButton.destroy();

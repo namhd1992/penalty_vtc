@@ -90,7 +90,7 @@ const list_keep=[]
 const list_goal=[]
 const info={
 	"lang": "vi",
-	"osType": osName.toLocaleUpperCase(),
+	"osType": osName.toLocaleUpperCase().replace(' ',''),
 	"deviceId": "00000000-0000-0000-0000-000000000000",
 	"deviceName": mobileModel,
 	"osVersion": osVersion,
