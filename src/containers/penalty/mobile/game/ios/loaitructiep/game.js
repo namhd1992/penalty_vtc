@@ -1356,103 +1356,105 @@ export default class Game extends Phaser.Scene{
         var _this=this;
         var user = JSON.parse(localStorage.getItem("user"));
         var info_seesion = JSON.parse(localStorage.getItem("info_seesion"));
-        if(user!==null){
-            var data= {...info}
-            data.userId= user.uid;
-            data.gameId=1;
-            data.serverId=1;
-            data.modeId=3;
-            data.roomId=info_seesion.id;
-            data.rakingLimit=10
-            var header = {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${user.access_token}`,
-                    "dataType":"json"
+        var t=Date.now() - _deltaTime;
+        if(t<_startBonusTime){
+            if(user!==null){
+                var data= {...info}
+                data.userId= user.uid;
+                data.gameId=1;
+                data.serverId=1;
+                data.modeId=3;
+                data.roomId=info_seesion.id;
+                data.rakingLimit=10
+                var header = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${user.access_token}`,
+                        "dataType":"json"
+                    }
                 }
-            }
-            axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/state', data, header).then(function (response) {
-                if(response.data !==undefined){
-                    if(response.data.code>=0){
-                        var data=response.data.data;
-                        isKnockout=data.isKnockout;
-                        isNextRound=data.isNextRound;
-                        var isEndGame=data.isEndGame;
-                        if(isKnockout){
-                            _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
-                            isFinish=true;
-                            clearInterval(interval_fi);
-                            return;
+                axios.post(Ultilities.base_url() +'/lobby/api/v1/knockout/state', data, header).then(function (response) {
+                    if(response.data !==undefined){
+                        if(response.data.code>=0){
+                            var data=response.data.data;
+                            isKnockout=data.isKnockout;
+                            isNextRound=data.isNextRound;
+                            var isEndGame=data.isEndGame;
+                            if(isKnockout){
+                                _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
+                                isFinish=true;
+                                clearInterval(interval_fi);
+                                return;
+                            }
+                            if(isNextRound){
+                                round=2;
+                                _endTimeBonus=data.endBonusTime;
+                                _endTimeShow= data.endBonusTime;
+                                _startBonusTime=data.startBonusTime;
+                                _rankings=data.rankings;
+                                _user=data.user;
+                                _points=data.user.betAmount;
+                                number_goal=0;
+                                _this.timeRemain(_endTimeShow);
+                                isFinish=false;
+                                _this.startExtraTime()
+                                clearInterval(interval_fi);
+                                return;
+                            }
+    
+                            if(isEndGame){
+                                _this.showThoat('Phiên đã kết thúc. Chúc mừng bạn đã chiến thắng!\n Giải thưởng đã được chuyển vào Tủ đồ của bạn,\n truy cập và nhận thưởng ngay nhé.')
+                                clearInterval(interval_fi);
+                                isFinish=true;
+                                return;
+                            }
+                            
+                            // else{
+                            //     _this.showThoat('Phiên đã kết thúc.')
+                            //     isFinish=true;
+                            //     return;
+                            // }
+                        }else{
+                            window.location.replace('/')
                         }
-                        if(isNextRound){
-                            round=2;
-                            _endTimeBonus=data.endBonusTime;
-                            _endTimeShow= data.endBonusTime;
-                            _startBonusTime=data.startBonusTime;
-                            _rankings=data.rankings;
-                            _user=data.user;
-                            _points=data.user.betAmount;
-                            number_goal=0;
-                            _this.timeRemain(_endTimeShow);
-                            isFinish=false;
-                            _this.startExtraTime()
-                            clearInterval(interval_fi);
-                            return;
-                        }
-
-                        if(isEndGame){
-                            _this.showThoat('Phiên đã kết thúc. Chúc mừng bạn đã chiến thắng!\n Giải thưởng đã được chuyển vào Tủ đồ của bạn,\n truy cập và nhận thưởng ngay nhé.')
-                            clearInterval(interval_fi);
-                            isFinish=true;
-                            return;
-                        }
-                        
-                        // else{
-                        //     _this.showThoat('Phiên đã kết thúc.')
-                        //     isFinish=true;
-                        //     return;
-                        // }
                     }else{
                         window.location.replace('/')
                     }
-                }else{
-                    window.location.replace('/')
-                }
-            }).catch(function (error) {
-                if(error.response.data.code ===-206){
-                    clearInterval(interval_fi);
-                    _this.logout()
-                }
-
-                if(error.response.data.code ===-401){
-                    _this.showThoat('Phiên đã kết thúc.');
-                    clearInterval(interval_fi);
-                    isFinish=true;
-                    return;
-                }
-                // if(error.response.data.code ===-404){
-                //     _this.showThoat('Phiên chưa sẵn sàng hoặc chưa diễn ra.')
-                //     isFinish=true;
-                //     return;
-                // }
-                if(error.response.data.code ===-101){
-                    _this.showThoat('Hệ thống đang bận. Vui lòng thử lại sau');
-                    clearInterval(interval_fi);
-                    isFinish=true;
-                    return;
-                }
-
-                // if(error.response.data.code ===-602){
-                //     _this.showThoat('Chờ hiệp phụ bắt đầu.')
-                //     isFinish=true;
-                //     return;
-                // }
-                // window.location.replace('/')
-            })
-        }else{
-            window.location.replace('/')
+                }).catch(function (error) {
+                    if(error.response.data.code ===-206){
+                        clearInterval(interval_fi);
+                        _this.logout()
+                    }
+    
+                    if(error.response.data.code ===-401){
+                        _this.showThoat('Phiên đã kết thúc.');
+                        clearInterval(interval_fi);
+                        isFinish=true;
+                        return;
+                    }
+                    // if(error.response.data.code ===-404){
+                    //     _this.showThoat('Phiên chưa sẵn sàng hoặc chưa diễn ra.')
+                    //     isFinish=true;
+                    //     return;
+                    // }
+                    if(error.response.data.code ===-101){
+                        _this.showThoat('Hệ thống đang bận. Vui lòng thử lại sau');
+                        clearInterval(interval_fi);
+                        isFinish=true;
+                        return;
+                    }
+    
+                    // if(error.response.data.code ===-602){
+                    //     _this.showThoat('Chờ hiệp phụ bắt đầu.')
+                    //     isFinish=true;
+                    //     return;
+                    // }
+                    // window.location.replace('/')
+                })
+            }else{
+                window.location.replace('/')
+            }
         }
-        
     }
 
     waitFinish=(type)=>{
