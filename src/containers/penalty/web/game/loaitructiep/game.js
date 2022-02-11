@@ -132,7 +132,8 @@ var interval_fi={};
 var interval_checkwin={};
 var auto_update=0;
 var _startBonusTime=0;
-
+var popupshowMessageBox=false;
+var popupExtraTime=false;
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -921,6 +922,7 @@ export default class Game extends Phaser.Scene{
     showMessageBox(text) {
         //just in case the message box already exists
         //destroy it
+        popupshowMessageBox=true;
         var _this=this;
         this.back = this.add.sprite(600, 675/2, "bg_pop_ingame");
         this.closeButton = this.add.sprite(470, 480, "btn_dongy");
@@ -934,11 +936,14 @@ export default class Game extends Phaser.Scene{
         })
     }
     hideBox() {
-        isPlay=true;
-        this.back.destroy();
-        this.closeButton.destroy();
-        this.thoatButton.destroy();
-        this.text1.destroy();
+        if(popupshowMessageBox){
+            isPlay=true;
+            this.back.destroy();
+            this.closeButton.destroy();
+            this.thoatButton.destroy();
+            this.text1.destroy();
+            popupshowMessageBox=false;
+        }
     }
 
     showThoat(text) {
@@ -956,6 +961,7 @@ export default class Game extends Phaser.Scene{
     startExtraTime() {
         var _popuphiepphu = JSON.parse(localStorage.getItem("_popuphiepphu"));
         if(_popuphiepphu===0){
+            popupExtraTime=true;
             var _this=this;
             this.back = this.add.sprite(600, 675/2, "bg_pop_ingame");
             this.closeExtraTime = this.add.sprite(600, 480, "btn_dongy");
@@ -969,9 +975,12 @@ export default class Game extends Phaser.Scene{
     }
 
     hideExtraTime() {
-        this.back.destroy();
-        this.closeExtraTime.destroy();
-        this.txtExtraTime.destroy();
+        if(popupExtraTime){
+            this.back.destroy();
+            this.closeExtraTime.destroy();
+            this.txtExtraTime.destroy();
+            popupExtraTime=false;
+        }
     }
 
 
@@ -1321,6 +1330,8 @@ export default class Game extends Phaser.Scene{
                     }
 
                     if(error.response.data.code ===-401){
+                        _this.hideBox();
+                        _this.hideExtraTime();
                         _this.showThoat('Phiên đã kết thúc.')
                         isFinish=true;
                         return;
@@ -1331,6 +1342,8 @@ export default class Game extends Phaser.Scene{
                     //     return;
                     // }
                     if(error.response.data.code ===-101){
+                        _this.hideBox();
+                        _this.hideExtraTime();
                         _this.showThoat('Hệ thống đang bận.')
                         isFinish=true;
                         return;
@@ -1375,6 +1388,8 @@ export default class Game extends Phaser.Scene{
                             isNextRound=data.isNextRound;
                             var isEndGame=data.isEndGame;
                             if(isKnockout){
+                                _this.hideBox();
+                                _this.hideExtraTime();
                                 _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
                                 isFinish=true;
                                 clearInterval(interval_fi);
@@ -1396,6 +1411,8 @@ export default class Game extends Phaser.Scene{
                             }
     
                             if(isEndGame){
+                                _this.hideBox();
+                                _this.hideExtraTime();
                                 _this.showThoat('Phiên đã kết thúc. Chúc mừng bạn đã chiến thắng!\n Giải thưởng đã được chuyển vào Tủ đồ của bạn,\n truy cập và nhận thưởng ngay nhé.')
                                 isFinish=true;
                                 clearInterval(interval_fi);
@@ -1420,6 +1437,8 @@ export default class Game extends Phaser.Scene{
                     }
     
                     if(error.response.data.code ===-401){
+                        _this.hideBox();
+                        _this.hideExtraTime();
                         _this.showThoat('Phiên đã kết thúc.');
                         clearInterval(interval_fi);
                         isFinish=true;
@@ -1431,6 +1450,8 @@ export default class Game extends Phaser.Scene{
                     //     return;
                     // }
                     if(error.response.data.code ===-101){
+                        _this.hideBox();
+                        _this.hideExtraTime();
                         _this.showThoat('Hệ thống đang bận. Vui lòng thử lại sau');
                         clearInterval(interval_fi);
                         isFinish=true;
@@ -1494,12 +1515,16 @@ export default class Game extends Phaser.Scene{
                         }else{
                             if(res.summary.winResult===2){
                                 clearInterval(interval_checkwin);
+                                _this.hideBox();
+                                _this.hideExtraTime();
                                 _this.showThoat('Phiên đã kết thúc. Chúc mừng bạn đã chiến thắng!\n Giải thưởng đã được chuyển vào Tủ đồ của bạn,\n truy cập và nhận thưởng ngay nhé.')
                                 isFinish=true;
                                 return;
                             }
                             if(res.summary.winResult===3){
                                 clearInterval(interval_checkwin);
+                                _this.hideBox();
+                                _this.hideExtraTime();
                                 _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
                                 isFinish=true;
                                 return;

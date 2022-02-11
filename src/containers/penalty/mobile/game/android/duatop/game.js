@@ -123,6 +123,7 @@ var _deltaTime=0;
 var isFinish=false;
 var interval_checkwin={};
 var auto_update=0;
+var popupshowMessageBox=false;
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -883,6 +884,7 @@ export default class Game extends Phaser.Scene{
     showMessageBox(text) {
         //just in case the message box already exists
         //destroy it
+        popupshowMessageBox=true;
         var _this=this;
         this.back = this.add.sprite(Math.round(600*delta_x), Math.round((675/2)*delta_y), "bg_pop_ingame");
         this.back.setScale(delta_x,delta_y)
@@ -900,11 +902,14 @@ export default class Game extends Phaser.Scene{
     }
 
     hideBox() {
-        isPlay=true;
-        this.back.destroy();
-        this.closeButton.destroy();
-        this.thoatButton.destroy();
-        this.text1.destroy();
+        if(popupshowMessageBox){
+            isPlay=true;
+            this.back.destroy();
+            this.closeButton.destroy();
+            this.thoatButton.destroy();
+            this.text1.destroy();
+            popupshowMessageBox=false;
+        }
     }
 
     showThoat(text) {
@@ -1256,11 +1261,13 @@ export default class Game extends Phaser.Scene{
                         _rankings=res.rankings;
                         if(res.summary.winResult===2){
                             clearInterval(interval_checkwin);
+                            _this.hideBox();
                             _this.showThoat('Phiên đã kết thúc. Chúc mừng bạn đã chiến thắng!\n Giải thưởng đã được chuyển vào Tủ đồ của bạn,\n truy cập và nhận thưởng ngay nhé.')
                             return;
                         }
                         if(res.summary.winResult===3){
                             clearInterval(interval_checkwin);
+                            _this.hideBox();
                             _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
                             return;
                         }

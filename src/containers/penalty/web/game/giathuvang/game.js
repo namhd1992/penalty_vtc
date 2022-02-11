@@ -123,6 +123,9 @@ var _deltaTime=0;
 var isFinish=false;
 var interval_checkwin={};
 var auto_update=0;
+var popupNapGame=false;
+var popupDatCuoc=false;
+var popupTimeCuoc=false;
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -904,6 +907,7 @@ export default class Game extends Phaser.Scene{
     napgame() {
         //just in case the message box already exists
         //destroy it
+        popupNapGame=true;
         var _this=this;
         this.back_napgame = this.add.sprite(600, 675/2, "bg_pop_ingame");
         this.btn_napgame = this.add.sprite(470, 480, "btn_popup_napgame");
@@ -919,13 +923,16 @@ export default class Game extends Phaser.Scene{
     }
 
     hideNapGame() {
-        isPlay=true;
-        this.back_napgame.destroy();
-        this.btn_napgame.destroy();
-        this.btn_thoat_napgame.destroy();
-        this.txt1_napgame.destroy();
-        this.txt2_napgame.destroy();
-        window.open("https://scoin.vn/nap-game");
+        if(popupNapGame){
+            isPlay=true;
+            this.back_napgame.destroy();
+            this.btn_napgame.destroy();
+            this.btn_thoat_napgame.destroy();
+            this.txt1_napgame.destroy();
+            this.txt2_napgame.destroy();
+            window.open("https://scoin.vn/nap-game");
+            popupNapGame=false;
+        }
     }
 
     popupCuoc() {
@@ -937,6 +944,7 @@ export default class Game extends Phaser.Scene{
         this.back = this.add.sprite(600, 675/2, "bg_pop_ingame");
         var t=Date.now() - _deltaTime;
         if(t > _room.betsEndTime){
+            popupTimeCuoc=true;
             this.btn_dongy = this.add.sprite(470, 480, "btn_dongy");
             this.thoatButton = this.add.sprite(730, 480, "btn_thoat");
             this.text1 = this.add.text(400, 300, 'Bạn đã hết lượt chơi. Bạn không thể\n cược thêm do thời gian đặt cược đã hết.', { font: "18px Arial", fill: "#ffffff", align:'center', fixedWidth: 400, wordWrap:true});
@@ -947,6 +955,7 @@ export default class Game extends Phaser.Scene{
                 window.location.replace('/')
             })
         }else{
+            popupDatCuoc=true;
             this.btn_popup_datcuoc = this.add.sprite(470, 480, "btn_popup_datcuoc");
             this.btn_popup_datcuoc.setScale(0.5,0.5)
             this.thoatButton = this.add.sprite(730, 480, "btn_thoat");
@@ -964,21 +973,27 @@ export default class Game extends Phaser.Scene{
     }
 
     hidePopup() {
-        isPlay=true;
-        this.back.destroy();
-        this.btn_dongy.destroy();
-        this.thoatButton.destroy();
-        this.text1.destroy();
+        if(popupTimeCuoc){
+            isPlay=true;
+            this.back.destroy();
+            this.btn_dongy.destroy();
+            this.thoatButton.destroy();
+            this.text1.destroy();
+            popupTimeCuoc=false;
+        }
     }
 
     hidePopupCuoc() {
-        isPlay=true;
-        this.back.destroy();
-        this.btn_popup_datcuoc.destroy();
-        this.thoatButton.destroy();
-        this.text1.destroy();
-        this.text2.destroy();
-        this.text3.destroy();
+        if(popupDatCuoc){
+            isPlay=true;
+            this.back.destroy();
+            this.btn_popup_datcuoc.destroy();
+            this.thoatButton.destroy();
+            this.text1.destroy();
+            this.text2.destroy();
+            this.text3.destroy();
+            popupDatCuoc=false;
+        }
     }
 
     showThoat(text) {
@@ -1394,11 +1409,17 @@ export default class Game extends Phaser.Scene{
                         _rankings=res.rankings;
                         if(res.summary.winResult===2){
                             clearInterval(interval_checkwin);
+                            _this.hideNapGame();
+                            _this.hidePopup();
+                            _this.hidePopupCuoc();
                             _this.showThoat('Phiên đã kết thúc. Chúc mừng bạn đã chiến thắng!\n Giải thưởng đã được chuyển vào Tủ đồ của bạn,\n truy cập và nhận thưởng ngay nhé.')
                             return;
                         }
                         if(res.summary.winResult===3){
                             clearInterval(interval_checkwin);
+                            _this.hideNapGame();
+                            _this.hidePopup();
+                            _this.hidePopupCuoc();
                             _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
                             return;
                         }

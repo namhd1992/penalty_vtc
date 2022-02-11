@@ -122,6 +122,7 @@ var _deltaTime=0;
 var isFinish=false;
 var interval_checkwin={};
 var auto_update=0;
+var popupshowMessageBox=false;
 export default class Game extends Phaser.Scene{
     constructor() {
         super({ key: "Game" });
@@ -858,9 +859,9 @@ export default class Game extends Phaser.Scene{
                                     _this.scene.restart();
                                 }, 4000);
                             }else if(response.data.code===-302){
-                                _this.showMessageBox('Bạn đã hết lượt chơi.\n Hãy Nạp thêm scoin để nhận thêm lượt chơi nhé.')
+                                _this.showMessageBox('Bạn đã hết lượt chơi.\n Hãy Nạp thêm scoin để nhận thêm lượt chơi nhé.');
                             }else{
-                                _this.showMessageBox(response.data.message)
+                                _this.showMessageBox(response.data.message);
                             }
                         }).catch(function (error) {
                             if(error.response.data.code ===-206){
@@ -875,7 +876,7 @@ export default class Game extends Phaser.Scene{
                     isPlay=true;
                 }
             }else{
-                _this.showMessageBox('Bạn đã hết lượt chơi.\n Hãy Nạp thêm scoin để nhận thêm lượt chơi nhé')
+                _this.showMessageBox('Bạn đã hết lượt chơi.\n Hãy Nạp thêm scoin để nhận thêm lượt chơi nhé');
             }
         }
     }
@@ -883,6 +884,7 @@ export default class Game extends Phaser.Scene{
     showMessageBox(text) {
         //just in case the message box already exists
         //destroy it
+        popupshowMessageBox=true;
         var _this=this;
         this.back = this.add.sprite(600, 675/2, "bg_pop_ingame");
         this.closeButton = this.add.sprite(470, 480, "btn_dongy");
@@ -897,12 +899,15 @@ export default class Game extends Phaser.Scene{
     }
 
     hideBox() {
-        isPlay=true;
-        this.back.destroy();
-        this.closeButton.destroy();
-        this.thoatButton.destroy();
-        this.text1.destroy();
-        window.open("https://scoin.vn/nap-game");
+        if(popupshowMessageBox){
+            isPlay=true;
+            this.back.destroy();
+            this.closeButton.destroy();
+            this.thoatButton.destroy();
+            this.text1.destroy();
+            window.open("https://scoin.vn/nap-game");
+            popupshowMessageBox=false;
+        }
     }
 
     showThoat(text) {
@@ -1263,11 +1268,13 @@ export default class Game extends Phaser.Scene{
                         _rankings=res.rankings;
                         if(res.summary.winResult===2){
                             clearInterval(interval_checkwin);
+                            _this.hideBox()
                             _this.showThoat('Phiên đã kết thúc. Chúc mừng bạn đã chiến thắng!\n Giải thưởng đã được chuyển vào Tủ đồ của bạn,\n truy cập và nhận thưởng ngay nhé.')
                             return;
                         }
                         if(res.summary.winResult===3){
                             clearInterval(interval_checkwin);
+                            _this.hideBox()
                             _this.showThoat('Phiên đã kết thúc. Rất tiếc, bạn chưa thắng cuộc.\n Hãy quay lại vào phiên tiếp theo nhé.')
                             return;
                         }

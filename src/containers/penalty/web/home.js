@@ -32,6 +32,7 @@ import {
 	getData
 } from '../../../modules/profile'
 
+import icon_scoin from './images/icon-scoin.png';
 import btn_popup_napgame from './images/btn-popup-napgame.png';
 import btn_thoat from './images/btn-thoat.png';
 
@@ -406,8 +407,8 @@ class Lucky_Rotation extends React.Component {
 		var data= {...info}
 		data.gameId=1;
 		data.serverId=1;
-		data.limit=10
-		// data.modeId=type;
+		data.limit=10;
+		// data.modeId=-1;
 		this.props.sessionUpcomming(data).then(()=>{
 			var data=this.props.dataSessionUpcomming;
 			if(data!==undefined){
@@ -424,6 +425,7 @@ class Lucky_Rotation extends React.Component {
 								room[i].award=award;
 								new_room.push(room[i])
 							}
+							new_room.sort((a,b)=>a.startTime-b.startTime)
 							this.setState({listSesstions: new_room, timeServer:data.data.timeServer},()=>{
 								modal_giaithuong.show();
 							})
@@ -840,6 +842,20 @@ class Lucky_Rotation extends React.Component {
 		return time;
 	}
 
+	timeStartGT=(time)=>{
+		var a = new Date(time);
+		var year = a.getFullYear();
+		var m=a.getMonth()+1
+		var month =m > 9 ? m : `0${m}`;
+		var date = a.getDate() > 9 ? a.getDate() : `0${a.getDate()}`;
+		var hour = a.getHours() > 9 ? a.getHours() : `0${a.getHours()}`;
+		var min = a.getMinutes() > 9 ? a.getMinutes() : `0${a.getMinutes()}`;
+		var sec = a.getSeconds() > 9 ? a.getSeconds() : `0${a.getSeconds()}`;
+		var time = hour + ':' + min + '  ' + date + '/' + month + '/' + year;
+		return time;
+	}
+
+
 	timeConverterPopup=(time)=>{
 		var a = new Date(time);
 		var year = a.getFullYear();
@@ -1170,6 +1186,20 @@ class Lucky_Rotation extends React.Component {
 		return name;
 	}
 
+	getItemGiaiThuong=(obj)=>{
+		var txt='';
+		var n=obj.length;
+		for (let i = 0; i < n; i++) {
+			if(i!==n-1){
+				txt+=obj[i].name + ' + '
+			}else{
+				txt+=obj[i].name
+			}
+			
+		}
+		return txt.toLocaleUpperCase();
+	}
+
 	getImgItem=(item)=>{
 
 // 		11: InGame
@@ -1245,13 +1275,14 @@ class Lucky_Rotation extends React.Component {
 		var startTime=obj.startTime;
 		var endTime=obj.endTime;
 		if(startTime > t){
-			return <p class="font-3vw mb-0">Còn: {this.timeModalGiaiThuong(obj.startTime)}</p>;
+			return  <div class="scr-status-pending font-size-14"><p class="pt-5px ps-2 text-white">Sắp diễn ra</p></div>
 		}
 		if(t > endTime){
-			return <p class="font-3vw mb-0 text-danger">Đã kết thúc {this.timeEnd(obj.endTime)}</p>;
+			return  <div class="scr-status-close font-size-14"><p class="pt-5px ps-2 text-white">Đã kết thúc</p></div>
 		}
 		if(t > startTime && t < endTime){
-			return <p class="font-3vw mb-0 text-yellow text-blink"><span class="spinner-grow text-yellow" style={{width: ".8rem", height: ".8rem"}}></span> Đang diễn ra ... </p>;
+			// return <p class="font-3vw mb-0 text-yellow text-blink"><span class="spinner-grow text-yellow" style={{width: ".8rem", height: ".8rem"}}></span> Đang diễn ra ... </p>;
+			return <div class="scr-status-open font-size-14"><p class="pt-5px ps-2 text-white">Đang diễn ra</p></div>
 		}
 		return <div></div>;
 	}
@@ -1276,36 +1307,26 @@ class Lucky_Rotation extends React.Component {
 
 		if(obj.gameModeId===1){
 			if(t > startTime && t < endTime){
-				return <div class="d-grid" style={{padding:0}}>
-							<button type="button" class="btn btn-danger-dark btn-block text-uppercase btn-sm" onClick={()=>this.getSessionInPlay(1)}>Chơi ngay</button>
-						</div>;
+				return <div class="scr-playnow font-size-14 text-uppercase text-warning" style={{cursor: 'pointer'}} onClick={()=>this.getSessionInPlay(1)}>Chơi ngay</div>;
 			}
 		}
 
 		if(obj.gameModeId===2){
 			if(t > startTime && t < endTime){
-				return <div class="d-grid" style={{padding:0}}>
-							<button type="button" class="btn btn-danger-dark btn-block text-uppercase btn-sm" onClick={()=>this.getSessionInPlay(2)}>Chơi ngay</button>
-						</div>;
+				return <div class="scr-playnow font-size-14 text-uppercase text-warning" style={{cursor: 'pointer'}} onClick={()=>this.getSessionInPlay(2)}>Chơi ngay</div>;
 			}
 			if(t > betsStartTime){
-				return <div class="d-grid" style={{padding:0}}>
-							<button type="button" class="btn btn-danger-dark btn-block text-uppercase btn-sm" onClick={()=>this.getSessionInPlay(2)}>Cược</button>
-						</div>;
+				return <div class="scr-playnow font-size-14 text-uppercase text-warning" style={{cursor: 'pointer'}} onClick={()=>this.getSessionInPlay(2)}>Đặt Cược</div>;
 			}
 
 		}
 
 		if(obj.gameModeId===3){
 			if(t > startTime && t < endTime){
-				return <div class="d-grid" style={{padding:0}}>
-							<button type="button" class="btn btn-danger-dark btn-block text-uppercase btn-sm" onClick={()=>this.getSessionInPlay(3)}>Chơi ngay</button>
-						</div>;
+				return <div class="scr-playnow font-size-14 text-uppercase text-warning" style={{cursor: 'pointer'}} onClick={()=>this.getSessionInPlay(3)}>Chơi ngay</div>;
 			}
 			if(t > betsStartTime){
-				return <div class="d-grid" style={{padding:0}}>
-							<button type="button" class="btn btn-danger-dark btn-block text-uppercase btn-sm" onClick={()=>this.getSessionInPlay(3)}>Cược</button>
-						</div>;
+				return <div class="scr-playnow font-size-14 text-uppercase text-warning" style={{cursor: 'pointer'}} onClick={()=>this.getSessionInPlay(3)}>Đặt Cược</div>;
 			}
 		}
 		return <div></div>;
@@ -1562,7 +1583,7 @@ class Lucky_Rotation extends React.Component {
 										Copyright &copy;2021 VTC Mobile. All rights reserved
 									</p>
 									<p class="text-center mb-0 pb-1">
-										<span class="text-blue_web">Công ty Cổ Phần VTC Dịch Vụ Di Động</span> <br></br>
+										Công ty Cổ Phần VTC Dịch Vụ Di Động <br></br>
 										Tầng 11, Tòa nhà VTC Online, số 18 Tam Trinh, Hai Bà Trưng, Hà Nội <br></br>
 										SĐT : (84-4).39877470 | Email : vtcmobile@vtc.vn <br></br>
 										Người chịu trách nhiệm quản lý nội dung: Ông Nguyễn Viết Quang Minh <br></br>
@@ -1629,7 +1650,7 @@ class Lucky_Rotation extends React.Component {
 						{/* <!-- The Modal Giải thưởng --> */}
 						<div class="modal fade" id="gt_web">
 							<div class="modal-dialog modal-dialog-scrollable">
-								<div class="modal-content modal-gt_web bg-transparent border-0">
+								<div class="modal-content border-0 modal-gt bg-transparent">
 
 								{/* <!-- Modal Header --> */}
 								<div class="modal-header bg-pop-gt-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
@@ -1638,36 +1659,25 @@ class Lucky_Rotation extends React.Component {
 								
 
 								{/* <!-- Modal body --> */}
-								<div class="modal-body bg-pop-gt-body p-2rem py-1 font-3vw_web text-white">
-									<div class="tab-content">
+								<div class="modal-body bg-pop-gt-body p-2rem py-1 font-3vw text-white">
+									
 										<div class="container">
 											{listSesstions.map((obj, key) => (
-												<div class="row mx-0 mb-1 border-giaithuong-web position-relative d-flex justify-content-center" key={key}>
-													<div class="col-12 text-center text-brown pt-1 mb-2">
-														<h2 class="font-weight-bold text-uppercase mb-0" style={{fontSize:18}}>{this.getTypeGiaiThuong(obj.gameModeId)}</h2>
-														<this.TimeModalGiaiThuong obj={obj} />
-													</div>
-
-													{obj.award.map((v, j) => (
-														<div class="col-4 text-center" key={j}>
-															<p class="m-0"><img src={this.getImgItem(v.rewardType)} alt="" width="60%" /></p>
-															<p class="font-3vw_web text-yellow">{v.name}</p>
+												<a class="text-decoration-none">    	
+													<div class="mx-0 mb-1 session-chonroom_web d-flex position-relative">
+														<div class="scr-c font-size-14 text-uppercase text-warning-50">
+															<img src={icon_scoin} width="32" alt="" /> <span class="pl-1">{this.getTypeGiaiThuong(obj.gameModeId)}</span>
 														</div>
-													))}
-													<this.setButtonGiaiThuong obj={obj} />
-													
-													{/* <div class="d-grid" style={{padding:0}}>
-														<button type="button" class="btn btn-danger-dark btn-block text-uppercase btn-sm">Chơi ngay</button>
+														<this.TimeModalGiaiThuong obj={obj} />
+														<div class="scr-info font-size-14 text-white">
+															<p class="font-italic mb-0 pb-1">Bắt đầu: {this.timeStartGT(obj.startTime)}</p>
+															{(obj.gameModeId !==2)?(<p class="text-uppercase mb-0">Giải thưởng: {this.getItemGiaiThuong(obj.award)}</p>):(<div></div>)}
+														</div>
+														<this.setButtonGiaiThuong obj={obj} />
 													</div>
-
-													<div class="d-grid" style={{padding:0}}>
-														<button type="button" class="btn btn-danger-dark btn-block text-uppercase btn-sm">Cược</button>
-													</div> */}
-													
-												</div>
+												</a>
 											))}
 										</div>
-									</div>
 									
 								</div>
 								{/* <!-- Modal footer --> */}
