@@ -31,7 +31,7 @@ import {
 	getData
 } from '../../../modules/profile';
 
-
+import btn_popup_napscoin from './images/btn-popup-napscoin.png';
 import icon_scoin from './images/icon-scoin.png';
 
 import fb_a1 from './images/fb-a1.jpg';
@@ -434,6 +434,7 @@ class Lucky_Rotation extends React.Component {
 								new_room.push(room[i])
 							}
 							new_room.sort((a,b)=>a.startTime-b.startTime)
+							
 							this.setState({listSesstions: new_room, timeServer:data.data.timeServer},()=>{
 								modal_giaithuong.show();
 							})
@@ -1971,7 +1972,7 @@ class Lucky_Rotation extends React.Component {
 											</tr>
 											</tbody>
 										</table>
-										<p class="text-center"><a href="https://scoin.vn/nap-tien#9" title="Nạp Scoin" target="_blank"><img src={btn_popup_napgame} width="100" hspace="10" alt="" /></a></p>
+										<p class="text-center"><a href="https://scoin.vn/nap-tien#9" title="Nạp Scoin" target="_blank"><img src={btn_popup_napscoin} width="100" hspace="10" alt="" /></a></p>
 									</div>
 								</div>
 							
