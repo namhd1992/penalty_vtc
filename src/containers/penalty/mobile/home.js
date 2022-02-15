@@ -435,6 +435,21 @@ class Lucky_Rotation extends React.Component {
 							}
 							new_room.sort((a,b)=>a.startTime-b.startTime)
 							
+							var firstGiatHu=new_room.find((v)=>{
+								return v.gameModeId===2
+							})
+							var firstLoaiTrucTiep=new_room.find((v)=>{
+								return v.gameModeId===3
+							})
+							if(firstGiatHu!==undefined){
+								var index=new_room.findIndex(v=>v.id===firstGiatHu.id);
+								new_room[index].showCuoc=true;
+							}
+							if(firstLoaiTrucTiep!==undefined){
+								var index=new_room.findIndex(v=>v.id===firstLoaiTrucTiep.id);
+								new_room[index].showCuoc=true;
+							}
+							
 							this.setState({listSesstions: new_room, timeServer:data.data.timeServer},()=>{
 								modal_giaithuong.show();
 							})
@@ -1345,7 +1360,11 @@ class Lucky_Rotation extends React.Component {
 				return <div class="scr-playnow font-size-14 text-uppercase text-warning" onClick={()=>this.getSessionInPlay(2)}>Chơi ngay</div>;
 			}
 			if(t > betsStartTime){
-				return <div class="scr-playnow font-size-14 text-uppercase text-warning" onClick={()=>this.getSessionInPlay(2)}>Đặt Cược</div>;
+				if(obj.showCuoc==true){
+					return <div class="scr-playnow font-size-14 text-uppercase text-warning" onClick={()=>this.getSessionInPlay(2)}>Đặt Cược</div>;
+				}else{
+					return <div></div>
+				}
 			}
 
 		}
@@ -1355,7 +1374,11 @@ class Lucky_Rotation extends React.Component {
 				return <div class="scr-playnow font-size-14 text-uppercase text-warning" onClick={()=>this.getSessionInPlay(3)}>Chơi ngay</div>;
 			}
 			if(t > betsStartTime){
-				return <div class="scr-playnow font-size-14 text-uppercase text-warning" onClick={()=>this.getSessionInPlay(3)}>Đặt Cược</div>;
+				if(obj.showCuoc==true){
+					return <div class="scr-playnow font-size-14 text-uppercase text-warning" onClick={()=>this.getSessionInPlay(3)}>Đặt Cược</div>;
+				}else{
+					return <div></div>
+				}
 			}
 		}
 		return <div></div>;
