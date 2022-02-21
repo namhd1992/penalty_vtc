@@ -765,7 +765,7 @@ export default class Game extends Phaser.Scene{
             var p=``;
             if(len_ranking > 0){
                 for (let i = 0; i < len_ranking; i++) {
-                    tk +=`${_rankings[i].userName} \n`
+                    tk +=`${this.userName(_rankings[i].userName)} \n`
                     p +=`${_rankings[i].winCount} \n`
                 }
             }
@@ -1563,40 +1563,3 @@ export default class Game extends Phaser.Scene{
 // điểm 21: x:870 , y:430
 
 // y1:267 y2:432 x1:336 x2:864
-
-        // this.idInfo = this.add.text(
-        //     50, 
-        //     50, 
-        //     "", { 
-        //       font: "40px Arial", 
-        //       fill: "#ffffff" 
-        //     }
-        // );
-        // this.helloWorld = this.add.text(
-        //     this.cameras.main.centerX, 
-        //     this.cameras.main.centerY, 
-        //     "Hello Nambv", { 
-        //       font: "40px Arial", 
-        //       fill: "#ffffff" 
-        //     }
-        // );
-        // this.helloWorld.setOrigin(0.5);
-        // this.input.on('pointerdown', function (pointer) {
-        //     self.scene.start("Info");
-        // });
-
-
-             // this.sprite.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(pointer){
-        //     console.log("AAAAAAAAAA", delta)
-        // })
-        // this.sprite.setDisplaySize(this.sprite.displayOriginX-11, this.sprite.displayOriginY-11);
-        // // this.sprite.y -=0.5;
-        // if(this.sprite.y<430*delta_y){
-        //     this.sprite.stop();
-        //     // console.log("BBBBBBBB")
-        // }else{
-        //     // this.sprite.y -=0.5;
-        //     // this.sprite.setScale(-0.5, -0.5)
-        // }
-        // this.idInfo.setText(this.id)
-        // this.cursors.up.isDown()

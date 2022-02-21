@@ -858,16 +858,30 @@ class Lucky_Rotation extends React.Component {
 		return time;
 	}
 
-	timeStartGT=(time)=>{
-		var a = new Date(time);
-		var year = a.getFullYear();
-		var m=a.getMonth()+1
-		var month =m > 9 ? m : `0${m}`;
-		var date = a.getDate() > 9 ? a.getDate() : `0${a.getDate()}`;
-		var hour = a.getHours() > 9 ? a.getHours() : `0${a.getHours()}`;
-		var min = a.getMinutes() > 9 ? a.getMinutes() : `0${a.getMinutes()}`;
-		var sec = a.getSeconds() > 9 ? a.getSeconds() : `0${a.getSeconds()}`;
-		var time = hour + ':' + min + '  ' + date + '/' + month + '/' + year;
+	timeStartGT=(obj)=>{
+		var time='';
+		var start=obj.startTime;
+		var end=obj.endTime;
+
+		var a = new Date(start);
+		var m_s=a.getMonth()+1
+		var month_s =m_s > 9 ? m_s : `0${m_s}`;
+		var date_s = a.getDate() > 9 ? a.getDate() : `0${a.getDate()}`;
+		var hour_s = a.getHours() > 9 ? a.getHours() : `0${a.getHours()}`;
+		var min_s = a.getMinutes() > 9 ? a.getMinutes() : `0${a.getMinutes()}`;
+
+		var b = new Date(end);
+		var m_e=b.getMonth()+1
+		var month_e =m_e > 9 ? m_e : `0${m_e}`;
+		var date_e = b.getDate() > 9 ? b.getDate() : `0${b.getDate()}`;
+		var hour_e = b.getHours() > 9 ? b.getHours() : `0${b.getHours()}`;
+		var min_e = b.getMinutes() > 9 ? b.getMinutes() : `0${b.getMinutes()}`;
+		if((end/1000-start/1000)>86400){
+			time = hour_s + ':' + min_s + '  ' + date_s + '/' + month_s + ' - ' + hour_e + ':' + min_e + '  ' + date_e + '/' + month_e;
+		}else{
+			time = hour_s + ':' + min_s + ' - ' + hour_e + ':' + min_e + '  ' + date_e + '/' + month_e;
+		}
+		
 		return time;
 	}
 
@@ -886,8 +900,10 @@ class Lucky_Rotation extends React.Component {
 	}
 
 	showModalHuongDan=()=>{
-		modal_huongdan.show();
-		this.getContentGuide();
+		this.setState({tab_1:true, tab_2:false, tab_3:false, tab_4:false, tab_5:false},()=>{
+			modal_huongdan.show();
+			this.getContentGuide();
+		})
 	}
 
 
@@ -1695,8 +1711,8 @@ class Lucky_Rotation extends React.Component {
 														</div>
 														<this.TimeModalGiaiThuong obj={obj} />
 														<div class="scr-info font-size-14 text-white">
-															<p class="font-italic mb-0 pb-1">Bắt đầu: {this.timeStartGT(obj.startTime)}</p>
-															{(obj.gameModeId !==2)?(<p class="text-uppercase mb-0">Giải thưởng: {this.getItemGiaiThuong(obj.award)}</p>):(<div></div>)}
+															<p class="font-italic mb-0 pb-1">Thời gian: {this.timeStartGT(obj)}</p>
+															{(obj.gameModeId !==2)?(<p class="text-uppercase mb-0">Giải thưởng: {this.getItemGiaiThuong(obj.award)}</p>):(<p class="text-uppercase mb-0">Giải thưởng: Điểm hũ vàng</p>)}
 														</div>
 														<this.setButtonGiaiThuong obj={obj} />
 													</div>
