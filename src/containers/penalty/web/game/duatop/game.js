@@ -941,14 +941,14 @@ export default class Game extends Phaser.Scene{
     }
 
     autoPlay(){
-        // var x1=this.getRandomInt(240, 950);
-        // var x2=this.getRandomInt(240, 950);
-        // var y1=this.getRandomInt(470, 630);
-        // var y2=this.getRandomInt(215, 470);
-        var x1=this.getRandomInt(300, 800);
-        var x2=this.getRandomInt(300, 800);
-        var y1=this.getRandomInt(470, 500);
-        var y2=this.getRandomInt(250, 470);
+        var x1=this.getRandomInt(240, 950);
+        var x2=this.getRandomInt(240, 950);
+        var y1=this.getRandomInt(470, 630);
+        var y2=this.getRandomInt(215, 470);
+        // var x1=this.getRandomInt(300, 800);
+        // var x2=this.getRandomInt(300, 800);
+        // var y1=this.getRandomInt(470, 500);
+        // var y2=this.getRandomInt(250, 470);
         var p1=[x1, y1];
         var p2=[x2, y2];
         this.play(p1, p2);

@@ -43,7 +43,8 @@ body {margin: 0; padding: 0; background-color:#092b2f !important}
 .s-top {background:url(../images/bg-top.png) no-repeat; background-size: 100%; background-position: top center; min-height: 300px; height: 40vh; z-index:8}
 .s-top .nav {background:url(../images/bg-top-menu.png) no-repeat; background-size: 100%; min-height: 27px;}
 .s-btn-options {position: absolute; bottom: 5%;}
-.s-bvd {background:url(../images/bg-bvd.png) no-repeat; background-size: 100%; background-position: top center; min-height: 300px; height: 36vh; margin-top: -7px; z-index: 10}
+.s-bvd {background:url(../images/bg-bvd.png) no-repeat; background-size: 100%; background-position: top center; min-height: 295px; height: 36vh; margin-top: -7px; z-index: 10}
+.s-bvd .tab-content {height: 30vh; overflow-y: scroll;}
 .s-bvd .nav {padding-top: 10%;}
 .s-bvd .nav a.active {text-decoration: underline;}
 .page-item.active .page-link {text-decoration: underline}
