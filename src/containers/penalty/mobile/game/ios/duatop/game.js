@@ -574,7 +574,7 @@ export default class Game extends Phaser.Scene{
         // var a= Phaser.Math.Distance.BetweenPoints
         const self = this;
 
-        this.btn_std.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
+        this.btn_std.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
             self.btn_std.visible=false;
             self.opt_suttudong.visible=false;
             auto_play=true;
@@ -582,7 +582,7 @@ export default class Game extends Phaser.Scene{
             self.btn_std1.visible=true
         })
 
-        this.btn_std1.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
+        this.btn_std1.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
             self.btn_std.visible=true;
             self.opt_suttudong.visible=true;
             auto_play=false;
@@ -590,7 +590,7 @@ export default class Game extends Phaser.Scene{
             self.btn_std1.visible=false;
         })
 
-        this.icon_home.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
+        this.icon_home.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
             window.location.replace('/')
         })
 
@@ -905,10 +905,10 @@ export default class Game extends Phaser.Scene{
         this.thoatButton = this.add.sprite(Math.round(730*delta_x), Math.round(480*delta_y), "btn_thoat");
         this.thoatButton.setScale(delta_x,delta_y)
         this.text1 = this.add.text(Math.round(400*delta_x), Math.round(300*delta_y), text, { font: `${Math.round(18*delta_x)}px Arial`, fill: "#ffffff", align:'center', fixedWidth: Math.round(400*delta_x), wordWrap:true});
-        this.closeButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+        this.closeButton.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             _this.hideBox()
         })
-        this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+        this.thoatButton.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             window.location.replace('/')
         })
     }
@@ -934,7 +934,7 @@ export default class Game extends Phaser.Scene{
         this.thoatButton = this.add.sprite(width/2, Math.round(480*delta_y), "btn_thoat");
         this.thoatButton.setScale(delta_x,delta_y)
         this.text1 = this.add.text(Math.round(400*delta_x), Math.round(300*delta_y), text, { font: `${Math.round(18*delta_x)}px Arial`, fill: "#ffffff", align:'center', fixedWidth: Math.round(400*delta_x), wordWrap:true});
-        this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+        this.thoatButton.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             window.location.replace('/')
         })
     }

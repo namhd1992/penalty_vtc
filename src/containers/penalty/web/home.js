@@ -32,6 +32,7 @@ import {
 	getData
 } from '../../../modules/profile'
 
+import bn_thongbao from './images/bn-thongbao.png';
 import btn_popup_napscoin from './images/btn-popup-napscoin.png';
 import icon_scoin from './images/icon-scoin.png';
 import btn_popup_napgame from './images/btn-popup-napgame.png';
@@ -127,6 +128,8 @@ let modal_tb={};
 let modal_moqua={};
 let modal_moqua_bank={};
 let auto_redirect={};
+let modal_baotri={};
+let modal_vip={};
 
 
 
@@ -223,6 +226,8 @@ class Lucky_Rotation extends React.Component {
 
 	componentDidMount(){
 		var user = JSON.parse(localStorage.getItem("user"));
+		var isvip = localStorage.getItem("isvip");
+		
 		// var update29=localStorage.getItem("update29");
 		// if(update29===null){
 		// 	$('#Modalbanner').modal('show');
@@ -264,7 +269,14 @@ class Lucky_Rotation extends React.Component {
 		modal_tb = new Modal(document.getElementById('tb_web'));
 		modal_tb_err = new Modal(document.getElementById('tb_err'));
 		modal_tudo = new Modal(document.getElementById('td_web'));
+		modal_baotri = new Modal(document.getElementById('bnthongbao'));
+		modal_vip= new Modal(document.getElementById('active_vip'));
 		window.addEventListener('scroll', this.handleScroll);
+		if(isvip==="no"){
+			modal_vip.show();
+		}
+
+		// modal_baotri.show();
 		
 	}
 
@@ -507,12 +519,12 @@ class Lucky_Rotation extends React.Component {
 										break;
 								}
 							}else{
-								this.setState({message_error:"Hiện chưa có phiên nào."}, ()=>{
+								this.setState({message_error:"Hiện tại chưa có phiên nào. Bạn quay lại vào lúc khác nhé."}, ()=>{
 									modal_tb_err.show();
 								})
 							}
 						}else{
-							this.setState({message_error:"Hiện chưa có phiên nào."}, ()=>{
+							this.setState({message_error:"Hiện tại chưa có phiên nào. Bạn quay lại vào lúc khác nhé."}, ()=>{
 								modal_tb_err.show();
 							})
 						}
@@ -725,17 +737,21 @@ class Lucky_Rotation extends React.Component {
 						}
 						
 					}else{
-						if(data.code===-302){
-							this.setState({napgame:true},()=>{
-								modal_datcuoc.hide();
-								modal_tb_err.show();
-							})
-						}else{
-							this.setState({message_error:data.message},()=>{
-								modal_datcuoc.hide();
-								modal_tb_err.show();
-							})
-						}
+						// if(data.code===-302){
+						// 	this.setState({napgame:true},()=>{
+						// 		modal_datcuoc.hide();
+						// 		modal_tb_err.show();
+						// 	})
+						// }else{
+						// 	this.setState({message_error:data.message},()=>{
+						// 		modal_datcuoc.hide();
+						// 		modal_tb_err.show();
+						// 	})
+						// }
+						this.setState({message_error:data.message},()=>{
+							modal_datcuoc.hide();
+							modal_tb_err.show();
+						})
 					}
 				}else{
 					this.setState({message_error:'Chưa lấy được dữ liệu, vui lòng thử lại sau.'},()=>{
@@ -1517,6 +1533,11 @@ class Lucky_Rotation extends React.Component {
 		})
 	}
 
+	activeVIP=()=>{
+		modal_vip.hide();
+		window.open("https://vip.scoin.vn/");
+	}
+
 	render() {
 		const {napgame, contentGuide, type_modeId, title_module,points,info_seesion, bxh_tab_1, bxh_tab_2, bxh_tab_3, message_sanqua_empty, listSanqua, showRollup,type_action, dataInfoDonate, rollup, message_rollup, content, warning_tudo,tab_1, tab_2, tab_3, tab_4,tab_5, tab_tudo ,type,numberPage, isLogin,message_error,dataItem,listSesstions,
 			waiting, activeTuDo, activeHistory, activeVinhDanh, limit, countTuDo, countHistory, countVinhDanh, listHistory, listTuDo, listVinhDanh, user}=this.state;
@@ -1875,6 +1896,38 @@ class Lucky_Rotation extends React.Component {
 						</div>
 						{/* <!-- End The Modal Đăng nhập --> */}
 
+						{/* <!-- The Modal active VIP --> */}
+						<div class="modal fade" id="active_vip">
+							<div class="modal-dialog modal-dialog-scrollable">
+								<div class="modal-content modal-tb_web bg-transparent border-0">
+
+									{/* <!-- Modal Header --> */}
+									<div class="modal-header bg-pop-tb-top border-0 d-block pb-0 position-relative" style={{height: 117}}>
+										<button type="button" class="btn-close-white btn-close float-end m-0" data-bs-dismiss="modal"></button>
+									</div>
+									
+
+									{/* <!-- Modal body --> */}
+									<div class="modal-body bg-pop-tb-body p-2rem py-1 font-3vw text-white">
+										<div class="tab-content">
+										<div class="container text-center p-5">
+											<h4 class="pt-1 pb-3 font-UTMFacebookKT">Bạn chưa phải là VIP<br></br>Hãy gia nhập VIP để chơi game.</h4>
+											<a title="Active VIP" onClick={this.activeVIP} style={{padding:10, backgroundColor:'red', color:'#fff', cursor:'pointer', borderRadius:5}}>Gia Nhập VIP</a>
+										</div>
+										</div>
+										
+									</div>
+
+									{/* <!-- Modal footer --> */}
+									<div class="modal-footer bg-pop-tb-bottom border-0">
+									
+									</div>
+
+								</div>
+							</div>
+						</div>
+						{/* <!-- End The Modal active VIP --> */}
+
 						{/* <!-- The Modal Mở quà --> */}
 						<div class="modal fade" id="mq_web"  style={{zIndex:99999}}>
 							<div class="modal-dialog modal-dialog-scrollable">
@@ -2043,6 +2096,24 @@ class Lucky_Rotation extends React.Component {
 						</div>
 					</div> */}
 					{/* <!-- End The Modal --> */}
+
+					{/* <!-- The Modal banner bảo trì--> */}
+					<div class="modal fade mt-5" id="bnthongbao">
+						<div class="modal-dialog">
+							<div class="modal-content bg-transparent border-0">
+							{/* <!-- Modal Header --> */}
+							<div class="modal-header position-absolute border-0" style={{zIndex:9999, right:0}}>
+								<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+							</div>
+							{/* <!-- Modal body --> */}
+							<div class="modal-body border-0 p-0 mt-n4">
+								<img src={bn_thongbao} width="100%" alt="" />
+							</div>
+
+							</div>
+						</div>
+					</div>
+					{/* <!-- End The Modal banner bảo trì--> */}
 
 					{/* <!-- The Modal Đặt cược --> */}
 					<div class="modal fade" id="datcuoc_web">

@@ -54,11 +54,10 @@ class Ultilities {
 
 	static base_url = () => {
 		//live
-			return "https://api.splay.vn";
-		//dev
+			// return "https://api.splay.vn";
+			return "https://app.splay.vn/api/penalty";
+			//dev
 			// return "http://171.244.14.215:8888/penaltykicks";
-
-			
 	}
 
 	static splay_api_key = () => {

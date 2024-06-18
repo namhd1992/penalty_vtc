@@ -546,7 +546,7 @@ export default class Game extends Phaser.Scene{
 
 
 
-        this.btn_std.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
+        this.btn_std.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
             self.btn_std.visible=false;
             self.opt_suttudong.visible=false;
             auto_play=true;
@@ -554,7 +554,7 @@ export default class Game extends Phaser.Scene{
             self.btn_std1.visible=true
         })
 
-        this.btn_std1.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
+        this.btn_std1.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
             self.btn_std.visible=true;
             self.opt_suttudong.visible=true;
             auto_play=false;
@@ -562,7 +562,7 @@ export default class Game extends Phaser.Scene{
             self.btn_std1.visible=false;
         })
 
-        this.icon_home.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
+        this.icon_home.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
             window.location.replace('/')
         })
 
@@ -890,10 +890,10 @@ export default class Game extends Phaser.Scene{
         this.closeButton = this.add.sprite(470, 480, "btn_dongy");
         this.thoatButton = this.add.sprite(730, 480, "btn_thoat");
         this.text1 = this.add.text(400, 300, text, { font: "18px Arial", fill: "#ffffff", align:'center', fixedWidth: 400, wordWrap:true});
-        this.closeButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+        this.closeButton.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             _this.hideBox()
         })
-        this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+        this.thoatButton.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             window.location.replace('/')
         })
     }
@@ -917,7 +917,7 @@ export default class Game extends Phaser.Scene{
         this.back = this.add.sprite(600, 675/2, "bg_pop_ingame");
         this.thoatButton = this.add.sprite(600, 480, "btn_thoat");
         this.text1 = this.add.text(400, 300, text, { font: "18px Arial", fill: "#ffffff", align:'center', fixedWidth: 400, wordWrap:true});
-        this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+        this.thoatButton.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             window.location.replace('/')
         })
     }

@@ -580,7 +580,7 @@ export default class Game extends Phaser.Scene{
         // var a= Phaser.Math.Distance.BetweenPoints
         const self = this;
 
-        this.btn_std.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
+        this.btn_std.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
             self.btn_std.visible=false;
             self.opt_suttudong.visible=false;
             auto_play=true;
@@ -588,14 +588,14 @@ export default class Game extends Phaser.Scene{
             self.btn_std1.visible=true
         })
 
-        this.btn_std1.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
+        this.btn_std1.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
             self.btn_std.visible=true;
             self.opt_suttudong.visible=true;
             auto_play=false;
             self.opt_suttudong_checked.visible=false;
             self.btn_std1.visible=false;
         })
-        this.icon_home.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
+        this.icon_home.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, function(){
             window.location.replace('/')
         })
 
@@ -913,10 +913,10 @@ export default class Game extends Phaser.Scene{
         this.thoatButton = this.add.sprite(Math.round(730*delta_x), Math.round(480*delta_y), "btn_thoat");
         this.thoatButton.setScale(delta_x,delta_y)
         this.text1 = this.add.text(Math.round(400*delta_x), Math.round(300*delta_y), text, { font: '12px Arial', fill: "#ffffff", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
-        this.closeButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+        this.closeButton.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             _this.hideBox()
         })
-        this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+        this.thoatButton.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             window.location.replace('/')
         })
     }
@@ -942,10 +942,10 @@ export default class Game extends Phaser.Scene{
         this.btn_thoat_napgame.setScale(delta_x,delta_y)
         this.txt1_napgame = this.add.text(Math.round(400*delta_x), Math.round(270*delta_y), 'Số điểm của bạn không đủ để đặt cược.', { font: "12px Arial", fill: "#ffffff", align:'center', fixedWidth: Math.round(400*delta_x), wordWrap:true});
         this.txt2_napgame = this.add.text(Math.round(360*delta_x), Math.round(320*delta_y), 'Hãy Nạp game bằng thẻ Scoin hoặc Chuyển khoản\n để nhận thêm điểm và thử lại nhé.', { font: "11px Arial", fill: "#ffffff", align:'center', fixedWidth: Math.round(480*delta_x), wordWrap:true});
-        this.btn_napgame.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+        this.btn_napgame.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             _this.hideNapGame()
         })
-        this.btn_thoat_napgame.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+        this.btn_thoat_napgame.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             window.location.replace('/')
         })
     }
@@ -980,26 +980,28 @@ export default class Game extends Phaser.Scene{
             this.btn_dongy.setScale(delta_x,delta_y)
             this.thoatButton = this.add.sprite(Math.round(730*delta_x), Math.round(480*delta_y), "btn_thoat");
             this.thoatButton.setScale(delta_x,delta_y)
-            this.text1 = this.add.text(Math.round(400*delta_x), Math.round(300*delta_y), 'Bạn đã hết lượt chơi. Bạn không thể\n cược thêm do thời gian đặt cược đã hết.', { font: "12px Arial", fill: "#ffffff", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
-            this.btn_dongy.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+            this.text1 = this.add.text(Math.round(400*delta_x), Math.round(300*delta_y), 'Bạn đã sút hết lượt của phiên này.', { font: "12px Arial", fill: "#ffffff", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
+            this.btn_dongy.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
                 _this.hidePopup()
             })
-            this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+            this.thoatButton.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
                 window.location.replace('/')
             })
         }else{
             popupDatCuoc=true;
-            this.btn_popup_datcuoc = this.add.sprite(Math.round(470*delta_x), Math.round(480*delta_y), "btn_popup_datcuoc");
-            this.btn_popup_datcuoc.setScale(delta_x*0.5,delta_y*0.5)
-            this.thoatButton = this.add.sprite(Math.round(730*delta_x), Math.round(480*delta_y), "btn_thoat");
+            // this.btn_popup_datcuoc = this.add.sprite(Math.round(470*delta_x), Math.round(480*delta_y), "btn_popup_datcuoc");
+            // this.btn_popup_datcuoc.setScale(delta_x*0.5,delta_y*0.5)
+            // this.thoatButton = this.add.sprite(Math.round(730*delta_x), Math.round(480*delta_y), "btn_thoat");
+            this.thoatButton = this.add.sprite(Math.round(600*delta_x), Math.round(480*delta_y), "btn_thoat");
             this.thoatButton.setScale(delta_x,delta_y)
-            this.text1 = this.add.text(Math.round(360*delta_x), Math.round(270*delta_y), 'Bạn đã hết lượt chơi. Để chơi tiếp bạn cần cược thêm.', { font: "11px Arial", fill: "#ffffff", align:'left', fixedWidth: 480*delta_x, wordWrap:true});
-            this.text2 = this.add.text(Math.round(400*delta_x), Math.round(320*delta_y), `${info_seesion.minBet} Điểm`, {fontStyle: 'bold italic', font: "15px Arial", fill: "#ffffff", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
-            this.text3 = this.add.text(Math.round(370*delta_x), Math.round(370*delta_y), 'Lưu ý: Khi đã đặt cược số điểm sẽ không được hoàn lại.', { font: "10px Arial", fill: "#ffffff", align:'left', fixedWidth: 450*delta_x, wordWrap:true});
-            this.btn_popup_datcuoc.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
-                _this.onBest()
-            })
-            this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+            this.text1 = this.add.text(Math.round(360*delta_x), Math.round(270*delta_y), 'Mỗi tài khoản chỉ được đặt cược 1 lần/phiên.\n Bạn hãy quay lại vào phiên tiếp theo nhé.', { font: "11px Arial", fill: "#ffffff", align:'left', fixedWidth: 480*delta_x, wordWrap:true});
+            // this.text1 = this.add.text(Math.round(360*delta_x), Math.round(270*delta_y), 'Bạn đã hết lượt chơi. Để chơi tiếp bạn cần cược thêm.', { font: "11px Arial", fill: "#ffffff", align:'left', fixedWidth: 480*delta_x, wordWrap:true});
+            // this.text2 = this.add.text(Math.round(400*delta_x), Math.round(320*delta_y), `${info_seesion.minBet} Điểm`, {fontStyle: 'bold italic', font: "15px Arial", fill: "#ffffff", align:'center', fixedWidth: 400*delta_x, wordWrap:true});
+            // this.text3 = this.add.text(Math.round(370*delta_x), Math.round(370*delta_y), 'Lưu ý: Khi đã đặt cược số điểm sẽ không được hoàn lại.', { font: "10px Arial", fill: "#ffffff", align:'left', fixedWidth: 450*delta_x, wordWrap:true});
+            // this.btn_popup_datcuoc.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+            //     _this.onBest()
+            // })
+            this.thoatButton.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
                 window.location.replace('/')
             })
         }
@@ -1039,7 +1041,7 @@ export default class Game extends Phaser.Scene{
         this.thoatButton = this.add.sprite(width/2, Math.round(480*delta_y), "btn_thoat");
         this.thoatButton.setScale(delta_x,delta_y)
         this.text1 = this.add.text(Math.round(390*delta_x), Math.round(300*delta_y), text, { font: `${Math.round(18*delta_x)}px Arial`, fill: "#ffffff", align:'center', fixedWidth: Math.round(410*delta_x), wordWrap:true});
-        this.thoatButton.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
+        this.thoatButton.setInteractive({ cursor: 'pointer' }).on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, ()=>{
             window.location.replace('/')
         })
     }

@@ -22,7 +22,11 @@ import {
 	osName,
 	mobileModel
   } from "react-device-detect";
+import { Modal } from 'bootstrap'
 // import '../styles/menuAppbar.css'
+
+
+
 
 class MenuAppBar extends React.Component {
 
@@ -106,10 +110,16 @@ class MenuAppBar extends React.Component {
 					user_save.expired = new Date();
 					localStorage.setItem("user", JSON.stringify(user_save));
 					_this.setState({ user: response.data.data });
+					localStorage.setItem("isvip","yes")
 					window.location.replace(`${window.location.protocol}//${window.location.host}${currentPath}`);
 				}).catch(function (error) {
 					if(error.response.data.code ===-403){
 						window.location.replace(`${window.location.protocol}//${window.location.host}/error`);
+					}
+
+					if(error.response.data.code ===-801){
+						localStorage.setItem("isvip","no")
+						_this.logoutAction();
 					}
 					_this.props.setStatusServer();
 					localStorage.removeItem("user");
@@ -125,7 +135,8 @@ class MenuAppBar extends React.Component {
 		// const { classes } = this.props;
 		
 		return (
-			<div></div>
+			<div>
+			</div>
 		);
 	}
 }
